@@ -1,4 +1,7 @@
-//Server.js - Setup Server
+/*
+  Server.js - Main Server Setup process
+*/
+
 
 var http = require("http");
 var url = require("url");

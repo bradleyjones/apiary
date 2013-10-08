@@ -1,5 +1,6 @@
-//Router - Forward Request onto correct handler.
-
+/*
+  Router - Matches requests with handlers
+*/
 function route(handle, pathname, response, postData) {
   console.log("About to route a request for " + pathname);
   if (typeof handle[pathname] === 'function') {

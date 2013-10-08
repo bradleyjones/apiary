@@ -1,5 +1,10 @@
-//List Routes, Start Server
+/*
+  Main.js Starting point for BEE Client
+  Requires amqp 'npm install amqp'
+  Start with 'node main.js'
+*/
 
+//Initialise Routes, Start Server
 var server = require("./server");
 var router = require("./router");
 var requestHandlers = require("./requestHandlers")
