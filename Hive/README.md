@@ -21,3 +21,9 @@ Install and Test
 
 * run "python setup.py develop" to install the Hive binarys in development mode 
 * Binarys are defined in the setup.py file under entry points.
+
+Current Binarys
+---------------
+
+* apiary_honeycomb -> Starts Honeycomb server
+* apiary_control -> Starts Control Server
