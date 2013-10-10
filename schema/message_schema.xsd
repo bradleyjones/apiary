@@ -9,6 +9,7 @@ elementFormDefault="qualified">
     <xs:sequence>
       <xs:element name="to" type="xs:string"/>
       <xs:element name="from" type="xs:string"/>
+      <xs:element name="machineid" type="xs:string"/>
       <xs:element name="action" type="xs:string"/>
       <xs:element name="data" type="xs:string"/>
     </xs:sequence>
