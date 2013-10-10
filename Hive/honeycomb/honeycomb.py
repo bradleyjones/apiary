@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 from ..common.rpcserver import RPCServer
 from configobj import ConfigObj
-import Routes
-import Controller
+import controller
+import routes
 
 rabbit_ip = None
 server = None
-cont = Controller()
-router = Routes(cont)
+cont = controller.Controller()
+router = routes.Routes(cont)
 
 def load_config():
   global rabbit_ip

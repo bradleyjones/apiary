@@ -12,13 +12,13 @@ class RPCServer(object):
     self.queue = name
     self.host = host
     self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.host))
-    self.channel = connection.channel()
+    self.channel = self.connection.channel()
     self.router = func
-    channel.queue_declare(queue=self.queue)
-    channel.basic_qos(prefetch_count=1)
-    channel.basic_consume(onRequest, queue=queue)
-    channel.start_consuming()
+    self.channel.queue_declare(queue=self.queue)
+    self.channel.basic_qos(prefetch_count=1)
+    self.channel.basic_consume(self.onRequest, queue=self.queue)
     print "Server Started, Ready for Requests!"
+    self.channel.start_consuming()
 
   def onRequest(self, ch, method, props, body):
     # Parse the Request

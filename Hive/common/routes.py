@@ -3,11 +3,11 @@ class Routes(object):
   def __init__(self, controller): 
     self.routes = {}
     self.controller = controller
-    setupRoutes()
+    self.setupRoutes()
     print "Routes Loaded:"
-    print routes.keys() 
+    print self.routes.keys() 
 
-  def setupRoutes(self)
+  def setupRoutes(self):
     return
 
   def route(self, action, data):
