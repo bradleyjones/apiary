@@ -4,6 +4,7 @@ using rabbit.
 """
 
 import pika
+import xml.etree.cElementTree as ET
 
 class RPCServer(object):
 
@@ -32,7 +33,7 @@ class RPCServer(object):
     # Fire off responses and acknowledge message
     ch.basic_publish(exchange='',
                      routing_key=props.reply_to,
-                     properties=pika.BasicProperties(correlation_id= \ 
+                     properties=pika.BasicProperties(correlation_id = \
                                                      props.correlation_id),
                      body=response)
     ch.basic_ack(delivery_tag= method.delivery_tag)

@@ -1,8 +1,6 @@
 #!/usr/bin/env python
-import pika
 from ..common.rpcserver import RPCServer
 from configobj import ConfigObj
-import xml.etree.cElementTree as ET
 import Routes
 import Controller
 
