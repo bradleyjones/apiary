@@ -7,7 +7,11 @@ Hive - The middleware for the Apiary stack.
 
 Queen - The Graphic visual dashboard for the Apiary Project
 
-***
+* * *
+
+To start honeycomb (the hive database manager) run start\_honeycomb.sh 
+
+* * *
 
 Copyright 2013 "The Minions" 
 
