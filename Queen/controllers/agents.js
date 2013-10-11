@@ -5,6 +5,6 @@ exports.list = function(req, res){
 // Web Sockets
 io.sockets.on('connection', function (socket) {
   socket.on('newAgent', function (data) {
-    socket.set('agent', data);
+    socket.broadcast.emit('agent', data);
   });
 });
