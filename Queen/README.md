@@ -1,4 +1,6 @@
 The Queen Bee
-=============
+========
 
-The Graphic visual dashboard for the Apiary Project
+The Apiary dashboard, provides and interface for analytics and advanced querying 
+of Apiary components
+
