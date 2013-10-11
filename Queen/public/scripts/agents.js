@@ -10,8 +10,8 @@ function newAgent() {
    addAgent(agentNumber);
 }
 
-socket.on('message', function(data) {
-   addAgent(data['name']);
+socket.on('agent', function(data) {
+   addAgent(data);
 });
 
 $(function() {
