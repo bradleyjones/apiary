@@ -1,12 +1,12 @@
 doctype 5
 html
    head
-      title Apiary
-      script(src="/scripts/libs/jquery-2.0.3.min.js")
-      script(src="/scripts/libs/bootstrap.min.js")
-      link(rel='stylesheet', href='/css/bootstrap.min.css')
+     title Apiary
+     script(src="/scripts/libs/jquery-2.0.3.min.js")
+     script(src="/scripts/libs/bootstrap.min.js")
+     link(rel='stylesheet', href='/css/bootstrap.min.css')
+     link(rel='stylesheet', href='/css/general.css')
    body
-      div.container
-         header
-            h1 Apiary
-            a(href='/agents') Agents
+     include partials/navbar
+     .main-container
+       a(href='/agents') Agents

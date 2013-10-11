@@ -7,9 +7,9 @@ html
       script(src="/scripts/agents.js")
       script(src="/scripts/libs/bootstrap.min.js")
       link(rel='stylesheet', href='/css/bootstrap.min.css')
+      link(rel='stylesheet', href='/css/general.css')
    body
-      div.container
-         header
-            h1: a(href='/') Apiary
-            div#agentList
-            button#submit New Agent
+     include partials/navbar
+     .main-container
+       #agentList
+       button#submit New Agent
