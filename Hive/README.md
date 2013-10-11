@@ -15,3 +15,15 @@ Database - Controls insertion and collection of data from the database software 
 REST - A REST API for application layer comunication to the Hive e.g. the front end.
 
 Intelligence - The Hive component that manages the map reduce etc..... via API
+
+Install and Test
+----------------
+
+* run "python setup.py develop" to install the Hive binarys in development mode 
+* Binarys are defined in the setup.py file under entry points.
+
+Current Binarys
+---------------
+
+* apiary_honeycomb -> Starts Honeycomb server
+* apiary_control -> Starts Control Server
