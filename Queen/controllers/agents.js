@@ -11,4 +11,9 @@ io.sockets.on('connection', function (socket) {
   socket.on('newAgent', function (data) {
     socket.broadcast.emit('agent', data);
   });
+
+  // Agent gone offline
+  socket.on('agentOffline', function (data) {
+    socket.broadcast.emit('offline', data)
+  });
 });
