@@ -2,14 +2,14 @@ doctype 5
 html
    head
       title Apiary Agents
-      script(src="/scripts/libs/jquery-2.0.3.min.js")
-      script(src="/socket.io/socket.io.js")
+      include partials/head.jade
       script(src="/scripts/agents.js")
-      script(src="/scripts/libs/bootstrap.min.js")
-      link(rel='stylesheet', href='/css/bootstrap.min.css')
-      link(rel='stylesheet', href='/css/general.css')
    body
      include partials/navbar
+     // Make this page selected in the navbar
+     script
+       $("#agents_navbar").addClass("active")
+
      .main-container
        #agentList
        button#submit New Agent
