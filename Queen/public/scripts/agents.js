@@ -1,4 +1,5 @@
 var socket = io.connect();
+var totalAgents = 0;
 
 function addAgent(agent) {
   $("#agent-table").append('<tr id=' + agent.id + '>' +
@@ -7,6 +8,11 @@ function addAgent(agent) {
                            '<th><button class="btn btn-default" ' +
                            'onclick="setAgentOffline(' + agent.id +
                            ')">×</button></th></div>');
+
+  totalAgents += 1;
+  updateTotal();
+
+  animateIncrease();
 }
 
 function removeAgent(id) {
@@ -16,11 +22,20 @@ function removeAgent(id) {
   //Remove the table row
   var row = document.getElementById(id);
   row.parentNode.removeChild(row);
+
+  totalAgents -= 1;
+  updateTotal();
+
+  animateDecrease();
 }
 
 function setAgentOffline(id) {
   socket.emit('agentOffline', id);
   removeAgent(id);
+}
+
+function updateTotal() {
+  $("#total").html(totalAgents + " Agents Connected");
 }
 
 /*

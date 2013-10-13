@@ -7,12 +7,18 @@ html
   body
     include partials/navbar
     // Make this page selected in the navbar
-    script
-      $("#agents_navbar").addClass("active")
+    script $("#agents_navbar").addClass("active")
 
-    .main-container
-      button.btn.btn-default#new New Agent
+    .jumbotron
+      .container
+        .col-sm-6
+          .pulsing
+            script(src="/scripts/d3/pulsing.js")
+        .col-sm-6
+          h1#total
+          button.btn.btn-primary.btn-lg#new New Agent
 
+    .container.main-container
       .panel.panel-default
         .panel-heading Currently Active Agents
         table.table#agent-table
