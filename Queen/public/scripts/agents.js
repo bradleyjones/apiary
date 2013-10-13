@@ -1,27 +1,36 @@
 var socket = io.connect();
 
-function addAgent(name) {
-  $("#agentList").append('<div class="agent"><p>' + name + '</p></div>');
+function addAgent(agent) {
+  $("#agent-table").append('<tr id=' + agent.id + '>' +
+                           '<th>' + agent.id + '</th>' +
+                           '<th>' + agent.machineid +'</th>' +
+                           '<th><button class="btn btn-default" ' +
+                           'onclick="setAgentOffline(' + agent.id +
+                           ')">×</button></th></div>');
 }
 
 function removeAgent(id) {
   var msg = "Agent " + id + " has gone offline";
   addAlert("warning", msg);
+
+  //Remove the table row
+  var row = document.getElementById(id);
+  row.parentNode.removeChild(row);
+}
+
+function setAgentOffline(id) {
+  socket.emit('agentOffline', id);
+  removeAgent(id);
 }
 
 /*
  * Test Functions
  */
 function newAgent() {
-  var agentNumber = Math.floor((Math.random()*100)+1);
-  socket.emit('newAgent', agentNumber);
-  addAgent(agentNumber);
-}
-
-function setAgentOffline() {
-  var agentNumber = Math.floor((Math.random()*100)+1);
-  socket.emit('agentOffline', agentNumber);
-  removeAgent(agentNumber);
+  var agentID = Math.floor((Math.random()*100)+1);
+  var agent = {id: agentID, machineid: 01};
+  socket.emit('newAgent', agent);
+  addAgent(agent);
 }
 
 /*
@@ -36,8 +45,10 @@ socket.on('offline', function(data) {
 });
 
 socket.on('init', function(data) {
-  console.log(data.total);
-  addAgent(data.total);
+  console.log(data);
+  for (var agent in data) {
+    addAgent(data[agent]);
+  }
 });
 
 /*
@@ -45,5 +56,4 @@ socket.on('init', function(data) {
  */
 $(function() {
   $("#new").click(function() {newAgent();});
-  $("#remove").click(function() {setAgentOffline();});
 });
