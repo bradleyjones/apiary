@@ -1,0 +1,15 @@
+doctype 5
+html
+  head
+     title Apiary Agents
+     include partials/head.jade
+  body
+    include partials/navbar
+    // Make this page selected in the navbar
+    script $("#agents_navbar").addClass("active")
+
+    .container.main-container
+      .panel.panel-default
+        .panel-heading Agent #{id}
+
+

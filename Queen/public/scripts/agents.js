@@ -3,7 +3,8 @@ var totalAgents = 0;
 
 function addAgent(agent, firstLoad) {
   $("#agent-table").append('<tr id=' + agent.id + '>' +
-                           '<th>' + agent.id + '</th>' +
+                           '<th><a href=/agents/' + agent.id + '>' +
+                           agent.id + '</a></th>' +
                            '<th>' + agent.machineid +'</th>' +
                            '<th><button class="btn btn-default" ' +
                            'onclick="setAgentOffline(' + agent.id +
