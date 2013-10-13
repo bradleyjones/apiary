@@ -1,9 +1,18 @@
+// List of all agents
+var allAgents = {};
+
 exports.list = function(req, res){
   res.render('agents.jade')
 }
 
-// List of all agents
-var allAgents = {};
+exports.individual = function(req, res){
+  var agent = allAgents[req.params.id];
+  if (agent != undefined) {
+    res.render('agent.jade', agent);
+  } else {
+    res.send('NOT FOUND', 404);
+  }
+}
 
 // Web Sockets
 io.sockets.on('connection', function (socket) {
