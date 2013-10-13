@@ -1,7 +1,7 @@
 var socket = io.connect();
 var totalAgents = 0;
 
-function addAgent(agent) {
+function addAgent(agent, firstLoad) {
   $("#agent-table").append('<tr id=' + agent.id + '>' +
                            '<th>' + agent.id + '</th>' +
                            '<th>' + agent.machineid +'</th>' +
@@ -12,7 +12,9 @@ function addAgent(agent) {
   totalAgents += 1;
   updateTotal();
 
-  animateIncrease();
+  if (!firstLoad) {
+    animateIncrease();
+  }
 }
 
 function removeAgent(id) {
@@ -62,7 +64,7 @@ socket.on('offline', function(data) {
 socket.on('init', function(data) {
   console.log(data);
   for (var agent in data) {
-    addAgent(data[agent]);
+    addAgent(data[agent], true);
   }
 });
 
