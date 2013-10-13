@@ -1,16 +1,24 @@
 doctype 5
 html
-   head
-      title Apiary Agents
-      include partials/head.jade
-      script(src="/scripts/agents.js")
-   body
-     include partials/navbar
-     // Make this page selected in the navbar
-     script
-       $("#agents_navbar").addClass("active")
+  head
+     title Apiary Agents
+     include partials/head.jade
+     script(src="/scripts/agents.js")
+  body
+    include partials/navbar
+    // Make this page selected in the navbar
+    script
+      $("#agents_navbar").addClass("active")
 
-     .main-container
-       #agentList
-       button.btn.btn-default#new New Agent
-       button.btn.btn-default#remove Remove Agent
+    .main-container
+      button.btn.btn-default#new New Agent
+
+      .panel.panel-default
+        .panel-heading Currently Active Agents
+        table.table#agent-table
+          thead
+            tr
+              th ID
+              th Machine ID
+              th Take Offline
+
