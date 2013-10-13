@@ -7,22 +7,26 @@ function addAlert(type, msg) {
   var classes = "alert alert-dismissable ";
   switch(type){
     case "success":
-      classes += "alert-success alert-timeout";
+      classes += "alert-success";
       break;
     case "info":
-      classes += "alert-info alert-timeout";
+      classes += "alert-info";
       break;
     case "warning":
-      classes += "alert-warning alert-timeout";
+      classes += "alert-warning";
       break;
     case "danger":
       classes += "alert-danger";
       break;
     default:
-      classes += "alert-info alert-timeout";
+      classes += "alert-info";
       break;
   }
   div.className = classes;
+
+  //Give alert unique id for timeout
+  var uniqid = Date.now();
+  div.id = uniqid;
 
   var btn = document.createElement("button");
   btn.innerText = "×";
@@ -37,6 +41,6 @@ function addAlert(type, msg) {
 
   //Set timeout for alerts for all other than danger
   if (msg != "danger"){
-    window.setTimeout(function() { $(".alert-timeout").alert('close'); }, 2500);
+    window.setTimeout(function() { $("#"+uniqid).alert('close'); }, 5000);
   }
 }
