@@ -7,19 +7,19 @@ function addAlert(type, msg) {
   var classes = "alert alert-dismissable ";
   switch(type){
     case "success":
-      classes += "alert-success";
+      classes += "alert-success alert-timeout";
       break;
     case "info":
-      classes += "alert-info";
+      classes += "alert-info alert-timeout";
       break;
     case "warning":
-      classes += "alert-warning";
+      classes += "alert-warning alert-timeout";
       break;
     case "danger":
       classes += "alert-danger";
       break;
     default:
-      classes += "alert-info";
+      classes += "alert-info alert-timeout";
       break;
   }
   div.className = classes;
@@ -34,4 +34,9 @@ function addAlert(type, msg) {
 
   var navbar = document.getElementById("main-navbar");
   document.body.insertBefore(div, navbar);
+
+  //Set timeout for alerts for all other than danger
+  if (msg != "danger"){
+    window.setTimeout(function() { $(".alert-timeout").alert('close'); }, 2500);
+  }
 }
