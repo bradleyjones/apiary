@@ -11,6 +11,7 @@ class Routes(object):
     return
 
   def route(self, action, data):
+    logging.debug("Route %s calling function %s", action, routes[action]) 
     return self.routes[action](data)
 
   def action(self, name, func):

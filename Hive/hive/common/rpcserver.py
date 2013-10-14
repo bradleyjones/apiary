@@ -5,6 +5,7 @@ using rabbit.
 
 import pika
 import xml.etree.cElementTree as ET
+import logging
 
 class RPCServer(object):
 
@@ -17,20 +18,18 @@ class RPCServer(object):
     self.channel.queue_declare(queue=self.queue)
     self.channel.basic_qos(prefetch_count=1)
     self.channel.basic_consume(self.onRequest, queue=self.queue)
-    print "Server Started, Ready for Requests!"
+    logging.info("Server Started, Ready for Requests!")
     self.channel.start_consuming()
 
+  # Parse the Request
+  # Pass the Action and Data down to the action router
+  # Make a response to send back to the client
+  # Fire off responses and acknowledge message
   def onRequest(self, ch, method, props, body):
-    # Parse the Request
     request = xmlStringToHash(body) 
-   
-    # Pass the Action and Data down to the action router
+    logging.debug('Message Received from %s', request["from"])
     data = self.func(request["action"], request["data"])
-
-    # Make a response to send back to the client
     response = makeResponse(request, data)
-    
-    # Fire off responses and acknowledge message
     ch.basic_publish(exchange='',
                      routing_key=props.reply_to,
                      properties=pika.BasicProperties(correlation_id = \
@@ -38,13 +37,12 @@ class RPCServer(object):
                      body=response)
     ch.basic_ack(delivery_tag= method.delivery_tag)
 
+  # Parse XML into a dictionary 
   def xmlStringToHash(self, string):
-    # Parse XML into a dictionary 
     data = ET.fromstring(string)
     has = {}
     for child in root:
       has[child.tag] = child.text 
-
     return has
 
   def makeResponse(self, request, data):

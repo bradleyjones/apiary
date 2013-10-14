@@ -3,8 +3,10 @@ from ..common.rpcserver import RPCServer
 from configobj import ConfigObj
 import controller
 import routes
+from ..common import logger
 
 def load_config():
+  logger.configureLogger('honeycomb.log')
   return ConfigObj('honeycomb_config.ini')
 
 def main():
