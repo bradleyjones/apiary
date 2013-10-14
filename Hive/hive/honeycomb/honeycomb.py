@@ -4,6 +4,7 @@ from configobj import ConfigObj
 import controller
 import routes
 from ..common import logger
+import logging
 
 def load_config():
   logger.configureLogger('honeycomb.log')
@@ -14,4 +15,7 @@ def main():
   router = routes.Routes(cont)
   config = load_config()
   print "Setting Up Server on %s" % config['rabbit_ip']
-  server = RPCServer("honeycomb", config['rabbit_ip'], router.route)
+  try:
+    server = RPCServer("honeycomb", config['rabbit_ip'], router.route)
+  except KeyboardInterrupt:
+    logging.info("Honeycomb is exiting...")
