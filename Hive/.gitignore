@@ -32,3 +32,5 @@ nosetests.xml
 
 # Translations
 *.mo
+
+docs/Sphinx/_build
