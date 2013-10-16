@@ -35,11 +35,18 @@ class RPCServer(object):
 
     logging.info('Message Received from %s', request["fro"])
 
-    data = self.router(request["action"], request["data"])
-    response = self.makeResponse(request, data)
+    data = None
+    action = "ERROR"
 
+    try:
+      data = self.router(request["action"], request["data"])
+      action = "DONE"
+    except Exception as e:
+      data = "SOMETHING SOMETHING SOMETHING DARKSIDE!"
+
+    response = self.makeResponse(action, request, data)
+    
     logging.info('Responding with %s', data)
-
     ch.basic_publish(exchange='',
                      routing_key=props.reply_to,
                      properties=pika.BasicProperties(correlation_id = \
@@ -55,11 +62,11 @@ class RPCServer(object):
       has[child.tag] = child.text 
     return has
 
-  def makeResponse(self, request, string):
+  def makeResponse(self, action, request, string):
     response = ET.Element('message')
 
     action = ET.SubElement(response, 'action')
-    action.text = 'DONE'
+    action.text = action
 
     to = ET.SubElement(response, 'to')
     to.text = request['fro']
