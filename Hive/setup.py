@@ -15,9 +15,9 @@ setup(
         "pika",
     ],
     entry_points={
-      'console_scripts':
-        [ 'apiary_honeycomb = hive.honeycomb.honeycomb:main',
-          'apiary_control = hive.control.control:main',
-        ]
+        'console_scripts':
+        ['apiary_honeycomb = hive.honeycomb.honeycomb:main',
+         'apiary_control = hive.control.control:main',
+         ]
     },
 )
