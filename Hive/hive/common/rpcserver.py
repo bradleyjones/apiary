@@ -6,6 +6,8 @@ using rabbit.
 import pika
 import xml.etree.cElementTree as ET
 import logging
+import traceback
+import time
 from uuid import getnode as get_mac
 
 
@@ -33,6 +35,7 @@ class RPCServer(object):
     # Make a response to send back to the client
     # Fire off responses and acknowledge message
     def onRequest(self, ch, method, props, body):
+        starttime = time.time() 
         request = self.xmlStringToHash(body)
 
         logging.info('Message Received from %s', request["fro"])
@@ -44,7 +47,7 @@ class RPCServer(object):
             data = self.router(request["action"], request["data"])
             action = "DONE"
         except Exception as e:
-            data = "SOMETHING SOMETHING SOMETHING DARKSIDE!"
+            data = traceback.format_exc()
 
         response = self.makeResponse(action, request, data)
 
@@ -55,6 +58,8 @@ class RPCServer(object):
                                                          props.correlation_id),
                          body=response)
         ch.basic_ack(delivery_tag=method.delivery_tag)
+        timetaken = (time.time() - starttime)
+        logging.info('Request Completed in %s seconds', str(timetaken))
 
     # Parse XML into a dictionary
     def xmlStringToHash(self, string):

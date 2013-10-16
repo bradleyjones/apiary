@@ -28,9 +28,9 @@ class Routes(object):
                     "Action not found in controller: " + self.routes[action])
 
     def action(self, name, func):
-        if name in self.routes
+        if name in self.routes:
             raise RoutingException("Route already exists: " + name)
-        else
+        else:
             self.routes[name] = func
 
 
