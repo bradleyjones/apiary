@@ -25,9 +25,10 @@ class RPCServer(object):
         self.channel.basic_consume(self.onRequest, queue=self.queue)
         self.identifier = name
         self.machineid = str(get_mac())
-        logging.info("Identifier: %s", self.identifier)
-        logging.info("Mac Address: %s", self.machineid)
-        logging.info("Server Started, Ready for Requests!")
+        self.logger = logging.getLogger(__name__)
+        self.logger.info("Identifier: %s", self.identifier)
+        self.logger.info("Mac Address: %s", self.machineid)
+        self.logger.info("Server Started, Ready for Requests!")
         self.channel.start_consuming()
 
     # Parse the Request
@@ -38,7 +39,7 @@ class RPCServer(object):
         starttime = time.time() 
         request = self.xmlStringToHash(body)
 
-        logging.info('Message Received from %s', request["fro"])
+        self.logger.info('Message Received from %s', request["fro"])
 
         data = None
         action = "ERROR"
@@ -51,7 +52,7 @@ class RPCServer(object):
 
         response = self.makeResponse(action, request, data)
 
-        logging.info('Responding with %s', data)
+        self.logger.info('Responding with %s', data)
         ch.basic_publish(exchange='',
                          routing_key=props.reply_to,
                          properties=pika.BasicProperties(correlation_id=
@@ -59,7 +60,7 @@ class RPCServer(object):
                          body=response)
         ch.basic_ack(delivery_tag=method.delivery_tag)
         timetaken = (time.time() - starttime)
-        logging.info('Request Completed in %s seconds', str(timetaken))
+        self.logger.info('Request Completed in %s seconds', str(timetaken))
 
     # Parse XML into a dictionary
     def xmlStringToHash(self, string):

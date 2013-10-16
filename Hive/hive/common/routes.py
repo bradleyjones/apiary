@@ -3,12 +3,13 @@ import logging
 
 class Routes(object):
 
+
     def __init__(self, controller):
         self.routes = {}
         self.controller = controller
+        self.logger = logging.getLogger(__name__)
         self.setupRoutes()
-        print "Routes Loaded:"
-        print self.routes.keys()
+        self.logger.info("Routes Loaded: " + str(self.routes.keys()))
 
     def setupRoutes(self):
         return
@@ -18,7 +19,7 @@ class Routes(object):
             raise RoutingException("Route not found for: " + action)
         else:
             try:
-                logging.debug(
+                self.logger.info(
                     "Route %s calling function %s",
                     action,
                     self.routes[action])
