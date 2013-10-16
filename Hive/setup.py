@@ -18,6 +18,7 @@ setup(
         'console_scripts':
         ['apiary_honeycomb = hive.honeycomb.honeycomb:main',
          'apiary_control = hive.control.control:main',
+         'apiary_intelligence = hive.control.intelligence:main',
          ]
     },
 )
