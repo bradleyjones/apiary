@@ -1,4 +1,5 @@
 import logging
+import routingexception
 
 class Routes(object): 
 
@@ -13,8 +14,17 @@ class Routes(object):
     return
 
   def route(self, action, data):
-    logging.debug("Route %s calling function %s", action, self.routes[action]) 
-    return self.routes[action](data)
+    if action in self.routes:
+      try:
+        logging.debug("Route %s calling function %s", action, self.routes[action]) 
+        return self.routes[action](data)
+      except NameError as e:
+        raise RoutingException("Action not found in controller: " + self.routes[action])
+    else 
+      raise RoutingException("Route not found for: " + action)  
 
   def action(self, name, func):
-    self.routes[name] = func
+    if name in self.routes
+      raise RoutingException("Route already exists: " + name) 
+    else
+      self.routes[name] = func
