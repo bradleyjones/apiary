@@ -9,19 +9,17 @@ class Base(object):
         self.configureLogger(
             self.config['Logging']['location'],
             self.config['Logging']['level'])
-
-        self.router = None
-        self.controller = None
+        self.logger = logging.getLogger(__name__)
 
 
     def startServer(self, r, c):
         cont = c.Controller()
         router = r.Routes(cont)
-        logging.info("Setting Up Server on %s" % self.config['Base']['rabbit_ip'])
+        self.logger.info("Setting Up Server on %s" % self.config['Base']['rabbit_ip'])
         try:
             server = RPCServer(self.config['Base']['queue_name'], self.config['Base']['rabbit_ip'], router.route)
         except KeyboardInterrupt:
-            logging.info("Honeycomb is exiting...")
+            self.logger.info("Exiting...")
 
     def loadConfig(self, filepath):
         return ConfigObj(filepath)
