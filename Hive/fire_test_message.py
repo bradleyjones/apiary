@@ -13,8 +13,8 @@ def on_response(ch, method, props, body):
 
 response = ET.Element('message')
 
-action = ET.SubElement(response, 'action')
-action.text = 'wobble'
+# action = ET.SubElement(response, 'action')
+# action.text = 'wobble'
 
 to = ET.SubElement(response, 'to')
 to.text = 'control'

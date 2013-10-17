@@ -57,11 +57,13 @@ class RPCServer(object):
                 data = traceback.format_exc()
                 self.logger.error('Error Occured: %s', data)
 
-            response = self.makeResponse(action, request, data)
             self.logger.info('Responding with %s', data)
         except Exception as e:
+            data = traceback.format_exc()
+            request['from'] = "Unknown"
             self.logger.error('Error Occured: %s', traceback.format_exc())
 
+        response = self.makeResponse(action, request, data)
         ch.basic_publish(exchange='',
                          routing_key=props.reply_to,
                          properties=pika.BasicProperties(correlation_id=
@@ -89,8 +91,8 @@ class RPCServer(object):
     def makeResponse(self, action, request, string):
         response = ET.Element('message')
 
-        action = ET.SubElement(response, 'action')
-        action.text = action
+        act = ET.SubElement(response, 'action')
+        act.text = action
 
         to = ET.SubElement(response, 'to')
         to.text = request['from']
