@@ -41,4 +41,11 @@ If installing and you run into issues building you may need to install: libxml2-
 
 On debian: 
 * sudo apt-get install -y libxslt-dev libxml2-dev python-dev 
+
+Libraries Used and their Licenses 
+--------------
+
+* Configobj - BSD License - http://www.voidspace.org.uk/python/configobj.html
+* pika - MPL License - https://github.com/pika/pika/
+* lxml - BSD License - http://lxml.de/
   
