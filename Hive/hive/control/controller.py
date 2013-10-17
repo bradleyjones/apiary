@@ -19,7 +19,7 @@ class Controller(object):
     def get_agents(self, data):
         response = ET.Element('agents')
 
-        for uuid, agent in self.agents:
+        for uuid, agent in self.agents.iteritems():
             machineid = ET.SubElement(response, 'agent')
             machineid.text = uuid
 
