@@ -33,3 +33,12 @@ Test Scripts
 
 * fire\_test\_message.py - Sends a correct XML message onto the Honeycomb Work Queue
 * fire\_bad\_test\_message.py - Sends a message with an incorrect Action to Honeycomb 
+
+Requirements
+------------
+
+If installing and you run into issues building you may need to install: libxml2-dev, libxslt-dev and python-dev 
+
+On debian: 
+* sudo apt-get install -y libxslt-dev libxml2-dev python-dev 
+  
