@@ -1,11 +1,12 @@
 doctype 5
 html
-   head
-      title Apiary
-      script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
-      //script(src="/socket.io/socket.io.js")
-   body
-      div.container
-         header
-            h1 Apiary
-            a(href='/agents') Agents
+  head
+    title Apiary
+    include partials/head
+  body
+    include partials/navbar
+    // Make this page selected in the navbar
+    script $("#home_navbar").addClass("active")
+
+    .container.main-container
+      img(src="/images/apiaryAvatarLarge.png" alt="Apiary Logo")

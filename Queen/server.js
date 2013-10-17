@@ -26,3 +26,4 @@ app.get('/', function(req, res){
 var agents = require('./controllers/agents')
 
 app.get('/agents', agents.list)
+app.get('/agents/:id', agents.individual)
