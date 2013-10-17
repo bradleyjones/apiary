@@ -5,64 +5,87 @@ using rabbit.
 
 import pika
 import xml.etree.cElementTree as ET
+import logging
+import traceback
+import time
+from uuid import getnode as get_mac
+
 
 class RPCServer(object):
 
-  def __init__(self, name, host, func):
-    self.queue = name
-    self.host = host
-    self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.host))
-    self.channel = self.connection.channel()
-    self.router = func
-    self.channel.queue_declare(queue=self.queue)
-    self.channel.basic_qos(prefetch_count=1)
-    self.channel.basic_consume(self.onRequest, queue=self.queue)
-    print "Server Started, Ready for Requests!"
-    self.channel.start_consuming()
+    def __init__(self, name, host, func):
+        self.queue = name
+        self.host = host
+        self.connection = pika.BlockingConnection(
+            pika.ConnectionParameters(host=self.host))
+        self.channel = self.connection.channel()
+        self.router = func
+        self.channel.queue_declare(queue=self.queue)
+        self.channel.basic_qos(prefetch_count=1)
+        self.channel.basic_consume(self.onRequest, queue=self.queue)
+        self.identifier = name
+        self.machineid = str(get_mac())
+        self.logger = logging.getLogger(__name__)
+        self.logger.info("Identifier: %s", self.identifier)
+        self.logger.info("Mac Address: %s", self.machineid)
+        self.logger.info("Server Started, Ready for Requests!")
+        self.channel.start_consuming()
 
-  def onRequest(self, ch, method, props, body):
     # Parse the Request
-    request = xmlStringToHash(body) 
-   
     # Pass the Action and Data down to the action router
-    data = self.func(request["action"], request["data"])
-
     # Make a response to send back to the client
-    response = makeResponse(request, data)
-    
     # Fire off responses and acknowledge message
-    ch.basic_publish(exchange='',
-                     routing_key=props.reply_to,
-                     properties=pika.BasicProperties(correlation_id = \
-                                                     props.correlation_id),
-                     body=response)
-    ch.basic_ack(delivery_tag= method.delivery_tag)
+    def onRequest(self, ch, method, props, body):
+        starttime = time.time() 
+        request = self.xmlStringToHash(body)
 
-  def xmlStringToHash(self, string):
-    # Parse XML into a dictionary 
-    data = ET.fromstring(string)
-    has = {}
-    for child in root:
-      has[child.tag] = child.text 
+        self.logger.info('Message Received from %s', request["fro"])
 
-    return has
+        data = None
+        action = "ERROR"
 
-  def makeResponse(self, request, data):
-    response = ET.Element('message')
+        try:
+            data = self.router(request["action"], request["data"])
+            action = "DONE"
+        except Exception as e:
+            data = traceback.format_exc()
 
-    action = ET.SubElement(response, 'action')
-    action = 'DONE'
+        response = self.makeResponse(action, request, data)
 
-    to = ET.SubElement(response, 'to')
-    to.text = request['from']
+        self.logger.info('Responding with %s', data)
+        ch.basic_publish(exchange='',
+                         routing_key=props.reply_to,
+                         properties=pika.BasicProperties(correlation_id=
+                                                         props.correlation_id),
+                         body=response)
+        ch.basic_ack(delivery_tag=method.delivery_tag)
+        timetaken = (time.time() - starttime)
+        self.logger.info('Request Completed in %s seconds', str(timetaken))
 
-    fro = ET.SubElement(response, 'fro')
-    fro.text = self.identifier
+    # Parse XML into a dictionary
+    def xmlStringToHash(self, string):
+        data = ET.fromstring(string)
+        has = {}
+        for child in data:
+            has[child.tag] = child.text
+        return has
 
-    data = ET.SubElement(response, 'data')
-    data.text = data
+    def makeResponse(self, action, request, string):
+        response = ET.Element('message')
 
-    machineid = ET.SubElement(response, 'machineid')
-    machineid.text = self.machineid
+        action = ET.SubElement(response, 'action')
+        action.text = action
 
-    return ET.dump(response)
+        to = ET.SubElement(response, 'to')
+        to.text = request['fro']
+
+        fro = ET.SubElement(response, 'fro')
+        fro.text = self.identifier
+
+        data = ET.SubElement(response, 'data')
+        data.text = string
+
+        machineid = ET.SubElement(response, 'machineid')
+        machineid.text = self.machineid
+
+        return ET.tostring(response, encoding='utf8', method='xml')
