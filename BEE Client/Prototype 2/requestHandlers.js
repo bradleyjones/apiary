@@ -78,12 +78,12 @@ function throwError(message, response){
 /*
   Helper Function - Push to MessageBus
 */
-function pushOntoMessageBus(message, config.hiveIP){
+function pushOntoMessageBus(message, hiveIP){
   
   //Open Rabbit Connection
   var connection = amqp.createConnection
   (
-    {host: config.config.hiveIP}
+    {host: hiveIP}
   );
   
   //On connection push message
@@ -110,7 +110,6 @@ function pushOntoMessageBus(message, config.hiveIP){
 }
 
 //Expose functions for Router
-exports.initialise = initialise;
 exports.addTarget = addTarget;
 exports.removeTarget = removeTarget;
 
