@@ -2,6 +2,7 @@ import logging
 from configobj import ConfigObj
 from rpcserver import RPCServer
 
+
 class Base(object):
 
     def __init__(self, name):
@@ -11,19 +12,23 @@ class Base(object):
             self.config['Logging']['level'])
         self.logger = logging.getLogger(__name__)
 
-
     def startServer(self, r, c):
         cont = c.Controller()
         router = r.Routes(cont)
-        self.logger.info("Setting Up Server on %s" % self.config['Base']['rabbit_ip'])
+        self.logger.info(
+            "Setting Up Server on %s" %
+            self.config['Base']['rabbit_ip'])
         try:
-            server = RPCServer(self.config['Base']['queue_name'], self.config['Base']['rabbit_ip'], router.route)
+            server = RPCServer(
+                self.config['Base']['queue_name'],
+                self.config['Base']['rabbit_ip'],
+                router.route)
         except KeyboardInterrupt:
             self.logger.info("Exiting...")
 
     def loadConfig(self, filepath):
         return ConfigObj(filepath)
-    
+
     def configureLogger(self, filelocation, level):
         if level == "debug":
             logging.basicConfig(filename=filelocation,
