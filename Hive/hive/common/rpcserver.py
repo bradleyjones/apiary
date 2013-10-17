@@ -9,6 +9,7 @@ import logging
 import traceback
 import time
 from uuid import getnode as get_mac
+import lxml
 
 
 class RPCServer(object):
@@ -37,18 +38,22 @@ class RPCServer(object):
     # Fire off responses and acknowledge message
     def onRequest(self, ch, method, props, body):
         starttime = time.time() 
-        request = self.xmlStringToHash(body)
 
-        self.logger.info('Message Received from %s', request["fro"])
-
-        data = None
+        request = {}
         action = "ERROR"
 
+        self.logger.info("Reply to: " + props.reply_to)
+        self.logger.info("Reply to: " + props.correlation_id)
+
         try:
+            request = self.xmlStringToHash(body)
+            self.logger.info(request)
+            self.logger.info('Message Received from %s', request["from"])
             data = self.router(request["action"], request["data"])
             action = "DONE"
         except Exception as e:
             data = traceback.format_exc()
+            self.logger.error('Error Occured: %s', data)
 
         response = self.makeResponse(action, request, data)
 
@@ -59,16 +64,23 @@ class RPCServer(object):
                                                          props.correlation_id),
                          body=response)
         ch.basic_ack(delivery_tag=method.delivery_tag)
+
         timetaken = (time.time() - starttime)
         self.logger.info('Request Completed in %s seconds', str(timetaken))
 
+    def validateRequest(self, request):
+        return True
+
     # Parse XML into a dictionary
     def xmlStringToHash(self, string):
-        data = ET.fromstring(string)
         has = {}
+        data = ET.fromstring(string)
         for child in data:
-            has[child.tag] = child.text
-        return has
+            has[child.tag] = child.text  
+        if self.validateRequest(has):
+          return has
+        else:
+          raise RPCServerException("Invalid Message Received")
 
     def makeResponse(self, action, request, string):
         response = ET.Element('message')
@@ -77,9 +89,9 @@ class RPCServer(object):
         action.text = action
 
         to = ET.SubElement(response, 'to')
-        to.text = request['fro']
+        to.text = request['from']
 
-        fro = ET.SubElement(response, 'fro')
+        fro = ET.SubElement(response, 'from')
         fro.text = self.identifier
 
         data = ET.SubElement(response, 'data')
@@ -89,3 +101,6 @@ class RPCServer(object):
         machineid.text = self.machineid
 
         return ET.tostring(response, encoding='utf8', method='xml')
+
+class RPCServerException(Exception):
+  pass

@@ -17,9 +17,9 @@ action = ET.SubElement(response, 'action')
 action.text = 'wobble'
 
 to = ET.SubElement(response, 'to')
-to.text = 'honeycomb'
+to.text = 'control'
 
-fro = ET.SubElement(response, 'fro')
+fro = ET.SubElement(response, 'from')
 fro.text = 'Test_Application'
 
 data = ET.SubElement(response, 'data')
@@ -31,7 +31,7 @@ machineid.text = "GOD"
 xml = ET.tostring(response, encoding='utf8', method='xml')
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(
-    host='192.168.1.106'))
+    host='25.194.106.74'))
 
 channel = connection.channel()
 
@@ -43,7 +43,7 @@ channel.basic_consume(on_response, no_ack=True,
                       queue=callback_queue)
 
 channel.basic_publish(exchange='',
-                      routing_key='honeycomb',
+                      routing_key='control',
                       properties=pika.BasicProperties(
                           reply_to=callback_queue,
                           correlation_id=corr_id,
