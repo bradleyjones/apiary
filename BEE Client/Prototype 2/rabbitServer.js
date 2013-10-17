@@ -19,19 +19,21 @@ function start(route, handle) {
   	{host: config.hiveIP} // Set to config file
   );
 
-  //Set Queue
-  var queueToReceiveFrom = "testMessageQueue"; //Set to config file
 
   //Once connection up
   connection.on
   ('ready', function(){
     
     //Set receive queue
-  	connection.queue(
-  	  queueToReceiveFrom, 
-  		{autoDelete: false}, 
+  	connection.queue("", 
+  		{autoDelete: false,
+       exclusive: true}, 
   		function(queue){
-  			console.log('Waiting for messages...');
+        
+        alertHive(queue.name, config.hiveIP)
+        
+        console.log('Waiting for messages...');
+        
         
         //Subscribe
   			queue.subscribe(
@@ -48,7 +50,6 @@ function start(route, handle) {
             })
   			  }  
   			)
-        alertHive(config.hiveIP)
   		}
   	)
   });
@@ -58,13 +59,15 @@ function start(route, handle) {
 //
 //  Helper Function - Push to MessageBus
 //
-function alertHive(hiveIP){
+function alertHive(queueName, hiveIP){
   
   getMac.getMac(function(err,macAddress){
       if (err)  throw err;
       console.log(macAddress);  
       
-      console.log(hiveIP)
+      console.log(hiveIP);
+      
+      var UUID = Date.now();
       
       //Start Server
       var connection = amqp.createConnection
@@ -81,21 +84,22 @@ function alertHive(hiveIP){
           var queueToSendTo = "control";
           
           message = ""+
+          "<xml>" +
           "<message>" +
             "<to>Control</to>" +
             "<from>Unidentified</from>" +
             "<machineid>"+ macAddress +"</machineid>" +
             "<action>HANDSHAKE</action>" +
             "<data>"+ macAddress +"</data>" +
-          "</message>";
+          "</message>" +
+          "</xml>";
           
-          connection.publish(queueToSendTo, message);
+          connection.publish(queueToSendTo, message,{replyTo: queueName, correlationId: UUID});
           
           console.log("Sent message: "+ message);
         }
       );       
   });
 }
-
 
 exports.start = start;
