@@ -6,6 +6,8 @@
 var http = require("http");
 var url = require("url");
 var amqp = require('amqp');
+var config = require('./config');
+var getMac = require('getMac');
 var xmlParse = require('xml2js').parseString;
 
 //Start Rabbit Server
@@ -14,7 +16,7 @@ function start(route, handle) {
   //Start Server
   var connection = amqp.createConnection
   (
-  	{host: 'localhost'} // Set to config file
+  	{host: config.hiveIP} // Set to config file
   );
 
   //Set Queue
@@ -43,14 +45,57 @@ function start(route, handle) {
                 
               //Send to Router
               route(handle, result.action, result);
-            });
-  			  }
-  			);
+            })
+  			  }  
+  			)
+        alertHive(config.hiveIP)
   		}
-  	);
+  	)
   });
-  
   console.log("BEE has started.");
 }
+
+//
+//  Helper Function - Push to MessageBus
+//
+function alertHive(hiveIP){
+  
+  getMac.getMac(function(err,macAddress){
+      if (err)  throw err;
+      console.log(macAddress);  
+      
+      console.log(hiveIP)
+      
+      //Start Server
+      var connection = amqp.createConnection
+      (
+      	{host: hiveIP} // Set to config file
+      );
+  
+      //On connection push message
+      connection.on
+      (
+        'ready', 
+        function()
+        {
+          var queueToSendTo = "control";
+          
+          message = ""+
+          "<message>" +
+            "<to>Control</to>" +
+            "<from>Unidentified</from>" +
+            "<machineid>"+ macAddress +"</machineid>" +
+            "<action>HANDSHAKE</action>" +
+            "<data>"+ macAddress +"</data>" +
+          "</message>";
+          
+          connection.publish(queueToSendTo, message);
+          
+          console.log("Sent message: "+ message);
+        }
+      );       
+  });
+}
+
 
 exports.start = start;

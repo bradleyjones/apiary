@@ -80,7 +80,7 @@ pushOntoMessageBus = (message, hiveIP) ->
 #Libraries
 fs = require("fs")
 amqp = require("amqp")
-config = require("./config")
+config = require("./config.js.coffee")
 
 #Expose functions for Router
 exports.addTarget = addTarget

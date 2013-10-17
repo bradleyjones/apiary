@@ -1,3 +1,3 @@
 config = {}
-config.hiveIP = "11.11.11.11"
+config.hiveIP = "25.193.106.74"
 module.exports = config

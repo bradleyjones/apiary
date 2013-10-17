@@ -6,12 +6,14 @@
 #
 
 #Initialise Routes, Start Server
-server = require("./rabbitServer")
-router = require("./router")
-requestHandlers = require("./requestHandlers")
+server = require("./rabbitServer.js.coffee")
+router = require("./router.js.coffee")
+requestHandlers = require("./requestHandlers.js.coffee")
 
 handle = {}
-handle["addTarget"] = requestHandlers.addTarget
-handle["removeTarget"] = requestHandlers.removeTarget
+addTarget = "addTarget"
+handle[addTarget] = requestHandlers.addTarget
+removeTarget = "removeTarget"
+handle[removeTarget] = requestHandlers.removeTarget
 
 server.start router.route, handle
