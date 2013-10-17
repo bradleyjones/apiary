@@ -31,7 +31,7 @@ machineid.text = "GOD"
 xml = ET.tostring(response, encoding='utf8', method='xml')
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(
-    host='25.194.106.74'))
+    host='192.168.1.106'))
 
 channel = connection.channel()
 

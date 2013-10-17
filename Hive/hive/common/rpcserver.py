@@ -9,7 +9,9 @@ import logging
 import traceback
 import time
 from uuid import getnode as get_mac
-import lxml
+from lxml import etree
+from pkg_resources import resource_string
+from StringIO import StringIO 
 
 
 class RPCServer(object):
@@ -26,6 +28,7 @@ class RPCServer(object):
         self.channel.basic_consume(self.onRequest, queue=self.queue)
         self.identifier = name
         self.machineid = str(get_mac())
+        self.schema = etree.XMLSchema(etree.parse(StringIO(resource_string(__name__, 'schemas/message_schema.xsd'))))
         self.logger = logging.getLogger(__name__)
         self.logger.info("Identifier: %s", self.identifier)
         self.logger.info("Mac Address: %s", self.machineid)
@@ -41,23 +44,24 @@ class RPCServer(object):
 
         request = {}
         action = "ERROR"
-
-        self.logger.info("Reply to: " + props.reply_to)
-        self.logger.info("Reply to: " + props.correlation_id)
-
+        response = "INVALID MESSAGE RECEIVED"
+        
         try:
             request = self.xmlStringToHash(body)
-            self.logger.info(request)
             self.logger.info('Message Received from %s', request["from"])
-            data = self.router(request["action"], request["data"])
-            action = "DONE"
+
+            try:
+                data = self.router(request["action"], request["data"])
+                action = "DONE"
+            except Exception as e:
+                data = traceback.format_exc()
+                self.logger.error('Error Occured: %s', data)
+
+            response = self.makeResponse(action, request, data)
+            self.logger.info('Responding with %s', data)
         except Exception as e:
-            data = traceback.format_exc()
-            self.logger.error('Error Occured: %s', data)
+            self.logger.error('Error Occured: %s', traceback.format_exc())
 
-        response = self.makeResponse(action, request, data)
-
-        self.logger.info('Responding with %s', data)
         ch.basic_publish(exchange='',
                          routing_key=props.reply_to,
                          properties=pika.BasicProperties(correlation_id=
@@ -69,16 +73,16 @@ class RPCServer(object):
         self.logger.info('Request Completed in %s seconds', str(timetaken))
 
     def validateRequest(self, request):
-        return True
+        return self.schema.validate(etree.parse(StringIO(request)))
 
     # Parse XML into a dictionary
     def xmlStringToHash(self, string):
-        has = {}
-        data = ET.fromstring(string)
-        for child in data:
-            has[child.tag] = child.text  
-        if self.validateRequest(has):
-          return has
+        if self.validateRequest(string):
+            data = ET.fromstring(string)
+            has = {}
+            for child in data:
+                has[child.tag] = child.text  
+            return has
         else:
           raise RPCServerException("Invalid Message Received")
 
