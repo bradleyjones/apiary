@@ -12,7 +12,7 @@ start = (route, handle) ->
   queueToReceiveFrom = "testMessageQueue" #Set to config file
   
   #Once connection up
-  connection.on "ready", ->
+  connection.on ("ready") ->
     
     #Set receive queue
     connection.queue queueToReceiveFrom,
@@ -28,15 +28,32 @@ start = (route, handle) ->
           console.log "Request for " + result.action + " received."
           
           #Send to Router
-          route handle, result.action, result
+          route (handle, result.action, result)
+      
+      #Notify Hive that im alive
+      alertHive config.hiveIP
 
   console.log "BEE has started."
+  
+#
+#  Helper Function - Push to MessageBus
+#
+alertHive = (hiveIP) ->
+  
+  #Open Rabbit Connection
+  connection = amqp.createConnection(host: hiveIP)
+  
+  #On connection push message
+  connection.on "ready", ->
+    queueToSendTo = "control"
+    connection.publish queueToSendTo, 
+    console.log "Hey im up bitch"
   
 #Libraries
 http = require("http")
 url = require("url")
 amqp = require("amqp")
-config = require("./config")
+config = require("./config.js.coffee")
 xmlParse = require("xml2js").parseString
 
 #Export methods
