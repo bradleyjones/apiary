@@ -67,7 +67,7 @@ function alertHive(queueName, hiveIP){
       
       console.log(hiveIP);
       
-      var UUID = Date.now();
+      var UUID = "tyroll0o0o0o0o";
       
       //Start Server
       var connection = amqp.createConnection
@@ -84,15 +84,14 @@ function alertHive(queueName, hiveIP){
           var queueToSendTo = "control";
           
           message = ""+
-          "<xml>" +
+          "<?xml version='1.0' encoding='utf8'?>" +
           "<message>" +
             "<to>Control</to>" +
             "<from>Unidentified</from>" +
             "<machineid>"+ macAddress +"</machineid>" +
             "<action>HANDSHAKE</action>" +
             "<data>"+ macAddress +"</data>" +
-          "</message>" +
-          "</xml>";
+          "</message>";
           
           connection.publish(queueToSendTo, message,{replyTo: queueName, correlationId: UUID});
           
