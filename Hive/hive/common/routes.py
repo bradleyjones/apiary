@@ -3,7 +3,6 @@ import logging
 
 class Routes(object):
 
-
     def __init__(self, controller):
         self.routes = {}
         self.controller = controller
@@ -15,18 +14,20 @@ class Routes(object):
         return
 
     def route(self, action, data):
+        getattr(self, "invert_op", None)
         if action not in self.routes:
             raise RoutingException("Route not found for: " + action)
         else:
-            try:
+            method = getattr(self.controller, self.routes[action], None)
+            if not callable(method):
+                raise RoutingException(
+                    "Action not found in controller: " + str(self.routes[action]))
+            else:
                 self.logger.info(
                     "Route %s calling function %s",
                     action,
                     self.routes[action])
-                return self.routes[action](data)
-            except NameError as e:
-                raise RoutingException(
-                    "Action not found in controller: " + self.routes[action])
+                return method(data)
 
     def action(self, name, func):
         if name in self.routes:

@@ -11,7 +11,7 @@ import time
 from uuid import getnode as get_mac
 from lxml import etree
 from pkg_resources import resource_string
-from StringIO import StringIO 
+from StringIO import StringIO
 
 
 class RPCServer(object):
@@ -28,7 +28,8 @@ class RPCServer(object):
         self.channel.basic_consume(self.onRequest, queue=self.queue)
         self.identifier = name
         self.machineid = str(get_mac())
-        self.schema = etree.XMLSchema(etree.parse(StringIO(resource_string(__name__, 'schemas/message_schema.xsd'))))
+        self.schema = etree.XMLSchema(
+            etree.parse(StringIO(resource_string(__name__, 'schemas/message_schema.xsd'))))
         self.logger = logging.getLogger(__name__)
         self.logger.info("Identifier: %s", self.identifier)
         self.logger.info("Mac Address: %s", self.machineid)
@@ -40,12 +41,12 @@ class RPCServer(object):
     # Make a response to send back to the client
     # Fire off responses and acknowledge message
     def onRequest(self, ch, method, props, body):
-        starttime = time.time() 
+        starttime = time.time()
 
         request = {}
         action = "ERROR"
         response = "INVALID MESSAGE RECEIVED"
-        
+
         try:
             request = self.xmlStringToHash(body)
             self.logger.info('Message Received from %s', request["from"])
@@ -83,10 +84,10 @@ class RPCServer(object):
             data = ET.fromstring(string)
             has = {}
             for child in data:
-                has[child.tag] = child.text  
+                has[child.tag] = child.text
             return has
         else:
-          raise RPCServerException("Invalid Message Received")
+            raise RPCServerException("Invalid Message Received")
 
     def makeResponse(self, action, request, string):
         response = ET.Element('message')
@@ -108,5 +109,6 @@ class RPCServer(object):
 
         return ET.tostring(response, encoding='utf8', method='xml')
 
+
 class RPCServerException(Exception):
-  pass
+    pass
