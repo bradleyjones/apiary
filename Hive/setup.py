@@ -16,6 +16,7 @@ setup(
     install_requires=[
         "configobj >= 4.7.2",
         "pika >= 0.9.13",
+        "lxml==3.2.3",
     ],
     entry_points={
         'console_scripts':
@@ -23,5 +24,8 @@ setup(
          'apiary-control = hive.control.control:main',
          'apiary-intelligence = hive.control.intelligence:main',
          ]
+    },
+    package_data={
+        '': ['schemas/*.xsd'],
     },
 )
