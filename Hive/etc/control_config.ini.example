@@ -1,7 +1,7 @@
 [Base]
     rabbit_ip = 192.168.1.106
-    queue_name = honeycomb
+    queue_name = control
 
 [Logging]
     level = info
-    location = honeycomb.log
+    location = control.log
