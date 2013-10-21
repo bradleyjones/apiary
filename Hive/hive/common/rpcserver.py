@@ -8,6 +8,7 @@ import xml.etree.cElementTree as ET
 import logging
 import traceback
 import time
+from rpcresponse import RPCResponse
 from uuid import getnode as get_mac
 from lxml import etree
 from pkg_resources import resource_string
@@ -44,27 +45,28 @@ class RPCServer(object):
         starttime = time.time()
 
         request = {}
-        action = "ERROR"
+        rpcresp = RPCResponse()
         response = "INVALID MESSAGE RECEIVED"
 
         try:
             request = self.xmlStringToHash(body)
-            self.logger.info('Message Received from %s', request["from"])
+            self.logger.info('Message Received: %s', str(request))
 
             try:
-                data = self.router(request["action"], request["data"])
-                action = "DONE"
+                self.router(request["action"], request["data"], rpcresp)
             except Exception as e:
-                data = traceback.format_exc()
-                self.logger.error('Error Occured: %s', data)
+                rpcresp.action = "Error"
+                rpcresp.data = traceback.format_exc()
+                self.logger.error('Inner Error Occured: %s', rpcresp.data)
 
-            self.logger.info('Responding with %s', data)
         except Exception as e:
-            data = traceback.format_exc()
+            rpcresp.action = "Error"
+            rpcresp.data = traceback.format_exc()
             request['from'] = "Unknown"
-            self.logger.error('Error Occured: %s', traceback.format_exc())
+            self.logger.error('Outer Error Occured: %s', traceback.format_exc())
 
-        response = self.makeResponse(action, request, data)
+        self.logger.info('Responding with %s', rpcresp.data)
+        response = self.makeResponse(request, rpcresp)
         ch.basic_publish(exchange='',
                          routing_key=props.reply_to,
                          properties=pika.BasicProperties(correlation_id=
@@ -89,11 +91,11 @@ class RPCServer(object):
         else:
             raise RPCServerException("Invalid Message Received")
 
-    def makeResponse(self, action, request, string):
+    def makeResponse(self, request, rpcresp):
         response = ET.Element('message')
 
         act = ET.SubElement(response, 'action')
-        act.text = action
+        act.text = rpcresp.action
 
         to = ET.SubElement(response, 'to')
         to.text = request['from']
@@ -102,7 +104,7 @@ class RPCServer(object):
         fro.text = self.identifier
 
         data = ET.SubElement(response, 'data')
-        data.text = string
+        data.text = rpcresp.data
 
         machineid = ET.SubElement(response, 'machineid')
         machineid.text = self.machineid
@@ -112,3 +114,4 @@ class RPCServer(object):
 
 class RPCServerException(Exception):
     pass
+
