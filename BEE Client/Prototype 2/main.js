@@ -2,6 +2,7 @@
   Main.js Starting point for BEE Client
   Requires amqp 'npm install amqp'
   Requires xml2js 'npm install xml2js'
+  Requires getmac 'npm install getmac'
   Start with 'node main.js'
 */
 
