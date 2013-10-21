@@ -1,5 +1,5 @@
 import logging
-from configobj import ConfigObj
+from configobj import ConfigObj, ConfigObjError
 from rpcserver import RPCServer
 
 
@@ -27,7 +27,12 @@ class Base(object):
             self.logger.info("Exiting...")
 
     def loadConfig(self, filepath):
-        return ConfigObj(filepath)
+        try:
+            return ConfigObj(filepath, file_error=True)
+        except (ConfigObjError, IOError), e:
+            logging.error("Config File Doesn't Exist: %s", filepath)
+            raise SystemExit
+
 
     def configureLogger(self, filelocation, level):
         if level == "debug":

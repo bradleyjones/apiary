@@ -19,13 +19,14 @@ Install and Test
 ----------------
 
 * run "python setup.py develop" to install the Hive binarys in development mode 
+* Example config files are in the docs folder, the config file must be present in the directory that you run the binary from. Copy the examples and rename to just .ini instead of .ini.example and then populate them with your own information.
 * Binarys are defined in the setup.py file under entry points.
 
 Current Binarys
 ---------------
 
-* apiary_honeycomb -> Starts Honeycomb server
-* apiary_control -> Starts Control Server
+* apiary-honeycomb -> Starts Honeycomb server
+* apiary-control -> Starts Control Server
 * apiary-intelligence -> Starts Intelligence Server
 
 Test Scripts

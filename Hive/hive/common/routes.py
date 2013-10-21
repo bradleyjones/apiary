@@ -13,7 +13,7 @@ class Routes(object):
     def setupRoutes(self):
         return
 
-    def route(self, action, data):
+    def route(self, action, data, resp):
         getattr(self, "invert_op", None)
         if action not in self.routes:
             raise RoutingException("Route not found for: " + action)
@@ -27,7 +27,7 @@ class Routes(object):
                     "Route %s calling function %s",
                     action,
                     self.routes[action])
-                return method(data)
+                method(data, resp)
 
     def action(self, name, func):
         if name in self.routes:
