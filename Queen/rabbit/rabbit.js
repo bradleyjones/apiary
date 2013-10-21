@@ -1,4 +1,5 @@
 var rpc = require('./rabbit_rpc')
+var parseXML = require('xml2js').parseString
 
 exports.constructMessage = function(action, queueName, data){
   message = ""+
@@ -12,6 +13,18 @@ exports.constructMessage = function(action, queueName, data){
     "</message>";
 
   return message;
+}
+
+exports.getData = function(message){
+  console.log("message: ", message)
+  data = null
+  parseXML(message, function(err, result){
+    parseXML(result.message.data[0], function(err2, result2){
+      console.log(data)
+      data = result2
+    })
+  })
+  return data
 }
 
 exports.rpc = function(queueName, data, callback){

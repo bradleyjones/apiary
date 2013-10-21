@@ -1,4 +1,4 @@
-var config = require('./config/config')
+var config = require('../config/config')
 var amqp = require('amqp')
 var crypto = require('crypto')
 
@@ -8,9 +8,6 @@ var CONTENT_TYPE='application/json';
 //New RPC query
 exports.RPCQuery = function(queueName, data, callback){
   var connection = amqp.createConnection({host:config.hiveIP})
-  if(data == null){
-    data = "<?xml version='1.0' encoding='utf8'?><message><action>AGENTS</action>action><to>Control</to>to><from>Unidentified</from>from><data>70:56:81:9b:0e:3b</data>data><machineid>70:56:81:9b:0e:3b</machineid>machineid></message>message>"
-  }
   var self = this;
   self.responseQueue = false;
   connection.on("ready", function(){
@@ -26,7 +23,7 @@ exports.RPCQuery = function(queueName, data, callback){
         if(self.correlationId = m.correlationId){
           clearTimeout(timeout)
           connection.end()
-          callback(message)
+          callback(message.data.toString())
         }
       })
       connection.publish(queueName, data, {
