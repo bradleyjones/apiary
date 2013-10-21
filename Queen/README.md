@@ -8,4 +8,10 @@ Requirements
 
 Node packages: express, jade, socket.io
 
-npm install express jade socket.io
+To get started run from within the Queen directory:
+
+````npm install
+
+to install all the dependencies followed by
+
+````node server.js
