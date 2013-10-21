@@ -22,7 +22,9 @@
     "express"   :  "*",
     "socket.io" :  "*",
     "jade" :  "*",
-    "amqp" :  "*"
+    "amqp" :  "*",
+    "xml2js" : "*",
+    "crypto" : "*"
   },
   "license": "APACHE",
   "engines": {
