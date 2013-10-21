@@ -86,11 +86,11 @@ function alertHive(queueName, hiveIP){
           message = ""+
           "<?xml version='1.0' encoding='utf8'?>" +
           "<message>" +
+            "<action>HANDSHAKE</action>" +
             "<to>Control</to>" +
             "<from>Unidentified</from>" +
-            "<machineid>"+ macAddress +"</machineid>" +
-            "<action>HANDSHAKE</action>" +
             "<data>"+ macAddress +"</data>" +
+            "<machineid>"+ macAddress +"</machineid>" +
           "</message>";
           
           connection.publish(queueToSendTo, message,{replyTo: queueName, correlationId: UUID});
