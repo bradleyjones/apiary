@@ -9,6 +9,8 @@ class Control(Base):
     def __init__(self):
         Base.__init__(self, "control")
 
+    def migrate(self):
+
 
 def main():
     control = Control()
