@@ -19,7 +19,7 @@ action.text = 'IAMQUITEOBVIOUSLYWRONG'
 to = ET.SubElement(response, 'to')
 to.text = 'honeycomb'
 
-fro = ET.SubElement(response, 'fro')
+fro = ET.SubElement(response, 'from')
 fro.text = 'Test_Application'
 
 data = ET.SubElement(response, 'data')
@@ -43,7 +43,7 @@ channel.basic_consume(on_response, no_ack=True,
                       queue=callback_queue)
 
 channel.basic_publish(exchange='',
-                      routing_key='honeycomb',
+                      routing_key='control',
                       properties=pika.BasicProperties(
                           reply_to=callback_queue,
                           correlation_id=corr_id,
