@@ -7,7 +7,7 @@ setup(
     name='ApiaryHive',
     version='0.0.1',
     author='Sam Betts, Bradley Jones, John Davidge, Jack Peter Fletcher',
-    author_email='bradleyjones92@googlemail.com',
+    author_email='jones.bradley@me.com',
     packages=find_packages(),
     url='http://bradleyjones.github.io/apiary',
     license='LICENSE.txt',
