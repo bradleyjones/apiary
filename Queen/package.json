@@ -1,0 +1,21 @@
+{
+  "name": "Apiary-Dashboard",
+  "version": "0.0.1",
+  "author": "The Minions <jones.bradley@me.com>",
+  "description": "The Apiary Dashboard, provides and interface for analytics and advanced querying of Apiary components",
+  "contributors": [
+    {
+      "name": "Bradley Jones",
+      "email": "jones.bradley@me.com"
+    }
+  ],
+  "dependencies" : {
+    "express"   :  "*",
+    "socket.io" :  "*",
+    "jade" :  "*"
+  },
+  "license": "APACHE",
+  "engines": {
+    "node": ">=0.6"
+  }
+}
