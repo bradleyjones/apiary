@@ -10,7 +10,7 @@ class Control(Base):
         Base.__init__(self, "control")
 
     def migrate(self):
-
+        pass
 
 def main():
     control = Control()
