@@ -17,7 +17,7 @@ exports.constructMessage = function(action, queueName, data){
 
 exports.getData = function(message){
   data = null
-  parseXML(message, {explicitArray: false, trim: true}, function(err, result){
+  parseXML(message, {explicitArray: false}, function(err, result){
     if(err) { console.log(err) }
     else{
       data = result

@@ -23,7 +23,7 @@ app.get('/', function(req, res){
 /*
   Routes
 */
-var agents = require('./controllers/agents-alt')
+var agents = require('./controllers/agents')
 
 app.get('/agents', agents.list)
 app.get('/agents/:id', agents.individual)
