@@ -5,5 +5,6 @@ class Routes(Parent):
 
     def setupRoutes(self):
         self.action("HANDSHAKE", "handshake")
-        self.action("AGENTS", "get_agents")
+        self.action("ALLAGENTS", "get_agents")
+        self.action("SINGLEAGENT", "get_single_agent")
         self.action("GOODBYE", "goodbye")

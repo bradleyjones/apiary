@@ -28,5 +28,16 @@ class Controller(object):
 
         resp.respond(ET.tostring(response, encoding='utf8', method='xml'))
 
+    def get_single_agent(self, data, resp):
+        agent = ET.Element('agent')
+
+        if data in self.agents:
+          uid = ET.SubElement(agent, 'id')
+          uid.text = data
+          machid = ET.SubElement(agent, 'machineid')
+          machid.text = self.agents[data]
+
+        resp.respond(ET.tostring(agent, encoding='utf8', method='xml'))
+
     def default(self, data, resp):
         resp.respond("THIS IS THE DEFAULT ACTION")
