@@ -55,7 +55,7 @@ function newAgent() {
  * Sockets
  */
 socket.on('agent', function(data) {
-  addAgent(data);
+  addAgent(data.agent);
 });
 
 socket.on('offline', function(data) {

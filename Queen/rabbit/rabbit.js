@@ -1,4 +1,5 @@
 var rpc = require('./rabbit_rpc')
+var pubsub = require('./rabbit_pubsub')
 var parseXML = require('xml2js').parseString
 
 exports.constructMessage = function(action, queueName, data){
@@ -31,7 +32,14 @@ exports.rpc = function(queueName, data, callback){
   rpc.RPCQuery(queueName, data, function(message){
     var data = exports.getData(message)
     var data2 = exports.getData(data.message.data)
-    console.log("ASDASDASDSAD",data2)
     callback(data2)
+  })
+}
+
+exports.pubsub = function(exchangeName, topic, callback){
+  pubsub.PubSub(exchangeName, topic, function(message){
+    var data = exports.getData(message)
+    console.log("PUBSUB: ", data)
+    callback(data)
   })
 }

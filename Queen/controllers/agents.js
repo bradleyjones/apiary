@@ -19,6 +19,13 @@ exports.individual = function(req, res){
   })
 }
 
+function subscribeReady() {
+  new rabbit.pubsub('events', 'agents', function(data){
+    io.sockets.emit('agent', data);
+  })
+}
+subscribeReady()
+
 // Web Sockets
 io.sockets.on('connection', function (socket) {
   // Get the current number of connect agents

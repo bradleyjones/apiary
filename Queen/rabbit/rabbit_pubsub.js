@@ -6,23 +6,27 @@ var sys = require('sys')
 var TIMEOUT=2000; //ms time to wait
 var CONTENT_TYPE='application/json';
 
-exports.PubSub = function(queueName, data, callback){
+exports.PubSub = function(exchangeName, topic, callback){
   connection = amqp.createConnection({host:config.hiveIP});
+  var self = this
+  self.exchangeName = exchangeName
+  self.topic = topic
+  self.callback = callback
 
   connection.on('ready', function () {
     console.log("connected to " + connection.serverProperties.product);
     // There is no need to declare type, 'topic' is the default:
-    var exchange = connection.exchange('events');
+    var exchange = connection.exchange(self.exchangeName);
 
     // Consumer:
-    connection.queue('topic_queue',{}, function(queue){
-      queue.bind(exchange, "agents");
+    connection.queue('',{exclusive:true}, function(queue){
+      queue.bind(exchange, self.topic);
       queue.subscribe(function (message) {
         // Get original message string:
-        console.log(message.data.toString('ascii', 0, message.data.length));
+        var msg = message.data.toString('ascii', 0, message.data.length)
+        console.log(msg);
+        self.callback(msg)
       });
     });
   });
 };
-
-exports.PubSub()
