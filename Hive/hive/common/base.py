@@ -13,7 +13,7 @@ class Base(object):
         self.logger = logging.getLogger(__name__)
 
     def startServer(self, r, c):
-        cont = c.Controller()
+        cont = c.Controller(self.config)
         router = r.Routes(cont)
         self.logger.info(
             "Setting Up Server on %s" %
