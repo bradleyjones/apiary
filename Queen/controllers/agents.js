@@ -20,7 +20,7 @@ exports.individual = function(req, res){
 }
 
 function subscribeReady() {
-  new rabbit.pubsub('events', 'agents', function(data){
+  new rabbit.pubsub('events', 'control.agents', function(data){
     io.sockets.emit('agent', data);
   })
 }

@@ -5,9 +5,10 @@ from ..common.pubsubserver import PubSubServer
 
 class Controller(object):
 
-    def __init__(self):
+    def __init__(self, config):
         self.agents = {}
-        self.pubsub = PubSubServer('events','127.0.0.1','control')
+        self.config = config
+        self.pubsub = PubSubServer('events', self.config['Base']['rabbit_ip'],'control')
 
     #Build XML for single agent
     def xml_agent(self, data):
