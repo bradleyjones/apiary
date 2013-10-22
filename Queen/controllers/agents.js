@@ -18,7 +18,6 @@ io.sockets.on('connection', function (socket) {
   // Get the current number of connect agents
   msg = rabbit.constructMessage('AGENTS','control')
   new rabbit.rpc('control',msg, function(data){
-    console.log(rabbit.getData(data))
     socket.emit('init', rabbit.getData(data));
   })
 

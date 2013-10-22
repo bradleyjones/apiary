@@ -19,9 +19,12 @@ class Controller(object):
     def get_agents(self, data, resp):
         response = ET.Element('agents')
 
-        for uuid, agent in self.agents.iteritems():
-            machineid = ET.SubElement(response, 'agent')
-            machineid.text = uuid
+        for uuid, machineid in self.agents.iteritems():
+            agent = ET.SubElement(response, 'agent')
+            uid = ET.SubElement(agent, 'id')
+            uid.text = uuid
+            machid = ET.SubElement(agent, 'machineid')
+            machid.text = machineid
 
         resp.respond(ET.tostring(response, encoding='utf8', method='xml'))
 
