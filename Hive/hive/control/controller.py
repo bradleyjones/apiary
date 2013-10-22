@@ -1,4 +1,5 @@
 import uuid
+import random
 import xml.etree.cElementTree as ET
 
 
@@ -8,7 +9,9 @@ class Controller(object):
         self.agents = {}
 
     def handshake(self, data, resp):
-        id = str(uuid.uuid4())
+        # Make sure uuid always starts with a letter because not valid
+        # to have xml tag start with a number
+        id = chr(random.randrange(97, 97 + 26 + 1)) + str(uuid.uuid4())
         self.agents[id] = data
         resp.respond(id)
 
