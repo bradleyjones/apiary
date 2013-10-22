@@ -16,14 +16,21 @@ exports.constructMessage = function(action, queueName, data){
 }
 
 exports.getData = function(message){
-  console.log("message: ", message)
   data = null
-  parseXML(message, function(err, result){
-    parseXML(result.message.data[0], function(err2, result2){
-      console.log(data)
-      data = result2
-    })
+  parseXML(message, {explicitArray: false}, function(err, result){
+    if(err) { console.log(err) }
+    else{
+      console.log(result.message.data)
+      parseXML(result.message.data, {explicitArray:false}, function(err2, result2){
+        if(err2) { console.log(err) }
+        else{
+          console.log(result2)
+          data = result2
+        }
+      })
+    }
   })
+  console.log("DATA: ", data)
   return data
 }
 
