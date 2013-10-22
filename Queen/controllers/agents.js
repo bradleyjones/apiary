@@ -7,8 +7,8 @@ exports.list = function(req, res){
 exports.individual = function(req, res){
   var msg = rabbit.constructMessage('SINGLEAGENT', 'control', req.params.id)
   new rabbit.rpc('control', msg, function(data){
-    console.log("SINGLE: ", rabbit.getData(data))
-    var agent = rabbit.getData(data).agent;
+    console.log("SINGLE: ", data)
+    var agent = data.agent;
     console.log(agent)
     if (agent != '') {
       req.params.machineid = agent.machineid
@@ -24,7 +24,7 @@ io.sockets.on('connection', function (socket) {
   // Get the current number of connect agents
   msg = rabbit.constructMessage('ALLAGENTS','control')
   new rabbit.rpc('control',msg, function(data){
-    socket.emit('init', rabbit.getData(data));
+    socket.emit('init', data);
   })
 
   // New agent added

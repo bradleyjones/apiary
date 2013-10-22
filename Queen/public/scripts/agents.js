@@ -65,6 +65,7 @@ socket.on('offline', function(data) {
 socket.on('init', function(data) {
   console.log(data.agents);
   for (var agent in data.agents) {
+    data.agents[agent].id = agent
     addAgent(data.agents[agent], true);
   }
 });

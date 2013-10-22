@@ -17,17 +17,10 @@ exports.constructMessage = function(action, queueName, data){
 
 exports.getData = function(message){
   data = null
-  parseXML(message, {explicitArray: false}, function(err, result){
+  parseXML(message, {explicitArray: false, trim: true}, function(err, result){
     if(err) { console.log(err) }
     else{
-      console.log(result.message.data)
-      parseXML(result.message.data, {explicitArray:false}, function(err2, result2){
-        if(err2) { console.log(err) }
-        else{
-          console.log(result2)
-          data = result2
-        }
-      })
+      data = result
     }
   })
   console.log("DATA: ", data)
@@ -35,5 +28,10 @@ exports.getData = function(message){
 }
 
 exports.rpc = function(queueName, data, callback){
-  rpc.RPCQuery(queueName, data, callback)
+  rpc.RPCQuery(queueName, data, function(message){
+    var data = exports.getData(message)
+    var data2 = exports.getData(data.message.data)
+    console.log("ASDASDASDSAD",data2)
+    callback(data2)
+  })
 }
