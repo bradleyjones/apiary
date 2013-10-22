@@ -7,7 +7,7 @@ class Controller(object):
 
     def __init__(self):
         self.agents = {}
-        self.pubsub = PubSubServer('events','127.0.0.1','agents')
+        self.pubsub = PubSubServer('events','127.0.0.1','control')
 
     #Build XML for single agent
     def xml_agent(self, data):
@@ -48,5 +48,3 @@ class Controller(object):
 
     def default(self, data, resp):
         resp.respond("THIS IS THE DEFAULT ACTION")
-
-
