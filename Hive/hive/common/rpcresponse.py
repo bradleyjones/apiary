@@ -14,5 +14,6 @@ class RPCResponse(object):
         else:
             raise RPCResponseException("Multiple Calls to Respond Made")
 
+
 class RPCResponseException(Exception):
     pass

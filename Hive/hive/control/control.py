@@ -12,6 +12,7 @@ class Control(Base):
     def migrate(self):
         pass
 
+
 def main():
     control = Control()
     control.startServer(routes, controller)

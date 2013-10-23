@@ -2,6 +2,7 @@ import pika
 import sys
 import logging
 
+
 class PubSubServer(object):
 
     def __init__(self, name, host, routing_key):
@@ -19,11 +20,10 @@ class PubSubServer(object):
         self.logger.info("Publish Subscribe Server Started!")
 
     def publish_msg(self, msg, routing_key=None):
-        if routing_key == None: 
+        if routing_key is None:
             routing_key = self.routing_key
         else:
             routing_key = self.routing_key + "." + routing_key
         self.channel.basic_publish(exchange=self.exchange,
-                           routing_key=routing_key,
-                           body=msg)
-
+                                   routing_key=routing_key,
+                                   body=msg)
