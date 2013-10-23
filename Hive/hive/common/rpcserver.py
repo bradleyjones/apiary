@@ -4,15 +4,15 @@ using rabbit.
 """
 
 import pika
-import xml.etree.cElementTree as ET
 import logging
 import traceback
 import time
 from rpcresponse import RPCResponse
 from uuid import getnode as get_mac
-from lxml import etree
 from pkg_resources import resource_string
 from StringIO import StringIO
+import json
+from jsonschema import validate
 
 
 class RPCServer(object):
@@ -29,8 +29,7 @@ class RPCServer(object):
         self.channel.basic_consume(self.onRequest, queue=self.queue)
         self.identifier = name
         self.machineid = str(get_mac())
-        self.schema = etree.XMLSchema(
-            etree.parse(StringIO(resource_string(__name__, 'schemas/message_schema.xsd'))))
+        self.schema = json.loads(resource_string(__name__, 'schemas/message_schema.js'))
         self.logger = logging.getLogger(__name__)
         self.logger.info("Identifier: %s", self.identifier)
         self.logger.info("Mac Address: %s", self.machineid)
@@ -49,7 +48,7 @@ class RPCServer(object):
         response = "INVALID MESSAGE RECEIVED"
 
         try:
-            request = self.xmlStringToHash(body)
+            request = self.jsonToHash(body)
             self.logger.info('Message Received: %s', str(request))
 
             try:
@@ -58,7 +57,6 @@ class RPCServer(object):
                 rpcresp.action = "Error"
                 rpcresp.data = traceback.format_exc()
                 self.logger.error('Inner Error Occured: %s', rpcresp.data)
-
         except Exception as e:
             rpcresp.action = "Error"
             rpcresp.data = traceback.format_exc()
@@ -77,39 +75,20 @@ class RPCServer(object):
         timetaken = (time.time() - starttime)
         self.logger.info('Request Completed in %s seconds', str(timetaken))
 
-    def validateRequest(self, request):
-        return self.schema.validate(etree.parse(StringIO(request)))
-
     # Parse XML into a dictionary
-    def xmlStringToHash(self, string):
-        if self.validateRequest(string):
-            data = ET.fromstring(string)
-            has = {}
-            for child in data:
-                has[child.tag] = child.text
-            return has
-        else:
-            raise RPCServerException("Invalid Message Received")
+    def jsonToHash(self, string):
+        response = json.loads(string)
+        validate(response, self.schema)
+        return response
 
     def makeResponse(self, request, rpcresp):
-        response = ET.Element('message')
-
-        act = ET.SubElement(response, 'action')
-        act.text = rpcresp.action
-
-        to = ET.SubElement(response, 'to')
-        to.text = request['from']
-
-        fro = ET.SubElement(response, 'from')
-        fro.text = self.identifier
-
-        data = ET.SubElement(response, 'data')
-        data.text = rpcresp.data
-
-        machineid = ET.SubElement(response, 'machineid')
-        machineid.text = self.machineid
-
-        return ET.tostring(response, encoding='utf8', method='xml')
+        response = {}
+        response['action'] = rpcresp.action
+        response['to'] = request['from']
+        response['from'] = self.identifier
+        response['data'] = rpcresp.data
+        response['machineid'] = self.machineid
+        return json.dumps(response)
 
 
 class RPCServerException(Exception):
