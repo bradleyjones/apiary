@@ -1,0 +1,29 @@
+{
+  "name": "Apiary-BEE-Client",
+  "version": "0.0.1",
+  "author": "The Minions <jackfletcher2010@googlemail.com>",
+  "description": "The Apiary BEE client, intended to sit on monitored machines and feed data back to the Hive by Message Bus ",
+  "contributors": [
+    {
+      "name": "Bradley Jones",
+      "email": "jones.bradley@me.com"
+    },
+    {
+      "name": "Sam Betts"
+    },
+    {
+      "name": "John Davidge"
+    },
+    {
+      "name": "Jack Fletcher"
+      "email": "jackfletcher2010@googlemail.com"
+    }
+  ],
+  "dependencies" : {
+    "socket.io" :  "*",
+    "amqp" :  "*",
+    "xml2js" : "*",
+    "getmac" : "*"
+  },
+  "license": "APACHE"
+}
