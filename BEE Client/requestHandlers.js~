@@ -10,17 +10,6 @@ var amqp = require ('amqp');
 var config = require('./config')
 
 /*
-  Initialise
-  Takes response from initial handshake and handles data.
-*/
-function initialise(response){
-  jsonResponse = response;
-
-}
-
-
-
-/*
   AddTarget
   Adds a new target file, and starts an asynchronous watch process
   Watch process dumps logs onto Message Bus once received.
