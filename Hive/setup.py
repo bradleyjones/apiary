@@ -16,7 +16,7 @@ setup(
     install_requires=[
         "configobj >= 4.7.2",
         "pika >= 0.9.13",
-        "lxml==3.2.3",
+        "jsonschema",
     ],
     entry_points={
         'console_scripts':
@@ -26,6 +26,6 @@ setup(
          ]
     },
     package_data={
-        '': ['schemas/*.xsd'],
+        '': ['schemas/*.js'],
     },
 )
