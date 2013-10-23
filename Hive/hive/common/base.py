@@ -18,21 +18,26 @@ class Base(object):
         self.logger.info(
             "Setting Up Server on %s" %
             self.config['Base']['rabbit_ip'])
+        server = RPCServer(
+            self.config['Base']['queue_name'],
+            self.config['Base']['rabbit_ip'],
+            router.route)
         try:
-            server = RPCServer(
-                self.config['Base']['queue_name'],
-                self.config['Base']['rabbit_ip'],
-                router.route)
+            cont.run()
+            server.run()
+        except Exception as e: 
+            self.logger.error("Errors Occured: %s", str(e))
         except KeyboardInterrupt:
+            server.stop()
+        finally: 
             self.logger.info("Exiting...")
 
     def loadConfig(self, filepath):
         try:
             return ConfigObj(filepath, file_error=True)
-        except (ConfigObjError, IOError), e:
+        except (ConfigObjError, IOError) as e:
             logging.error("Config File Doesn't Exist: %s", filepath)
             raise SystemExit
-
 
     def configureLogger(self, filelocation, level):
         if level == "debug":
