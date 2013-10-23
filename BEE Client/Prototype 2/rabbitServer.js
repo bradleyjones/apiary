@@ -7,7 +7,7 @@ var http = require("http");
 var url = require("url");
 var amqp = require('amqp');
 var config = require('./config');
-var getMac = require('getMac');
+var getMac = require('getmac');
 var xmlParse = require('xml2js').parseString;
 
 //Start Rabbit Server
