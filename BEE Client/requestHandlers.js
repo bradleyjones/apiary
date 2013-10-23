@@ -15,7 +15,7 @@ var config = require('./config')
 */
 function initialise(response){
   jsonResponse = response;
-
+  console.log("Initialisation Complete.");
 }
 
 
@@ -121,6 +121,7 @@ function pushOntoMessageBus(message, hiveIP){
 }
 
 //Expose functions for Router
+exports.initialise = initialise;
 exports.addTarget = addTarget;
 exports.removeTarget = removeTarget;
 

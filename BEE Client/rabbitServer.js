@@ -12,43 +12,44 @@ var getMac = require('getmac');
 //Start Rabbit Server
 function start(route, handle) {
 
+  console.log("BEE has started.");
+
   //Start Server
   var connection = amqp.createConnection
   (
   	{host: config.hiveIP} // Set to config file
   );
 
-
   //Once connection up
   connection.on
   ('ready', function(){
-    
+
     //Set receive queue
   	connection.queue("", 
   		{autoDelete: false,
        exclusive: true}, 
   		function(queue){
 
-        //Queue ready to recieve, so alert Hi
+        //Queue ready to recieve, so alert Hive
         alertHive(queue.name, config.hiveIP);
-        
         console.log('Waiting for messages...');
               
         //Subscribe
   			queue.subscribe(
 
           //Action on message Received
-  				function(messageReceived){             
-            console.log("Request for " + messageRecieved.data.action + " received.");
+  				function(messageReceived){
+            data = JSON.parse(messageReceived.data);  
 
+            console.log("Request for " + data.action + " received.");
             //Forward to Router
-            route(handle, messageRecieved.data.action, result);           
+            route(handle, data.action, data); 
+          
   			  }  
   			)
   		}
   	)
   });
-  console.log("BEE has started.");
 }
 
 //

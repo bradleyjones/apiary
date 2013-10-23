@@ -12,7 +12,7 @@ var router = require("./router");
 var requestHandlers = require("./requestHandlers")
 
 var handle = {}
-handle["initialise"] = requestHandlers.initialise;
+handle["DONE"] = requestHandlers.initialise;
 handle["addTarget"] = requestHandlers.addTarget;
 handle["removeTarget"] = requestHandlers.removeTarget;
 
