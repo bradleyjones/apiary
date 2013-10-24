@@ -1,3 +1,5 @@
 pyEnv
 .DS_Store
 tmux-apiary
+*~
+*config.js
