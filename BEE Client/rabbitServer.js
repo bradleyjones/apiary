@@ -82,7 +82,7 @@ function alertHive(queueName, hiveIP){
             action: "HANDSHAKE",
             to: "Control",
             from: "Unidentified",
-            data: uuid,
+            data: "",
             machineid: macAddress
           }
           

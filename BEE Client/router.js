@@ -7,9 +7,20 @@ function route(handle, pathname, response) {
     handle[pathname](response);
   } else {
     console.log("No request handler found for " + pathname);
-    response.writeHead(404, {"Content-Type": "text/plain"});
-    response.write("404 Not found");
-    response.end();
+
+    var queueToSendTo = "Error";
+
+    message = {
+      action: "ERROR",
+      to: "Control",
+      from: uuid,
+      data: "No request handler found for route" + pathname,
+      machineid: macAddress
+    }
+          
+    connection.publish(queueToSendTo, message,{replyTo: queueName, correlationId: uuid});
+    console.log("Sent message: ");
+    console.log(message);
 } }
 
 exports.route = route;

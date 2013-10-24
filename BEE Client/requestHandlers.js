@@ -9,12 +9,16 @@ var fs = require('fs');
 var amqp = require ('amqp');
 var config = require('./config')
 
+//global
+var clientUUID = ""; 
+
 /*
   Initialise
   Takes response from initial handshake and handles data.
 */
 function initialise(response){
-  jsonResponse = response;
+  config.clientID = response.data;
+  console.log(config.clientID);
   console.log("Initialisation Complete.");
 }
 
