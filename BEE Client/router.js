@@ -1,10 +1,13 @@
 /*
   Router - Matches requests with handlers
 */
-function route(handle, pathname, response) {
+
+var config = require('./config');
+
+function route(handle, pathname, data) {
   console.log("About to route a request for " + pathname);
   if (typeof handle[pathname] === 'function') {
-    handle[pathname](response);
+    handle[pathname](data);
   } else {
     console.log("No request handler found for " + pathname);
 
@@ -13,9 +16,9 @@ function route(handle, pathname, response) {
     message = {
       action: "ERROR",
       to: "Control",
-      from: uuid,
+      from: config.uuid,
       data: "No request handler found for route" + pathname,
-      machineid: macAddress
+      machineid: config.macAddress
     }
           
     connection.publish(queueToSendTo, message,{replyTo: queueName, correlationId: uuid});

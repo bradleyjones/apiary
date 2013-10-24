@@ -9,7 +9,7 @@
 //Initialise Routes, Start Server
 var server = require("./rabbitServer");
 var router = require("./router");
-var requestHandlers = require("./requestHandlers")
+var requestHandlers = require("./requestHandlers");
 
 var handle = {}
 handle["DONE"] = requestHandlers.initialise;

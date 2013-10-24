@@ -9,15 +9,13 @@ var fs = require('fs');
 var amqp = require ('amqp');
 var config = require('./config')
 
-//global
-var clientUUID = ""; 
-
 /*
   Initialise
   Takes response from initial handshake and handles data.
 */
-function initialise(response){
-  config.clientID = response.data;
+function initialise(messageData){
+  console.log("Setting client ID:");
+  config.clientID = messageData.data;
   console.log(config.clientID);
   console.log("Initialisation Complete.");
 }
@@ -29,16 +27,16 @@ function initialise(response){
   Adds a new target file, and starts an asynchronous watch process
   Watch process dumps logs onto Message Bus once received.
 */
-function addTarget(response) {
-  file = response;
+function addTarget(messageData) {
+  file = messageData.data;
   console.log("Logging - " + file);
   
   if (config.hiveIP == 0) {
-    throwError("ERROR - Bee not initialised, no Hive address.", response);
+    throwError("ERROR - Bee not initialised, no Hive address.", messageData);
   } else if (file == null){
-    throwError("ERROR - No Bee target specified.", response);
+    throwError("ERROR - No Bee target specified.", messageData);
   } else if (!fs.statSync(file).isFile()){
-    throwError("ERROR - Bee target file not found.", response);  // Not functioning Need to properly catch exception, possibly further down   
+    throwError("ERROR - Bee target file not found.", messageData);  // Not functioning Need to properly catch exception, possibly further down   
   } else {
     
     startByte = 0;
@@ -75,7 +73,7 @@ function addTarget(response) {
   Will cease watching of specificed file. Not implemented.
   Probably need to keep watch processes in a Field Variable.
 */
-function removeTarget(response) {
+function removeTarget(messageData) {
   console.log("Removing Target");
 }
 
@@ -83,11 +81,23 @@ function removeTarget(response) {
 /* 
   Helper Function - Error Response
 */
-function throwError(message, response){
+function throwError(message, data){
   console.log(message)
-  response.writeHead(500, {"Content-Type": "text/plain"});
-  response.write(message);
-  response.end();
+  console.log(data);
+
+  var queueToSendTo = "Error";
+
+  message = {
+    action: "ERROR",
+    to: "Control",
+    from: config.uuid,
+    data: message + data,
+    machineid: config.macAddress
+  }
+          
+  connection.publish(queueToSendTo, message,{replyTo: queueName, correlationId: config.uuid});
+  console.log("Sent message: ");
+  console.log(message)
 }
 
 /*
