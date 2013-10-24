@@ -1,5 +1,5 @@
 var config = {};
 
-config.hiveIP = '127.0.0.1';
+config.hiveIP = '25.199.138.99';
 
 module.exports = config;
