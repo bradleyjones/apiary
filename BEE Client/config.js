@@ -1,6 +1,6 @@
 var config = {};
 
-config.hiveIP = 'localhost';
+config.hiveIP = '25.199.138.99';
 
 
 //LEAVE BLANK, CONFIGURED BY INITIALISATION
