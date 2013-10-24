@@ -34,3 +34,5 @@ nosetests.xml
 *.mo
 
 docs/Sphinx/_build
+
+*.db
