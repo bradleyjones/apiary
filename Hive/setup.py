@@ -17,15 +17,21 @@ setup(
         "configobj >= 4.7.2",
         "pika >= 0.9.13",
         "jsonschema",
+        "apns",
     ],
     entry_points={
         'console_scripts':
         ['apiary-honeycomb = hive.honeycomb.honeycomb:main',
          'apiary-control = hive.control.control:main',
          'apiary-intelligence = hive.control.intelligence:main',
+         'apiary-sting = hive.sting.sting:main',
          ]
     },
     package_data={
         '': ['schemas/*.js'],
     },
+    eager_resources=[
+        'hive/sting/apns/certs/ApiaryCert.pem',
+        'hive/sting/apns/certs/ApiaryKey.pem',
+    ],
 )
