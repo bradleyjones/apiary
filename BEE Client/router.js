@@ -1,15 +1,29 @@
 /*
   Router - Matches requests with handlers
 */
-function route(handle, pathname, response) {
+
+var config = require('./config');
+
+function route(handle, pathname, data) {
   console.log("About to route a request for " + pathname);
   if (typeof handle[pathname] === 'function') {
-    handle[pathname](response);
+    handle[pathname](data);
   } else {
     console.log("No request handler found for " + pathname);
-    response.writeHead(404, {"Content-Type": "text/plain"});
-    response.write("404 Not found");
-    response.end();
+
+    var queueToSendTo = "Error";
+
+    message = {
+      action: "ERROR",
+      to: "Control",
+      from: config.uuid,
+      data: "No request handler found for route" + pathname,
+      machineid: config.macAddress
+    }
+          
+    connection.publish(queueToSendTo, message,{replyTo: queueName, correlationId: uuid});
+    console.log("Sent message: ");
+    console.log(message);
 } }
 
 exports.route = route;

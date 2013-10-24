@@ -19,7 +19,7 @@ data['data'] = ""
 data['machineid'] = "havsbdjhlbasd"
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(
-    host='192.168.1.106'))
+    host='127.0.0.1'))
 
 channel = connection.channel()
 

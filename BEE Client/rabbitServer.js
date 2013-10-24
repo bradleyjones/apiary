@@ -60,8 +60,9 @@ function alertHive(queueName, hiveIP){
   //Get Systems Mac Address for ID purpose.  
   getMac.getMac(function(err,macAddress){
       if (err)  throw err;
-      console.log(macAddress);       
-      console.log(hiveIP);
+
+      //Set macAddress global
+      config.macAddress = macAddress;
       
       //Start Server
       var connection = amqp.createConnection
@@ -82,8 +83,8 @@ function alertHive(queueName, hiveIP){
             action: "HANDSHAKE",
             to: "Control",
             from: "Unidentified",
-            data: uuid,
-            machineid: macAddress
+            data: "",
+            machineid: config.macAddress
           }
           
           connection.publish(queueToSendTo, message,{replyTo: queueName, correlationId: uuid});

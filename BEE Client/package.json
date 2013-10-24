@@ -22,7 +22,6 @@
   "dependencies" : {
     "socket.io" :  "*",
     "amqp" :  "*",
-    "xml2js" : "*",
     "getmac" : "*"
   },
   "license": "APACHE"
