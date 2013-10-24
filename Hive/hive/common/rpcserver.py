@@ -67,18 +67,18 @@ class RPCServer(object):
         self.channel = channel
         self.channel.add_on_close_callback(self.onchannel_closed)
         self.channel.queue_declare(self.on_queue_declareok, self.queue)
-    
+
     def on_queue_declareok(self, method_frame):
         self.channel.add_on_cancel_callback(self.onconsumer_cancelled)
         self.consumer_tag = self.channel.basic_consume(self.onRequest,
-                                                         self.queue)
+                                                       self.queue)
 
     def onchannel_closed(self, channel, reply_code, reply_text):
         self.connection.close()
 
     def onconsumer_cancelled(self, method_frame):
         self.logger.info('Consumer was cancelled remotely, shutting down: %r',
-                    method_frame)
+                         method_frame)
         if self.channel:
             self.channel.close()
 
@@ -96,14 +96,16 @@ class RPCServer(object):
             self.channel.basic_cancel(self.on_cancelok, self.consumer_tag)
         self.connection.ioloop.start()
         self.logger.info("RabbitMQ Connection Stopped")
-    
+
     def on_cancelok(self, frame):
-        self.logger.info('RabbitMQ acknowledged the cancellation of the consumer')
+        self.logger.info(
+            'RabbitMQ acknowledged the cancellation of the consumer')
         self.channel.close()
     # Parse the Request
     # Pass the Action and Data down to the action router
     # Make a response to send back to the client
     # Fire off responses and acknowledge message
+
     def onRequest(self, ch, method, props, body):
         starttime = time.time()
 
@@ -116,7 +118,7 @@ class RPCServer(object):
             self.logger.info('Message Received: %s', str(request))
 
             try:
-                self.router(request["action"], request["data"], rpcresp)
+                self.router(request["action"], request, rpcresp)
             except Exception as e:
                 rpcresp.action = "Error"
                 rpcresp.data = traceback.format_exc()

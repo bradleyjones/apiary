@@ -2,6 +2,7 @@ import uuid
 import random
 import json
 from pubsubserver import PubSubServer
+import logging
 
 
 class Controller(object):
@@ -10,7 +11,8 @@ class Controller(object):
         self.agents = {}
         self.config = config
         self.extra_data()
-   
+        self.logger = logging.getLogger(__name__)
+
     def extra_data(self):
         pass
 
@@ -22,6 +24,6 @@ class Controller(object):
 
     def event(self, data, key=None):
         self.pubsub.publish_msg(data, key)
-    
+
     def default(self, data, resp):
         resp.respond("THIS IS THE DEFAULT ACTION")

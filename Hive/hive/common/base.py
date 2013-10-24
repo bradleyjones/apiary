@@ -1,6 +1,7 @@
 import logging
 from configobj import ConfigObj, ConfigObjError
 from rpcserver import RPCServer
+import sys
 
 
 class Base(object):
@@ -25,12 +26,13 @@ class Base(object):
         try:
             cont.run()
             server.run()
-        except Exception as e: 
+        except Exception as e:
             self.logger.error("Errors Occured: %s", str(e))
         except KeyboardInterrupt:
             server.stop()
-        finally: 
+        finally:
             self.logger.info("Exiting...")
+            sys.exit(0)
 
     def loadConfig(self, filepath):
         try:

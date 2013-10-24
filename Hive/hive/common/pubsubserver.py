@@ -27,4 +27,6 @@ class PubSubServer(object):
         self.channel.basic_publish(exchange=self.exchange,
                                    routing_key=routing_key,
                                    body=msg)
-        self.logger.info("Publishing message: %s to routing key %s" % (msg, routing_key))
+        self.logger.info(
+            "Publishing message: %s to routing key %s" %
+            (msg, routing_key))
