@@ -16,8 +16,8 @@ setup(
     install_requires=[
         "configobj >= 4.7.2",
         "pika >= 0.9.13",
-        "jsonschema",
-        "apns",
+        "jsonschema >= 2.2.0",
+        "apns >= 1.1.2",
     ],
     entry_points={
         'console_scripts':
