@@ -14,10 +14,8 @@ class PubSubServer(object):
         self.channel.exchange_declare(exchange=self.exchange, type='topic')
         self.channel.basic_qos(prefetch_count=1)
         self.routing_key = routing_key
-        self.identifier = name
         self.logger = logging.getLogger(__name__)
-        self.logger.info("Identifier: %s", self.identifier)
-        self.logger.info("Publish Subscribe Server Started!")
+        self.logger.info("Publish Server Started!")
 
     def publish_msg(self, msg, routing_key=None):
         if routing_key is None:

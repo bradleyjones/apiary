@@ -38,6 +38,7 @@ class Controller(Parent):
         response[agent.id] = {}
         response[agent.id]['dead'] = bool(agent.dead)
         response[agent.id]['heartbeat'] = agent.heartbeat
+        response[agent.id]['authenticated'] = bool(agent.authenticated)
         return response
 
     # BELOW THIS LINE ARE ALL CONTROLLER ACTIONS
@@ -70,6 +71,13 @@ class Controller(Parent):
         agent = self.agents.find(data["data"])
         response = self.make_agent_message(agent, {})
         resp.respond(json.dumps(response))
+
+    def authenticate(self, data, resp):
+        agent = self.agents.find(data["data"])
+        agent.authenticated = True
+        self.logger.info("Authenticating Agent: %s", agent.id) 
+        self.agents.save(agent)
+        self.send_agent_event(agent)
 
     def default(self, data, resp):
         resp.respond("THIS IS THE DEFAULT ACTION")

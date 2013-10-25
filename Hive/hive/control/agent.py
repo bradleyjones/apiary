@@ -3,9 +3,10 @@ import sqlite3
 
 class Agent(object):
 
-    def __init__(self, id, heartbeat, dead=False):
+    def __init__(self, id, heartbeat, dead=False, authenticated=False):
         self.id = id
         self.dead = dead
+        self.authenticated = authenticated
         self.heartbeat = heartbeat
 
 
@@ -16,6 +17,7 @@ class AgentModel(object):
         self.c = self.conn.cursor()
         self.c.execute('''create table if not exists Agents(
                 UUID TEXT PRIMARY KEY NOT NULL,
+                AUTHENTICATED INT NOT NULL,
                 DEAD INT NOT NULL,
                 HEARTBEAT REAL NOT NULL)''')
 
@@ -27,22 +29,24 @@ class AgentModel(object):
         one = self.c.fetchone()
         if one is None:
             self.c.execute(
-                "INSERT INTO Agents VALUES (?, ?, ?)",
+                "INSERT INTO Agents VALUES (?, ?, ?, ?)",
                 (agent.id,
+                 agent.authenticated,
                  agent.dead,
                  agent.heartbeat))
         else:
             self.c.execute(
-                "UPDATE Agents SET DEAD=?, HEARTBEAT=?  WHERE UUID=?",
+                "UPDATE Agents SET DEAD=?, HEARTBEAT=?, AUTHENTICATED=? WHERE UUID=?",
                 (agent.dead,
                  agent.heartbeat,
+                 agent.authenticated,
                  agent.id))
         self.conn.commit()
 
     def findAll(self):
         agents = {}
-        for row in self.c.execute("SELECT * FROM Agents"):
-            agents[row[0]] = Agent(row[0], row[2], row[1])
+        for row in self.c.execute("SELECT UUID, HEARTBEAT, DEAD, AUTHENTICATED FROM Agents"):
+            agents[row[0]] = Agent(row[0], row[1], row[2], row[3])
         return agents
 
     def delete(self, agent):
@@ -52,9 +56,10 @@ class AgentModel(object):
 
     def find(self, id):
         t = (id, )
-        self.c.execute("SELECT * FROM Agents WHERE UUID=?", t)
-        one = self.c.fetchone()
-        if one is None:
+        self.c.execute("SELECT UUID, HEARTBEAT, DEAD, AUTHENTICATED FROM Agents WHERE UUID=?", t)
+        row = self.c.fetchone()
+        if row is None:
             return None
         else:
-            return Agent(one[0], one[2], one[1])
+            print row
+            return Agent(row[0], row[1], row[2], row[3])

@@ -12,14 +12,14 @@ def on_response(ch, method, props, body):
         resp = body
 
 data = {}
-data['action'] = "HANDSHAKE"
+data['action'] = "AUTHENTICATE"
 data['to'] = "control"
 data['from'] = "Unknown Worker"
-data['data'] = ""
+data['data'] = "d563187e-c876-4553-9ff8-6e1bc7b8b600"
 data['machineid'] = "havsbdjhlbasd"
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(
-    host='192.168.1.106'))
+    host='127.0.0.1'))
 
 channel = connection.channel()
 
