@@ -11,12 +11,15 @@ class Controller(Parent):
 
     def extra_data(self):
         self.agents = AgentModel(self.config)
+        self.start_thread()
+
+    def start_thread(self):
         t = Timer(30, self.mark_dead_agents, ())
         t.daemon = True
         t.start()
 
     def mark_dead_agents(self):
-        self.logger.info("Scanning for Dead Agents...")
+        self.logger.debug("Scanning for Dead Agents...")
         agentmodel = AgentModel(self.config)
         agents = agentmodel.findAll()
         for key, agent in agents.iteritems():
@@ -25,9 +28,7 @@ class Controller(Parent):
                 self.logger.info("Agent %s is Dead!", agent.id)
                 self.send_agent_event(agent)
                 agentmodel.save(agent)
-        t = Timer(30, self.mark_dead_agents, ())
-        t.daemon = True
-        t.start()
+        self.start_thread()
 
     def send_agent_event(self, agent):
         event = self.make_agent_message(agent, {})
