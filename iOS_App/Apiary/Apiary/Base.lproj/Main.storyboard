@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
     </dependencies>
     <scenes>
-        <!--View Controller - Apiary-->
+        <!--View Controller - Project Apiary-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
                 <viewController id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
@@ -20,22 +20,104 @@
                                 <rect key="frame" x="0.0" y="0.0" width="42" height="40"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rQw-Ax-zF6">
-                                <rect key="frame" x="0.0" y="63" width="320" height="417"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hlz-wM-02v">
+                                <rect key="frame" x="110" y="382" width="100" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="View Agents">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="aLa-Aa-sET" kind="push" id="XhG-pQ-Fn2"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ApiaryAvatar.png" translatesAutoresizingMaskIntoConstraints="NO" id="mkY-BR-DQv">
+                                <rect key="frame" x="40" y="112" width="240" height="236"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Project Apiary" id="wG5-K6-jvP">
+                        <barButtonItem key="rightBarButtonItem" title="Options >" id="r6F-pm-ZfB">
+                            <connections>
+                                <segue destination="sGp-TZ-Acb" kind="push" id="wjC-YK-Pst"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="719" y="69"/>
+        </scene>
+        <!--Web View Controller-->
+        <scene sceneID="A9x-ch-aJ8">
+            <objects>
+                <viewController id="aLa-Aa-sET" customClass="WebViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="OdU-8y-f7M"/>
+                        <viewControllerLayoutGuide type="bottom" id="KkT-xN-OhX"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="qWx-3e-dNi">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V73-pD-dDb">
+                                <rect key="frame" x="0.0" y="66" width="320" height="414"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </webView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Apiary" id="wG5-K6-jvP"/>
+                    <navigationItem key="navigationItem" id="FBL-CE-oeo">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="XIg-Du-1oh"/>
+                    </navigationItem>
                     <connections>
-                        <outlet property="webView" destination="rQw-Ax-zF6" id="s4V-gd-you"/>
+                        <outlet property="webView" destination="V73-pD-dDb" id="EjQ-YU-fSG"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Hb-Nz-oDX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="799" y="69"/>
+            <point key="canvasLocation" x="1126" y="344"/>
+        </scene>
+        <!--Web View Controller - Options-->
+        <scene sceneID="9h8-Mm-p9v">
+            <objects>
+                <viewController id="sGp-TZ-Acb" customClass="WebViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="DyS-GH-3fR"/>
+                        <viewControllerLayoutGuide type="bottom" id="1YK-Zg-dCB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6Y5-h6-t4i">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Apiary Hive IP:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FqA-Ay-8nx">
+                                <rect key="frame" x="10" y="209" width="113" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="http://169.254.185.138" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XQW-X9-7Et">
+                                <rect key="frame" x="131" y="205" width="169" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Options" id="COS-6q-l19">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="W03-wZ-GHP"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="HiveIpField" destination="XQW-X9-7Et" id="vBn-UM-1UN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jZV-Dc-yD1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1126" y="-316"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="SbH-eS-uPS">

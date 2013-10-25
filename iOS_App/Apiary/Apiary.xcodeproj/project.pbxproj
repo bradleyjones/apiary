@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		75A82B0D181A8B2300B67D14 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A82B0C181A8B2300B67D14 /* WebViewController.m */; };
 		75ED12F818194B5A00EFB4E5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75ED12F718194B5A00EFB4E5 /* Foundation.framework */; };
 		75ED12FA18194B5A00EFB4E5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75ED12F918194B5A00EFB4E5 /* CoreGraphics.framework */; };
 		75ED12FC18194B5A00EFB4E5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75ED12FB18194B5A00EFB4E5 /* UIKit.framework */; };
@@ -35,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		75A82B0B181A8B2300B67D14 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		75A82B0C181A8B2300B67D14 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		75ED12F418194B5A00EFB4E5 /* Apiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Apiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		75ED12F718194B5A00EFB4E5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		75ED12F918194B5A00EFB4E5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -117,6 +120,8 @@
 				75ED130618194B5B00EFB4E5 /* AppDelegate.h */,
 				75ED130718194B5B00EFB4E5 /* AppDelegate.m */,
 				75ED130918194B5B00EFB4E5 /* Main.storyboard */,
+				75A82B0B181A8B2300B67D14 /* WebViewController.h */,
+				75A82B0C181A8B2300B67D14 /* WebViewController.m */,
 				75ED132C1819ADED00EFB4E5 /* ApiaryAvatar.png */,
 				75ED130C18194B5B00EFB4E5 /* ViewController.h */,
 				75ED130D18194B5B00EFB4E5 /* ViewController.m */,
@@ -254,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				75ED130E18194B5B00EFB4E5 /* ViewController.m in Sources */,
+				75A82B0D181A8B2300B67D14 /* WebViewController.m in Sources */,
 				75ED130818194B5B00EFB4E5 /* AppDelegate.m in Sources */,
 				75ED130418194B5A00EFB4E5 /* main.m in Sources */,
 			);
@@ -466,6 +472,7 @@
 				75ED132818194B5B00EFB4E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		75ED132918194B5B00EFB4E5 /* Build configuration list for PBXNativeTarget "ApiaryTests" */ = {
 			isa = XCConfigurationList;
@@ -474,6 +481,7 @@
 				75ED132B18194B5B00EFB4E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
