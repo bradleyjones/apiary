@@ -2,17 +2,18 @@
 from ..common.base import Base
 import controller
 import routes
-
+from markagentthread import MarkAgentsThread
 
 class Control(Base):
 
     def __init__(self):
         Base.__init__(self, "control")
+        self.agentsThread = MarkAgentsThread(self.config)
 
-    def migrate(self):
-        pass
+    def extraThreads(self):
+        self.agentsThread.start()
 
 
 def main():
     control = Control()
-    control.startServer(routes, controller)
+    control.start(routes, controller)

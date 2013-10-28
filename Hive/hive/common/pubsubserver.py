@@ -15,7 +15,7 @@ class PubSubServer(object):
         self.channel.basic_qos(prefetch_count=1)
         self.routing_key = routing_key
         self.logger = logging.getLogger(__name__)
-        self.logger.info("Publish Server Started!")
+        self.logger.info("Pub Sub connection made.")
 
     def publish_msg(self, msg, routing_key=None):
         if routing_key is None:

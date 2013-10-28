@@ -4,42 +4,17 @@ import json
 from ..common.controller import Controller as Parent
 from agent import Agent, AgentModel
 import time
-from threading import Timer
 
 
 class Controller(Parent):
 
     def extra_data(self):
         self.agents = AgentModel(self.config)
-        self.start_thread()
-
-    def start_thread(self):
-        t = Timer(30, self.mark_dead_agents, ())
-        t.daemon = True
-        t.start()
-
-    def mark_dead_agents(self):
-        self.logger.debug("Scanning for Dead Agents...")
-        agentmodel = AgentModel(self.config)
-        agents = agentmodel.findAll()
-        for key, agent in agents.iteritems():
-            if (agent.heartbeat + 300) < time.time():
-                agent.dead = True
-                self.logger.info("Agent %s is Dead!", agent.id)
-                self.send_agent_event(agent)
-                agentmodel.save(agent)
-        self.start_thread()
 
     def send_agent_event(self, agent):
-        event = self.make_agent_message(agent, {})
+        event = {}
+        event[agent.id] = agent.to_hash()
         self.event(json.dumps(event), 'agents')
-
-    def make_agent_message(self, agent, response):
-        response[agent.id] = {}
-        response[agent.id]['dead'] = bool(agent.dead)
-        response[agent.id]['heartbeat'] = agent.heartbeat
-        response[agent.id]['authenticated'] = bool(agent.authenticated)
-        return response
 
     # BELOW THIS LINE ARE ALL CONTROLLER ACTIONS
 
@@ -65,12 +40,13 @@ class Controller(Parent):
         agents = self.agents.findAll()
         response = {}
         for key, agent in agents.iteritems():
-            response = self.make_agent_message(agent, response)
+            response[agent.id] = agent.to_hash()
         resp.respond(json.dumps(response))
 
     def get_single_agent(self, data, resp):
         agent = self.agents.find(data["data"])
-        response = self.make_agent_message(agent, {})
+        response = {}
+        response[agent.id] = agent.to_hash()
         resp.respond(json.dumps(response))
 
     def authenticate(self, data, resp):
