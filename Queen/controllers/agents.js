@@ -8,9 +8,9 @@ exports.individual = function(req, res){
   var msg = rabbit.constructMessage('SINGLEAGENT', 'control', req.params.id)
   new rabbit.rpc('control', msg, function(data){
     console.log("SINGLE: ", data)
-    var agent = data.agent;
+    var agent = data.data;
     console.log(agent)
-    if (agent != '') {
+    if (agent != null) {
       req.params.machineid = agent.machineid
       res.render('agent.jade', agent);
     } else {

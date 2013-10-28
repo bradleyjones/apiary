@@ -45,8 +45,12 @@ class Controller(Parent):
 
     def get_single_agent(self, data, resp):
         agent = self.agents.find(data["data"])
-        response = {}
-        response[agent.id] = agent.to_hash()
+        print "ASDFGHJSAHDGVBASKDHGBANSD"
+        print agent
+        response = None
+        if agent is not None:
+          response = {}
+          response[agent.id] = agent.to_hash()
         resp.respond(response)
 
     def authenticate(self, data, resp):
