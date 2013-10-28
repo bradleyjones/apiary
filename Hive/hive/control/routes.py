@@ -7,5 +7,6 @@ class Routes(Parent):
         self.action("HANDSHAKE", "handshake")
         self.action("ALLAGENTS", "get_agents")
         self.action("AUTHENTICATE", "authenticate")
+        self.action("HEARTBEAT", "heartbeat")
         self.action("SINGLEAGENT", "get_single_agent")
         self.action("GOODBYE", "goodbye")
