@@ -13,11 +13,14 @@ from pkg_resources import resource_string
 from StringIO import StringIO
 import json
 from jsonschema import validate
+import threading
 
 
-class RPCServer(object):
+class RPCServer(threading.Thread):
 
     def __init__(self, name, host, router):
+        super(RPCServer, self).__init__()
+        self.daemon = True
         self.queue = name
         self.host = host
         self.connection = None

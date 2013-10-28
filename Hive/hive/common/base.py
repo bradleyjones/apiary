@@ -3,7 +3,6 @@ from configobj import ConfigObj, ConfigObjError
 from rpcserver import RPCServer
 import sys
 
-
 class Base(object):
 
     def __init__(self, name):
@@ -12,27 +11,34 @@ class Base(object):
             self.config['Logging']['location'],
             self.config['Logging']['level'])
         self.logger = logging.getLogger(__name__)
+        self.cont = None
+        self.router = None
+        self.server = None
 
-    def startServer(self, r, c):
-        cont = c.Controller(self.config)
-        router = r.Routes(cont)
+    def start(self, r, c):
+        self.cont = c.Controller(self.config)
+        self.router = r.Routes(self.cont)
         self.logger.info(
             "Setting Up Server on %s" %
-            self.config['Base']['rabbit_ip'])
-        server = RPCServer(
-            self.config['Base']['queue_name'],
-            self.config['Base']['rabbit_ip'],
-            router.route)
+            self.config['Rabbit']['host'])
+        self.server = RPCServer(
+            self.config['Rabbit']['queue_name'],
+            self.config['Rabbit']['host'],
+            self.router.route)
         try:
-            cont.run()
-            server.run()
+            self.extraThreads()
+            self.cont.run()
+            self.server.run()
         except Exception as e:
             self.logger.error("Errors Occured: %s", str(e))
         except KeyboardInterrupt:
-            server.stop()
+            self.server.stop()
         finally:
             self.logger.info("Exiting...")
             sys.exit(0)
+
+    def extraThreads(self):
+        pass
 
     def loadConfig(self, filepath):
         try:

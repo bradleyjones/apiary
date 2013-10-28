@@ -1,11 +1,15 @@
 [Base]
-    rabbit_ip = 127.0.0.1
+
+[Rabbit]
+    host = 192.168.1.106
     queue_name = control
     event_prefix = control
+    username = joe
+    password = blogs
 
 [Logging]
     level = info
     location = control.log
 
 [Database]
-  filepath = control.db
+    filepath = control.db 

@@ -9,6 +9,12 @@ class Agent(object):
         self.authenticated = authenticated
         self.heartbeat = heartbeat
 
+    def to_hash(self):
+        response = {}
+        response['dead'] = bool(self.dead)
+        response['heartbeat'] = self.heartbeat
+        response['authenticated'] = bool(self.authenticated)
+        return response
 
 class AgentModel(object):
 

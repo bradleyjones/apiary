@@ -1,11 +1,15 @@
 [Base]
-    rabbit_ip = 127.0.0.1
-    queue_name = control
-    event_prefix = control
+
+[Rabbit]
+    host = 192.168.1.106
+    queue_name = honeycomb
+    event_prefix = honeycomb
+    username = joe
+    password = blogs
 
 [Logging]
     level = info
-    location = control.log
+    location = honeycomb.log
 
 [Database]
-  filepath = control.db
+    filepath = honeycomb.db 
