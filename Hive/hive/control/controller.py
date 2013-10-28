@@ -41,13 +41,13 @@ class Controller(Parent):
         response = {}
         for key, agent in agents.iteritems():
             response[agent.id] = agent.to_hash()
-        resp.respond(json.dumps(response))
+        resp.respond(response)
 
     def get_single_agent(self, data, resp):
         agent = self.agents.find(data["data"])
         response = {}
         response[agent.id] = agent.to_hash()
-        resp.respond(json.dumps(response))
+        resp.respond(response)
 
     def authenticate(self, data, resp):
         agent = self.agents.find(data["data"])

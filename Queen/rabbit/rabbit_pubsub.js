@@ -23,9 +23,8 @@ exports.PubSub = function(exchangeName, topic, callback){
       queue.bind(exchange, self.topic);
       queue.subscribe(function (message) {
         // Get original message string:
-        var msg = message.data.toString('ascii', 0, message.data.length)
-        console.log(msg);
-        self.callback(msg)
+        console.log(JSON.parse(message));
+        self.callback(JSON.parse(JSON.parse(message)))
       });
     });
   });
