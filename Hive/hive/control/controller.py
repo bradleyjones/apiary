@@ -51,6 +51,7 @@ class Controller(Parent):
         resp.respond(id)
 
     def heartbeat(self, data, resp):
+        self.logger.debug("Received HeartBeat from: %s", data["from"])
         agent = self.agents.find(data["from"])
         agent.heartbeat = time.time()
         self.agents.save(agent)
