@@ -1,4 +1,4 @@
-from agent import AgentModel, Agent
+from agent import Agent
 import time
 from ..common.pubsubserver import PubSubServer
 import threading 
@@ -17,7 +17,7 @@ class MarkAgentsThread(threading.Thread):
             'events',
             self.config['Rabbit']['host'],
             self.config['Rabbit']['event_prefix'])
-        agentmodel = AgentModel(self.config)
+        agentmodel = Agent(self.config)
         while(True):
             agents = agentmodel.findAll()
             time.sleep(30)
