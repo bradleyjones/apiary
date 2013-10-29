@@ -8,4 +8,5 @@ class Agent(Model):
         self.addcolumn('HEARTBEAT', 'REAL')
         self.addcolumn('DEAD', 'BOOL')
         self.addcolumn('AUTHENTICATED', 'BOOL')
+        self.addcolumn('QUEUE', 'TEXT')
         self.setprimary('UUID')

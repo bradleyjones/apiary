@@ -25,6 +25,7 @@ class Controller(Parent):
         agent.HEARTBEAT = time.time()
         agent.DEAD = False
         agent.AUTHENTICATED = False
+        agent.QUEUE = data['reply_to']
         self.agents.save(agent)
         self.send_agent_event(agent)
         resp.respond(id)
