@@ -6,6 +6,6 @@ class Agent(Model):
     def define(self):
         self.addcolumn('UUID', 'TEXT') 
         self.addcolumn('HEARTBEAT', 'REAL')
-        self.addcolumn('DEAD', 'INT')
-        self.addcolumn('AUTHENTICATED', 'INT')
+        self.addcolumn('DEAD', 'BOOL')
+        self.addcolumn('AUTHENTICATED', 'BOOL')
         self.setprimary('UUID')

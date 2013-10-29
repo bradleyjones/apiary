@@ -7,11 +7,14 @@ class ModelObject(object):
         self.primary = primary
         pos = 0
         self.columns = columns
-        for column in columns:
+        for column, typ in columns.iteritems():
             if data is None:
                 setattr(self, column, None)
             else: 
-                setattr(self, column, data[pos])
+                if typ is "BOOL": 
+                    setattr(self, column, bool(data[pos]))
+                else:
+                    setattr(self, column, data[pos])
                 pos = pos + 1
 
     def to_hash(self):
@@ -51,6 +54,8 @@ class Model(object):
         query = query + '(' 
         query = query + self.primary + " " + self.columns[self.primary] + " NOT NULL"
         for key, typ in self.columns.iteritems():
+            if typ is "BOOL":
+                typ = "INT"
             if key is not self.primary:
                 query = query + ", " + key + " " + typ + " NOT NULL"
         query = query + ')' 
@@ -107,8 +112,8 @@ class Model(object):
         return agents
 
     def find(self, id):
-        t = (self.primary, id)
-        self.c.execute("SELECT * FROM '%s' WHERE ?=?" % self.tablename, t)
+        t = (id, )
+        self.c.execute("SELECT * FROM '%s' WHERE %s=?" % (self.tablename, self.primary), t)
         row = self.c.fetchone()
         if row is None:
             return None

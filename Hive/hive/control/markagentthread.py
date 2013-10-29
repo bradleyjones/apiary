@@ -3,6 +3,7 @@ import time
 from ..common.pubsubserver import PubSubServer
 import threading 
 import logging
+import json
 
 class MarkAgentsThread(threading.Thread): 
 
@@ -23,10 +24,11 @@ class MarkAgentsThread(threading.Thread):
             time.sleep(30)
             self.logger.info("Scanning for Dead Agents...")
             for key, agent in agents.iteritems():
-                if (agent.heartbeat + 300) < time.time():
-                    agent.dead = True
-                    self.logger.info("Agent %s is Dead!", agent.id)
-                    event = {}
-                    event[agent.id] = agent.to_hash
-                    self.pubsub.publish_msg(json.dumps(event), 'agents')
-                    agentmodel.save(agent)
+                if (agent.HEARTBEAT + 300) < time.time():
+                    if not agent.DEAD:
+                        agent.DEAD = True
+                        self.logger.info("Agent %s is Dead!", agent.UUID)
+                        event = {}
+                        event[agent.UUID] = agent.to_hash()
+                        self.pubsub.publish_msg(json.dumps(event), 'agents')
+                        agentmodel.save(agent)

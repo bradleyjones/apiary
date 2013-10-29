@@ -49,8 +49,6 @@ class Controller(Parent):
 
     def get_single_agent(self, data, resp):
         agent = self.agents.find(data["data"])
-        print "ASDFGHJSAHDGVBASKDHGBANSD"
-        print agent
         response = None
         if agent is not None:
           response = {}
