@@ -12,15 +12,15 @@ class MarkAgentsThread(threading.Thread):
         self.config = config
         self.logger = logging.getLogger(__name__)
         self.daemon = True
-
-    def run(self):
         self.pubsub = PubSubServer(
             'events',
             self.config['Rabbit']['host'],
             self.config['Rabbit']['event_prefix'])
-        agentmodel = Agent(self.config)
+
+    def run(self):
+        self.agentmodel = Agent(self.config)
         while(True):
-            agents = agentmodel.findAll()
+            agents = self.agentmodel.findAll()
             time.sleep(30)
             self.logger.info("Scanning for Dead Agents...")
             for key, agent in agents.iteritems():
@@ -31,4 +31,4 @@ class MarkAgentsThread(threading.Thread):
                         event = {}
                         event[agent.UUID] = agent.to_hash()
                         self.pubsub.publish_msg(json.dumps(event), 'agents')
-                        agentmodel.save(agent)
+                        self.agentmodel.save(agent)
