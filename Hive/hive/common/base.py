@@ -24,7 +24,9 @@ class Base(object):
         self.server = RPCServer(
             self.config['Rabbit']['queue_name'],
             self.config['Rabbit']['host'],
-            self.router.route)
+            self.router.route,
+            self.config['Rabbit']['username'],
+            self.config['Rabbit']['password'])
         try:
             self.extraThreads()
             self.cont.run()

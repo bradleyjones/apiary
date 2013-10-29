@@ -15,7 +15,9 @@ class MarkAgentsThread(threading.Thread):
         self.pubsub = PubSubServer(
             'events',
             self.config['Rabbit']['host'],
-            self.config['Rabbit']['event_prefix'])
+            self.config['Rabbit']['event_prefix'],
+            self.config['Rabbit']['username'],
+            self.config['Rabbit']['password'])
 
     def run(self):
         self.agentmodel = Agent(self.config)
