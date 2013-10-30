@@ -90,6 +90,7 @@ function alertHive(queueName, hiveIP){
           connection.publish(queueToSendTo, message,{replyTo: queueName, correlationId: uuid});
           console.log("Sent message: ");
           console.log(message);
+          connection.end();
         }
       );       
   });

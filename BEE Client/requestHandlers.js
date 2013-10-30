@@ -125,6 +125,7 @@ function pushOntoMessageBus(to, queue, action, data){
      connection.publish(queue, message,{replyTo: config.queueName, correlationId: config.uuid});
      console.log("Sent message: ");
      console.log(message);
+     connection.end();
      }
   );
 }
