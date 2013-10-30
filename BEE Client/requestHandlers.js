@@ -18,22 +18,6 @@ function initialise(messageData){
   config.clientID = messageData.data;
   console.log(config.clientID);
   console.log("Initialisation Complete.");
-
-  //Spawn HeartBeat thread.
-  heartBeat();
-
-  //Asynch Heart Beat
-  function heartBeat(){
-    setTimeout(function(){
-      var queueToSendTo = "control";
-
-      pushOntoMessageBus("Control", "control", "HEARTBEAT", "");
-      console.log("----^----");
-
-      heartBeat();
-    }, 25000);
-  }
-
 }
 
 /*
