@@ -5,11 +5,12 @@ import logging
 
 class PubSubServer(object):
 
-    def __init__(self, name, host, routing_key):
+    def __init__(self, name, host, routing_key, username, password):
         self.exchange = name
         self.host = host
+        self.credentials = pika.PlainCredentials(username, password)
         self.connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host=self.host))
+            pika.ConnectionParameters(host=self.host, credentials=self.credentials))
         self.channel = self.connection.channel()
         self.channel.exchange_declare(exchange=self.exchange, type='topic')
         self.channel.basic_qos(prefetch_count=1)

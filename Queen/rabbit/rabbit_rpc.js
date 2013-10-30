@@ -23,7 +23,7 @@ exports.RPCQuery = function(queueName, data, callback){
         if(self.correlationId = m.correlationId){
           clearTimeout(timeout)
           connection.end()
-          callback(message.data.toString())
+          callback(JSON.parse(message.data))
         }
       })
       connection.publish(queueName, data, {

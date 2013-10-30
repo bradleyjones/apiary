@@ -13,13 +13,17 @@ def on_response(ch, method, props, body):
 
 data = {}
 data['action'] = "HANDSHAKE"
+#data['action'] = "SINGLEAGENT"
+#data['action'] = "ALLAGENTS"
 data['to'] = "control"
 data['from'] = "Unknown Worker"
-data['data'] = "d563187e-c876-4553-9ff8-6e1bc7b8b600"
+data['data'] = "8683e383-36d0-4fbd-88b0-a16ce8b0ad43"
 data['machineid'] = "havsbdjhlbasd"
 
+credentials = pika.PlainCredentials('apiary', 'bees')
+
 connection = pika.BlockingConnection(pika.ConnectionParameters(
-    host='192.168.1.106'))
+    host='192.168.1.106', credentials=credentials))
 
 channel = connection.channel()
 

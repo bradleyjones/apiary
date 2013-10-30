@@ -18,7 +18,7 @@ import threading
 
 class RPCServer(threading.Thread):
 
-    def __init__(self, name, host, router):
+    def __init__(self, name, host, router, username, password):
         super(RPCServer, self).__init__()
         self.daemon = True
         self.queue = name
@@ -28,6 +28,7 @@ class RPCServer(threading.Thread):
         self.closing = False
         self.router = router
         self.identifier = name
+        self.credentials = pika.PlainCredentials(username, password)
         self.machineid = str(get_mac())
         self.consumer_tag = None
         self.schema = json.loads(
@@ -43,7 +44,7 @@ class RPCServer(threading.Thread):
 
     def connect(self):
         return pika.SelectConnection(
-            pika.ConnectionParameters(host=self.host),
+            pika.ConnectionParameters(host=self.host, credentials=self.credentials),
             self.onconnection_open,
             stop_ioloop_on_close=False)
 
@@ -119,6 +120,7 @@ class RPCServer(threading.Thread):
         try:
             request = self.jsonToHash(body)
             self.logger.info('Message Received: %s', str(request))
+            request['reply_to'] = props.reply_to
 
             try:
                 self.router(request["action"], request, rpcresp)

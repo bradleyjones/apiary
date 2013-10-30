@@ -63,10 +63,12 @@ socket.on('offline', function(data) {
 });
 
 socket.on('init', function(data) {
-  console.log(data.agents);
-  for (var agent in data.agents) {
-    data.agents[agent].id = agent
-    addAgent(data.agents[agent], true);
+  console.log(data);
+  for (var agent in data.data) {
+    // Set the id field to send through as one object
+    data.data[agent].id = agent
+    console.log(data.data[agent])
+    addAgent(data.data[agent], true);
   }
 });
 

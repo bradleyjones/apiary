@@ -20,7 +20,9 @@ class Controller(object):
         self.pubsub = PubSubServer(
             'events',
             self.config['Rabbit']['host'],
-            self.config['Rabbit']['event_prefix'])
+            self.config['Rabbit']['event_prefix'],
+            self.config['Rabbit']['username'],
+            self.config['Rabbit']['password'])
 
     def event(self, data, key=None):
         self.pubsub.publish_msg(data, key)

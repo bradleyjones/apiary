@@ -3,15 +3,14 @@ var pubsub = require('./rabbit_pubsub')
 var parseXML = require('xml2js').parseString
 
 exports.constructMessage = function(action, queueName, data){
-  message = ""+
-    "<?xml version='1.0' encoding='utf8'?>" +
-    "<message>" +
-      "<action>"+ action +"</action>" +
-      "<to>" + queueName + "</to>" +
-      "<from>Queen</from>" +
-      "<data>" + data + "</data>" +
-      "<machineid></machineid>" +
-    "</message>";
+  if(typeof(data)==='undefined') data = "";
+  message = {
+    action: action,
+    data: data,
+    to: queueName,
+    machineid: '',
+    from: 'Queen'
+  };
 
   return message;
 }
@@ -30,16 +29,13 @@ exports.getData = function(message){
 
 exports.rpc = function(queueName, data, callback){
   rpc.RPCQuery(queueName, data, function(message){
-    var data = exports.getData(message)
-    var data2 = exports.getData(data.message.data)
-    callback(data2)
+    callback(message)
   })
 }
 
 exports.pubsub = function(exchangeName, topic, callback){
   pubsub.PubSub(exchangeName, topic, function(message){
-    var data = exports.getData(message)
-    console.log("PUBSUB: ", data)
-    callback(data)
+    console.log("PUBSUB: ", message)
+    callback(message)
   })
 }

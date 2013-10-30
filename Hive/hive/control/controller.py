@@ -2,25 +2,30 @@ import uuid
 import random
 import json
 from ..common.controller import Controller as Parent
-from agent import Agent, AgentModel
+from agent import Agent
 import time
 
 
 class Controller(Parent):
 
     def extra_data(self):
-        self.agents = AgentModel(self.config)
+        self.agents = Agent(self.config)
 
     def send_agent_event(self, agent):
         event = {}
-        event[agent.id] = agent.to_hash()
+        event[agent.UUID] = agent.to_hash()
         self.event(json.dumps(event), 'agents')
 
     # BELOW THIS LINE ARE ALL CONTROLLER ACTIONS
 
     def handshake(self, data, resp):
         id = str(uuid.uuid4())
-        agent = Agent(id, time.time())
+        agent = self.agents.new()
+        agent.UUID = id
+        agent.HEARTBEAT = time.time()
+        agent.DEAD = False
+        agent.AUTHENTICATED = False
+        agent.QUEUE = data['reply_to']
         self.agents.save(agent)
         self.send_agent_event(agent)
         resp.respond(id)
@@ -40,19 +45,21 @@ class Controller(Parent):
         agents = self.agents.findAll()
         response = {}
         for key, agent in agents.iteritems():
-            response[agent.id] = agent.to_hash()
-        resp.respond(json.dumps(response))
+            response[agent.UUID] = agent.to_hash()
+        resp.respond(response)
 
     def get_single_agent(self, data, resp):
         agent = self.agents.find(data["data"])
-        response = {}
-        response[agent.id] = agent.to_hash()
-        resp.respond(json.dumps(response))
+        response = None
+        if agent is not None:
+          response = {}
+          response[agent.UUID] = agent.to_hash()
+        resp.respond(response)
 
     def authenticate(self, data, resp):
         agent = self.agents.find(data["data"])
         agent.authenticated = True
-        self.logger.info("Authenticating Agent: %s", agent.id) 
+        self.logger.info("Authenticating Agent: %s", agent.UUID) 
         self.agents.save(agent)
         self.send_agent_event(agent)
 
