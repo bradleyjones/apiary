@@ -44,7 +44,9 @@ class RPCServer(threading.Thread):
 
     def connect(self):
         return pika.SelectConnection(
-            pika.ConnectionParameters(host=self.host, credentials=self.credentials),
+            pika.ConnectionParameters(
+                host=self.host,
+                credentials=self.credentials),
             self.onconnection_open,
             stop_ioloop_on_close=False)
 

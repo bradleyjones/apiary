@@ -1,11 +1,12 @@
 from agent import Agent
 import time
 from ..common.pubsubserver import PubSubServer
-import threading 
+import threading
 import logging
 import json
 
-class MarkAgentsThread(threading.Thread): 
+
+class MarkAgentsThread(threading.Thread):
 
     def __init__(self, config):
         super(MarkAgentsThread, self).__init__()
@@ -24,7 +25,7 @@ class MarkAgentsThread(threading.Thread):
         while(True):
             agents = self.agentmodel.findAll()
             time.sleep(30)
-            self.logger.info("Scanning for Dead Agents...")
+            self.logger.debug("Scanning for Dead Agents...")
             for key, agent in agents.iteritems():
                 if (agent.HEARTBEAT + 300) < time.time():
                     if not agent.DEAD:

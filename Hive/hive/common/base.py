@@ -3,6 +3,7 @@ from configobj import ConfigObj, ConfigObjError
 from rpcserver import RPCServer
 import sys
 
+
 class Base(object):
 
     def __init__(self, name):

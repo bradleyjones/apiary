@@ -52,14 +52,14 @@ class Controller(Parent):
         agent = self.agents.find(data["data"])
         response = None
         if agent is not None:
-          response = {}
-          response[agent.UUID] = agent.to_hash()
+            response = {}
+            response[agent.UUID] = agent.to_hash()
         resp.respond(response)
 
     def authenticate(self, data, resp):
         agent = self.agents.find(data["data"])
         agent.authenticated = True
-        self.logger.info("Authenticating Agent: %s", agent.UUID) 
+        self.logger.info("Authenticating Agent: %s", agent.UUID)
         self.agents.save(agent)
         self.send_agent_event(agent)
 

@@ -1,6 +1,7 @@
 import sqlite3
 from collections import OrderedDict
 
+
 class ModelObject(object):
 
     def __init__(self, columns, primary, data=None):
@@ -10,8 +11,8 @@ class ModelObject(object):
         for column, typ in columns.iteritems():
             if data is None:
                 setattr(self, column, None)
-            else: 
-                if typ is "BOOL": 
+            else:
+                if typ is "BOOL":
                     setattr(self, column, bool(data[pos]))
                 else:
                     setattr(self, column, data[pos])
@@ -31,34 +32,35 @@ class Model(object):
         self.c = self.conn.cursor()
         self.columns = OrderedDict()
         self.primary = None
-        self.tablename = self.__class__.__name__ + "s" 
+        self.tablename = self.__class__.__name__ + "s"
         self.define()
         self.migrate()
-     
+
     def setprimary(self, name):
         if self.primary is not None:
             raise Exception("Primary already defined")
 
         if name in self.columns:
-            self.primary = name 
+            self.primary = name
         else:
             raise Exception("Primary not in columns")
 
     def addcolumn(self, name, tpe):
         if name in self.columns:
             raise Exception("Can't have duplicate column names")
-        self.columns[name] = tpe 
+        self.columns[name] = tpe
 
     def migrate(self):
         query = '''create table if not exists ''' + self.tablename
-        query = query + '(' 
-        query = query + self.primary + " " + self.columns[self.primary] + " NOT NULL"
+        query = query + '('
+        query = query + self.primary + " " + \
+            self.columns[self.primary] + " NOT NULL"
         for key, typ in self.columns.iteritems():
             if typ is "BOOL":
                 typ = "INT"
             if key is not self.primary:
                 query = query + ", " + key + " " + typ + " NOT NULL"
-        query = query + ')' 
+        query = query + ')'
         self.c.execute(query)
 
     def define(self):
@@ -77,7 +79,7 @@ class Model(object):
             query = "INSERT INTO '%s' VALUES (" % self.tablename
             first = True
             for column in self.columns:
-                if not first: 
+                if not first:
                     query = query + ', '
                 else:
                     first = False
@@ -88,7 +90,7 @@ class Model(object):
             query = "UPDATE '%s' SET " % self.tablename
             first = True
             for column in self.columns:
-                if not first: 
+                if not first:
                     query = query + ', '
                 else:
                     first = False
@@ -113,7 +115,9 @@ class Model(object):
 
     def find(self, id):
         t = (id, )
-        self.c.execute("SELECT * FROM '%s' WHERE %s=?" % (self.tablename, self.primary), t)
+        self.c.execute(
+            "SELECT * FROM '%s' WHERE %s=?" %
+            (self.tablename, self.primary), t)
         row = self.c.fetchone()
         if row is None:
             return None
