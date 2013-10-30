@@ -18,8 +18,32 @@ function initialise(messageData){
   config.clientID = messageData.data;
   console.log(config.clientID);
   console.log("Initialisation Complete.");
+
+  //Spawn HeartBeat thread.
+  heartBeat();
+
+  //Asynch Heart Beat
+  function heartBeat(){
+    setTimeout(function(){
+      var queueToSendTo = "control";
+
+      pushOntoMessageBus("Control", "control", "HEARTBEAT", "");
+      console.log("----^----");
+
+      heartBeat();
+    }, 25000);
+  }
+
 }
 
+/*
+  Heatbeat handler
+*/
+function heartbeat(messageData){
+
+  pushOntoMessageBus("Control", "control", "HEARTBEAT", "");
+  console.log("----^----");
+}
 
 
 /*
@@ -85,52 +109,39 @@ function throwError(message, data){
   console.log(message)
   console.log(data);
 
-  var queueToSendTo = "Error";
-
-  message = {
-    action: "ERROR",
-    to: "Control",
-    from: config.uuid,
-    data: message + data,
-    machineid: config.macAddress
-  }
-          
-  connection.publish(queueToSendTo, message,{replyTo: queueName, correlationId: config.uuid});
-  console.log("Sent message: ");
-  console.log(message)
+  pushOntoMessageBus("Control", "Error", "ERROR", message + data); 
 }
 
 /*
   Helper Function - Push to MessageBus
 */
-function pushOntoMessageBus(message, hiveIP){
+function pushOntoMessageBus(to, queue, action, data){
   
-  //Open Rabbit Connection
+  //Start connection
   var connection = amqp.createConnection
   (
-    {host: hiveIP}
+    {host: config.hiveIP} // Set to config file
   );
   
   //On connection push message
   connection.on
   (
     'ready', 
-    function()
-    {
-      var queueToSendTo = "testMessageQueue";
+     function()
+     {
 
-      connection.publish
-      (
-        queueToSendTo, 
-        message
-      );
-
-      console.log
-      (
-        "Sent message: "
-        + message
-      );
-    }
+     message = {
+            action: action,
+            to: to,
+            from: config.clientID,
+            data: data,
+            machineid: config.macAddress
+     }
+          
+     connection.publish(queue, message,{replyTo: config.queueName, correlationId: config.uuid});
+     console.log("Sent message: ");
+     console.log(message);
+     }
   );
 }
 
@@ -138,6 +149,7 @@ function pushOntoMessageBus(message, hiveIP){
 exports.initialise = initialise;
 exports.addTarget = addTarget;
 exports.removeTarget = removeTarget;
+exports.heartbeat = heartbeat;
 
 
 

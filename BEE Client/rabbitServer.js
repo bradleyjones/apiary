@@ -15,17 +15,17 @@ function start(route, handle) {
   console.log("BEE has started.");
 
   //Start Server
-  var connection = amqp.createConnection
+  config.connection = amqp.createConnection
   (
   	{host: config.hiveIP} // Set to config file
   );
 
   //Once connection up
-  connection.on
+  config.connection.on
   ('ready', function(){
 
     //Set receive queue
-  	connection.queue("", 
+  	config.connection.queue("",
   		{autoDelete: false,
        exclusive: true}, 
   		function(queue){

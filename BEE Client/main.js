@@ -13,6 +13,7 @@ var requestHandlers = require("./requestHandlers");
 
 var handle = {}
 handle["DONE"] = requestHandlers.initialise;
+handle["HEARTBEAT"] = requestHandlers.heartbeat;
 handle["addTarget"] = requestHandlers.addTarget;
 handle["removeTarget"] = requestHandlers.removeTarget;
 
