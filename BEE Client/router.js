@@ -21,7 +21,7 @@ function route(handle, pathname, data) {
       machineid: config.macAddress
     }
           
-    config.connection.publish(queueToSendTo, message,{replyTo: queueName, correlationId: uuid});
+    config.connection.publish(queueToSendTo, message,{replyTo: queueName, correlationId: config.cID});
     console.log("Sent message: ");
     console.log(message);
 } }

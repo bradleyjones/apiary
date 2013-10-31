@@ -25,7 +25,8 @@ function initialise(messageData){
 */
 function heartbeat(messageData){
 
-  pushOntoMessageBus("Control", "control", "HEARTBEAT", "");
+  console.log(messageData);
+  pushOntoMessageBus("Control", "control", "HEARTBEAT", "Beat");
   console.log("----^----");
 }
 
@@ -99,35 +100,21 @@ function throwError(message, data){
 /*
   Helper Function - Push to MessageBus
 */
-function pushOntoMessageBus(to, queue, action, data){
-  
-  //Start connection
-  var connection = amqp.createConnection
-  (
-    {host: config.hiveIP} // Set to config file
-  );
-  
-  //On connection push message
-  connection.on
-  (
-    'ready', 
-     function()
-     {
-
-     message = {
+function pushOntoMessageBus(to, queueToSendTo, action, data){
+       
+    message = {
             action: action,
             to: to,
             from: config.clientID,
             data: data,
             machineid: config.macAddress
-     }
-          
-     connection.publish(queue, message,{replyTo: config.queueName, correlationId: config.uuid});
-     console.log("Sent message: ");
-     console.log(message);
-     connection.end();
-     }
-  );
+    }
+  
+    config.connection.publish(queueToSendTo, message, {correlationId: config.cID});
+
+    console.log("Sent message: ");
+    console.log(message);
+    console.log("On Queue : " +queueToSendTo);
 }
 
 //Expose functions for Router

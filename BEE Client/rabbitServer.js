@@ -3,8 +3,6 @@
 */
 
 //Libraries
-var http = require("http");
-var url = require("url");
 var amqp = require('amqp');
 var config = require('./config');
 var getMac = require('getmac');
@@ -27,6 +25,7 @@ function start(route, handle) {
     //Set receive queue
   	config.connection.queue("",
   		{autoDelete: false,
+       durable: true,
        exclusive: true}, 
   		function(queue){
 
@@ -63,36 +62,23 @@ function alertHive(queueName, hiveIP){
 
       //Set macAddress global
       config.macAddress = macAddress;
-      
-      //Start Server
-      var connection = amqp.createConnection
-      (
-      	{host: hiveIP} // Set to config file
-      );
-  
-      //On connection push message
-      connection.on
-      (
-        'ready', 
-        function()
-        {
-          var queueToSendTo = "control";
-          uuid = generateUUID();          
 
-          message = {
-            action: "HANDSHAKE",
-            to: "Control",
-            from: "Unidentified",
-            data: "",
-            machineid: config.macAddress
-          }
+      //TODO Check if ID already present, could be preinitialised machine reconnecting.      
+
+      var queueToSendTo = "control";
+      config.cID = generateUUID();          
+
+      message = {
+        action: "HANDSHAKE",
+        to: "Control",
+        from: "Unidentified",
+        data: "",
+        machineid: config.macAddress
+      }
           
-          connection.publish(queueToSendTo, message,{replyTo: queueName, correlationId: uuid});
-          console.log("Sent message: ");
-          console.log(message);
-          connection.end();
-        }
-      );       
+      config.connection.publish(queueToSendTo, message,{replyTo: queueName, correlationId: config.cID});
+      console.log("Sent message: ");
+      console.log(message);      
   });
 }
 
