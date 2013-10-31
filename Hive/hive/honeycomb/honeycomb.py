@@ -12,4 +12,4 @@ class Honeycomb(Base):
 
 def main():
     honeycomb = Honeycomb()
-    honeycomb.startServer(routes, controller)
+    honeycomb.start(routes, controller)
