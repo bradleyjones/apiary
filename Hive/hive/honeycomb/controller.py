@@ -3,6 +3,5 @@ import logging
 
 class Controller(object):
 
-    def default(self, data):
-        logging.info("Data Received to default controller action: %s", data)
-        return "THIS IS THE DEFAULT ACTION"
+    def get(self, data, resp):
+        resp.response("GET STUFF!")
