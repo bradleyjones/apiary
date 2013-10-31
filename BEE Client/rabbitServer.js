@@ -76,7 +76,7 @@ function alertHive(queueName, hiveIP){
         machineid: config.macAddress
       }
           
-      config.connection.publish(queueToSendTo, message,{replyTo: queueName, correlationId: config.cID});
+      config.connection.publish(queueToSendTo, message,{replyTo: queueName});
       console.log("Sent message: ");
       console.log(message);      
   });
