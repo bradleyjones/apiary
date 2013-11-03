@@ -14,7 +14,7 @@ class Control(Base):
 
     def extraThreads(self):
         self.agentsThread.start()
-        self.heartbeat.start()
+        #self.heartbeat.start()
 
 
 def main():
