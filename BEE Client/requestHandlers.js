@@ -9,6 +9,13 @@ var fs = require('fs');
 var amqp = require ('amqp');
 var config = require('./config')
 
+//Field Variables
+var interval = {};
+var heartbeatFunction = function(){ // possibly just make normal function
+  pushOntoMessageBus("Control", "control", "HEARTBEAT", "Beat");
+  console.log("----^----");
+};
+
 /*
   Initialise
   Takes response from initial handshake and handles data.
@@ -18,18 +25,10 @@ function initialise(messageData){
   config.clientID = messageData.data;
   console.log(config.clientID);
   console.log("Initialisation Complete.");
+
+  //Start heartbeat interval
+  interval = setInterval(heartbeatFunction, config.intervalTimeout);
 }
-
-/*
-  Heatbeat handler
-*/
-function heartbeat(messageData){
-
-  console.log(messageData);
-  pushOntoMessageBus("Control", "control", "HEARTBEAT", "Beat");
-  console.log("----^----");
-}
-
 
 /*
   AddTarget
@@ -71,6 +70,10 @@ function addTarget(messageData) {
           console.log(lines);
           pushOntoMessageBus(lines, config.hiveIP);//Push onto Message Bus
           startByte = stats.size;
+
+          //Reset Interval Timer 
+          clearInterval(interval);
+          interval = setInterval(heartbeatFunction, config.intervalTimeout);
         });
       });
     });
@@ -121,7 +124,6 @@ function pushOntoMessageBus(to, queueToSendTo, action, data){
 exports.initialise = initialise;
 exports.addTarget = addTarget;
 exports.removeTarget = removeTarget;
-exports.heartbeat = heartbeat;
 
 
 

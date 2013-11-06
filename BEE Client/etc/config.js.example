@@ -1,6 +1,7 @@
 var config = {};
 
 config.hiveIP = '25.199.138.99';
+config.intervalTimeout = 20000;
 
 
 //LEAVE BLANK, CONFIGURED BY INITIALISATION
