@@ -21,13 +21,19 @@ var heartbeatFunction = function(){ // possibly just make normal function
   Takes response from initial handshake and handles data.
 */
 function initialise(messageData){
+
+  if(config.heartbeatInterval == undefined){
+    console.log ("No heatbeat interval defined, update config file.");
+    process.exit(1);
+  }
+
   console.log("Setting client ID:");
   config.clientID = messageData.data;
   console.log(config.clientID);
   console.log("Initialisation Complete.");
 
   //Start heartbeat interval
-  interval = setInterval(heartbeatFunction, config.intervalTimeout);
+  interval = setInterval(heartbeatFunction, config.heartbeatInterval);
 }
 
 /*
@@ -73,7 +79,7 @@ function addTarget(messageData) {
 
           //Reset Interval Timer 
           clearInterval(interval);
-          interval = setInterval(heartbeatFunction, config.intervalTimeout);
+          interval = setInterval(heartbeatFunction, config.heartbeatInterval);
         });
       });
     });

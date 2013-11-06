@@ -12,6 +12,11 @@ function start(route, handle) {
 
   console.log("BEE has started.");
 
+  if(config.hiveIP == undefined){
+    console.log ("No hive locator, update config file.");
+    process.exit(1);
+  }
+
   //Start Server
   config.connection = amqp.createConnection
   (
