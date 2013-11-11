@@ -14,8 +14,6 @@ class Base(object):
             self.config['Logging']['location'],
             self.config['Logging']['level'])
         self.logger = logging.getLogger(__name__)
-        self.cont = None
-        self.router = None
 
     def start(self, r, c):
         # Initialise the controllers and router
