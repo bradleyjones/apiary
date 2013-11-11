@@ -64,7 +64,7 @@ class Model(object):
         self.c.execute(query)
 
     def define(self):
-        pass
+        raise NotImplementedError()
 
     def new(self):
         return ModelObject(self.columns, self.primary)

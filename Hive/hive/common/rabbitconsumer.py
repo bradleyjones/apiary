@@ -16,10 +16,10 @@ from jsonschema import validate
 import threading
 
 
-class RPCServer(threading.Thread):
+class RabbitConsumer(threading.Thread):
 
     def __init__(self, name, host, router, username, password):
-        super(RPCServer, self).__init__()
+        super(RabbitConsumer, self).__init__()
         self.daemon = True
         self.queue = name
         self.host = host

@@ -36,12 +36,13 @@ class HeartbeatThread(threading.Thread):
                         event = {}
                         event[agent.UUID] = agent.to_hash()
                         self.channel.basic_publish('',
-                                              agent.QUEUE,
-                                              self.makeMessage(agent.UUID),
-                                              pika.BasicProperties(
-                                                  content_type='text/plain',
-                                                  delivery_mode=1,
-                                                  reply_to='control'))
+                                                   agent.QUEUE,
+                                                   self.makeMessage(
+                                                       agent.UUID),
+                                                   pika.BasicProperties(
+                                                       content_type='text/plain',
+                                                       delivery_mode=1,
+                                                       reply_to='control'))
 
     def makeMessage(self, to):
         response = {}

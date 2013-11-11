@@ -3,9 +3,10 @@ import logging
 
 class Routes(object):
 
-    def __init__(self, controller):
+    def __init__(self, controller, config):
         self.routes = {}
         self.controller = controller
+        self.config = config
         self.logger = logging.getLogger(__name__)
         self.setupRoutes()
         self.logger.info("Routes Loaded: " + str(self.routes.keys()))
@@ -18,7 +19,8 @@ class Routes(object):
         if action not in self.routes:
             raise RoutingException("Route not found for: " + action)
         else:
-            method = getattr(self.controller, self.routes[action], None)
+            cont = self.controller(self.config)
+            method = getattr(cont, self.routes[action], None)
             if not callable(method):
                 raise RoutingException(
                     "Action not found in controller: " + str(self.routes[action]))

@@ -1,7 +1,9 @@
 import logging
 from configobj import ConfigObj, ConfigObjError
-from rpcserver import RPCServer
+from rabbitconsumer import RabbitConsumer
+from rabbitsubscriber import RabbitSubscriber
 import sys
+import time
 
 
 class Base(object):
@@ -14,28 +16,39 @@ class Base(object):
         self.logger = logging.getLogger(__name__)
         self.cont = None
         self.router = None
-        self.server = None
 
     def start(self, r, c):
-        self.cont = c.Controller(self.config)
-        self.router = r.Routes(self.cont)
+        # Initialise the controllers and router
+        self.router = r(c, self.config)
+
         self.logger.info(
             "Setting Up Server on %s" %
             self.config['Rabbit']['host'])
-        self.server = RPCServer(
+
+        # Create the RPC consumer and data subscribers
+        rpc = RabbitConsumer(
             self.config['Rabbit']['queue_name'],
             self.config['Rabbit']['host'],
             self.router.route,
             self.config['Rabbit']['username'],
             self.config['Rabbit']['password'])
+
+        subscriber = RabbitSubscriber()
+
         try:
+            # Threads
             self.extraThreads()
-            self.cont.run()
-            self.server.run()
+            rpc.start()
+            subscriber.start()
+
+            while True:
+                time.sleep(1)
+
         except Exception as e:
             self.logger.error("Errors Occured: %s", str(e))
         except KeyboardInterrupt:
-            self.server.stop()
+            rpc.stop()
+            # subscriber.stop()
         finally:
             self.logger.info("Exiting...")
             sys.exit(0)

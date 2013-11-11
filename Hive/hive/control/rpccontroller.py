@@ -6,9 +6,9 @@ from agent import Agent
 import time
 
 
-class Controller(Parent):
+class RPCController(Parent):
 
-    def extra_data(self):
+    def models(self):
         self.agents = Agent(self.config)
 
     def send_agent_event(self, agent):
@@ -33,7 +33,8 @@ class Controller(Parent):
     def heartbeat(self, data, resp):
         self.logger.debug("Received HeartBeat from: %s", data["from"])
         agent = self.agents.find(data["from"])
-        agent.heartbeat = time.time()
+        agent.HEARTBEAT = time.time()
+        agent.DEAD = False
         self.agents.save(agent)
 
     def goodbye(self, data, resp):
@@ -58,7 +59,7 @@ class Controller(Parent):
 
     def authenticate(self, data, resp):
         agent = self.agents.find(data["data"])
-        agent.authenticated = True
+        agent.AUTHENTICATED = True
         self.logger.info("Authenticating Agent: %s", agent.UUID)
         self.agents.save(agent)
         self.send_agent_event(agent)
