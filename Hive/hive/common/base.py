@@ -15,9 +15,9 @@ class Base(object):
             self.config['Logging']['level'])
         self.logger = logging.getLogger(__name__)
 
-    def start(self, r, c):
+    def start(self, r):
         # Initialise the controllers and router
-        self.router = r(c, self.config)
+        self.router = r(self.config)
 
         self.logger.info(
             "Setting Up Server on %s" %
@@ -25,18 +25,25 @@ class Base(object):
 
         # Create the RPC consumer and data subscribers
         rpc = RabbitConsumer(
-            self.config['Rabbit']['queue_name'],
+            self.config['Rabbit']['rpc_queue'],
             self.config['Rabbit']['host'],
             self.router.route,
             self.config['Rabbit']['username'],
             self.config['Rabbit']['password'])
 
-        subscriber = RabbitSubscriber()
+        subscriber = RabbitSubscriber(
+            self.config['Rabbit']['sub_queue'],
+            self.config['Rabbit']['host'],
+            self.router.route,
+            self.config['Rabbit']['username'],
+            self.config['Rabbit']['password'])
 
         try:
             # Threads
             self.extraThreads()
+            time.sleep(1)
             rpc.start()
+            time.sleep(1)
             subscriber.start()
 
             while True:
@@ -46,7 +53,7 @@ class Base(object):
             self.logger.error("Errors Occured: %s", str(e))
         except KeyboardInterrupt:
             rpc.stop()
-            # subscriber.stop()
+            subscriber.stop()
         finally:
             self.logger.info("Exiting...")
             sys.exit(0)

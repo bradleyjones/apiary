@@ -20,10 +20,10 @@ data['from'] = "Unknown Worker"
 data['data'] = "8683e383-36d0-4fbd-88b0-a16ce8b0ad43"
 data['machineid'] = "havsbdjhlbasd"
 
-credentials = pika.PlainCredentials('guest', 'guest')
+credentials = pika.PlainCredentials('apiary', 'bees')
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(
-    host='127.0.0.1', credentials=credentials))
+    host='192.168.1.106', credentials=credentials))
 
 channel = connection.channel()
 

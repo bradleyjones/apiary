@@ -6,7 +6,7 @@ from agent import Agent
 import time
 
 
-class RPCController(Parent):
+class Controller(Parent):
 
     def models(self):
         self.agents = Agent(self.config)
