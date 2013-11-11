@@ -47,11 +47,12 @@ class ControlMarker(Base):
         except KeyboardInterrupt:
             self.stop()
         finally:
-            self.logger.info("Exiting...") 
+            self.logger.info("Exiting...")
             sys.exit(0)
-    
+
     def stop(self):
         pass
+
 
 def main():
     controlmarker = ControlMarker()

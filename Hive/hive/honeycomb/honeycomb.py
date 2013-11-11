@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from ..common.base import Base
-import controller
-import routes
+from . import controller
+from . import routes
 
 
 class Honeycomb(Base):
