@@ -8,6 +8,8 @@ var server = http.createServer(app).listen(3000);
 var jade = require('jade');
 var io = require('socket.io').listen(server);
 
+exports.io = io;
+
 // Setup express to use views and public folder
 // Use Jade as the template engine for views
 app.set('views', __dirname + '/views');
@@ -29,3 +31,5 @@ var agents = require('./controllers/agents');
 
 app.get('/agents', agents.list);
 app.get('/agents/:id', agents.individual);
+
+

@@ -23,7 +23,7 @@ exports.PubSub = function (exchangeName, topic, callback) {
 
         // Consumer:
         connection.queue('', {exclusive: true}, function (queue) {
-            queue.bind(exchange, self.topic);
+            //queue.bind(exchange, self.topic);
             queue.subscribe(function (message) {
                 // Get original message string:
                 console.log(JSON.parse(message));

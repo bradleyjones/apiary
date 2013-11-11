@@ -17,7 +17,7 @@ exports.RPCQuery = function (queueName, data, callback) {
         self.correlationId = crypto.randomBytes(16).toString('hex');
         var timeout = setTimeout(function (corr_id) {
                 console.error(new Error("timeout " + corr_id));
-                connection.end();
+                //connection.end();
             }, TIMEOUT, self.correlationId);
 
         connection.queue('', {exclusive: true}, function (queue) {

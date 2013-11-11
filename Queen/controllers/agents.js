@@ -2,6 +2,8 @@
 
 var config = require('../config/config.js');
 var rabbit = require('../rabbit/rabbit');
+var main = require('../server.js');
+var io = main.io;
 
 exports.list = function (req, res) {
     res.render('agents.jade');
