@@ -4,7 +4,7 @@ from ..common.routes import Routes as Parent
 class Routes(Parent):
 
     def setupRoutes(self):
-        # RPC Controller Actions 
+        # RPC Controller Actions
         self.action("HANDSHAKE", "handshake", 'hive.control.rpccontroller')
         self.action("ALLAGENTS", "get_agents", 'hive.control.rpccontroller')
         self.action(

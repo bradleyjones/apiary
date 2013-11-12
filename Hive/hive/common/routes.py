@@ -13,7 +13,7 @@ class Routes(object):
 
     def setupRoutes(self):
         raise NotImplementedError()
-    
+
     def my_import(self, name):
         __import__(name)
         return sys.modules[name]
@@ -23,7 +23,11 @@ class Routes(object):
         if action not in self.routes:
             raise RoutingException("Route not found for: " + action)
         else:
-            cont = self.my_import(self.routes[action][1]).Controller(self.config)
+            cont = self.my_import(
+                self.routes[
+                    action][
+                    1]).Controller(
+                self.config)
             method = getattr(cont, self.routes[action][0], None)
             if not callable(method):
                 raise RoutingException(

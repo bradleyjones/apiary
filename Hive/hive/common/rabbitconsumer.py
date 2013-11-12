@@ -72,7 +72,10 @@ class RabbitConsumer(threading.Thread):
     def onchannel_open(self, channel):
         self.channel = channel
         self.channel.add_on_close_callback(self.onchannel_closed)
-        self.channel.queue_declare(self.on_queue_declareok, self.queue)
+        self.channel.queue_declare(
+            self.on_queue_declareok,
+            self.queue,
+            durable=True)
 
     def on_queue_declareok(self, method_frame):
         self.channel.add_on_cancel_callback(self.onconsumer_cancelled)
