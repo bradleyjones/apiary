@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 from ..common.base import Base
-from . import controller
-from . import routes
+from routes import Routes
 
 
 class Honeycomb(Base):
@@ -12,4 +11,4 @@ class Honeycomb(Base):
 
 def main():
     honeycomb = Honeycomb()
-    honeycomb.start(routes, controller)
+    honeycomb.start(Routes)
