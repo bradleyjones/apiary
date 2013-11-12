@@ -15,7 +15,7 @@ class Controller(Parent):
 
     def heartbeat(self, data, resp):
         self.logger.debug("Received HeartBeat from: %s", data["from"])
-        agent = self.agents.find(data["from"])
+        agent = self.agents.find(data["data"])
         agent.HEARTBEAT = time.time()
         agent.DEAD = False
         self.agents.save(agent)

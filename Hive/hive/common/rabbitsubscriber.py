@@ -20,7 +20,10 @@ class RabbitSubscriber(threading.Thread):
 
     def __init__(self, name, host, router, username, password):
         super(RabbitSubscriber, self).__init__()
-        self.daemon = True
+        self.daemon = True 
+        self.exchange = "apiary"
+        self.routingkey = "data.*"
+        self.exchangetype = "topic"
         self.queue = name
         self.host = host
         self.connection = None
@@ -72,9 +75,18 @@ class RabbitSubscriber(threading.Thread):
     def onchannel_open(self, channel):
         self.channel = channel
         self.channel.add_on_close_callback(self.onchannel_closed)
+        self.channel.exchange_declare(self.on_exchange_declareok,
+                                       self.exchange,
+                                       self.exchangetype)
+
+    def on_exchange_declareok(self, unused_frame):
         self.channel.queue_declare(self.on_queue_declareok, self.queue)
 
     def on_queue_declareok(self, method_frame):
+        self.channel.queue_bind(self.on_bindok, self.queue,
+                                 self.exchange, self.routingkey)
+
+    def on_bindok(self, method_frame):
         self.channel.add_on_cancel_callback(self.onconsumer_cancelled)
         self.consumer_tag = self.channel.basic_consume(self.onRequest,
                                                        self.queue)
@@ -124,7 +136,7 @@ class RabbitSubscriber(threading.Thread):
             try:
                 self.router(request["action"], request, None)
             except Exception as e:
-                self.logger.error('Inner Error Occured: %s', rpcresp.data)
+                self.logger.error('Inner Error Occured: %s', traceback.format_exc())
         except Exception as e:
             self.logger.error(
                 'Outer Error Occured: %s',
