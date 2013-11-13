@@ -53,6 +53,7 @@ class Base(object):
             self.logger.error("Errors Occured: %s", str(e))
         except KeyboardInterrupt:
             rpc.stop()
+            time.sleep(1)
             subscriber.stop()
         finally:
             self.logger.info("Exiting...")

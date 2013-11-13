@@ -1,6 +1,7 @@
 import uuid
 import pika
 import json
+from configobj import ConfigObj, ConfigObjError
 
 resp = None
 corr_id = str(uuid.uuid4())
@@ -11,21 +12,31 @@ def on_response(ch, method, props, body):
     if corr_id == props.correlation_id:
         resp = body
 
+
+def loadConfig(filepath):
+    try:
+        return ConfigObj(filepath, file_error=True)
+    except (ConfigObjError, IOError) as e:
+        logging.error("Config File Doesn't Exist: %s", filepath)
+        raise SystemExit
+
+config = loadConfig('config.ini')
+
 data = {}
 #data['action'] = "HANDSHAKE"
 #data['action'] = "SINGLEAGENT"
-#data['action'] = "ALLAGENTS"
+data['action'] = "ALLAGENTS"
 #data['action'] = "HEARTBEAT"
-data['action'] = "AUTHENTICATE"
+#data['action'] = "AUTHENTICATE"
 data['to'] = "control"
 data['from'] = "Unknown Worker"
-data['data'] = "194a44a6-35c4-4215-95af-8a81eb3cdb31"
+data['data'] = "c64b5a28-892b-4784-a55c-b2cf1579ce5a"
 data['machineid'] = "havsbdjhlbasd"
 
-credentials = pika.PlainCredentials('guest', 'guest')
+credentials = pika.PlainCredentials(config['Rabbit']['username'], config['Rabbit']['password'])
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(
-    host='127.0.0.1', credentials=credentials))
+    host=config['Rabbit']['host'], credentials=credentials))
 
 channel = connection.channel()
 

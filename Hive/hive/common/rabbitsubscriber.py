@@ -86,11 +86,6 @@ class RabbitSubscriber(threading.Thread):
             durable=True)
 
     def on_queue_declareok(self, method_frame):
-        # self.channel.queue_bind(self.on_bindok, self.queue,
-        #                         self.exchange, self.routingkey)
-        pass
-
-    def on_bindok(self, method_frame):
         self.channel.add_on_cancel_callback(self.onconsumer_cancelled)
         self.consumer_tag = self.channel.basic_consume(self.onRequest,
                                                        self.queue)
