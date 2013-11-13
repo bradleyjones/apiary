@@ -12,6 +12,10 @@ class Routes(Parent):
             "authenticate",
             'hive.control.rpccontroller')
         self.action(
+            "RELEASE",
+            "release",
+            'hive.control.rpccontroller')
+        self.action(
             "SINGLEAGENT",
             "get_single_agent",
             'hive.control.rpccontroller')

@@ -31,13 +31,6 @@ class Controller(Parent):
         self.send_agent_event(agent)
         resp.respond(id)
 
-    def heartbeat(self, data, resp):
-        self.logger.debug("Received HeartBeat from: %s", data["from"])
-        agent = self.agents.find(data["from"])
-        agent.HEARTBEAT = time.time()
-        agent.DEAD = False
-        self.agents.save(agent)
-
     def goodbye(self, data, resp):
         agent = self.agents.find(data["from"])
         self.agents.delete(agent)
@@ -62,6 +55,14 @@ class Controller(Parent):
         agent = self.agents.find(data["data"])
         agent.AUTHENTICATED = True
         self.logger.info("Authenticating Agent: %s", agent.UUID)
+        self.agents.save(agent)
+        self.send_agent_event(agent)
+
+    def release(self, data, resp):
+        agent = self.agents.find(data["data"])
+        agent.AUTHENTICATED = False
+        self.logger.info(agent.to_hash())
+        self.logger.info("Releasing Agent: %s", agent.UUID)
         self.agents.save(agent)
         self.send_agent_event(agent)
 

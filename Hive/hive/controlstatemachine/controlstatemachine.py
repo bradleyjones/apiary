@@ -14,20 +14,12 @@ class ControlStateMachine(Base):
 
     def __init__(self):
         super(ControlStateMachine, self).__init__('control')
-        self.config = self.loadConfig('control_config.ini')
         self.pubsub = PubSubServer(
             'events',
             self.config['Rabbit']['host'],
             self.config['Rabbit']['event_prefix'],
             self.config['Rabbit']['username'],
             self.config['Rabbit']['password'])
-
-    def loadConfig(self, filepath):
-        try:
-            return ConfigObj(filepath, file_error=True)
-        except (ConfigObjError, IOError) as e:
-            logging.error("Config File Doesn't Exist: %s", filepath)
-            raise SystemExit
 
     def start(self):
         try:
@@ -38,6 +30,9 @@ class ControlStateMachine(Base):
                 self.config['Rabbit']['password'])
             connection = pika.BlockingConnection(
                 pika.ConnectionParameters(host=self.config['Rabbit']['host'], credentials=credentials))
+    
+            self.logger.info("Connected!")
+
             channel = connection.channel()
 
             channel.exchange_declare(exchange='apiary',

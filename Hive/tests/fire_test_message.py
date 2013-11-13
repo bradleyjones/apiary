@@ -25,12 +25,13 @@ config = loadConfig('config.ini')
 data = {}
 #data['action'] = "HANDSHAKE"
 #data['action'] = "SINGLEAGENT"
-data['action'] = "ALLAGENTS"
+#data['action'] = "ALLAGENTS"
 #data['action'] = "HEARTBEAT"
 #data['action'] = "AUTHENTICATE"
+data['action'] = "RELEASE"
 data['to'] = "control"
 data['from'] = "Unknown Worker"
-data['data'] = "c64b5a28-892b-4784-a55c-b2cf1579ce5a"
+data['data'] = "7beaecc1-d100-433b-803f-59920cc4dd20"
 data['machineid'] = "havsbdjhlbasd"
 
 credentials = pika.PlainCredentials(config['Rabbit']['username'], config['Rabbit']['password'])

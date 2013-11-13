@@ -8,6 +8,7 @@ class ModelObject(object):
         self.primary = primary
         pos = 0
         self.columns = columns
+
         for column, typ in columns.iteritems():
             if data is None:
                 setattr(self, column, None)
@@ -54,13 +55,16 @@ class Model(object):
         query = '''create table if not exists ''' + self.tablename
         query = query + '('
         query = query + self.primary + " " + \
-            self.columns[self.primary] + " NOT NULL"
+            self.columns[self.primary] + " PRIMARY KEY"
         for key, typ in self.columns.iteritems():
             if typ is "BOOL":
                 typ = "INT"
             if key is not self.primary:
                 query = query + ", " + key + " " + typ + " NOT NULL"
         query = query + ')'
+
+        print query
+
         self.c.execute(query)
 
     def define(self):
@@ -70,8 +74,7 @@ class Model(object):
         return ModelObject(self.columns, self.primary)
 
     def save(self, model):
-        t = (self.primary, getattr(model, self.primary, None))
-        self.c.execute("DELETE FROM '%s' WHERE ?=?" % self.tablename, t)
+        self.c.execute("SELECT * FROM '%s' WHERE %s=?" % (self.tablename, self.primary), (getattr(model, self.primary, None), ))
         one = self.c.fetchone()
         tup = ()
         query = ""
@@ -94,17 +97,16 @@ class Model(object):
                     query = query + ', '
                 else:
                     first = False
-                query = query + '?=?'
-                tup = tup + (column, getattr(model, column, None))
-            query = query + " WHERE ?=? "
-            tup = tup + (self.primary, getattr(model, self.primary, None))
+                query = query + '%s=?' % column
+                tup = tup + (getattr(model, column, None), )
+            query = query + " WHERE %s=? " % self.primary
+            tup = tup + (getattr(model, self.primary, None), )
 
         self.c.execute(query, tup)
         self.conn.commit()
 
     def delete(self, model):
-        t = (self.primary, getattr(model, self.primary, None))
-        self.c.execute("DELETE FROM %s WHERE ?=?" % self.tablename, t)
+        self.c.execute("DELETE FROM %s WHERE %s=?" % (self.tablename, self.primary), (getattr(model, self.primary, None), ))
         self.conn.commit()
 
     def findAll(self):
