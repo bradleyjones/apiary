@@ -15,16 +15,17 @@ data = {}
 #data['action'] = "HANDSHAKE"
 #data['action'] = "SINGLEAGENT"
 #data['action'] = "ALLAGENTS"
-data['action'] = "HEARTBEAT"
+#data['action'] = "HEARTBEAT"
+data['action'] = "AUTHENTICATE"
 data['to'] = "control"
 data['from'] = "Unknown Worker"
-data['data'] = "3964731e-b7e4-45e6-8a50-266f899faea6"
+data['data'] = "194a44a6-35c4-4215-95af-8a81eb3cdb31"
 data['machineid'] = "havsbdjhlbasd"
 
-credentials = pika.PlainCredentials('apiary', 'bees')
+credentials = pika.PlainCredentials('guest', 'guest')
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(
-    host='192.168.1.106', credentials=credentials))
+    host='127.0.0.1', credentials=credentials))
 
 channel = connection.channel()
 
@@ -32,18 +33,18 @@ result = channel.queue_declare(exclusive=True)
 
 callback_queue = result.method.queue
 
-#channel.basic_consume(on_response, no_ack=True,
-#                      queue=callback_queue)
+channel.basic_consume(on_response, no_ack=True,
+                      queue=callback_queue)
 
-channel.basic_publish(exchange='apiary',
-                      routing_key='data.GHJAVSDV',
-#                      properties=pika.BasicProperties(
-#                          reply_to=callback_queue,
-#                          correlation_id=corr_id,
-#                      ),
-                     body=json.dumps(data))
+channel.basic_publish(exchange='',
+                     routing_key='control',
+                      properties=pika.BasicProperties(
+                          reply_to=callback_queue,
+                          correlation_id=corr_id,
+                      ),
+                    body=json.dumps(data))
 
-#while resp is None:
-#    connection.process_data_events()
+while resp is None:
+    connection.process_data_events()
 
 print resp

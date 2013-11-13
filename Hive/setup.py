@@ -23,7 +23,7 @@ setup(
         'console_scripts':
         ['apiary-honeycomb = hive.honeycomb.honeycomb:main',
          'apiary-control = hive.control.control:main',
-         'apiary-control-marker = hive.controlmarker.controlmarker:main',
+         'apiary-control-statemachine = hive.controlstatemachine.controlstatemachine:main',
          'apiary-intelligence = hive.control.intelligence:main',
          'apiary-sting = hive.sting.sting:main',
          ]

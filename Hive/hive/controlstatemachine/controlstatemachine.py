@@ -10,10 +10,10 @@ import sys
 import pika
 
 
-class ControlMarker(Base):
+class ControlStateMachine(Base):
 
     def __init__(self):
-        super(ControlMarker, self).__init__('control')
+        super(ControlStateMachine, self).__init__('control')
         self.config = self.loadConfig('control_config.ini')
         self.pubsub = PubSubServer(
             'events',
@@ -48,7 +48,7 @@ class ControlMarker(Base):
                 durable=True)
 
             while(True):
-                self.logger.info("Scanning agents...")
+                self.logger.debug("Scanning agents...")
                 agents = self.agentmodel.findAll()
                 for key, agent in agents.iteritems():
                     # Scan for Dead Agents
@@ -60,7 +60,7 @@ class ControlMarker(Base):
                         self.pubsub.publish_msg(json.dumps(event), 'agents')
                         self.agentmodel.save(agent)
                     # Bind Control Data Queue
-                    if (not agent.DEAD) and (agent.AUTHENTICATED):
+                    if (not agent.DEAD) and (agent.AUTHENTICATED) and (not agent.BOUND):
                         self.logger.info(
                             "Binding Control Data to %s" %
                             agent.UUID)
@@ -69,7 +69,20 @@ class ControlMarker(Base):
                                                'Rabbit'][
                                                'sub_queue'],
                                            routing_key='data.%s' % agent.UUID)
-                time.sleep(30)
+                        agent.BOUND = True
+                        self.agentmodel.save(agent)
+                    elif (not agent.DEAD) and (not agent.AUTHENTICATED) and (agent.BOUND):
+                        self.logger.info(
+                            "Unbinding Control Data to %s" %
+                            agent.UUID)
+                        channel.queue_unbind(exchange='apiary',
+                                           queue=self.config[
+                                               'Rabbit'][
+                                               'sub_queue'],
+                                           routing_key='data.%s' % agent.UUID)
+                        agent.BOUND = False
+                        self.agentmodel.save(agent)
+                        
         except Exception as e:
             self.logger.error("Errors Occured: %s", str(e))
         except KeyboardInterrupt:
@@ -83,5 +96,5 @@ class ControlMarker(Base):
 
 
 def main():
-    controlmarker = ControlMarker()
-    controlmarker.start()
+    controlstate = ControlStateMachine()
+    controlstate.start()
