@@ -2,7 +2,8 @@
 
 [Rabbit]
     host = 192.168.1.106
-    queue_name = control
+    rpc_queue = control
+    sub_queue = controldata
     event_prefix = control
     username = guest
     password = guest
