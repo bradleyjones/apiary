@@ -8,27 +8,41 @@ var sys = require('sys');
 var TIMEOUT = 2000; //ms time to wait
 var CONTENT_TYPE = 'application/json';
 
-exports.PubSub = function (exchangeName, topic, callback) {
+exports.PubSub = function (exchangeName, routingKey, callback) {
     var connection = amqp.createConnection({host: config.hiveIP}),
         self = this;
 
-    self.exchangeName = exchangeName;
-    self.topic = topic;
-    self.callback = callback;
+    connection.on('ready', onReady(connection, exchangeName, routingKey, callback));
+};
 
-    connection.on('ready', function () {
+function onReady(connection, name, routingKey, callback) {
+    return function() {
         console.log("connected to " + connection.serverProperties.product);
         // There is no need to declare type, 'topic' is the default:
-        var exchange = connection.exchange(self.exchangeName);
+        console.log("Setting Up Exchange");
+        var exchange = connection.exchange(name);
+   
+        console.log("Setting Up Queue");
+        connection.queue('', {exclusive: true}, onQueueCreateOk(exchange, routingKey, callback));
+    }
+}
 
-        // Consumer:
-        connection.queue('', {exclusive: true}, function (queue) {
-            //queue.bind(exchange, self.topic);
-            queue.subscribe(function (message) {
-                // Get original message string:
-                console.log(JSON.parse(message));
-                self.callback(JSON.parse(message));
-            });
-        });
-    });
-};
+function onQueueCreateOk(exchange, routingKey, callback) {
+    return function(queue) {
+        console.log("Binding queue to routingKey " + routingKey);
+        queue.bind(exchange, routingKey);
+        console.log("Subscribing to queue");
+        queue.subscribe(onMessage(callback));
+        console.log("Listening...");
+    }
+}
+
+function onMessage(callback) {
+    return function(message, headers, deliveryInfo) {
+        console.log("Message Received! Parsing...");
+        var msg = message['data'].toString('utf-8');
+        console.log(msg);
+        console.log(JSON.parse(msg));
+        callback(JSON.parse(msg));
+    }
+}

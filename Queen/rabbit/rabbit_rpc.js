@@ -26,7 +26,10 @@ exports.RPCQuery = function (queueName, data, callback) {
                 if (self.correlationId === m.correlationId) {
                     clearTimeout(timeout);
                     connection.end();
-                    callback(JSON.parse(message.data));
+                    var msg = message['data'].toString('utf-8');
+                    console.log('Parsing Response...');
+                    console.log(msg);
+                    callback(JSON.parse(msg));
                 }
                 console.log(message);
             });
