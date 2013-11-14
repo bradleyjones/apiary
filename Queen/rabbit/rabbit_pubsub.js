@@ -39,10 +39,15 @@ function onQueueCreateOk(exchange, routingKey, callback) {
 
 function onMessage(callback) {
     return function(message, headers, deliveryInfo) {
-        console.log("Message Received! Parsing...");
-        var msg = message['data'].toString('utf-8');
-        console.log(msg);
-        console.log(JSON.parse(msg));
-        callback(JSON.parse(msg));
+        try {
+            console.log("Message Received! Parsing...");
+            var msg = message['data'].toString('utf-8');
+            console.log(msg);
+            console.log(JSON.parse(msg));
+            callback(JSON.parse(msg));
+        } catch(err) {
+            console.log("There was an error: " + err);
+            return
+        }
     }
 }

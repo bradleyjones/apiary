@@ -23,15 +23,20 @@ exports.RPCQuery = function (queueName, data, callback) {
         connection.queue('', {exclusive: true}, function (queue) {
             self.responseQueue = queue.name;
             queue.subscribe(function (message, headers, deliveryInfo, m) {
-                if (self.correlationId === m.correlationId) {
-                    clearTimeout(timeout);
-                    connection.end();
-                    var msg = message['data'].toString('utf-8');
-                    console.log('Parsing Response...');
-                    console.log(msg);
-                    callback(JSON.parse(msg));
+                try {
+                    console.log(message)
+                    if (self.correlationId === m.correlationId) {
+                        clearTimeout(timeout);
+                        connection.end();
+                        var msg = message['data'].toString('utf-8');
+                        console.log('Parsing Response...');
+                        console.log(msg);
+                        callback(JSON.parse(msg));
+                    }
+                } catch(err) {
+                    console.log("Some Error Occured: " + err);
+                    return  
                 }
-                console.log(message);
             });
 
             connection.publish(queueName, data, {
