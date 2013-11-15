@@ -2,12 +2,14 @@ var socket = io.connect();
 var totalAgents = 0;
 
 function addAgent(agent, firstLoad) {
-  $("#agent-table").append('<tr id=' + agent.id + '>' +
-                           '<th><a href=/agents/' + agent.id + '>' +
-                           agent.id + '</a></th>' +
+  console.log("AGENT:");
+  console.log(agent);
+  $("#agent-table").append('<tr id=' + agent.UUID + '>' +
+                           '<th><a href=/agents/' + agent.UUID + '>' +
+                           agent.UUID + '</a></th>' +
                            '<th>' + agent.machineid +'</th>' +
                            '<th><button class="btn btn-default" ' +
-                           'onclick="setAgentOffline(' + agent.id +
+                           'onclick="setAgentOffline(' + agent.UUID +
                            ')">×</button></th></div>');
 
   totalAgents += 1;
@@ -55,7 +57,12 @@ function newAgent() {
  * Sockets
  */
 socket.on('agent', function(data) {
-  addAgent(data.agent);
+  console.log(data);
+  var value = null;
+  for(var key in data) {
+    value = data[key];
+  }
+  addAgent(value);
 });
 
 socket.on('offline', function(data) {
@@ -65,8 +72,6 @@ socket.on('offline', function(data) {
 socket.on('init', function(data) {
   console.log(data);
   for (var agent in data.data) {
-    // Set the id field to send through as one object
-    data.data[agent].id = agent
     console.log(data.data[agent])
     addAgent(data.data[agent], true);
   }
