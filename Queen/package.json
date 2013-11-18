@@ -23,8 +23,9 @@
     "socket.io" :  "*",
     "jade" :  "*",
     "amqp" :  "*",
-    "xml2js" : "*",
-    "crypto" : "*"
+    "crypto" : "*",
+    "mongoose" : "*",
+    "connect-mongo" : "*"
   },
   "license": "APACHE",
   "engines": {
