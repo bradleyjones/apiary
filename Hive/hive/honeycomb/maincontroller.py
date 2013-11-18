@@ -2,10 +2,13 @@ from pymongo import MongoClient
 from ..common.controller import Controller as Parent
 from subscription import Subscription
 
+
 class Controller(Parent):
 
     def models(self):
-        self.client = MongoClient('localhost', 27017)
+        self.client = MongoClient(
+            self.config['Database']['mongodb_host'],
+            self.config['Database']['mongodb_port'])
         self.logs = self.client['apiary']['logs']
         self.subscriptions = Subscription(self.config)
 
@@ -20,6 +23,3 @@ class Controller(Parent):
         sub = self.subscriptions.find(data)
         sub.AUTHENTICATED = False
         self.subscriptions.save(sub)
-
-    def find(self, data, resp):
-        self.logs.find_one(data)

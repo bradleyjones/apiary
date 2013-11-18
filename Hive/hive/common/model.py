@@ -74,7 +74,9 @@ class Model(object):
         return ModelObject(self.columns, self.primary)
 
     def save(self, model):
-        self.c.execute("SELECT * FROM '%s' WHERE %s=?" % (self.tablename, self.primary), (getattr(model, self.primary, None), ))
+        self.c.execute(
+            "SELECT * FROM '%s' WHERE %s=?" %
+            (self.tablename, self.primary), (getattr(model, self.primary, None), ))
         one = self.c.fetchone()
         tup = ()
         query = ""
@@ -106,7 +108,9 @@ class Model(object):
         self.conn.commit()
 
     def delete(self, model):
-        self.c.execute("DELETE FROM %s WHERE %s=?" % (self.tablename, self.primary), (getattr(model, self.primary, None), ))
+        self.c.execute(
+            "DELETE FROM %s WHERE %s=?" %
+            (self.tablename, self.primary), (getattr(model, self.primary, None), ))
         self.conn.commit()
 
     def findAll(self):
