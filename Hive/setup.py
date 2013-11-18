@@ -18,10 +18,12 @@ setup(
         "pika >= 0.9.13",
         "jsonschema >= 2.2.0",
         "apns >= 1.1.2",
+        "pymongo >= 2.6.3",
     ],
     entry_points={
         'console_scripts':
         ['apiary-honeycomb = hive.honeycomb.honeycomb:main',
+         'apiary-honeycomb-statemachine = hive.honeycombstatemachine.honeycombstatemachine:main',
          'apiary-control = hive.control.control:main',
          'apiary-control-statemachine = hive.controlstatemachine.controlstatemachine:main',
          'apiary-intelligence = hive.control.intelligence:main',

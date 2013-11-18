@@ -127,13 +127,14 @@ class RabbitSubscriber(threading.Thread):
         starttime = time.time()
 
         request = {}
+        rpcresp = RPCResponse()
 
         try:
             request = self.jsonToHash(body)
             self.logger.info('Message Received: %s', str(request))
 
             try:
-                self.router(request["action"], request, None)
+                self.router(request["action"], request, rpcresp)
             except Exception as e:
                 self.logger.error(
                     'Inner Error Occured: %s',
