@@ -11,4 +11,4 @@ class Routes(Parent):
             "hive.honeycomb.maincontroller")
 
         self.action("INSERT", "insert", "hive.honeycomb.databasecontroller")
-        self.action("GET", "get", "hive.honeycomb.databasecontroller")
+        self.action("FIND", "find", "hive.honeycomb.databasecontroller")
