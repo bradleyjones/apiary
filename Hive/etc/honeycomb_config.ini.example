@@ -2,7 +2,9 @@
 
 [Rabbit]
     host = 192.168.1.106
-    queue_name = honeycomb
+    exchange = apiary
+    rpc_queue = honeycomb
+    sub_queue = honeycombdata
     event_prefix = honeycomb
     username = guest
     password = guest
@@ -13,3 +15,6 @@
 
 [Database]
     filepath = honeycomb.db 
+    mongodb_host = 192.168.1.106
+    mongodb_port = 27017
+ 
