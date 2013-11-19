@@ -10,11 +10,14 @@ class Controller(Parent):
             self.config['Database']['mongodb_port']))
         self.logs = self.client['apiary']['logs']
 
-    def insert(self, data, resp):
-        self.logs.insert(json.loads(data['data']))
+    def insert(self, msg, resp):
+        self.logs.insert(json.loads(msg['data']))
         resp.respond("OK")
 
-    def find(self, data, resp):
-        result = self.logs.find_one(json.loads(data['data']))
-        result['_id'] = str(result['_id'])
-        resp.respond(result)
+    def find(self, msg, resp):
+        result = self.logs.find(json.loads(msg['data']))
+        response = []
+        for log in result:
+            log['_id'] = str(log['_id'])
+            response.append(log)
+        resp.respond(response)

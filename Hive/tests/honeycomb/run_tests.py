@@ -85,7 +85,7 @@ class HoneycombTestFind(HoneycombBasicTest):
             self.connection.process_data_events()
 
         self.result = json.loads(self.resp)
-        self.assertTrue(self.result['data']['Time']  == 12334231)
+        self.assertTrue(self.result['data'][0]['Time']  == 12334231)
         self.assertTrue(self.result['from'] == 'honeycomb')
         self.assertTrue(self.result['to'] == self.id)
 
