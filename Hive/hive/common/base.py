@@ -9,7 +9,7 @@ import time
 class Base(object):
 
     def __init__(self, name):
-        self.config = self.loadConfig(name + "_config.ini")
+        self.config = self.loadConfig("/etc/apiary/%s_config.ini" % name)
         self.configureLogger(
             self.config['Logging']['location'],
             self.config['Logging']['level'])
