@@ -1,12 +1,10 @@
 "use strict";
 
-var config = require('../config/config');
-var amqp = require('amqp');
-var crypto = require('crypto');
-var sys = require('sys');
-
-var TIMEOUT = 2000; //ms time to wait
-var CONTENT_TYPE = 'application/json';
+var config = require('../config/config')
+  , amqp = require('amqp')
+  , crypto = require('crypto')
+  , sys = require('sys')
+  , colors = require('colors');
 
 exports.PubSub = function (exchangeName, routingKey, callback) {
     var connection = amqp.createConnection({host: config.hiveIP}),
@@ -17,36 +15,28 @@ exports.PubSub = function (exchangeName, routingKey, callback) {
 
 function onReady(connection, name, routingKey, callback) {
     return function() {
-        console.log("connected to " + connection.serverProperties.product);
+        console.log("connected to ".green + connection.serverProperties.product.green);
         // There is no need to declare type, 'topic' is the default:
-        console.log("Setting Up Exchange");
         var exchange = connection.exchange(name);
-   
-        console.log("Setting Up Queue");
+
         connection.queue('', {exclusive: true}, onQueueCreateOk(exchange, routingKey, callback));
     }
 }
 
 function onQueueCreateOk(exchange, routingKey, callback) {
     return function(queue) {
-        console.log("Binding queue to routingKey " + routingKey);
         queue.bind(exchange, routingKey);
-        console.log("Subscribing to queue");
         queue.subscribe(onMessage(callback));
-        console.log("Listening...");
     }
 }
 
 function onMessage(callback) {
     return function(message, headers, deliveryInfo) {
         try {
-            console.log("Message Received! Parsing...");
             var msg = message['data'].toString('utf-8');
-            console.log(msg);
-            console.log(JSON.parse(msg));
             callback(JSON.parse(msg));
         } catch(err) {
-            console.log("There was an error: " + err);
+            console.log("There was an error: ".red + err.red);
             return
         }
     }

@@ -1,9 +1,9 @@
 "use strict";
 
-var config = require('../config/config.js');
-var rabbit = require('../rabbit/rabbit');
-var main = require('../server.js');
-var io = main.io;
+var config = require('../config/config.js')
+  , rabbit = require('../rabbit/rabbit')
+  , main = require('../server.js')
+  , io = main.io;
 
 exports.list = function (req, res) {
     res.render('agents.jade');
@@ -12,9 +12,7 @@ exports.list = function (req, res) {
 exports.individual = function (req, res) {
     var msg = rabbit.constructMessage('SINGLEAGENT', 'control', req.params.id);
     new rabbit.rpc('control', msg, function (data) {
-        console.log("SINGLE: ", data);
         var agent = data.data;
-        console.log(agent);
         if (agent !== null) {
             req.params.machineid = agent.machineid;
             res.render('agent.jade', agent);
@@ -37,7 +35,6 @@ io.sockets.on('connection', function (socket) {
     // Get the current number of connect agents
     var msg = rabbit.constructMessage('ALLAGENTS', 'control');
     new rabbit.rpc('control', msg, function (data) {
-        console.log("ADADASDASD", data);
         socket.emit('init', data);
     });
 

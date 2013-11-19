@@ -26,7 +26,8 @@
     "crypto" : "*",
     "mongoose" : "*",
     "connect-mongo" : "*",
-    "bcrypt" : "*"
+    "bcrypt" : "*",
+    "colors" : "*"
   },
   "license": "APACHE",
   "engines": {

@@ -6,7 +6,8 @@ var http = require('http')
   , app = express()
   , server = http.createServer(app)
   , io = require('socket.io').listen(server)
-  , MongoStore = require('connect-mongo')(express);
+  , MongoStore = require('connect-mongo')(express)
+  , colors = require('colors');
 
 exports.io = io;
 
@@ -33,7 +34,7 @@ app.configure(function () {
 
 // Start listening
 server.listen(3000, function(){
-  console.log("Queen is listening on port %d", server.address().port)
+  console.log("Queen is listening on port %d".green, server.address().port)
 })
 
 /*
@@ -44,8 +45,12 @@ var mongoose = require('mongoose')
   , User = require('./models/user');
 
 mongoose.connect('mongodb://localhost:27017/queen-users', function(err){
-  if (err) throw err;
-  console.log('Connected to MongoDB');
+  if (err) {
+    console.log("Unable to connect to mongodb".red);
+    console.log("Start the mongodb daemon by running \"mongod\"".red);
+    throw err;
+  };
+  console.log('Connected to MongoDB'.green);
 });
 
 function checkAuth(req, res, next) {
@@ -53,7 +58,6 @@ function checkAuth(req, res, next) {
     // Check that there is at least one user in the database
     User.count({}, function(err, count){
       if (err) throw err;
-      console.log("Number of users : ", count);
       if (count > 0) {
         res.render('login.jade');
       } else {
