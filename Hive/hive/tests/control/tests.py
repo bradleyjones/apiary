@@ -60,8 +60,8 @@ class HoneycombTestFind(HiveBasicTest):
         self.assertTrue(self.result['from'] == 'honeycomb')
         self.assertTrue(self.result['to'] == self.id)
 
-honeycombTestSuite = unittest.TestSuite()
-honeycombTestSuite.addTest(HoneycombTestInsert('runTest'))
-honeycombTestSuite.addTest(HoneycombTestFind('runTest'))
+testSuite = unittest.TestSuite()
+testSuite.addTest(HoneycombTestInsert('runTest', configname='control'))
+testSuite.addTest(HoneycombTestFind('runTest', configname='control'))
 
 unittest.TextTestRunner(verbosity=2).run(honeycombTestSuite)

@@ -2,6 +2,7 @@ import uuid
 import pika
 import json
 import unittest
+import logging
 from configobj import ConfigObj, ConfigObjError
 
 
@@ -15,8 +16,12 @@ def loadConfig(filepath):
 
 class HiveBasicTest(unittest.TestCase):
 
+    def __init__(self, *args, **kwargs):
+        super(HiveBasicTest, self).__init__(*args)
+        self.configname = kwargs.get('configname', "")
+
     def setUp(self):
-        self.config = loadConfig('config.ini')
+        self.config = loadConfig('%s_config.ini' % self.configname)
 
         self.credentials = pika.PlainCredentials(
             self.config['Rabbit']['username'],

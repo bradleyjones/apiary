@@ -61,7 +61,7 @@ class HoneycombTestFind(HiveBasicTest):
         self.assertTrue(self.result['to'] == self.id)
 
 honeycombTestSuite = unittest.TestSuite()
-honeycombTestSuite.addTest(HoneycombTestInsert('runTest'))
-honeycombTestSuite.addTest(HoneycombTestFind('runTest'))
+honeycombTestSuite.addTest(HoneycombTestInsert('runTest', configname='honeycomb'))
+honeycombTestSuite.addTest(HoneycombTestFind('runTest', configname='honeycomb'))
 
 unittest.TextTestRunner(verbosity=2).run(honeycombTestSuite)
