@@ -4,8 +4,8 @@ import pika
 from hive.tests.basictest import HiveBasicTest
 
 
-class HoneycombTestInsert(HiveBasicTest):
-    def runTest(self):
+class HoneycombApiTests(HiveBasicTest):
+    def testInsert(self):
         result = self.channel.queue_declare(exclusive=True)
         callback_queue = result.method.queue
         self.channel.basic_consume(self.on_response, no_ack=True,
@@ -15,7 +15,7 @@ class HoneycombTestInsert(HiveBasicTest):
         data['action'] = "INSERT"
         data['to'] = "hive"
         data['from'] = self.id
-        data['data'] = '{ "Time":12334231, "Text":"TESTESTESTESTEST" }'
+        data['data'] = '{ "Time":1234567, "Text":"TESTESTESTESTEST" }'
         data['machineid'] = "havsbdjhlbasd"
         self.channel.basic_publish(exchange='',
                               routing_key='honeycomb',
@@ -31,9 +31,8 @@ class HoneycombTestInsert(HiveBasicTest):
         self.assertTrue(self.result['data'] == 'OK')
         self.assertTrue(self.result['from'] == 'honeycomb')
         self.assertTrue(self.result['to'] == self.id)
-
-class HoneycombTestFind(HiveBasicTest):
-    def runTest(self):
+    
+    def testFind(self):
         result = self.channel.queue_declare(exclusive=True)
         callback_queue = result.method.queue
         self.channel.basic_consume(self.on_response, no_ack=True,
@@ -43,7 +42,7 @@ class HoneycombTestFind(HiveBasicTest):
         data['action'] = "FIND"
         data['to'] = "hive"
         data['from'] = self.id
-        data['data'] = '{ "Time":12334231 }'
+        data['data'] = '{ "Time":1234567 }'
         data['machineid'] = "havsbdjhlbasd"
         self.channel.basic_publish(exchange='',
                               routing_key='honeycomb',
@@ -56,12 +55,6 @@ class HoneycombTestFind(HiveBasicTest):
             self.connection.process_data_events()
 
         self.result = json.loads(self.resp)
-        self.assertTrue(self.result['data'][0]['Time']  == 12334231)
+        self.assertTrue(self.result['data'][0]['Time']  == 1234567)
         self.assertTrue(self.result['from'] == 'honeycomb')
         self.assertTrue(self.result['to'] == self.id)
-
-honeycombTestSuite = unittest.TestSuite()
-honeycombTestSuite.addTest(HoneycombTestInsert('runTest', configname='honeycomb'))
-honeycombTestSuite.addTest(HoneycombTestFind('runTest', configname='honeycomb'))
-
-unittest.TextTestRunner(verbosity=2).run(honeycombTestSuite)
