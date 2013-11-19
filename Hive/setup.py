@@ -11,7 +11,7 @@ setup(
     packages=find_packages(),
     url='http://bradleyjones.github.io/apiary',
     license='LICENSE.txt',
-    description='Middleware for the Apiery Project',
+    description='Middleware for the Apiary Project',
     long_description=open('README.md').read(),
     install_requires=[
         "configobj >= 4.7.2",
