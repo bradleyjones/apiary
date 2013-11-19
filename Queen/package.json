@@ -25,7 +25,8 @@
     "amqp" :  "*",
     "crypto" : "*",
     "mongoose" : "*",
-    "connect-mongo" : "*"
+    "connect-mongo" : "*",
+    "bcrypt" : "*"
   },
   "license": "APACHE",
   "engines": {

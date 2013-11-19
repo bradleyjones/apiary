@@ -6,9 +6,7 @@ var http = require('http')
   , app = express()
   , server = http.createServer(app)
   , io = require('socket.io').listen(server)
-  , MongoStore = require('connect-mongo')(express)
-  , mongoose = require('mongoose')
-  , User = require('./models/user');
+  , MongoStore = require('connect-mongo')(express);
 
 exports.io = io;
 
@@ -42,9 +40,26 @@ server.listen(3000, function(){
  *  Authentication
  */
 
+var mongoose = require('mongoose')
+  , User = require('./models/user');
+
+mongoose.connect('mongodb://localhost:27017/queen-users', function(err){
+  if (err) throw err;
+  console.log('Connected to MongoDB');
+});
+
 function checkAuth(req, res, next) {
   if (!req.session.user_id) {
-    res.render('login.jade');
+    // Check that there is at least one user in the database
+    User.count({}, function(err, count){
+      if (err) throw err;
+      console.log("Number of users : ", count);
+      if (count > 0) {
+        res.render('login.jade');
+      } else {
+        res.render('newuser.jade');
+      }
+    });
   } else {
     // Stop caching of restricted pages
     res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
@@ -54,18 +69,44 @@ function checkAuth(req, res, next) {
 
 app.post('/login', function (req, res) {
   var post = req.body;
-  console.log(post);
-  if (post.user == 'user' && post.password == 'pass') {
-    req.session.user_id = 1;
-    res.redirect('/');
-  } else {
-    res.send('Bad user/pass');
-  }
+
+  // Find a user with matching username
+  User.findOne({ username: post.user }, function(err, user){
+    if (!user) {
+      res.redirect('/');
+    } else {
+      // If a user is found check the password is correct
+      user.comparePassword(post.password, function(err, isMatch){
+        if (err) throw err;
+        req.session.user_id = user._id;
+        res.redirect('/');
+      })
+    }
+  });
 });
 
 app.get('/logout', function (req, res) {
   delete req.session.user_id;
   res.redirect('/');
+});
+
+app.post('/newuser', function (req, res) {
+  var post = req.body;
+
+  // Validation
+  if(!post.user || !post.password){
+    res.render('newuser.jade');
+  } else {
+    var newuser = new User({
+      username: post.user,
+      password: post.password
+    });
+    newuser.save(function(err){
+      if (err) throw err;
+      req.session.user_id = newuser._id;
+      res.redirect('/');
+    });
+  }
 });
 
 
@@ -79,8 +120,5 @@ app.get('/', checkAuth, function (req, res) {
 });
 
 var agents = require('./controllers/agents');
-
 app.get('/agents', agents.list);
 app.get('/agents/:id', agents.individual);
-
-
