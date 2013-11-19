@@ -30,7 +30,7 @@ class HoneycombStateMachine(Base):
                 self.config['Rabbit']['password'])
             connection = pika.BlockingConnection(
                 pika.ConnectionParameters(host=self.config['Rabbit']['host'], credentials=credentials))
-    
+
             self.logger.info("Connected!")
             channel = connection.channel()
             channel.exchange_declare(exchange='apiary',
@@ -60,13 +60,13 @@ class HoneycombStateMachine(Base):
                             "Unbinding Control Data to %s" %
                             sub.UUID)
                         channel.queue_unbind(exchange='apiary',
-                                           queue=self.config[
-                                               'Rabbit'][
-                                               'sub_queue'],
-                                           routing_key='data.%s' % sub.UUID)
+                                             queue=self.config[
+                                                 'Rabbit'][
+                                                 'sub_queue'],
+                                             routing_key='data.%s' % sub.UUID)
                         sub.BOUND = False
                         self.submodel.save(agent)
-                        
+
         except Exception as e:
             self.logger.error("Errors Occured: %s", str(e))
         except KeyboardInterrupt:
@@ -77,6 +77,7 @@ class HoneycombStateMachine(Base):
 
     def stop(self):
         pass
+
 
 def main():
     honeystate = HoneycombStateMachine()

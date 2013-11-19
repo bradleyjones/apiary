@@ -36,3 +36,5 @@ nosetests.xml
 docs/Sphinx/_build
 
 *.db
+
+setuptools-*

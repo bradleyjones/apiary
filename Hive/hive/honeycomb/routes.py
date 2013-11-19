@@ -4,6 +4,11 @@ from ..common.routes import Routes as Parent
 class Routes(Parent):
 
     def setupRoutes(self):
-        self.action("GET", "get", "hive.honeycomb.rpccontroller")
-        self.action("SUBSCRIBE", "subscribe", "hive.honeycomb.rpccontroller")
-        self.action("DATA", "data", "hive.honeycomb.subcontroller")
+        self.action("SUBSCRIBE", "subscribe", "hive.honeycomb.maincontroller")
+        self.action(
+            "UNSUBSCRIBE",
+            "unsubscribe",
+            "hive.honeycomb.maincontroller")
+
+        self.action("INSERT", "insert", "hive.honeycomb.databasecontroller")
+        self.action("FIND", "find", "hive.honeycomb.databasecontroller")

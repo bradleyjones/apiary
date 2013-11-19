@@ -30,7 +30,7 @@ class ControlStateMachine(Base):
                 self.config['Rabbit']['password'])
             connection = pika.BlockingConnection(
                 pika.ConnectionParameters(host=self.config['Rabbit']['host'], credentials=credentials))
-    
+
             self.logger.info("Connected!")
 
             channel = connection.channel()
@@ -71,13 +71,13 @@ class ControlStateMachine(Base):
                             "Unbinding Control Data to %s" %
                             agent.UUID)
                         channel.queue_unbind(exchange='apiary',
-                                           queue=self.config[
-                                               'Rabbit'][
-                                               'sub_queue'],
-                                           routing_key='data.%s' % agent.UUID)
+                                             queue=self.config[
+                                                 'Rabbit'][
+                                                 'sub_queue'],
+                                             routing_key='data.%s' % agent.UUID)
                         agent.BOUND = False
                         self.agentmodel.save(agent)
-                        
+
         except Exception as e:
             self.logger.error("Errors Occured: %s", str(e))
         except KeyboardInterrupt:
