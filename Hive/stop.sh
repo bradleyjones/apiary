@@ -1,5 +1,16 @@
 #!/bin/bash
 
-SCREEN_NAME=${SCREEN_NAME:-hive}
+if [ -z "$MULTIPLEXER" ]; then
+  MULTIPLEXER="TMUX" #SCREEN   Or  TMUX
+fi
 
-screen -S $SCREEN_NAME -X quit
+if [ $MULTIPLEXER == SCREEN ]; then
+  SCREEN_NAME=${SCREEN_NAME:-hive}
+
+  screen -S $SCREEN_NAME -X quit
+
+elif [ $MULTIPLEXER == TMUX ]; then
+  NAME=Hive
+
+  tmux kill-session -t $NAME
+fi
