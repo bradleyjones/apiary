@@ -5,6 +5,8 @@ Install Requirements:
 
   sudo apt-get install python-dev
   
+  sudo apt-get install screen
+  
   cd Hive
   
   sudo python ez_setup.py
