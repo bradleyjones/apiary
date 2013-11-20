@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "$MULTIPLEXER" ]; then
-  MULTIPLEXER="TMUX" #SCREEN   Or  TMUX
+  MULTIPLEXER="SCREEN" #SCREEN   Or  TMUX
 fi
 
 if [ $MULTIPLEXER == SCREEN ]; then
