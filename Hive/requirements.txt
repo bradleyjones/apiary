@@ -1,3 +1,5 @@
-configobj
+configobj 
 pika
-lxml
+jsonschema
+apns
+pymongo
