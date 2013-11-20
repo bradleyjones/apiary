@@ -70,12 +70,12 @@ function alertHive(queueName, hiveIP){
 
       //TODO Check if ID already present, could be preinitialised machine reconnecting.      
 
-      var queueToSendTo = "control";
+      var queueToSendTo = "agentmanager";
       config.cID = generateUUID();          
 
       message = {
         action: "HANDSHAKE",
-        to: "Control",
+        to: "AgentManager",
         from: "Unidentified",
         data: "",
         machineid: config.macAddress
