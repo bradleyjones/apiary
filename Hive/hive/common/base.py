@@ -35,7 +35,8 @@ class Base(object):
             self.config['Rabbit']['host'],
             self.router.route,
             self.config['Rabbit']['username'],
-            self.config['Rabbit']['password'])
+            self.config['Rabbit']['password'],
+            self.config['Rabbit']['sub_keys'])
 
         try:
             # Threads

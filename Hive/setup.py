@@ -24,9 +24,8 @@ setup(
         'console_scripts':
         ['apiary-honeycomb = hive.honeycomb.honeycomb:main',
          'apiary-honeycomb-statemachine = hive.honeycombstatemachine.honeycombstatemachine:main',
-         'apiary-control = hive.control.control:main',
-         'apiary-control-statemachine = hive.controlstatemachine.controlstatemachine:main',
-         'apiary-intelligence = hive.control.intelligence:main',
+         'apiary-agentmanager = hive.agentmanager.agentmanager:main',
+         'apiary-agentmonitor = hive.agentmonitor.agentmonitor:main',
          'apiary-sting = hive.sting.sting:main',
          ]
     },

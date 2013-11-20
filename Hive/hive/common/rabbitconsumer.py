@@ -22,6 +22,7 @@ class RabbitConsumer(threading.Thread):
         super(RabbitConsumer, self).__init__()
         self.daemon = True
         self.queue = name
+        print self.queue
         self.host = host
         self.connection = None
         self.channel = None
@@ -41,9 +42,11 @@ class RabbitConsumer(threading.Thread):
     def run(self):
         try:
           self.connection = self.connect()
-          self.connection.ioloop.start()
-        except Exception: 
+        except Exception as e: 
+          self.logger.error(e)
           self.logger.error("Failed to Connect correctly!") 
+
+        self.connection.ioloop.start()
 
     def connect(self):
         return pika.SelectConnection(

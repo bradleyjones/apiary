@@ -3,9 +3,9 @@ import sys
 import logging
 
 
-class PubSubServer(object):
+class SimplePublisher(object):
 
-    def __init__(self, name, host, routing_key, username, password):
+    def __init__(self, name, host, username, password):
         self.exchange = name
         self.host = host
         self.credentials = pika.PlainCredentials(username, password)
@@ -14,15 +14,10 @@ class PubSubServer(object):
         self.channel = self.connection.channel()
         self.channel.exchange_declare(exchange=self.exchange, type='topic')
         self.channel.basic_qos(prefetch_count=1)
-        self.routing_key = routing_key
         self.logger = logging.getLogger(__name__)
-        self.logger.info("Pub Sub connection made.")
+        self.logger.info("Simple Publisher connection made.")
 
-    def publish_msg(self, msg, routing_key=None):
-        if routing_key is None:
-            routing_key = self.routing_key
-        else:
-            routing_key = self.routing_key + "." + routing_key
+    def publish_msg(self, msg, routing_key):
         self.channel.basic_publish(exchange=self.exchange,
                                    routing_key=routing_key,
                                    body=msg)
