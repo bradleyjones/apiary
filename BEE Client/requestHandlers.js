@@ -11,8 +11,9 @@ var config = require('./config')
 
 //Field Variables
 var interval = {};
+var fileWatchers = [];
 var heartbeatFunction = function(){ // possibly just make normal function
-  pushOntoMessageBus("Control", "control", "HEARTBEAT", "Beat");
+  pushOntoMessageBus("Control", "agents."+config.clientID+".heartbeat", "HEARTBEAT", "Beat", "apiary");
   console.log("----^----");
 };
 
@@ -45,6 +46,7 @@ function addTarget(messageData) {
   file = messageData.data;
   console.log("Logging - " + file);
   
+  //TODO change error handling entirely
   if (config.hiveIP == 0) {
     throwError("ERROR - Bee not initialised, no Hive address.", messageData);
   } else if (file == null){
@@ -62,7 +64,7 @@ function addTarget(messageData) {
     });
     
     //Watch File
-    fs.watchFile(file, {persistent: true}, function(current, previous){
+    watcher = fs.watchFile(file, {persistent: true}, function(current, previous){
       console.log(file + " was modified");
       
       //On event, read in new bytes.
@@ -74,7 +76,7 @@ function addTarget(messageData) {
           end: stats.size
         }).addListener("data", function(lines) {
           console.log(lines);
-          pushOntoMessageBus(lines, config.hiveIP);//Push onto Message Bus
+          pushOntoMessageBus("honeyComb","agents."+config.clientID+".data","dataInput",lines,"apiary");//Push onto Message Bus
           startByte = stats.size;
 
           //Reset Interval Timer 
@@ -83,6 +85,7 @@ function addTarget(messageData) {
         });
       });
     });
+    fileWatchers.push(watcher);
   }
 }
 
@@ -109,17 +112,25 @@ function throwError(message, data){
 /*
   Helper Function - Push to MessageBus
 */
-function pushOntoMessageBus(to, queueToSendTo, action, data){
-       
+function pushOntoMessageBus(to, queueToSendTo, action, data, exchangeName){
+    
+    //Construct Message
     message = {
-            action: action,
-            to: to,
-            from: config.clientID,
-            data: data,
-            machineid: config.macAddress
+                action: action,
+                to: to,
+                from: config.clientID,
+                data: data,
+                machineid: config.macAddress
+        }
+
+    //If no exchange defined, push onto default the old way
+    //Consider legacy, possibly remove.
+    if (exchangeName == undefined){
+        config.connection.publish(queueToSendTo, message, {correlationId: config.cID});   
+    } else {
+        var exchange = config.connection.exchange(exchangeName);
+        exchange.publish(queueToSendTo, message, {correlationId: config.cID});       
     }
-  
-    config.connection.publish(queueToSendTo, message, {correlationId: config.cID});
 
     console.log("Sent message: ");
     console.log(message);
