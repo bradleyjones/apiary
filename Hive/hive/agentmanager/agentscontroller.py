@@ -10,6 +10,7 @@ class Controller(Parent):
 
     def models(self):
         self.agents = Agent(self.config)
+        self.sender = RPCSender(self.config)
 
     def send_agent_event(self, agent):
         event = {}

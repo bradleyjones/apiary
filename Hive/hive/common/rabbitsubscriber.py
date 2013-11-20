@@ -18,11 +18,11 @@ import threading
 
 class RabbitSubscriber(threading.Thread):
 
-    def __init__(self, name, host, router, username, password):
+    def __init__(self, name, host, router, username, password, routingkeys):
         super(RabbitSubscriber, self).__init__()
         self.daemon = True
         self.exchange = "apiary"
-        self.routingkey = "data.*"
+        self.routingkeys = routingkeys
         self.exchangetype = "topic"
         self.queue = name
         self.host = host
@@ -90,9 +90,14 @@ class RabbitSubscriber(threading.Thread):
             durable=True)
 
     def on_queue_declareok(self, method_frame):
+        for key in self.routingkeys:
+          self.channel.queue_bind(self.onbindok, self.queue, self.exchange, key)
         self.channel.add_on_cancel_callback(self.onconsumer_cancelled)
         self.consumer_tag = self.channel.basic_consume(self.onRequest,
                                                        self.queue)
+
+    def onbindok(self, unused_frame):
+        pass
 
     def onchannel_closed(self, channel, reply_code, reply_text):
         self.connection.close()

@@ -2,7 +2,7 @@ import time
 from ..common.pubsubserver import PubSubServer
 from configobj import ConfigObj, ConfigObjError
 from ..common.base import Base
-from ..control.agent import Agent
+from ..agentmanager.agent import Agent
 import threading
 import logging
 import json
@@ -10,10 +10,10 @@ import sys
 import pika
 
 
-class ControlStateMachine(Base):
+class AgentMonitor(Base):
 
     def __init__(self):
-        super(ControlStateMachine, self).__init__('control')
+        super(AgentMonitor, self).__init__('agentmanager')
         self.pubsub = PubSubServer(
             'events',
             self.config['Rabbit']['host'],
@@ -54,29 +54,6 @@ class ControlStateMachine(Base):
                         event[agent.UUID] = agent.to_hash()
                         self.pubsub.publish_msg(json.dumps(event), 'agents')
                         self.agentmodel.save(agent)
-                    # Bind Control Data Queue
-                    if (not agent.DEAD) and (agent.AUTHENTICATED) and (not agent.BOUND):
-                        self.logger.info(
-                            "Binding Control Data to %s" %
-                            agent.UUID)
-                        channel.queue_bind(exchange='apiary',
-                                           queue=self.config[
-                                               'Rabbit'][
-                                               'sub_queue'],
-                                           routing_key='data.%s' % agent.UUID)
-                        agent.BOUND = True
-                        self.agentmodel.save(agent)
-                    elif (not agent.DEAD) and (not agent.AUTHENTICATED) and (agent.BOUND):
-                        self.logger.info(
-                            "Unbinding Control Data to %s" %
-                            agent.UUID)
-                        channel.queue_unbind(exchange='apiary',
-                                             queue=self.config[
-                                                 'Rabbit'][
-                                                 'sub_queue'],
-                                             routing_key='data.%s' % agent.UUID)
-                        agent.BOUND = False
-                        self.agentmodel.save(agent)
 
         except Exception as e:
             self.logger.error("Errors Occured: %s", str(e))
@@ -91,5 +68,5 @@ class ControlStateMachine(Base):
 
 
 def main():
-    controlstate = ControlStateMachine()
-    controlstate.start()
+    agentmonitor = AgentMonitor()
+    agentmonitor.start()
