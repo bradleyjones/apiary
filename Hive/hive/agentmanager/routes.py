@@ -5,22 +5,22 @@ class Routes(Parent):
 
     def setupRoutes(self):
         # Agent Controller Actions
-        self.action("HANDSHAKE", "handshake", 'hive.control.agentscontroller')
-        self.action("ALLAGENTS", "get_agents", 'hive.control.agentscontroller')
+        self.action("HANDSHAKE", "handshake", 'hive.agentmanager.agentscontroller')
+        self.action("ALLAGENTS", "get_agents", 'hive.agentmanager.agentscontroller')
         self.action(
             "AUTHENTICATE",
             "authenticate",
-            'hive.control.agentscontroller')
+            'hive.agentmanager.agentscontroller')
         self.action(
             "RELEASE",
             "release",
-            'hive.control.agentscontroller')
+            'hive.agentmanager.agentscontroller')
         self.action(
             "SINGLEAGENT",
             "get_single_agent",
-            'hive.control.agentscontroller')
-        self.action("GOODBYE", "goodbye", 'hive.control.agentscontroller')
-        self.action("HEARTBEAT", "heartbeat", 'hive.control.agentscontroller')
+            'hive.agentmanager.agentscontroller')
+        self.action("GOODBYE", "goodbye", 'hive.agentmanager.agentscontroller')
+        self.action("HEARTBEAT", "heartbeat", 'hive.agentmanager.agentscontroller')
 
         # Config Controller Actions
-        self.action("SETFILES", "setFiles", "hive.control.configcontroller")
+        self.action("SETFILES", "setFiles", "hive.agentmanager.configcontroller")

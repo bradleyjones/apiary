@@ -10,12 +10,11 @@ class Controller(Parent):
 
     def models(self):
         self.agents = Agent(self.config)
-        self.sender = RPCSender(self.config)
 
-    def send_agent_event(self, agent):
+    def send_agent_event(self, agent, key):
         event = {}
         event[agent.UUID] = agent.to_hash()
-        self.event(json.dumps(event), 'agents')
+        self.event(json.dumps(event), 'agent.%s' % key)
 
     # BELOW THIS LINE ARE ALL CONTROLLER ACTIONS
 
@@ -29,7 +28,7 @@ class Controller(Parent):
         agent.QUEUE = data['reply_to']
         agent.BOUND = False
         self.agents.save(agent)
-        self.send_agent_event(agent)
+        self.send_agent_event(agent, "new")
         resp.respond(id)
 
     def goodbye(self, data, resp):
@@ -57,7 +56,7 @@ class Controller(Parent):
         agent.AUTHENTICATED = True
         self.logger.info("Authenticating Agent: %s", agent.UUID)
         self.agents.save(agent)
-        self.send_agent_event(agent)
+        self.send_agent_event(agent, "auth")
 
     def release(self, data, resp):
         agent = self.agents.find(data["data"])
@@ -65,11 +64,11 @@ class Controller(Parent):
         self.logger.info(agent.to_hash())
         self.logger.info("Releasing Agent: %s", agent.UUID)
         self.agents.save(agent)
-        self.send_agent_event(agent)
+        self.send_agent_event(agent, "release")
     
     def heartbeat(self, data, resp):
         self.logger.debug("Received HeartBeat from: %s", data["from"])
-        agent = self.agents.find(data["data"])
+        agent = self.agents.find(data["from"])
         agent.HEARTBEAT = time.time()
         agent.DEAD = False
         self.agents.save(agent)

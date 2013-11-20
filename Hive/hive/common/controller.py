@@ -1,7 +1,7 @@
 import uuid
 import random
 import json
-from pubsubserver import PubSubServer
+from simplepublisher import SimplePublisher
 import logging
 
 
@@ -11,10 +11,9 @@ class Controller(object):
         self.config = config
         self.models()
         self.logger = logging.getLogger(__name__)
-        self.pubsub = PubSubServer(
-            'events',
+        self.publisher = SimplePublisher(
+            'apiary',
             self.config['Rabbit']['host'],
-            self.config['Rabbit']['event_prefix'],
             self.config['Rabbit']['username'],
             self.config['Rabbit']['password'])
 
@@ -22,7 +21,10 @@ class Controller(object):
         pass
 
     def event(self, data, key=None):
-        self.pubsub.publish_msg(data, key)
+        rk = "events.%s" % self.config['Rabbit']['event_prefix']
+        if key is not None:
+          rk = "%s.%s" % (rk, key)
+        self.publisher.publish_msg(data, rk)
 
     def default(self, data, resp):
         resp.respond("THIS IS THE DEFAULT ACTION")

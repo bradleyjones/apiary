@@ -44,10 +44,10 @@ class RabbitSubscriber(threading.Thread):
     def run(self):
         try:
           self.connection = self.connect()
-          self.connection.ioloop.start()
         except Exception: 
           self.logger.error("Failed to Connect correctly!")
           self.stop()
+        self.connection.ioloop.start()
 
     def connect(self):
         return pika.SelectConnection(
