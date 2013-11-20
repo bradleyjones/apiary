@@ -65,6 +65,13 @@ class Controller(Parent):
         self.logger.info("Releasing Agent: %s", agent.UUID)
         self.agents.save(agent)
         self.send_agent_event(agent)
+    
+    def heartbeat(self, data, resp):
+        self.logger.debug("Received HeartBeat from: %s", data["from"])
+        agent = self.agents.find(data["data"])
+        agent.HEARTBEAT = time.time()
+        agent.DEAD = False
+        self.agents.save(agent)
 
     def default(self, data, resp):
         resp.respond("THIS IS THE DEFAULT ACTION")
