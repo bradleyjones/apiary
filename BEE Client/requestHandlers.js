@@ -42,7 +42,7 @@ function initialise(messageData){
   Adds a new target file, and starts an asynchronous watch process
   Watch process dumps logs onto Message Bus once received.
 */
-function addTarget(messageData) {
+function setFiles(messageData) {
   file = messageData.data;
   console.log("Logging - " + file);
   
@@ -139,7 +139,7 @@ function pushOntoMessageBus(to, queueToSendTo, action, data, exchangeName){
 
 //Expose functions for Router
 exports.initialise = initialise;
-exports.addTarget = addTarget;
+exports.setFiles = setFiles;
 exports.removeTarget = removeTarget;
 
 
