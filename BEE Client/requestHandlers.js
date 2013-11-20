@@ -43,48 +43,47 @@ function initialise(messageData){
   Watch process dumps logs onto Message Bus once received.
 */
 function setFiles(messageData) {
-  file = messageData.data;
+
+  //Parse FileList
+  fileList = messageData.data;
   console.log("Logging - " + file);
-  
-  //TODO change error handling entirely
-  if (config.hiveIP == 0) {
-    throwError("ERROR - Bee not initialised, no Hive address.", messageData);
-  } else if (file == null){
-    throwError("ERROR - No Bee target specified.", messageData);
-  } else if (!fs.statSync(file).isFile()){
-    throwError("ERROR - Bee target file not found.", messageData);  // Not functioning Need to properly catch exception, possibly further down   
-  } else {
+
+  for(file in fileList){
+    filename = fileList[file];  
     
-    startByte = 0;
+    var watcher = function (){
+
+      var startByte = 0;
     
-    //Set Starting Byte to the end of the file
-    fs.stat(file, function(error, stats){
-      if (error) throw error;
-      startByte = stats.size;
-    });
-    
-    //Watch File
-    watcher = fs.watchFile(file, {persistent: true}, function(current, previous){
-      console.log(file + " was modified");
-      
-      //On event, read in new bytes.
+      //Set Starting Byte to the end of the file
       fs.stat(file, function(error, stats){
         if (error) throw error;
-        fs.createReadStream(file, {
-          encoding: 'ascii',
-          start: startByte,
-          end: stats.size
-        }).addListener("data", function(lines) {
-          console.log(lines);
-          pushOntoMessageBus("honeyComb","agents."+config.clientID+".data","dataInput",lines,"apiary");//Push onto Message Bus
-          startByte = stats.size;
-
-          //Reset Interval Timer 
-          clearInterval(interval);
-          interval = setInterval(heartbeatFunction, config.heartbeatInterval);
+        startByte = stats.size;
+      });
+    
+      //Watch File
+      fs.watchFile(file, {persistent: true}, function(current, previous){
+        console.log(file + " was modified");
+      
+        //On event, read in new bytes.
+        fs.stat(file, function(error, stats){
+          if (error) throw error;
+          fs.createReadStream(file, {
+            encoding: 'ascii',
+            start: startByte,
+            end: stats.size
+          }).addListener("data", function(lines) {
+            console.log(lines);
+            pushOntoMessageBus("honeyComb","agents."+config.clientID+".data","dataInput",lines,"apiary");//Push onto Message Bus
+            startByte = stats.size;
+  
+            //Reset Interval Timer 
+            clearInterval(interval);
+            interval = setInterval(heartbeatFunction, config.heartbeatInterval);
+          });
         });
       });
-    });
+    }
     fileWatchers.push(watcher);
   }
 }
@@ -129,7 +128,11 @@ function pushOntoMessageBus(to, queueToSendTo, action, data, exchangeName){
         config.connection.publish(queueToSendTo, message, {correlationId: config.cID});   
     } else {
         var exchange = config.connection.exchange(exchangeName);
-        exchange.publish(queueToSendTo, message, {correlationId: config.cID});       
+        try {
+            exchange.publish(queueToSendTo, message, {correlationId: config.cID});       
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     console.log("Sent message: ");
