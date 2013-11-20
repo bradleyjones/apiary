@@ -7,7 +7,8 @@
 //Libraries
 var fs = require('fs');
 var amqp = require ('amqp');
-var config = require('./config')
+var fileListener = require ('./fileListener');
+var config = require('./config');
 
 //Field Variables
 var interval = {};
@@ -51,40 +52,25 @@ function setFiles(messageData) {
   for(file in fileList){
     filename = fileList[file];  
     
-    var watcher = function (){
+    callback = function(lines){
+      console.log(lines);
 
-      var startByte = 0;
+      //Construct Message
+      message = {
+        'filename':filename,
+        'log':lines
+      };
     
-      //Set Starting Byte to the end of the file
-      fs.stat(file, function(error, stats){
-        if (error) throw error;
-        startByte = stats.size;
-      });
-    
-      //Watch File
-      fs.watchFile(file, {persistent: true}, function(current, previous){
-        console.log(file + " was modified");
-      
-        //On event, read in new bytes.
-        fs.stat(file, function(error, stats){
-          if (error) throw error;
-          fs.createReadStream(file, {
-            encoding: 'ascii',
-            start: startByte,
-            end: stats.size
-          }).addListener("data", function(lines) {
-            console.log(lines);
-            pushOntoMessageBus("honeyComb","agents."+config.clientID+".data","dataInput",lines,"apiary");//Push onto Message Bus
-            startByte = stats.size;
+      //Push onto bus
+      requestHandlers.pushOntoMessageBus("honeyComb","agents."+config.clientID+".data","DATA",message,"apiary");
   
-            //Reset Interval Timer 
-            clearInterval(interval);
-            interval = setInterval(heartbeatFunction, config.heartbeatInterval);
-          });
-        });
-      });
+      //Reset Interval Timer 
+      clearInterval(interval);
+      interval = setInterval(heartbeatFunction, config.heartbeatInterval);
     }
-    fileWatchers.push(watcher);
+
+    //Create file watcher and push onto list of watchers.
+    fileWatchers.push(fileListener.watchFile(filename, callback));
   }
 }
 
@@ -144,10 +130,3 @@ function pushOntoMessageBus(to, queueToSendTo, action, data, exchangeName){
 exports.initialise = initialise;
 exports.setFiles = setFiles;
 exports.removeTarget = removeTarget;
-
-
-
-
-
-
-
