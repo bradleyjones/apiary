@@ -14,7 +14,7 @@ var config = require('./config');
 var interval = {};
 var fileWatchers = [];
 var heartbeatFunction = function(){ // possibly just make normal function
-  pushOntoMessageBus("Control", "agents."+config.clientID+".heartbeat", "HEARTBEAT", "Beat", "apiary");
+  pushOntoMessageBus("AgentManager", "agents."+config.clientID+".heartbeat", "HEARTBEAT", "Beat", "apiary");
   console.log("----^----");
 };
 
@@ -62,7 +62,7 @@ function setFiles(messageData) {
       };
     
       //Push onto bus
-      requestHandlers.pushOntoMessageBus("honeyComb","agents."+config.clientID+".data","DATA",message,"apiary");
+      requestHandlers.pushOntoMessageBus("HoneyComb","agents."+config.clientID+".data","DATA",message,"apiary");
   
       //Reset Interval Timer 
       clearInterval(interval);
