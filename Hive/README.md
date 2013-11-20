@@ -1,52 +1,43 @@
 The Hive
 ========
 
-The middleware for the Apiary stack. 
-
-The Hive is several services linked together by a central management service, communication between Hive components is by Message Bus
+The middleware for the Apiary stack.
 
 Components
 ----------
 
-Control - The Center of the Hive, handles the bulk of the logic to do with the Hive.
+AgentManager, AgentMonitor - These components manage the connection and configuration of agents. 
 
-Database - Controls insertion and collection of data from the database software via an API.
-
-Intelligence - The Hive component that manages the map reduce etc..... via API
-
+Honeycomb - Controls insertion and collection of data from the database software via an API.
 
 Install and Test
 ----------------
 
 * run "python setup.py develop" to install the Hive binarys in development mode 
-* Example config files are in the docs folder, the config file must be present in the directory that you run the binary from. Copy the examples and rename to just .ini instead of .ini.example and then populate them with your own information.
-* Binarys are defined in the setup.py file under entry points.
+* Run start.sh to begin all the services in a screen session.
+* Or run the Binaries defined below
+* Run stop.sh to end the screen session created by start.sh
 
 Current Binarys
 ---------------
 
 * apiary-honeycomb -> Starts Honeycomb server
-* apiary-control -> Starts Control Server
-* apiary-intelligence -> Starts Intelligence Server
+* apiary-agentmanager -> Starts Agent Manager
+* apiary-agentmonitor -> Starts Agent Monitor
 
 Test Scripts
 ------------
 
-* fire\_test\_message.py - Sends a correct XML message onto the Honeycomb Work Queue
-* fire\_bad\_test\_message.py - Sends a message with an incorrect Action to Honeycomb 
+Unit test suite to come...
 
 Requirements
 ------------
 
-If installing and you run into issues building you may need to install: libxml2-dev, libxslt-dev and python-dev 
-
-On debian: 
-* sudo apt-get install -y libxslt-dev libxml2-dev python-dev 
+If running "python setup.py develop" doesn't work for you, you may need to installed setuptools. To do that run "python ez\_setup.py". 
 
 Libraries Used and their Licenses 
 --------------
 
 * Configobj - BSD License - http://www.voidspace.org.uk/python/configobj.html
 * pika - MPL License - https://github.com/pika/pika/
-* lxml - BSD License - http://lxml.de/
-  
+* pymongo - 

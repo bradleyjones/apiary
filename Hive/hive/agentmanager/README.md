@@ -1,4 +1,4 @@
-Hive Control Software
+Hive Agent Manager
 =====================
 
-The Center of the Hive, this component connects all the other Hive parts together.
+This component provides the API for controlling agents and listens for heartbeats to make sure they are still alive

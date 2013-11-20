@@ -31,13 +31,12 @@ if [ $MULTIPLEXER == SCREEN ]; then
     echo "Starting ... $1"
     screen -S $SCREEN_NAME -X screen -t $1
     sleep 1.5
-    screen -S $SCREEN_NAME -p $1 -X stuff "$2$NL"
+    screen -S $SCREEN_NAME -p $1 -X stuff "$1$NL"
   }
 
-  add_to_screen "a-h" "apiary-honeycomb"
-  add_to_screen "a-h-s" "apiary-honeycomb-statemachine"
-  add_to_screen "a-c" "apiary-control"
-  add_to_screen "a-c-s" "apiary-control-statemachine"
+  add_to_screen "apiary-honeycomb"
+  add_to_screen "apiary-agentmanager"
+  add_to_screen "apiary-agentmonitor"
 
 elif [ $MULTIPLEXER == TMUX ]; then
   echo "$MULTIPLEXER is better :D"
@@ -49,16 +48,13 @@ elif [ $MULTIPLEXER == TMUX ]; then
     tmux new-session -s $NAME -d
 
     tmux new-window -n control -t $NAME:2
-    tmux send-keys -t $NAME:2 "apiary-control" C-m
+    tmux send-keys -t $NAME:2 "apiary-agentmanager" C-m
 
     tmux new-window -n control-statemachine -t $NAME:3
-    tmux send-keys -t $NAME:3 "apiary-control-statemachine" C-m
+    tmux send-keys -t $NAME:3 "apiary-agentmonitor" C-m
 
     tmux new-window -n honeycomb -t $NAME:4
     tmux send-keys -t $NAME:4 "apiary-honeycomb" C-m
-
-    tmux new-window -n honeycomb-statemachine -t $NAME:5
-    tmux send-keys -t $NAME:5 "apiary-honeycomb-statemachine" C-m
 
     tmux select-window -t $NAME:1
   fi
