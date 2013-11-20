@@ -1,6 +1,18 @@
 Project Apiary - A Machine Data analysis tool  
 =============================================
 
+Install Requirements:
+
+  sudo apt-get install python-dev
+  
+  cd Hive
+  
+  sudo python ez_setup.py
+  
+  sudo python setup.py develop
+  
+* * *
+
 Worker - Software Agents running on the nodes, harvesting data and returning it to the Hive
 
 Hive - The middleware for the Apiary stack.
