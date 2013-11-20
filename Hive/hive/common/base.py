@@ -5,7 +5,6 @@ from rabbitsubscriber import RabbitSubscriber
 import sys
 import time
 
-
 class Base(object):
 
     def __init__(self, name):
@@ -24,14 +23,14 @@ class Base(object):
             self.config['Rabbit']['host'])
 
         # Create the RPC consumer and data subscribers
-        rpc = RabbitConsumer(
+        self.rpc = RabbitConsumer(
             self.config['Rabbit']['rpc_queue'],
             self.config['Rabbit']['host'],
             self.router.route,
             self.config['Rabbit']['username'],
             self.config['Rabbit']['password'])
 
-        subscriber = RabbitSubscriber(
+        self.subscriber = RabbitSubscriber(
             self.config['Rabbit']['sub_queue'],
             self.config['Rabbit']['host'],
             self.router.route,
@@ -42,19 +41,22 @@ class Base(object):
             # Threads
             self.extraThreads()
             time.sleep(1)
-            rpc.start()
+            self.rpc.start()
             time.sleep(1)
-            subscriber.start()
+            self.subscriber.start()
 
-            while True:
+            while self.rpc.isAlive() and self.subscriber.isAlive():
                 time.sleep(1)
 
         except Exception as e:
             self.logger.error("Errors Occured: %s", str(e))
-        except KeyboardInterrupt:
-            rpc.stop()
+            self.rpc.stop()
             time.sleep(1)
-            subscriber.stop()
+            self.subscriber.stop()
+        except KeyboardInterrupt:
+            self.rpc.stop()
+            time.sleep(1)
+            self.subscriber.stop()
         finally:
             self.logger.info("Exiting...")
             sys.exit(0)

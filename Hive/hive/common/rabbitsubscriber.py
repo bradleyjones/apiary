@@ -42,8 +42,12 @@ class RabbitSubscriber(threading.Thread):
         self.logger.info("Mac Address: %s", self.machineid)
 
     def run(self):
-        self.connection = self.connect()
-        self.connection.ioloop.start()
+        try:
+          self.connection = self.connect()
+          self.connection.ioloop.start()
+        except Exception: 
+          self.logger.error("Failed to Connect correctly!")
+          self.stop()
 
     def connect(self):
         return pika.SelectConnection(
