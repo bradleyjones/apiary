@@ -1,131 +1,79 @@
-import sqlite3
+from pymongo import MongoClient
 from collections import OrderedDict
+import logging
 
 
 class ModelObject(object):
-
-    def __init__(self, columns, primary, data=None):
-        self.primary = primary
-        pos = 0
+    
+    def __init__(self, columns, data):
         self.columns = columns
-
-        for column, typ in columns.iteritems():
-            if data is None:
-                setattr(self, column, None)
+        for col in columns:
+            if col in data:
+              setattr(self, col, data[col])
             else:
-                if typ is "BOOL":
-                    setattr(self, column, bool(data[pos]))
-                else:
-                    setattr(self, column, data[pos])
-                pos = pos + 1
+              setattr(self, col, None)
 
     def to_hash(self):
-        response = {}
-        for column in self.columns:
-            response[column] = getattr(self, column, None)
-        return response
-
+        resp = {}
+        for col in self.columns:
+            resp[col] = getattr(self, col)
+        return resp
 
 class Model(object):
 
     def __init__(self, config):
-        self.conn = sqlite3.connect(config['Database']['filepath'])
-        self.c = self.conn.cursor()
-        self.columns = OrderedDict()
-        self.primary = None
+        self.client = MongoClient("mongodb://%s:%s" % (config['Database']['mongodb_host'],
+                    config['Database']['mongodb_port']))
+        self.columns = []
         self.tablename = self.__class__.__name__ + "s"
+        self.name = config['Database']['name']
+        self.table = self.client[self.name][self.tablename]
+        self.primary = None
+        self.logger = logging.getLogger(__name__)
         self.define()
-        self.migrate()
 
-    def setprimary(self, name):
-        if self.primary is not None:
-            raise Exception("Primary already defined")
-
-        if name in self.columns:
-            self.primary = name
-        else:
-            raise Exception("Primary not in columns")
-
-    def addcolumn(self, name, tpe):
+    def addcolumn(self, name):
         if name in self.columns:
             raise Exception("Can't have duplicate column names")
-        self.columns[name] = tpe
+        self.columns.append(name)
 
-    def migrate(self):
-        query = '''create table if not exists ''' + self.tablename
-        query = query + '('
-        query = query + self.primary + " " + \
-            self.columns[self.primary] + " PRIMARY KEY"
-        for key, typ in self.columns.iteritems():
-            if typ is "BOOL":
-                typ = "INT"
-            if key is not self.primary:
-                query = query + ", " + key + " " + typ + " NOT NULL"
-        query = query + ')'
-
-        print query
-
-        self.c.execute(query)
+    def setprimary(self, name):
+        if self.primary is None:
+            self.primary = name
+        else:
+            raise Exception("Can't define primary key twice")
 
     def define(self):
         raise NotImplementedError()
 
     def new(self):
-        return ModelObject(self.columns, self.primary)
+        return ModelObject(self.columns, {})
 
     def save(self, model):
-        self.c.execute(
-            "SELECT * FROM '%s' WHERE %s=?" %
-            (self.tablename, self.primary), (getattr(model, self.primary, None), ))
-        one = self.c.fetchone()
-        tup = ()
-        query = ""
-        if one is None:
-            query = "INSERT INTO '%s' VALUES (" % self.tablename
-            first = True
-            for column in self.columns:
-                if not first:
-                    query = query + ', '
-                else:
-                    first = False
-                query = query + '?'
-                tup = tup + (getattr(model, column, None), )
-            query = query + ')'
+        query = { self.primary:getattr(model, self.primary) }
+        record = self.table.find_one(query)
+        if record is None:
+          record = {}
+          self.logger.info("Creating new record in the DB")
         else:
-            query = "UPDATE '%s' SET " % self.tablename
-            first = True
-            for column in self.columns:
-                if not first:
-                    query = query + ', '
-                else:
-                    first = False
-                query = query + '%s=?' % column
-                tup = tup + (getattr(model, column, None), )
-            query = query + " WHERE %s=? " % self.primary
-            tup = tup + (getattr(model, self.primary, None), )
-
-        self.c.execute(query, tup)
-        self.conn.commit()
+          self.logger.info("Updating record in the DB")
+        for col in self.columns:
+          record[col] = getattr(model, col)
+        self.table.save(record)
 
     def delete(self, model):
-        self.c.execute(
-            "DELETE FROM %s WHERE %s=?" %
-            (self.tablename, self.primary), (getattr(model, self.primary, None), ))
-        self.conn.commit()
+        query = { self.primary:getattr(model, self.primary) }
+        self.table.remove(query)
 
     def findAll(self):
-        agents = {}
-        for row in self.c.execute("SELECT * FROM '%s'" % self.tablename):
-            agents[row[0]] = ModelObject(self.columns, self.primary, row)
-        return agents
+        result = self.table.find({})
+        response = []
+        for res in result: 
+            response.append(ModelObject(self.columns, res))
+        return response
 
     def find(self, id):
-        t = (id, )
-        self.c.execute(
-            "SELECT * FROM '%s' WHERE %s=?" %
-            (self.tablename, self.primary), t)
-        row = self.c.fetchone()
-        if row is None:
-            return None
-        else:
-            return ModelObject(self.columns, self.primary, row)
+        query = { self.primary:id }
+        record = self.table.find_one(query)
+        response = ModelObject(self.columns, record)
+        return response

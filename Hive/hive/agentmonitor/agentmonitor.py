@@ -27,7 +27,7 @@ class AgentMonitor(Base):
             while(True):
                 self.logger.debug("Scanning agents...")
                 agents = self.agentmodel.findAll()
-                for key, agent in agents.iteritems():
+                for agent in agents:
                     # Scan for Dead Agents
                     if ((agent.HEARTBEAT + 300) < time.time()) and (not agent.DEAD):
                         agent.DEAD = True

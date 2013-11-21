@@ -5,10 +5,10 @@ from ..common.model import Model
 class Agent(Model):
 
     def define(self):
-        self.addcolumn('UUID', 'TEXT')
-        self.addcolumn('HEARTBEAT', 'REAL')
-        self.addcolumn('DEAD', 'BOOL')
-        self.addcolumn('AUTHENTICATED', 'BOOL')
-        self.addcolumn('BOUND', 'BOOL')
-        self.addcolumn('QUEUE', 'TEXT')
+        self.addcolumn('UUID')
+        self.addcolumn('HEARTBEAT')
+        self.addcolumn('DEAD')
+        self.addcolumn('AUTHENTICATED')
+        self.addcolumn('BOUND')
+        self.addcolumn('QUEUE')
         self.setprimary('UUID')
