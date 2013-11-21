@@ -1,6 +1,16 @@
 Project Apiary - A Machine Data analysis tool  
 =============================================
 
+Installing Up-To-Date Nodejs on Ubuntu:
+
+  sudo apt-get update 
+  sudo apt-get install -y python-software-properties python g++ make
+  sudo add-apt-repository -y ppa:chris-lea/node.js
+  sudo apt-get update
+  sudo apt-get install nodejs
+
+* * *
+
 Install Requirements:
 
   sudo apt-get install python-dev
