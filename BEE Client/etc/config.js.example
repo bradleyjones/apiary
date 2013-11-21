@@ -1,7 +1,7 @@
 var config = {};
 
 config.hiveIP = '127.0.0.1';
-config.heartbeatInvterval = 20000;
+config.heartbeatInterval = 20000;
 
 
 //LEAVE BLANK, CONFIGURED BY INITIALISATION
