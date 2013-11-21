@@ -12,29 +12,44 @@ def callback(ch, method, properties, body):
         key_file=(resource_filename(__name__, 'apns/certs/ApiaryKey.pem')))
 
     # Send a notification
+    # Need to implement database of registered users and their devices
     token_hex = 'c337dce1b94e8908e3b9768516fed42c90b1dff0ad01dfe7334970227da0a229'
+    # Need to implement analysis of event so relevant message can be pushed
     payload = Payload(alert="New Agent Registered!", sound="default", badge=1)
+    # For each message for each user
     apns.gateway_server.send_notification(token_hex, payload)
 
 
 def main():
 
+    # Define connection to rabbit
     connection = pika.BlockingConnection(pika.ConnectionParameters(
-        host='25.199.138.99'))
-    channel = connection.channel()
+        host='127.0.0.1'))
 
-    channel.exchange_declare(exchange='events',
-                             type='topic')
+    # Define channels to listen on
+    new_agent_channel = connection.channel()
+    dead_agent_channel = connection.channel()
 
-    result = channel.queue_declare(exclusive=True)
+    # Configure new_agent_channel
+    new_agent_channel.exchange_declare(exchange='apiary', type='topic')
+
+    result = new_agent_channel.queue_declare(exclusive=True)
     queue_name = result.method.queue
 
-    channel.queue_bind(exchange='events',
-                       queue=queue_name,
-                       routing_key='control.agents')
+    new_agent_channel.queue_bind(exchange='apiary', queue=queue_name, routing_key='events.agentmanager.agent.new')
 
-    channel.basic_consume(callback,
-                          queue=queue_name,
-                          no_ack=True)
+    new_agent_channel.basic_consume(callback, queue=queue_name, no_ack=True)
 
-    channel.start_consuming()
+    # Configure dead_agent_channel
+    dead_agent_channel.exchange_declare(exchange='apiary', type='topic')
+
+    result = dead_agent_channel.queue_declare(exclusive=True)
+    queue_name = result.method.queue
+
+    dead_agent_channel.queue_bind(exchange='apiary', queue=queue_name, routing_key='events.agentmanager.agent.dead')
+
+    dead_agent_channel.basic_consume(callback, queue=queue_name, no_ack=True)
+
+    # Start channel consumers
+    new_agent_channel.start_consuming()
+    dead_agent_channel.start_consuming()

@@ -37,6 +37,7 @@ if [ $MULTIPLEXER == SCREEN ]; then
   add_to_screen "apiary-honeycomb"
   add_to_screen "apiary-agentmanager"
   add_to_screen "apiary-agentmonitor"
+  add_to_screen "apiary-sting"
 
 elif [ $MULTIPLEXER == TMUX ]; then
   echo "$MULTIPLEXER is better :D"
@@ -55,6 +56,9 @@ elif [ $MULTIPLEXER == TMUX ]; then
 
     tmux new-window -n honeycomb -t $NAME:4
     tmux send-keys -t $NAME:4 "apiary-honeycomb" C-m
+
+    tmux new-window -n sting -t $NAME:5
+    tmux send-keys -t $NAME:5 "apiary-sting" C-m
 
     tmux select-window -t $NAME:1
   fi
