@@ -54,7 +54,7 @@ def main():
 
     # Define channels to listen on
     new_agent_channel = new_channel(connection, 'events.agentmanager.agent.new')
-    dead_agent_channel = new_channel(connection, 'events.agentmanger.agent.dead')
+    dead_agent_channel = new_channel(connection, 'events.agentmanager.agent.dead')
 
     # Start channel consumers
     new_agent_channel.start_consuming()
