@@ -50,21 +50,6 @@ class Controller(Parent):
             response = {}
             response[agent.UUID] = agent.to_hash()
         resp.respond(response)
-
-    def authenticate(self, data, resp):
-        agent = self.agents.find(data["data"])
-        agent.AUTHENTICATED = True
-        self.logger.info("Authenticating Agent: %s", agent.UUID)
-        self.agents.save(agent)
-        self.send_agent_event(agent, "auth")
-
-    def release(self, data, resp):
-        agent = self.agents.find(data["data"])
-        agent.AUTHENTICATED = False
-        self.logger.info(agent.to_hash())
-        self.logger.info("Releasing Agent: %s", agent.UUID)
-        self.agents.save(agent)
-        self.send_agent_event(agent, "release")
     
     def heartbeat(self, data, resp):
         self.logger.debug("Received HeartBeat from: %s", data["from"])
@@ -72,6 +57,3 @@ class Controller(Parent):
         agent.HEARTBEAT = time.time()
         agent.DEAD = False
         self.agents.save(agent)
-
-    def default(self, data, resp):
-        resp.respond("THIS IS THE DEFAULT ACTION")

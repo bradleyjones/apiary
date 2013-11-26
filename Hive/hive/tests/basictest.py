@@ -19,10 +19,9 @@ class HiveBasicTest(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         super(HiveBasicTest, self).__init__(*args)
         self.configname = kwargs.get('configname', "")
+        self.config = loadConfig('/etc/apiary/%s_config.ini' % self.configname)
 
     def setUp(self):
-        self.config = loadConfig('%s_config.ini' % self.configname)
-
         self.credentials = pika.PlainCredentials(
             self.config['Rabbit']['username'],
             self.config['Rabbit']['password'])

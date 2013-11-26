@@ -1,1 +1,0 @@
-Intelligence tests
