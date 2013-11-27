@@ -14,6 +14,7 @@ Install and Test
 ----------------
 
 * run "python setup.py develop" to install the Hive binarys in development mode 
+* cp localrc.example to localrc
 * Run start.sh to begin all the services in a screen session.
 * Or run the Binaries defined below
 * Run stop.sh to end the screen session created by start.sh
