@@ -26,6 +26,7 @@ setup(
          'apiary-honeycomb-statemachine = hive.honeycombstatemachine.honeycombstatemachine:main',
          'apiary-agentmanager = hive.agentmanager.agentmanager:main',
          'apiary-agentmonitor = hive.agentmonitor.agentmonitor:main',
+         'apiary-timemachine = hive.timemachine.timemachine:main',
          'apiary-sting = hive.sting.sting:main',
          ]
     },

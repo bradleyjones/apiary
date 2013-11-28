@@ -1,4 +1,3 @@
-import sqlite3
 from ..common.model import Model
 
 

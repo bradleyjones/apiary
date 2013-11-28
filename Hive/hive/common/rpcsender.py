@@ -22,15 +22,15 @@ class RPCSender(object):
       if self.corr_id == props.correlation_id:
           self.resp = body
 
-  def send_request(self, action, to, data, exchange='', key=''):
+  def send_request(self, action, to, data, machineid, fro, exchange='', key=''):
       self.resp = None
 
       data = {}
-      data['action'] = "INSERT"
-      data['to'] = "hive"
-      data['from'] = self.id
+      data['action'] = action
+      data['to'] = to
+      data['from'] = fro
       data['data'] = json.dumps(data)
-      data['machineid'] = "havsbdjhlbasd"
+      data['machineid'] = machineid
 
       self.channel.basic_publish(exchange=exchange,
                             routing_key=key,

@@ -6,9 +6,13 @@ The middleware for the Apiary stack.
 Components
 ----------
 
+Common - The common components used by all the Hive services
+
 AgentManager, AgentMonitor - These components manage the connection and configuration of agents. 
 
 Honeycomb - Controls insertion and collection of data from the database software via an API.
+
+TimeMachine - A services for replaying logs as though they are live.
 
 Install and Test
 ----------------
