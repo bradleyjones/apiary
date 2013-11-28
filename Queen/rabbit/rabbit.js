@@ -2,7 +2,6 @@
 
 var rpc = require('./rabbit_rpc')
   , pubsub = require('./rabbit_pubsub')
-  , parseXML = require('xml2js').parseString;
 
 exports.constructMessage = function (action, queueName, data) {
     if (typeof (data) === 'undefined') {
