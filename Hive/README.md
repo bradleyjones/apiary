@@ -12,37 +12,48 @@ AgentManager, AgentMonitor - These components manage the connection and configur
 
 Honeycomb - Controls insertion and collection of data from the database software via an API.
 
-TimeMachine - A services for replaying logs as though they are live.
+TimeMachine - A service for retreiving streams of live and historic data.
 
-Install and Test
-----------------
+Sting - A apiary hook into the iOS push notification service.
 
-* run "python setup.py develop" to install the Hive binarys in development mode 
-* cp localrc.example to localrc
-* Run start.sh to begin all the services in a screen session.
-* Or run the Binaries defined below
-* Run stop.sh to end the screen session created by start.sh
+Installing Hive
+---------------
+
+* Run "python setup.py develop" to install the Hive binarys in development mode 
+* Run "sudo install\_configs.sh" to install the Hive configs into /etc. *BEWARE* If running this a second time it will overwrite any modifications made to the apiary configs.
+
+Running Hive on localhost
+-------------------------
+
+* Run "cp localrc.example localrc" to configure the start script
+* Run "./start.sh" to begin all the services in a screen session.
+* To access the screen session run "screen -x hive"
+* Run "./stop.sh" to end the screen session created by start.sh
 
 Current Binarys
 ---------------
 
-* apiary-honeycomb -> Starts Honeycomb server
+* apiary-honeycomb    -> Starts Honeycomb server
 * apiary-agentmanager -> Starts Agent Manager
 * apiary-agentmonitor -> Starts Agent Monitor
+* apiary-sting        -> Starts Sting 
+* apiary-timemachine  -> Starts Timemachine 
 
 Test Scripts
 ------------
 
 Unit test suite to come...
 
-Requirements
-------------
+Troubleshooting
+---------------
 
-If running "python setup.py develop" doesn't work for you, you may need to installed setuptools. To do that run "python ez\_setup.py". 
+* Running "python setup.py develop" doesn't work for me!
+  > You may need to install setuptools. To do that run "python ez\_setup.py". Or install it from your reposititory manager.
 
 Libraries Used and their Licenses 
 --------------
 
 * Configobj - BSD License - http://www.voidspace.org.uk/python/configobj.html
 * pika - MPL License - https://github.com/pika/pika/
-* pymongo - 
+* pymongo - Apache v2.0 - https://github.com/mongodb/mongo-python-driver 
+* jsonschema - No License listed - https://github.com/Julian/jsonschema

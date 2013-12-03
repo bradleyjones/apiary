@@ -12,20 +12,6 @@ Installing Up-To-Date Nodejs on Ubuntu:
   sudo apt-get update
   
   sudo apt-get install nodejs
-
-* * *
-
-Install Requirements:
-
-  sudo apt-get install python-dev
-  
-  sudo apt-get install screen
-  
-  cd Hive
-  
-  sudo python ez_setup.py
-  
-  sudo python setup.py develop
   
 * * *
 
