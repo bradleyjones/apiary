@@ -47,8 +47,8 @@ Unit test suite to come...
 Troubleshooting
 ---------------
 
-* Running "python setup.py develop" doesn't work for me!
-  > You may need to install setuptools. To do that run "python ez\_setup.py". Or install it from your reposititory manager.
+##### Running "python setup.py develop" doesn't work for me!
+You may need to install setuptools. To do that run "python ez\_setup.py". Or install it from your reposititory manager.
 
 Libraries Used and their Licenses 
 --------------
