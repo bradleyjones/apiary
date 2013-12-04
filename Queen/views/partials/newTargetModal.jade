@@ -1,0 +1,62 @@
+script(src="/scripts/libs/wizard.js")
+script(src="/scripts/libs/all.min.js")
+link(rel='stylesheet', href='/css/fuelux.min.css')
+script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js')
+
+// Button to trigger modal
+button.btn.btn-primary.btn-lg(data-toggle='modal', data-target='#newTargetModal')
+  | Add New Target
+
+// Modals
+#newTargetModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='addNewTarget', aria-hidden='true')
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+        h4#newTargetModalLabel.modal-title Add New Target
+      .modal-body
+        | Choose a target file then select the agents to target
+        select#testList(size='4')
+            option(value='1') Item 1
+              option(value='2') Item 2
+              option(value='3') Item 3
+              option(value='4') Item 4
+        #MyWizard.wizard
+        ul.steps
+            li.active(data-target='#step1')
+              span.badge.badge-info 1
+              | Step 1
+              span.chevron
+            li(data-target='#step2')
+              span.badge 2
+              | Step 2
+              span.chevron
+            li(data-target='#step3')
+              span.badge 3
+              | Step 3
+              span.chevron
+            li(data-target='#step4')
+              span.badge 4
+              | Step 4
+              span.chevron
+            li(data-target='#step5')
+              span.badge 5
+              | Step 5
+              span.chevron
+          .actions
+            button.btn.btn-mini.btn-prev(type='button')
+              i.icon-arrow-left
+              | Prev
+            button.btn.btn-mini.btn-next(type='button', data-last='Finish')
+              | Next
+              i.icon-arrow-right
+        .step-content
+          #step1.step-pane.active This is step 1
+          #step2.step-pane This is step 2
+          #step3.step-pane This is step 3
+          #step4.step-pane This is step 4
+          #step5.step-pane This is step 5
+
+      .modal-footer
+        button.btn.btn-default(type='button', data-dismiss='modal') Close
+        button.btn.btn-primary(type='button') Save changes
