@@ -75,5 +75,7 @@ class Model(object):
     def find(self, id):
         query = { self.primary:id }
         record = self.table.find_one(query)
+        if record is None:
+          return None
         response = ModelObject(self.columns, record)
         return response

@@ -45,10 +45,10 @@ class Controller(Parent):
 
     def get_single_agent(self, data, resp):
         agent = self.agents.find(data["data"])
-        #response = None
-        #if agent is not None:
-        response = {}
-        response[agent.UUID] = agent.to_hash()
+        response = None
+        if agent is not None:
+          response = {}
+          response[agent.UUID] = agent.to_hash()
         resp.respond(response)
 
     def heartbeat(self, data, resp):
