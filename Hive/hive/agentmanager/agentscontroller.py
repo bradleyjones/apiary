@@ -39,7 +39,7 @@ class Controller(Parent):
     def get_agents(self, data, resp):
         agents = self.agents.findAll()
         response = {}
-        for key, agent in agents.iteritems():
+        for agent in agents:
             response[agent.UUID] = agent.to_hash()
         resp.respond(response)
 
@@ -50,7 +50,7 @@ class Controller(Parent):
             response = {}
             response[agent.UUID] = agent.to_hash()
         resp.respond(response)
-    
+
     def heartbeat(self, data, resp):
         self.logger.debug("Received HeartBeat from: %s", data["from"])
         agent = self.agents.find(data["from"])
