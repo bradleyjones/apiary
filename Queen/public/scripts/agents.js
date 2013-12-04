@@ -4,13 +4,9 @@ var totalAgents = 0;
 function addAgent(agent, firstLoad) {
   console.log("AGENT:");
   console.log(agent);
-  $("#agent-table").append('<tr id=' + agent.UUID + '>' +
-                           '<th><a href=/agents/' + agent.UUID + '>' +
-                           agent.UUID + '</a></th>' +
-                           '<th>' + agent.machineid +'</th>' +
-                           '<th><button class="btn btn-default" ' +
-                           'onclick="setAgentOffline(' + agent.UUID +
-                           ')">×</button></th></div>');
+
+  $('#MyGrid').data().datagrid.options.dataSource._data.push(agent);
+  $('#MyGrid').datagrid('reload');
 
   totalAgents += 1;
   updateTotal();
