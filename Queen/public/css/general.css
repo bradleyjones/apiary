@@ -1,8 +1,19 @@
 body {
   padding-top: 50px;
+  background: #DBDBDB;
 }
 
 .main-container {
   padding: 20px 15px;
   text-align: center;
+}
+
+.stat-group {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  background: white;
+  border:1px solid;
+  border-color: grey;
+  border-radius:5px;
+  /*box-shadow: 5px 5px 5px #888888;*/
 }
