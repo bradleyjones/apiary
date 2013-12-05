@@ -3,6 +3,7 @@ html
   head
     title Apiary
     include partials/head
+    script(src="/scripts/home.js")
   body
     include partials/navbar
     // Make this page selected in the navbar
@@ -13,11 +14,13 @@ html
         .col-md-12
           .stat-group
             h2 Rate of Events
-            .event-rate THE GRAPH WILL BE HERE
+            #event-rate THE GRAPH WILL BE HERE
       .row
         .col-md-6
           .stat-group
             h2 Service Stats
+            #agentcount
+              h3 Number of Agents : 0
         .col-md-6
           .stat-group
             h2 System Stats

@@ -43,6 +43,11 @@ class Controller(Parent):
             response[agent.UUID] = agent.to_hash()
         resp.respond(response)
 
+    def get_agents_count(self, data, resp):
+        agents = self.agents.findAll()
+        count = len(agents)
+        resp.respond(count)
+
     def get_single_agent(self, data, resp):
         agent = self.agents.find(data["data"])
         response = None

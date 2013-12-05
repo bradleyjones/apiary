@@ -7,6 +7,7 @@ class Routes(Parent):
         # Agent Controller Actions
         self.action("HANDSHAKE", "handshake", 'hive.agentmanager.agentscontroller')
         self.action("ALLAGENTS", "get_agents", 'hive.agentmanager.agentscontroller')
+        self.action("AGENTSCOUNT", "get_agents_count", 'hive.agentmanager.agentscontroller')
         self.action(
             "AUTHENTICATE",
             "authenticate",

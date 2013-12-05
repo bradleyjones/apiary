@@ -119,9 +119,8 @@ app.post('/newuser', function (req, res) {
  */
 
 // Render the home page
-app.get('/', checkAuth, function (req, res) {
-    res.render('home.jade');
-});
+var home = require('./controllers/home')
+app.get('/', checkAuth, home.index);
 
 var agents = require('./controllers/agents');
 app.get('/agents', agents.list);
