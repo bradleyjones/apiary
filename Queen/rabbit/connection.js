@@ -1,4 +1,4 @@
-var config = require('./config/config')
+var config = require('../config/config')
   , amqp = require('amqp')
   , connection = {};
 

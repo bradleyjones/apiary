@@ -2,8 +2,10 @@
 
 var config = require('../config/config.js')
 , rabbit = require('../rabbit/rabbit')
+, init = require('../rabbit/init_subscribes')
 , main = require('../server.js')
-, io = main.io;
+, io = main.io
+, dataCache = require('../rabbit/connection').dataCache;
 
 exports.list = function (req, res) {
   res.render('agents.jade');
@@ -22,21 +24,11 @@ exports.individual = function (req, res) {
   });
 };
 
-function subscribeReady() {
-  new rabbit.pubsub('apiary', 'events.agentmanager.agent.new', function (data) {
-    io.of('/agents').emit('agent', data);
-  });
-}
-
-subscribeReady();
 
 // Web Sockets
 io.of('/agents').on('connection', function (socket) {
   // Get the current number of connect agents
-  var msg = rabbit.constructMessage('ALLAGENTS', 'agentmanager');
-  new rabbit.rpc('agentmanager', msg, function (data) {
-    socket.emit('init', data);
-  });
+  socket.emit('init', dataCache.agents);
 
   // New agent added
   socket.on('newAgent', function (data) {

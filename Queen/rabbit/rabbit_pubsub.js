@@ -5,44 +5,23 @@ var config = require('../config/config')
   , crypto = require('crypto')
   , sys = require('sys')
   , colors = require('colors')
-  , connection = require('../connection')._conn;
+  , connection = require('./connection')._conn;
 
 exports.PubSub = function (exchangeName, routingKey, callback) {
-    var self = this;
+    console.log("Creating Subscribe on exchange ".green + exchangeName.green +
+        " routing key ".green + routingKey.green);
 
-    connection.on('ready', onReady(connection, exchangeName, routingKey, callback));
-    connection.on('error', function(e) {
-      throw e;
+    connection.queue('', {exclusive: true}, function(queue) {
+      queue.bind(exchangeName, routingKey);
+      queue.subscribe(function(message, headers, deliveryInfo) {
+        try {
+          var msg = message['data'].toString('utf-8');
+          console.log(JSON.parse(msg));
+          callback(JSON.parse(msg));
+        } catch(err) {
+          console.log("There was an error: ".red + err.red);
+          return
+        }
+      })
     });
 };
-
-function onReady(connection, name, routingKey, callback) {
-    return function() {
-        console.log("connected to ".green + connection.serverProperties.product.green);
-        // There is no need to declare type, 'topic' is the default:
-        //var exchange = connection.exchange(name);
-
-        connection.queue('', {exclusive: true}, onQueueCreateOk(name, routingKey, callback));
-    }
-}
-
-function onQueueCreateOk(exchange, routingKey, callback) {
-    return function(queue) {
-        queue.bind(exchange, routingKey);
-        queue.subscribe(onMessage(callback));
-    }
-}
-
-function onMessage(callback) {
-    console.log("on message")
-    return function(message, headers, deliveryInfo) {
-        try {
-            var msg = message['data'].toString('utf-8');
-            console.log(JSON.parse(msg));
-            callback(JSON.parse(msg));
-        } catch(err) {
-            console.log("There was an error: ".red + err.red);
-            return
-        }
-    }
-}

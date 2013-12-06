@@ -32,6 +32,20 @@ app.configure(function () {
   app.use(express.static(__dirname + '/public'));
 });
 
+// Populate the DataCache by making all the initial
+// RPC calls to the Hive
+var connection = require('./rabbit/connection')._conn;
+connection.on('ready', function() {
+  console.log("connected to ".green + connection.serverProperties.product.green);
+  var initData = require('./rabbit/init_dataCache');
+  initData.populate();
+  var initSubscribes = require('./rabbit/init_subscribes');
+  initSubscribes.subscribe();
+})
+connection.on('error', function(e) {
+  throw e;
+});
+
 // Start listening
 //server.setMaxListeners(0); // Unlimited
 server.listen(3000, function(){
