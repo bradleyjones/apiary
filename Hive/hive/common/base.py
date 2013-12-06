@@ -5,6 +5,7 @@ from rabbitsubscriber import RabbitSubscriber
 import sys
 import time
 
+
 class Base(object):
 
     def __init__(self, name):

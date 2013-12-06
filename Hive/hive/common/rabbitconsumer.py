@@ -41,10 +41,10 @@ class RabbitConsumer(threading.Thread):
 
     def run(self):
         try:
-          self.connection = self.connect()
-        except Exception as e: 
-          self.logger.error(e)
-          self.logger.error("Failed to Connect correctly!") 
+            self.connection = self.connect()
+        except Exception as e:
+            self.logger.error(e)
+            self.logger.error("Failed to Connect correctly!")
 
         self.connection.ioloop.start()
 

@@ -30,7 +30,7 @@ class HiveBasicTest(unittest.TestCase):
         self.channel = self.connection.channel()
         self.corr_id = str(uuid.uuid4())
         self.resp = None
-        self.id = "7beaecc1-d100-433b-803f-59920cc4dd20" 
+        self.id = "7beaecc1-d100-433b-803f-59920cc4dd20"
 
     def on_response(self, ch, method, props, body):
         if self.corr_id == props.correlation_id:

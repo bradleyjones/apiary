@@ -3,11 +3,13 @@ from ..common.controller import Controller as Parent
 import json
 from bson.objectid import ObjectId
 
+
 class Controller(Parent):
 
     def models(self):
-        self.client = MongoClient("mongodb://%s:%s" % (self.config['Database']['mongodb_host'],
-            self.config['Database']['mongodb_port']))
+        self.client = MongoClient(
+            "mongodb://%s:%s" % (self.config['Database']['mongodb_host'],
+                                 self.config['Database']['mongodb_port']))
         self.logs = self.client['apiary']['logs']
 
     def insert(self, msg, resp):

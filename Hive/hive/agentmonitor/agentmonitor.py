@@ -34,7 +34,9 @@ class AgentMonitor(Base):
                         self.logger.info("Agent %s is Dead!", agent.UUID)
                         event = {}
                         event[agent.UUID] = agent.to_hash()
-                        self.publisher.publish_msg(json.dumps(event), 'events.agentmanager.agent.dead')
+                        self.publisher.publish_msg(
+                            json.dumps(event),
+                            'events.agentmanager.agent.dead')
                         self.agentmodel.save(agent)
 
         except Exception as e:

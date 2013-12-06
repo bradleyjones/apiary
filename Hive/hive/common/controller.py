@@ -23,7 +23,7 @@ class Controller(object):
     def event(self, data, key=None):
         rk = "events.%s" % self.config['Rabbit']['event_prefix']
         if key is not None:
-          rk = "%s.%s" % (rk, key)
+            rk = "%s.%s" % (rk, key)
         self.publisher.publish_msg(data, rk)
 
     def default(self, data, resp):

@@ -16,9 +16,9 @@ def callback(ch, method, properties, body):
     data = json.loads(body)
     for agent in data.values():
         if agent["DEAD"]:
-          alert_text = "Agent " + agent["UUID"] + " is Dead!"
+            alert_text = "Agent " + agent["UUID"] + " is Dead!"
         else:
-          alert_text = "New Agent: " + agent["UUID"]
+            alert_text = "New Agent: " + agent["UUID"]
 
     # Send a notification
     # Need to implement database of registered users and their devices
@@ -29,6 +29,7 @@ def callback(ch, method, properties, body):
     apns.gateway_server.send_notification(token_hex, payload)
 
     print "Notification Sent: " + alert_text
+
 
 def new_channel(connection, routing_key_name):
 
@@ -41,20 +42,29 @@ def new_channel(connection, routing_key_name):
     result = channel.queue_declare(exclusive=True)
     queue_name = result.method.queue
 
-    channel.queue_bind(exchange='apiary', queue=queue_name, routing_key=routing_key_name)
+    channel.queue_bind(
+        exchange='apiary',
+        queue=queue_name,
+        routing_key=routing_key_name)
 
     channel.basic_consume(callback, queue=queue_name, no_ack=False)
 
     return channel
 
+
 def main():
 
     # Define connection to rabbit
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host='127.0.0.1'))
+    connection = pika.BlockingConnection(
+        pika.ConnectionParameters(host='127.0.0.1'))
 
     # Define channels to listen on
-    new_agent_channel = new_channel(connection, 'events.agentmanager.agent.new')
-    dead_agent_channel = new_channel(connection, 'events.agentmanager.agent.dead')
+    new_agent_channel = new_channel(
+        connection,
+        'events.agentmanager.agent.new')
+    dead_agent_channel = new_channel(
+        connection,
+        'events.agentmanager.agent.dead')
 
     # Start channel consumers
     new_agent_channel.start_consuming()

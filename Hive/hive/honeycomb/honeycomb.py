@@ -4,6 +4,7 @@ from routes import Routes
 import signal
 import sys
 
+
 class Honeycomb(Base):
 
     def __init__(self):
@@ -12,6 +13,7 @@ class Honeycomb(Base):
 
 def exit(signal, frame):
     sys.exit(0)
+
 
 def main():
     honeycomb = Honeycomb()

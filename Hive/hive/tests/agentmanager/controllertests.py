@@ -6,6 +6,7 @@ from hive.tests.basictest import HiveBasicTest
 from hive.agentmanager.agentscontroller import Controller
 from hive.common.rpcresponse import RPCResponse
 
+
 class ControllerTests(HiveBasicTest):
 
     UUID = None
@@ -21,7 +22,7 @@ class ControllerTests(HiveBasicTest):
         data['data'] = ""
         data['machineid'] = "testmachine"
         data['reply_to'] = "ASBDLHABSDJLHBASD"
-        
+
         resp = RPCResponse()
 
         self.controller.handshake(data, resp)
@@ -39,7 +40,8 @@ class ControllerTests(HiveBasicTest):
         self.controller.get_single_agent(data, resp)
         result = resp.data
 
-        self.assertTrue(result[ControllerTests.uuid]['UUID'] == ControllerTests.uuid)
+        self.assertTrue(result[ControllerTests.uuid]
+                        ['UUID'] == ControllerTests.uuid)
 
     def heartbeat(self):
         data = {}
@@ -63,7 +65,7 @@ class ControllerTests(HiveBasicTest):
         resp = RPCResponse()
         self.controller.goodbye(data, resp)
         self.assertTrue(resp.data == 'GOODBYE!')
-    
+
     def getagents(self):
         data = {}
         data['action'] = "ALLAGENTS"

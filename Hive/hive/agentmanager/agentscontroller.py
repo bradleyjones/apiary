@@ -52,8 +52,8 @@ class Controller(Parent):
         agent = self.agents.find(data["data"])
         response = None
         if agent is not None:
-          response = {}
-          response[agent.UUID] = agent.to_hash()
+            response = {}
+            response[agent.UUID] = agent.to_hash()
         resp.respond(response)
 
     def heartbeat(self, data, resp):

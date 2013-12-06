@@ -14,8 +14,12 @@ class Controller(Parent):
 
     def setFiles(self, body, resp):
         response = []
-        for agent in body['data']['agents']: 
+        for agent in body['data']['agents']:
             ag = self.agents.find(agent)
-            r = sender.send_message('SETFILES', agent, body['data']['files'], key=ag.QUEUE) 
+            r = sender.send_message(
+                'SETFILES',
+                agent,
+                body['data']['files'],
+                key=ag.QUEUE)
             response.append(r)
         resp.respond(response)
