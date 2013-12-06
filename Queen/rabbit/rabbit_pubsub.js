@@ -4,11 +4,11 @@ var config = require('../config/config')
   , amqp = require('amqp')
   , crypto = require('crypto')
   , sys = require('sys')
-  , colors = require('colors');
+  , colors = require('colors')
+  , connection = require('../connection')._conn;
 
 exports.PubSub = function (exchangeName, routingKey, callback) {
-    var connection = amqp.createConnection({host: config.hiveIP}),
-        self = this;
+    var self = this;
 
     connection.on('ready', onReady(connection, exchangeName, routingKey, callback));
     connection.on('error', function(e) {

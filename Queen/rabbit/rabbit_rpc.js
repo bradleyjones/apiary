@@ -5,7 +5,7 @@ var config = require('../config/config')
   , crypto = require('crypto')
   , CONTENT_TYPE = 'application/json'
   , colors = require('colors')
-  , connection = amqp.createConnection({host: config.hiveIP});
+  , connection = require('../connection')._conn;
 
 //New RPC query
 exports.RPCQuery = function (queueName, data, callback) {
