@@ -3,6 +3,10 @@ body {
   background: rgb(224, 224, 224);
 }
 
+.jumbotron {
+  padding: 0.5em 0.6em;
+}
+
 .main-container {
   padding: 20px 15px;
   text-align: center;
@@ -16,4 +20,8 @@ body {
   border-color: grey;
   border-radius:5px;
   /*box-shadow: 5px 5px 5px #888888;*/
+}
+
+#AgentsDataGrid {
+  height: 519px;
 }
