@@ -1,0 +1,12 @@
+doctype 5
+html
+  head
+    title Alerts
+    include partials/head.jade
+  body
+    include partials/navbar
+    // Make this page selected in the navbar
+    script $("#alerts_navbar").addClass("active")
+    include partials/newAlertModal.jade
+
+

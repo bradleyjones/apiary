@@ -123,6 +123,9 @@ app.post('/newuser', function (req, res) {
 var home = require('./controllers/home')
 app.get('/', checkAuth, home.index);
 
+var alerts = require('./controllers/alerts')
+app.get('/alerts', checkAuth, alerts.index);
+
 var agents = require('./controllers/agents');
 app.get('/agents', agents.list);
 app.get('/agents/:id', agents.individual);

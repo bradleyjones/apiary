@@ -23,16 +23,13 @@ function onReady(connection, name, routingKey, callback) {
         //var exchange = connection.exchange(name);
 
         connection.queue('', {exclusive: true}, onQueueCreateOk(name, routingKey, callback));
-        console.log("Created Queue")
     }
 }
 
 function onQueueCreateOk(exchange, routingKey, callback) {
     return function(queue) {
-        console.log("Ready to Subscribe")
         queue.bind(exchange, routingKey);
         queue.subscribe(onMessage(callback));
-        console.log("Subscribed")
     }
 }
 

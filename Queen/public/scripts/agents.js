@@ -43,7 +43,6 @@ function updateTotal() {
  * Sockets
  */
 socket.on('agent', function(data) {
-  console.log(data);
   var value = null;
   for(var key in data) {
     value = data[key];
@@ -58,7 +57,6 @@ socket.on('offline', function(data) {
 socket.on('init', function(data) {
   console.log(data);
   for (var agent in data.data) {
-    console.log(data.data[agent])
     addAgent(data.data[agent], true);
   }
 });
