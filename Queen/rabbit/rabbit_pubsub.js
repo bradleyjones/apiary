@@ -11,15 +11,18 @@ exports.PubSub = function (exchangeName, routingKey, callback) {
         self = this;
 
     connection.on('ready', onReady(connection, exchangeName, routingKey, callback));
+    connection.on('error', function(e) {
+      throw e;
+    });
 };
 
 function onReady(connection, name, routingKey, callback) {
     return function() {
         console.log("connected to ".green + connection.serverProperties.product.green);
         // There is no need to declare type, 'topic' is the default:
-        var exchange = connection.exchange(name);
+        //var exchange = connection.exchange(name);
 
-        connection.queue('', {exclusive: true}, onQueueCreateOk(exchange, routingKey, callback));
+        connection.queue('', {exclusive: true}, onQueueCreateOk(name, routingKey, callback));
         console.log("Created Queue")
     }
 }

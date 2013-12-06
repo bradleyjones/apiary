@@ -24,7 +24,7 @@ exports.individual = function (req, res) {
 
 function subscribeReady() {
   new rabbit.pubsub('apiary', 'events.agentmanager.agent.new', function (data) {
-    io.sockets.emit('agent', data);
+    io.of('/agents').emit('agent', data);
   });
 }
 
