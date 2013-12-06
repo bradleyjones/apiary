@@ -33,6 +33,7 @@ app.configure(function () {
 });
 
 // Start listening
+//server.setMaxListeners(0); // Unlimited
 server.listen(3000, function(){
   console.log("Queen is listening on port %d".green, server.address().port)
 })

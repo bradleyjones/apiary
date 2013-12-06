@@ -1,4 +1,4 @@
-var socket = io.connect();
+var socket = io.connect('http://localhost/agents');
 var totalAgents = 0;
 
 function addAgent(agent, firstLoad) {
@@ -37,16 +37,6 @@ function setAgentOffline(id) {
 
 function updateTotal() {
   $("#total").html(totalAgents + " Agents Connected");
-}
-
-/*
- * Test Functions
- */
-function newAgent() {
-  var agentID = Math.floor((Math.random()*100)+1);
-  var agent = {id: agentID, machineid: 01};
-  socket.emit('newAgent', agent);
-  addAgent(agent);
 }
 
 /*

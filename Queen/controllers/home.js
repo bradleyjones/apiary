@@ -14,7 +14,7 @@ exports.index = function (req, res) {
 };
 
 // Web Sockets
-io.sockets.on('connection', function (socket) {
+io.of('/home').on('connection', function (socket) {
   // Get the current number of connect agents
   var msg = rabbit.constructMessage('AGENTSCOUNT', 'agentmanager');
   new rabbit.rpc('agentmanager', msg, function (data) {

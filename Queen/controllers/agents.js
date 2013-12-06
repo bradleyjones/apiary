@@ -31,7 +31,7 @@ function subscribeReady() {
 subscribeReady();
 
 // Web Sockets
-io.sockets.on('connection', function (socket) {
+io.of('/agents').on('connection', function (socket) {
   // Get the current number of connect agents
   var msg = rabbit.constructMessage('ALLAGENTS', 'agentmanager');
   new rabbit.rpc('agentmanager', msg, function (data) {
