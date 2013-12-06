@@ -22,5 +22,5 @@ class SimplePublisher(object):
                                    routing_key=routing_key,
                                    body=msg)
         self.logger.info(
-            "Publishing message: %s to routing key %s" %
-            (msg, routing_key))
+            "Publishing message: %s to routing key %s on exchange %s" %
+            (msg, routing_key, self.exchange))

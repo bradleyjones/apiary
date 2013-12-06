@@ -23,7 +23,7 @@ exports.individual = function (req, res) {
 };
 
 function subscribeReady() {
-  new rabbit.pubsub('events', 'control.agents', function (data) {
+  new rabbit.pubsub('apiary', 'events.agentmanager.agent.new', function (data) {
     io.sockets.emit('agent', data);
   });
 }
