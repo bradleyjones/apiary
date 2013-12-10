@@ -6,9 +6,10 @@ from lucene import \
 
 class Driver(object):
 
-    def __init__(self):
+    def __init__(self, config, tablename):
         lucene.initVM()
-        self.indexdir = "indexfile"
+        self.config = config
+        self.indexdir = "IndexOf%s" % tablename
         self.d = SimpleFSDirectory(File(indexDir))
         self.analyzer = StandardAnalyzer(Version.LUCENE_30)
 
@@ -65,7 +66,7 @@ class Driver(object):
         writer.optimize()
         writer.close()
 
-    def query(self, query, fields):
+    def query(self, query):
         searcher = IndexSearcher(self.d)
         query = QueryParser(Version.LUCENE_30, "text", analyzer).parse(query)
         hits = searcher.search(query, 1000)

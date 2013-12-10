@@ -10,6 +10,10 @@ class Routes(Parent):
             "handshake",
             'hive.agentmanager.agentscontroller')
         self.action(
+            "UPDATE",
+            "update",
+            'hive.agentmanager.agentscontroller')
+        self.action(
             "ALLAGENTS",
             "get_agents",
             'hive.agentmanager.agentscontroller')

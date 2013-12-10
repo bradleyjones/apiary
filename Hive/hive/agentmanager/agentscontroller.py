@@ -27,9 +27,19 @@ class Controller(Parent):
         agent.AUTHENTICATED = False
         agent.QUEUE = data['reply_to']
         agent.BOUND = False
+        agent.METADATA = {}
         self.agents.save(agent)
         self.send_agent_event(agent, "new")
         resp.respond(id)
+
+    def update(self, body, resp):
+        agent = self.agents.find(body['data']['UUID'])
+        for column in self.agents.columns:
+            if column in body['data']:
+                setattr(agent, column, body['data'][column])
+        self.agents.save(agent)
+        self.send_agent_event(agent, "update")
+        resp.respond(agent.to_hash())
 
     def goodbye(self, data, resp):
         agent = self.agents.find(data["from"])

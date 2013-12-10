@@ -113,6 +113,9 @@ class Model(object):
         if self.indexdriver:
             self.indexdriver.removeindex(model)
 
+    def query(self, query):
+        pass
+
     def findAll(self):
         result = self.table.find({})
         response = []
