@@ -8,10 +8,17 @@ from log import Log
 class Controller(Parent):
 
     def models(self):
-        logs = Log(self.config)
+        self.logs = Log(self.config)
 
     def insert(self, msg, resp):
-        resp.respond("OK")
+        data = json.loads(msg['data'])
+        log = self.logs.new()
+        log.CONTENT = data['CONTENT']
+        log.TYPE = data['TYPE']
+        log.TIMESTAMP = data['TIMESTAMP']        
+        log.METADATA = data['METADATA']
+        self.logs.save(log)
+        resp.respond(log.to_hash())
 
     def find(self, msg, resp):
         resp.respond("WOOP")

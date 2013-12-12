@@ -1,6 +1,8 @@
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 from collections import OrderedDict
 import logging
+import sys
 
 
 class ModelObject(object):
@@ -23,6 +25,7 @@ class ModelObject(object):
 class Model(object):
 
     def __init__(self, config):
+        self.config = config
         # Database Connection Config
         self.client = MongoClient(
             "mongodb://%s:%s" % (config['Database']['mongodb_host'],
@@ -32,10 +35,13 @@ class Model(object):
         self.table = self.client[self.name][self.tablename]
 
         # Model information variables
+        self.primary = '_id'
         self.columns = []
         self.indexes = []
-        self.primary = None
         self.define()
+
+        if (self.primary is '_id') and not ('_id' in self.columns):
+            self.columns.append('_id')
 
         self.logger = logging.getLogger(__name__)
         self.indexdriver = self.loadIndexDriver()
@@ -48,7 +54,7 @@ class Model(object):
                     self.config[
                         'Database'][
                         'indexdriver']).Driver(
-                    self.config)
+                    self.config, self.tablename)
             )
         else:
             return None
@@ -72,7 +78,7 @@ class Model(object):
         self.indexes.append(name)
 
     def setprimary(self, name):
-        if self.primary is None:
+        if self.primary is '_id':
             self.primary = name
         else:
             raise Exception("Can't define primary key twice")
@@ -82,9 +88,13 @@ class Model(object):
         return ModelObject(self.columns, {})
 
     def save(self, model):
-        query = {self.primary: getattr(model, self.primary)}
         obj = {}
-        record = self.table.find_one(query)
+        record = None
+
+        if getattr(model, self.primary) is not None: 
+            query = {self.primary: getattr(model, self.primary)}
+            record = self.table.find_one(query)
+
         if record is None:
             self.logger.info("Creating new record in the DB")
         else:
@@ -93,10 +103,15 @@ class Model(object):
 
         # Add columns to hash
         for col in self.columns:
-            obj[col] = getattr(model, col)
+            d = getattr(model, col)
+            if d is not None: 
+                obj[col] = d
 
         objid = self.table.save(obj)
         obj['_id'] = objid
+
+        if type(obj['_id']) is ObjectId:
+            obj['_id'] = str(obj['_id'])
 
         # If index driver exists then index baby!
         if self.indexdriver:

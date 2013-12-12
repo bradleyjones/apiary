@@ -11,4 +11,3 @@ class Log(Model):
         self.addindex('CONTENT')
         self.addindex('TIMESTAMP')
         self.addindex('TYPE')
-        self.setprimary('UUID')

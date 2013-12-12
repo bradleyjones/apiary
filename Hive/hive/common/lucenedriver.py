@@ -1,8 +1,13 @@
-import lucene
-from lucene import \
-    SimpleFSDirectory, System, File, \
-    Document, Field, StandardAnalyzer, IndexWriter, Version
+import sys, os, lucene, threading, time
+from datetime import datetime
 
+from java.io import File
+from org.apache.lucene.analysis.miscellaneous import LimitTokenCountAnalyzer
+from org.apache.lucene.analysis.standard import StandardAnalyzer
+from org.apache.lucene.document import Document, Field, FieldType
+from org.apache.lucene.index import FieldInfo, IndexWriter, IndexWriterConfig
+from org.apache.lucene.store import SimpleFSDirectory
+from org.apache.lucene.util import Version
 
 class Driver(object):
 
@@ -10,43 +15,47 @@ class Driver(object):
         lucene.initVM()
         self.config = config
         self.indexdir = "IndexOf%s" % tablename
-        self.d = SimpleFSDirectory(File(indexDir))
-        self.analyzer = StandardAnalyzer(Version.LUCENE_30)
+        self.d = SimpleFSDirectory(File(self.indexdir))
+        self.analyzer = StandardAnalyzer(Version.LUCENE_CURRENT)
+
+        self.fieldType1 = FieldType()
+        self.fieldType1.setIndexed(True)
+        self.fieldType1.setStored(False)
+        self.fieldType1.setTokenized(True)
+
+        self.fieldType2 = FieldType()
+        self.fieldType2.setIndexed(True)
+        self.fieldType2.setStored(True)
+        self.fieldType2.setTokenized(False)
 
     def buildDocument(self, fields, record):
         doc = Document()
         doc.add(
             Field("text",
                   record["_id"],
-                  Field.Store.YES,
-                  Field.Index.ANALYZED))
+                  self.fieldType2))
         for field in fields:
             doc.add(
                 Field("text",
                       record[field],
-                      Field.Store.YES,
-                      Field.Index.ANALYZED))
+                      self.fieldType1))
         return doc
 
     def index(self, fields, record):
+        conf = IndexWriterConfig(Version.LUCENE_CURRENT, self.analyzer)
         writer = IndexWriter(
-            self.d,
-            self.analyzer,
-            True,
-            IndexWriter.MaxFieldLength(512))
+            self.d, conf)
 
         doc = self.buildDocument(fields, record)
         writer.addDocument(doc)
 
-        writer.optimize()
+        writer.commit()
         writer.close()
 
     def updateindex(self, fields, record):
+        conf = IndexWriterConfig(Version.LUCENE_CURRENT, self.analyzer)
         writer = IndexWriter(
-            self.d,
-            self.analyzer,
-            True,
-            IndexWriter.MaxFieldLength(512))
+            self.d, conf)
 
         doc = self.buildDocument(fields, record)
         writer.updateDocument(lucene.Term("_id", record['_id']), doc)

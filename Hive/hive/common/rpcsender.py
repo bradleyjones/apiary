@@ -1,9 +1,11 @@
 import pika
-
+import uuid
+import json
 
 class RPCSender(object):
 
     def __init__(self, config):
+        self.config = config
         self.credentials = pika.PlainCredentials(
             self.config['Rabbit']['username'],
             self.config['Rabbit']['password'])
@@ -14,7 +16,7 @@ class RPCSender(object):
         self.resp = None
         self.id = "7beaecc1-d100-433b-803f-59920cc4dd20"
         self.result = self.channel.queue_declare(exclusive=True)
-        self.callback_queue = result.method.queue
+        self.callback_queue = self.result.method.queue
         self.channel.basic_consume(self.on_response, no_ack=True,
                                    queue=self.callback_queue)
 
@@ -22,7 +24,7 @@ class RPCSender(object):
         if self.corr_id == props.correlation_id:
             self.resp = body
 
-    def send_request(self, action, to, data, machineid,
+    def send_request(self, action, to, body, machineid,
                      fro, exchange='', key=''):
         self.resp = None
 
@@ -30,13 +32,13 @@ class RPCSender(object):
         data['action'] = action
         data['to'] = to
         data['from'] = fro
-        data['data'] = json.dumps(data)
+        data['data'] = json.dumps(body)
         data['machineid'] = machineid
 
         self.channel.basic_publish(exchange=exchange,
                                    routing_key=key,
                                    properties=pika.BasicProperties(
-                                       reply_to=callback_queue,
+                                       reply_to=self.callback_queue,
                                        correlation_id=self.corr_id,
                                    ),
                                    body=json.dumps(data))
