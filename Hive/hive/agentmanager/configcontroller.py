@@ -22,7 +22,7 @@ class Controller(Parent):
             r = self.sender.send_request(
                 'SETFILES',
                 agent,
-                data['files'],
+                sbody,
                 '000000000000',
                 'agentmanager',
                 key=ag.QUEUE)
