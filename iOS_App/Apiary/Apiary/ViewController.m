@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "DataClass.h"
 
 @interface ViewController ()
 
@@ -17,12 +18,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    DataClass *obj=[DataClass getInstance];
+    hiveIPField.text = obj.url;
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)hiveIPFieldDismiss:(id)sender {
+    DataClass *obj=[DataClass getInstance];
+    obj.url = hiveIPField.text;
+    [hiveIPField resignFirstResponder];
 }
 
 - (IBAction)usernameFieldDismiss:(id)sender {

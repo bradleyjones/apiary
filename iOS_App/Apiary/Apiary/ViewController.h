@@ -10,9 +10,11 @@
 
 @interface ViewController : UIViewController{
 
+    IBOutlet UITextField *hiveIPField;
     IBOutlet UITextField *usernameField;
     IBOutlet UITextField *passwordField;
 }
+- (IBAction)hiveIPFieldDismiss:(id)sender;
 - (IBAction)usernameFieldDismiss:(id)sender;
 - (IBAction)passwordFieldDismiss:(id)sender;
 
