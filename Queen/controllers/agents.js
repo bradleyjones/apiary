@@ -30,10 +30,14 @@ io.of('/agents').on('connection', function (socket) {
   // Get the current number of connect agents
   socket.emit('init', dataCache.agents);
 
-   //New agent added
-  //socket.on('newAgent', function (data) {
-    //socket.broadcast.emit('agent', data);
-  //});
+  // New agent added
+  socket.on('newTarget', function (data) {
+    console.log("adding new target");
+    var msg = rabbit.constructMessage('SETFILES', 'agentmanager', JSON.stringify(data));
+    new rabbit.rpc('agentmanager', msg, function (data) {
+      console.log(data);
+    });
+  });
 
    //Agent gone offline
   //socket.on('agentOffline', function (id) {

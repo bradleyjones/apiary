@@ -65,5 +65,11 @@ socket.on('init', function(data) {
  * Button Clicks
  */
 $(function() {
-  $("#new").click(function() {newAgent();});
+  $("#new").click(function() {
+    console.log("testing new target");
+    socket.emit('newTarget', {
+      "agents": ["79d94b1e-ad41-402c-b9d7-f20ec25dc640"],
+      "files": ["~/test.txt"]
+    });
+  });
 });
