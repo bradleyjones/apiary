@@ -46,7 +46,7 @@ function initialise(messageData){
 function setFiles(messageData) {
 
   //Parse FileList
-  fileList = messageData.data;
+  fileList = JSON.parse(JSON.parse(messageData.data)).files;
   console.log("Logging - " + fileList);
 
   for(file in fileList){
