@@ -27,15 +27,24 @@ function watchFile(filename, callback){
         
     //On event, read in new bytes and pass to callback
     fs.stat(filename, function(error, stats){
-      if (error) throw error;
-      fs.createReadStream(file, {
-        encoding: 'ascii',
+      console.log("Comparing old and new");
+      if (error) {
+        console.log(error);
+        throw error;
+      }
+      var change = fs.createReadStream(filename, {
         start: startByte,
         end: stats.size
-      }).addListener("data", function(){
-          callback(lines);
-          startByte = stats.size;
-      })     
+      })
+      change.on('data', function(data) {
+        console.log(data.toString());
+        callback(data.toString());
+        startByte = stats.size;
+        change.destroy();
+      })
+      change.on('error', function(e) {
+        console.log(e);
+      })
     });
   });
 }
