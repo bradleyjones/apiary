@@ -57,8 +57,12 @@ function setFiles(messageData) {
 
       //Construct Message
       message = {
-        'filename':filename,
-        'log':lines
+        'CONTENT':message,
+        'TYPE':"file",
+        'TIMESTAMP': new Date().getTime(),
+        'METADATA': {
+              'FILENAME':filename
+            }
       };
     
       //Push onto bus
