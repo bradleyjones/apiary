@@ -30,13 +30,13 @@ io.of('/agents').on('connection', function (socket) {
   // Get the current number of connect agents
   socket.emit('init', dataCache.agents);
 
-  // New agent added
-  socket.on('newAgent', function (data) {
-    socket.broadcast.emit('agent', data);
-  });
+   //New agent added
+  //socket.on('newAgent', function (data) {
+    //socket.broadcast.emit('agent', data);
+  //});
 
-  // Agent gone offline
-  socket.on('agentOffline', function (id) {
-    socket.broadcast.emit('offline', id);
-  });
+   //Agent gone offline
+  //socket.on('agentOffline', function (id) {
+    //socket.broadcast.emit('offline', id);
+  //});
 });

@@ -16,6 +16,8 @@ exports.subscribe = function() {
     }
 
     // Send new agents to the agents page
-    //io.of('/agents').emit('agent', data);
+    io.of('/agents').emit('agent', data);
+    // Send new agents to the home page
+    io.of('/home').emit('agent', data);
   });
 }
