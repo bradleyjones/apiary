@@ -29,11 +29,14 @@ class RPCSender(object):
                      fro, timeout=10, exchange='', key=''):
         self.resp = None
 
+        if not isinstance(body, basestring):
+            raise TypeError('Data must be of type string')
+
         data = {}
         data['action'] = action
         data['to'] = to
         data['from'] = fro
-        data['data'] = json.dumps(body)
+        data['data'] = body
         data['machineid'] = machineid
 
         self.channel.basic_publish(exchange=exchange,
