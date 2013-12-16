@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController{
+
+    IBOutlet UITextField *usernameField;
+    IBOutlet UITextField *passwordField;
+}
+- (IBAction)usernameFieldDismiss:(id)sender;
+- (IBAction)passwordFieldDismiss:(id)sender;
 
 @end
