@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WebViewController : UIViewController
+@interface WebViewController : UIViewController {
+    IBOutlet UITextField *hiveIPField;
+}
+- (IBAction)hiveIPFieldDismiss:(id)sender;
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
-@property (weak, nonatomic) IBOutlet UITextField *HiveIpField;
 
 
 @end

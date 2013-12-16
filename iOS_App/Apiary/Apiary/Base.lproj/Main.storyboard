@@ -161,11 +161,14 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="http://169.254.185.138" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XQW-X9-7Et">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="http://192.168.0.1" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XQW-X9-7Et">
                                 <rect key="frame" x="130" y="111" width="169" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="hiveIPFieldDismiss:" destination="sGp-TZ-Acb" eventType="editingDidEndOnExit" id="d0B-Z1-tR9"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Notifications" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a7k-mU-JhG">
                                 <rect key="frame" x="82" y="161" width="157" height="21"/>
@@ -197,7 +200,7 @@
                         <barButtonItem key="backBarButtonItem" title="Back" id="W03-wZ-GHP"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="HiveIpField" destination="XQW-X9-7Et" id="vBn-UM-1UN"/>
+                        <outlet property="hiveIPField" destination="XQW-X9-7Et" id="kxb-bn-Deh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jZV-Dc-yD1" userLabel="First Responder" sceneMemberID="firstResponder"/>
