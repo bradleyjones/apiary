@@ -87,6 +87,7 @@ function checkAuth(req, res, next) {
 }
 
 app.post('/login', function (req, res) {
+  console.log(req);
   var post = req.body;
 
   // Find a user with matching username

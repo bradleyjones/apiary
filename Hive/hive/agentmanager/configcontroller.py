@@ -17,10 +17,12 @@ class Controller(Parent):
         data = json.loads(body['data'])
         for agent in data['agents']:
             ag = self.agents.find(agent)
-            r = sender.send_message(
+            r = self.sender.send_request(
                 'SETFILES',
                 agent,
                 data['files'],
+                '000000000000',
+                'agentmanager',
                 key=ag.QUEUE)
             response.append(r)
         resp.respond(response)
