@@ -114,10 +114,10 @@
             </objects>
             <point key="canvasLocation" x="1206" y="69"/>
         </scene>
-        <!--Web View Controller - Options-->
+        <!--View Controller - Options-->
         <scene sceneID="9h8-Mm-p9v">
             <objects>
-                <viewController id="sGp-TZ-Acb" customClass="WebViewController" sceneMemberID="viewController">
+                <viewController id="sGp-TZ-Acb" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="DyS-GH-3fR"/>
                         <viewControllerLayoutGuide type="bottom" id="1YK-Zg-dCB"/>
@@ -162,12 +162,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="http://192.168.0.1" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XQW-X9-7Et">
-                                <rect key="frame" x="130" y="111" width="169" height="30"/>
+                                <rect key="frame" x="137" y="111" width="169" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
-                                    <action selector="hiveIPFieldDismiss:" destination="sGp-TZ-Acb" eventType="editingDidEndOnExit" id="d0B-Z1-tR9"/>
+                                    <action selector="hiveIPFieldDismiss:" destination="sGp-TZ-Acb" eventType="editingDidEndOnExit" id="O5u-GX-2f4"/>
                                 </connections>
                             </textField>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Notifications" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a7k-mU-JhG">
@@ -200,7 +200,7 @@
                         <barButtonItem key="backBarButtonItem" title="Back" id="W03-wZ-GHP"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="hiveIPField" destination="XQW-X9-7Et" id="kxb-bn-Deh"/>
+                        <outlet property="hiveIPField" destination="XQW-X9-7Et" id="zxK-et-eVe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jZV-Dc-yD1" userLabel="First Responder" sceneMemberID="firstResponder"/>

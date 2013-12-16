@@ -7,12 +7,14 @@
 //
 
 #import "WebViewController.h"
+#import "DataClass.h"
 
 @interface WebViewController ()
 
 @end
 
 @implementation WebViewController
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -28,8 +30,8 @@
     [super viewDidLoad];
     
     // Build the Hive login URL
-    NSString *fullURL = hiveIPField.text;
-    fullURL = [fullURL stringByAppendingString:@"/login"];
+    DataClass *obj=[DataClass getInstance];
+    NSString *fullURL = [obj.url stringByAppendingString:@"/login"];
     NSURL *url = [NSURL URLWithString:fullURL];
     
     // Get deviceID
@@ -51,9 +53,9 @@
     NSURLResponse *response;
     NSError *error;
     
-    //NSData *jsonData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSData *jsonData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
-    //NSDictionary *results = jsonData ? [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:&error] : nil;
+    NSDictionary *results = jsonData ? [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:&error] : nil;
     
     if (error) NSLog(@"[%@ %@] JSON error: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), error.localizedDescription);
 
@@ -66,7 +68,4 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)hiveIPFieldDismiss:(id)sender {
-    [hiveIPField resignFirstResponder];
-}
 @end
