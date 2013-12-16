@@ -1,6 +1,7 @@
 import pika
 import uuid
 import json
+import time
 
 class RPCSender(object):
 
@@ -25,7 +26,7 @@ class RPCSender(object):
             self.resp = body
 
     def send_request(self, action, to, body, machineid,
-                     fro, exchange='', key=''):
+                     fro, timeout=10, exchange='', key=''):
         self.resp = None
 
         data = {}
@@ -42,8 +43,10 @@ class RPCSender(object):
                                        correlation_id=self.corr_id,
                                    ),
                                    body=json.dumps(data))
-
+        starttime = time.time()
         while self.resp is None:
-            self.connection.process_data_events()
+          if (starttime + timeout) <= time.time():
+            return "Timeout!"
+          self.connection.process_data_events()
 
         return self.resp

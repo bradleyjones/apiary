@@ -26,11 +26,38 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSString *fullURL = _HiveIpField.text;
-    fullURL = [fullURL stringByAppendingString:@"/agents"];
+    
+    // Build the Hive login URL
+    NSString *fullURL = hiveIPField.text;
+    fullURL = [fullURL stringByAppendingString:@"/login"];
     NSURL *url = [NSURL URLWithString:fullURL];
-    NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
-    [_webView loadRequest:requestObj];
+    
+    // Get deviceID
+    NSUUID *deviceUUID = [[UIDevice currentDevice] identifierForVendor];
+    NSString *deviceRef = deviceUUID.UUIDString;
+    
+    NSString *post = [NSString stringWithFormat:@"device_ref=", deviceRef];
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    
+    [request setHTTPBody:postData];
+    
+    NSURLResponse *response;
+    NSError *error;
+    
+    //NSData *jsonData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+    //NSDictionary *results = jsonData ? [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:&error] : nil;
+    
+    if (error) NSLog(@"[%@ %@] JSON error: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), error.localizedDescription);
+
+    [_webView loadRequest:request];
 }
 
 - (void)didReceiveMemoryWarning
@@ -39,4 +66,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)hiveIPFieldDismiss:(id)sender {
+    [hiveIPField resignFirstResponder];
+}
 @end

@@ -15,14 +15,18 @@ class Controller(Parent):
     def setFiles(self, body, resp):
         response = []
         data = json.loads(body['data'])
+        #Create body for sending to agent
+        sbody = json.dumps({ "files": data['files'] })
         for agent in data['agents']:
             ag = self.agents.find(agent)
+            self.logger.info("Sending %s to %s" % (sbody,agent))
             r = self.sender.send_request(
                 'SETFILES',
                 agent,
-                data['files'],
+                sbody,
                 '000000000000',
                 'agentmanager',
                 key=ag.QUEUE)
+            self.logger.info("Sent!")
             response.append(r)
         resp.respond(response)

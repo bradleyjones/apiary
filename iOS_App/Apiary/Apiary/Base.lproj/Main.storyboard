@@ -20,30 +20,48 @@
                                 <rect key="frame" x="0.0" y="0.0" width="42" height="40"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hlz-wM-02v">
-                                <rect key="frame" x="40" y="392" width="116" height="41"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="33"/>
-                                <state key="normal" title="Agents"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="Drr-rs-K3l">
+                                <rect key="frame" x="0.0" y="61" width="320" height="419"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ApiaryAvatar.png" translatesAutoresizingMaskIntoConstraints="NO" id="mkY-BR-DQv">
+                                        <rect key="frame" x="61" y="188" width="198" height="206"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="5Ei-zR-pYB">
+                                        <rect key="frame" x="61" y="34" width="198" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                        <connections>
+                                            <action selector="usernameFieldDismiss:" destination="vXZ-lx-hvc" eventType="editingDidEndOnExit" id="TFw-I1-PML"/>
+                                        </connections>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="4YD-T0-ZFt">
+                                        <rect key="frame" x="61" y="90" width="198" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
+                                        <connections>
+                                            <action selector="passwordFieldDismiss:" destination="vXZ-lx-hvc" eventType="editingDidEndOnExit" id="pr7-TD-oyI"/>
+                                        </connections>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hlz-wM-02v">
+                                        <rect key="frame" x="115" y="128" width="91" height="52"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="33"/>
+                                        <state key="normal" title="Login"/>
+                                        <connections>
+                                            <segue destination="aLa-Aa-sET" kind="push" identifier="Agents" id="XhG-pQ-Fn2"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <gestureRecognizers/>
                                 <connections>
-                                    <segue destination="aLa-Aa-sET" kind="push" identifier="Agents" id="XhG-pQ-Fn2"/>
+                                    <outletCollection property="gestureRecognizers" destination="c2T-xS-nq2" appends="YES" id="xuc-VU-bIF"/>
+                                    <outletCollection property="gestureRecognizers" destination="7ZR-Ge-vU9" appends="YES" id="7dk-8U-mVj"/>
                                 </connections>
-                            </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ApiaryAvatar.png" translatesAutoresizingMaskIntoConstraints="NO" id="mkY-BR-DQv">
-                                <rect key="frame" x="40" y="94" width="240" height="264"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xY6-iI-uwf">
-                                <rect key="frame" x="194" y="397" width="76" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="33"/>
-                                <state key="normal" title="Stats">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="aLa-Aa-sET" kind="push" identifier="Stats" id="key-7L-V5B"/>
-                                </connections>
-                            </button>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -54,8 +72,14 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="passwordField" destination="4YD-T0-ZFt" id="kV8-4k-0wq"/>
+                        <outlet property="usernameField" destination="5Ei-zR-pYB" id="wgb-Og-g2r"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="c2T-xS-nq2"/>
+                <tapGestureRecognizer id="7ZR-Ge-vU9"/>
             </objects>
             <point key="canvasLocation" x="719" y="69"/>
         </scene>
@@ -137,11 +161,14 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="http://169.254.185.138" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XQW-X9-7Et">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="http://192.168.0.1" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XQW-X9-7Et">
                                 <rect key="frame" x="130" y="111" width="169" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="hiveIPFieldDismiss:" destination="sGp-TZ-Acb" eventType="editingDidEndOnExit" id="d0B-Z1-tR9"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Notifications" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a7k-mU-JhG">
                                 <rect key="frame" x="82" y="161" width="157" height="21"/>
@@ -173,12 +200,12 @@
                         <barButtonItem key="backBarButtonItem" title="Back" id="W03-wZ-GHP"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="HiveIpField" destination="XQW-X9-7Et" id="vBn-UM-1UN"/>
+                        <outlet property="hiveIPField" destination="XQW-X9-7Et" id="kxb-bn-Deh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jZV-Dc-yD1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="719" y="-540"/>
+            <point key="canvasLocation" x="1213" y="-520"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="SbH-eS-uPS">
@@ -207,7 +234,4 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
-    <inferredMetricsTieBreakers>
-        <segue reference="key-7L-V5B"/>
-    </inferredMetricsTieBreakers>
 </document>

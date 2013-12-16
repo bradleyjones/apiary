@@ -25,4 +25,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)usernameFieldDismiss:(id)sender {
+    [usernameField resignFirstResponder];
+}
+
+- (IBAction)passwordFieldDismiss:(id)sender {
+    [passwordField resignFirstResponder];
+}
 @end
