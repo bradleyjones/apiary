@@ -45,7 +45,7 @@ class RPCSender(object):
                                    body=json.dumps(data))
         starttime = time.time()
         while self.resp is None:
-          if (starttime + timeout) >= time.time():
+          if (starttime + timeout) <= time.time():
             return "Timeout!"
           self.connection.process_data_events()
 
