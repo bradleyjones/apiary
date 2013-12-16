@@ -68,8 +68,8 @@ $(function() {
   $("#new").click(function() {
     console.log("testing new target");
     socket.emit('newTarget', {
-      "agents": ["f905d3c0-1a2e-47b2-bd25-f8dc22795a19"],
-      "files": ["~/test.txt"]
+      "agents": ["a9549d73-f724-4178-b48c-dd2c9b3e1e27"],
+      "files": {"files": ["/home/bradley/test.txt"]}
     });
   });
 });

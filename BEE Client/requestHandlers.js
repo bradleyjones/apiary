@@ -47,7 +47,7 @@ function setFiles(messageData) {
 
   //Parse FileList
   fileList = messageData.data;
-  console.log("Logging - " + file);
+  console.log("Logging - " + fileList);
 
   for(file in fileList){
     filename = fileList[file];  
