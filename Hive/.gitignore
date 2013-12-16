@@ -43,3 +43,5 @@ localrc
 pylucene-*
 
 Index*
+
+*.orig
