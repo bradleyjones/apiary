@@ -38,7 +38,8 @@
     NSUUID *deviceUUID = [[UIDevice currentDevice] identifierForVendor];
     NSString *deviceRef = deviceUUID.UUIDString;
     
-    NSString *post = [NSString stringWithFormat:@"device_ref=", deviceRef];
+    NSString *post = @"device_ref=";
+    post = [post stringByAppendingString:deviceRef];
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
     

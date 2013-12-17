@@ -9,10 +9,13 @@
 #import <Foundation/Foundation.h>
 
 @interface DataClass : NSObject {
-    
+    NSString *user;
+    NSString *password;
     NSString *url;
     
 }
+@property(nonatomic,retain)NSString *user;
+@property(nonatomic,retain)NSString *password;
 @property(nonatomic,retain)NSString *url;
 +(DataClass*)getInstance;
 @end

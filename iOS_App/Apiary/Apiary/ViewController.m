@@ -35,10 +35,14 @@
 }
 
 - (IBAction)usernameFieldDismiss:(id)sender {
+    DataClass *obj=[DataClass getInstance];
+    obj.user = usernameField.text;
     [usernameField resignFirstResponder];
 }
 
 - (IBAction)passwordFieldDismiss:(id)sender {
+    DataClass *obj=[DataClass getInstance];
+    obj.password = passwordField.text;
     [passwordField resignFirstResponder];
 }
 @end

@@ -9,6 +9,8 @@
 #import "DataClass.h"
 
 @implementation DataClass
+@synthesize user;
+@synthesize password;
 @synthesize url;
 static DataClass *instance =nil;
 +(DataClass *)getInstance
@@ -17,7 +19,6 @@ static DataClass *instance =nil;
     {
         if(instance==nil)
         {
-            
             instance= [DataClass new];
         }
     }
