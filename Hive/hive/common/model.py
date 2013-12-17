@@ -121,7 +121,7 @@ class Model(object):
             else:
                 self.indexdriver.updateindex(self.indexes, obj)
 
-        return obj
+        return ModelObject(self.columns, obj)
 
     def delete(self, model):
         query = {self.primary: getattr(model, self.primary)}
