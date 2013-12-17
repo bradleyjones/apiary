@@ -6,8 +6,8 @@ class Log(Model):
     def define(self):
         self.addcolumn('CONTENT')
         self.addcolumn('TYPE')
-        self.addcolumn('TIMESTAMP')
+        self.addcolumn('EVENTTIMESTAMP')
         self.addcolumn('METADATA')
         self.addindex('CONTENT')
-        self.addindex('TIMESTAMP')
+        self.addindex('EVENTTIMESTAMP')
         self.addindex('TYPE')
