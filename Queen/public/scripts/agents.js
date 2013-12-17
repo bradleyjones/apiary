@@ -66,10 +66,13 @@ socket.on('init', function(data) {
  */
 $(function() {
   $("#new").click(function() {
-    console.log("testing new target");
-    socket.emit('newTarget', {
-      "agents": ["fdb34006-3fa8-4641-a5b1-f1c893d029a0"],
-      "files": ["/home/bradley/test.txt"]
-    });
   });
 });
+
+function testnewtarget(uuid) {
+    console.log("testing new target");
+    socket.emit('newTarget', {
+      "agents": [uuid],
+      "files": ["/home/bradley/test.txt"]
+    });
+}
