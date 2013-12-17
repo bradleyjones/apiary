@@ -38,11 +38,11 @@
     NSUUID *deviceUUID = [[UIDevice currentDevice] identifierForVendor];
     NSString *deviceRef = deviceUUID.UUIDString;
     
-    NSString *post = @"device_ref=";
+    NSString *post = @"device_id=";
     post = [post stringByAppendingString:deviceRef];
-    post = [post stringByAppendingString:@",user="];
+    post = [post stringByAppendingString:@"&user="];
     post = [post stringByAppendingString:obj.user];
-    post = [post stringByAppendingString:@",password="];
+    post = [post stringByAppendingString:@"&password="];
     post = [post stringByAppendingString:obj.password];
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
