@@ -38,6 +38,7 @@
     NSUUID *deviceUUID = [[UIDevice currentDevice] identifierForVendor];
     NSString *deviceRef = deviceUUID.UUIDString;
     
+    // Build POST body
     NSString *post = @"device_id=";
     post = [post stringByAppendingString:deviceRef];
     post = [post stringByAppendingString:@"&user="];
