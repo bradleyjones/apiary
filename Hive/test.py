@@ -1,20 +1,23 @@
 from hive.common.rpcsender import RPCSender
 import time
+import json
 
-data = {}
-data['CONTENT'] = "OMGWTFBBQ"
-data['TYPE'] = "file"
-data['TIMESTAMP'] = str(time.time())
-data['METADATA'] = {}
+#data = {}
+#data['CONTENT'] = "OMGWTFBBQ"
+#data['TYPE'] = "file"
+#data['TIMESTAMP'] = str(time.time())
+#data['METADATA'] = {}
+
+sdata = "" #json.dumps(data)
 
 config = {}
 config['Rabbit'] = {}
 config['Rabbit']['username'] = 'guest'
 config['Rabbit']['password'] = 'guest'
-config['Rabbit']['host'] = '192.168.1.106'
+config['Rabbit']['host'] = '127.0.0.1'
 
 sender = RPCSender(config)
 
-resp = sender.send_request('DATA', 'honeycomb', data, 'LKJABSDHBAS', 'Test Script', key='honeycomb')
+resp = sender.send_request('ALLAGENTS', 'hive', sdata, 'LKJABSDHBAS', 'Test Script', key='agentmanager')
 
 print resp

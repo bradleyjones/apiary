@@ -36,7 +36,7 @@ class Model(object):
 
         # Model information variables
         self.primary = '_id'
-        self.columns = []
+        self.columns = ['TIMESTAMP']
         self.indexes = []
         self.define()
 
@@ -112,6 +112,7 @@ class Model(object):
 
         if type(obj['_id']) is ObjectId:
             obj['_id'] = str(obj['_id'])
+            obj['TIMESTAMP'] = str(objid.generation_time)
 
         # If index driver exists then index baby!
         if self.indexdriver:
@@ -135,6 +136,7 @@ class Model(object):
         result = self.table.find({})
         response = []
         for res in result:
+            res['TIMESTAMP'] = str(res['_id'].generation_time)
             response.append(ModelObject(self.columns, res))
         return response
 
@@ -143,5 +145,6 @@ class Model(object):
         record = self.table.find_one(query)
         if record is None:
             return None
+        record['TIMESTAMP'] = str(record['_id'].generation_time)
         response = ModelObject(self.columns, record)
         return response
