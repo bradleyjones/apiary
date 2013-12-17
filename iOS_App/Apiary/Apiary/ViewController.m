@@ -18,7 +18,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    NSArray *directories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documents = [directories lastObject];
+    NSString *filePathURL = [documents stringByAppendingPathComponent:@"URL.plist"];
+    
     DataClass *obj=[DataClass getInstance];
+    obj.url = [[NSDictionary dictionaryWithContentsOfFile:filePathURL] objectForKey:@"URL"];
     hiveIPField.text = obj.url;
 }
 
@@ -29,8 +35,17 @@
 }
 
 - (IBAction)hiveIPFieldDismiss:(id)sender {
+    NSArray *directories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documents = [directories lastObject];
+    
+    NSString *filePathURL = [documents stringByAppendingPathComponent:@"URL.plist"];
+    
+    NSDictionary *url_storage = @{@"URL" : hiveIPField.text};
+      [url_storage writeToFile:filePathURL atomically:YES];
+    
     DataClass *obj=[DataClass getInstance];
     obj.url = hiveIPField.text;
+  
     [hiveIPField resignFirstResponder];
 }
 

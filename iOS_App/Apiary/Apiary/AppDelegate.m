@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "DataClass.h"
 
 @implementation AppDelegate
 
@@ -14,6 +15,15 @@
 	// Let the device know we want to receive push notifications
 	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
      (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setBool:YES forKey:@"Key1"];
+    [userDefaults setInteger:123 forKey:@"Key2"];
+    [userDefaults setObject:@"Some Object" forKey:@"Key3"];
+    [userDefaults boolForKey:@"Key1"];
+    [userDefaults integerForKey:@"Key2"];
+    [userDefaults objectForKey:@"Key3"];
+    [userDefaults synchronize];
     
     return YES;
 }
