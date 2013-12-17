@@ -19,8 +19,10 @@ Sting - A apiary hook into the iOS push notification service.
 Installing Hive
 ---------------
 
-* Run "python setup.py develop" to install the Hive binarys in development mode 
-* Run "sudo install\_configs.sh" to install the Hive configs into /etc. *BEWARE* If running this a second time it will overwrite any modifications made to the apiary configs.
+* Copy installrc.example to installrc
+* Edit installrc to match your environment
+* Run ./install.sh *BEWARE* If running this a second time it will overwrite any modifications made to the apiary configs.
+
 
 Running Hive on localhost
 -------------------------
@@ -47,7 +49,7 @@ Unit test suite to come...
 Troubleshooting
 ---------------
 
-##### Running "python setup.py develop" doesn't work for me!
+##### Python says it can't find develop
 You may need to install setuptools. To do that run "python ez\_setup.py". Or install it from your reposititory manager.
 
 Libraries Used and their Licenses 

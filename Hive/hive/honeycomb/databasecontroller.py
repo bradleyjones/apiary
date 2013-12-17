@@ -15,7 +15,7 @@ class Controller(Parent):
         log = self.logs.new()
         log.CONTENT = data['CONTENT']
         log.TYPE = data['TYPE']
-        log.TIMESTAMP = data['TIMESTAMP']        
+        log.EVENTTIMESTAMP = data['EVENTTIMESTAMP']        
         log.METADATA = data['METADATA']
         self.logs.save(log)
         resp.respond(log.to_hash())
