@@ -26,8 +26,14 @@ static DataClass *instance =nil;
             NSArray *directories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
             NSString *documents = [directories lastObject];
             instance.filePath = [documents stringByAppendingPathComponent:@"data_storage.plist"];
-            instance.data_storage = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"URL", @"", @"username", @"", @"password", @"", nil];
-            [instance.data_storage writeToFile:instance.filePath atomically:YES];
+            NSMutableDictionary *dataLoad = [NSMutableDictionary dictionaryWithContentsOfFile:instance.filePath];
+            if (dataLoad == Nil) {
+                instance.data_storage = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"URL", @"", @"username", @"", @"password", @"", nil];
+                [instance.data_storage writeToFile:instance.filePath atomically:YES];
+            }
+            else {
+                instance.data_storage = dataLoad;
+            }
         }
     }
     return instance;
