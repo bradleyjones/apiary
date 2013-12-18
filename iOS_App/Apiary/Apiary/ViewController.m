@@ -20,9 +20,9 @@
     [super viewDidLoad];
     
     DataClass *obj=[DataClass getInstance];
-    obj.url = [[NSDictionary dictionaryWithContentsOfFile:obj.filePath] objectForKey:@"URL"];
-    obj.user = [[NSDictionary dictionaryWithContentsOfFile:obj.filePath] objectForKey:@"username"];
-    obj.password = [[NSDictionary dictionaryWithContentsOfFile:obj.filePath] objectForKey:@"password"];
+    obj.url = [obj.data_storage objectForKey:@"URL"];
+    obj.user = [obj.data_storage objectForKey:@"username"];
+    obj.password = [obj.data_storage objectForKey:@"password"];
     hiveIPField.text = obj.url;
     usernameField.text = obj.user;
     passwordField.text = obj.password;

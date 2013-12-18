@@ -57,9 +57,9 @@ function setFiles(messageData) {
 
       //Construct Message
       payload = {
-        'CONTENT':message,
+        'CONTENT':JSON.stringify(message),
         'TYPE':"file",
-        'TIMESTAMP': new Date().getTime(),
+        'EVENTTIMESTAMP': new Date().getTime().toString(),
         'METADATA': {
               'FILENAME':filename
             }
