@@ -19,13 +19,13 @@
 {
     [super viewDidLoad];
     
-    NSArray *directories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documents = [directories lastObject];
-    NSString *filePathURL = [documents stringByAppendingPathComponent:@"URL.plist"];
-    
     DataClass *obj=[DataClass getInstance];
-    obj.url = [[NSDictionary dictionaryWithContentsOfFile:filePathURL] objectForKey:@"URL"];
+    obj.url = [obj.data_storage objectForKey:@"URL"];
+    obj.user = [obj.data_storage objectForKey:@"username"];
+    obj.password = [obj.data_storage objectForKey:@"password"];
     hiveIPField.text = obj.url;
+    usernameField.text = obj.user;
+    passwordField.text = obj.password;
 }
 
 - (void)didReceiveMemoryWarning
@@ -35,16 +35,11 @@
 }
 
 - (IBAction)hiveIPFieldDismiss:(id)sender {
-    NSArray *directories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documents = [directories lastObject];
-    
-    NSString *filePathURL = [documents stringByAppendingPathComponent:@"URL.plist"];
-    
-    NSDictionary *url_storage = @{@"URL" : hiveIPField.text};
-      [url_storage writeToFile:filePathURL atomically:YES];
-    
     DataClass *obj=[DataClass getInstance];
     obj.url = hiveIPField.text;
+    [obj.data_storage setValue:obj.url forKey:@"URL"];
+    
+    [obj.data_storage writeToFile:obj.filePath atomically:YES];
   
     [hiveIPField resignFirstResponder];
 }
@@ -52,12 +47,20 @@
 - (IBAction)usernameFieldDismiss:(id)sender {
     DataClass *obj=[DataClass getInstance];
     obj.user = usernameField.text;
+    [obj.data_storage setValue:obj.user forKey:@"username"];
+    
+    [obj.data_storage writeToFile:obj.filePath atomically:YES];
+    
     [usernameField resignFirstResponder];
 }
 
 - (IBAction)passwordFieldDismiss:(id)sender {
     DataClass *obj=[DataClass getInstance];
     obj.password = passwordField.text;
+    [obj.data_storage setValue:obj.password forKey:@"password"];
+    
+    [obj.data_storage writeToFile:obj.filePath atomically:YES];
+    
     [passwordField resignFirstResponder];
 }
 @end

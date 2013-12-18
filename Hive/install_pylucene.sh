@@ -6,7 +6,7 @@ hash ant 2> /dev/null || { echo >&2 "I require ant but it's not installed.  Abor
 hash make 2> /dev/null || { echo >&2 "I require make but it's not installed.  Aborting."; exit 1; }
 hash gcc 2> /dev/null || { echo >&2 "I require gcc but it's not installed.  Aborting."; exit 1; }
 
-if [ ! -f pulucene-4.5.1-1-src.tar.gz ]; then
+if [ ! -f pylucene-4.5.1-1-src.tar.gz ]; then
   wget "http://mirror.ox.ac.uk/sites/rsync.apache.org/lucene/pylucene/pylucene-4.5.1-1-src.tar.gz"
 fi
 
