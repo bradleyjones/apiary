@@ -1,5 +1,5 @@
 #!/bin/bash
 
-mkdir /etc/apiary
+mkdir -p /etc/apiary
 
 cp etc/*.ini /etc/apiary/.
