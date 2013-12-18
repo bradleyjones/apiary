@@ -22,3 +22,14 @@ class Controller(Parent):
 
     def find(self, msg, resp):
         resp.respond("WOOP")
+
+    def findall(self, msg, resp):
+        logs = self.logs.findAll()
+        response = {}
+        for log in logs:
+            response[str(log._id)] = log.to_hash()
+        resp.respond(json.dumps(response))
+
+    def count(self, msg, resp):
+        logs = self.logs.findAll()
+        resp.respond(len(logs))

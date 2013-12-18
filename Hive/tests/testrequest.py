@@ -18,6 +18,6 @@ config['Rabbit']['host'] = '127.0.0.1'
 
 sender = RPCSender(config)
 
-resp = sender.send_request('DATA', 'hive', sdata, 'LKJABSDHBAS', 'Test Script', key='honeycomb')
+resp = sender.send_request('FINDALL', 'hive', sdata, 'LKJABSDHBAS', 'Test Script', key='honeycomb')
 
 print resp

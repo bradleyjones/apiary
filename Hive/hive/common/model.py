@@ -137,6 +137,7 @@ class Model(object):
         response = []
         for res in result:
             res['TIMESTAMP'] = str(res['_id'].generation_time)
+            res['_id'] = str(res['_id'])
             response.append(ModelObject(self.columns, res))
         return response
 
@@ -146,5 +147,6 @@ class Model(object):
         if record is None:
             return None
         record['TIMESTAMP'] = str(record['_id'].generation_time)
+        record['_id'] = str(record['_id'])
         response = ModelObject(self.columns, record)
         return response
