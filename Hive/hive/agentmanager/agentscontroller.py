@@ -28,7 +28,7 @@ class Controller(Parent):
         agent.QUEUE = data['reply_to']
         agent.BOUND = False
         agent.METADATA = {}
-        self.agents.save(agent)
+        agent = self.agents.save(agent)
         self.send_agent_event(agent, "new")
         resp.respond(id)
 

@@ -1,0 +1,13 @@
+#!bin/bash
+
+JAVA=/usr/lib/jvm/java-7-openjdk-i386
+
+# JCC Configuration
+export JCC_JDK=$JAVA
+
+# Makefile configuration
+export PREFIX_PYTHON=/usr
+export ANT="JAVA_HOME=$JAVA /usr/bin/ant"
+export PYTHON=$PREFIX_PYTHON/bin/python
+export JCC="$PYTHON -m jcc --shared"
+export NUM_FILES=8

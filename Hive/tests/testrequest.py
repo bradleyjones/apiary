@@ -2,13 +2,13 @@ from hive.common.rpcsender import RPCSender
 import time
 import json
 
-#data = {}
-#data['CONTENT'] = "OMGWTFBBQ"
-#data['TYPE'] = "file"
-#data['TIMESTAMP'] = str(time.time())
-#data['METADATA'] = {}
+data = {}
+data['CONTENT'] = "OMGWTFBBQ"
+data['TYPE'] = "file"
+data['EVENTTIMESTAMP'] = str(time.time())
+data['METADATA'] = {}
 
-sdata = "" #json.dumps(data)
+sdata = json.dumps(data)
 
 config = {}
 config['Rabbit'] = {}
@@ -18,6 +18,6 @@ config['Rabbit']['host'] = '127.0.0.1'
 
 sender = RPCSender(config)
 
-resp = sender.send_request('ALLAGENTS', 'hive', sdata, 'LKJABSDHBAS', 'Test Script', key='agentmanager')
+resp = sender.send_request('DATA', 'hive', sdata, 'LKJABSDHBAS', 'Test Script', key='honeycomb')
 
 print resp

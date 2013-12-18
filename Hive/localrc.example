@@ -1,4 +1,3 @@
 #!/bin/bash
 MULTIPLEXER="SCREEN" #SCREEN   Or  TMUX
 DAEMONS=true
-#export JCC_JDK=/usr/lib/jvm/java-7-openjdk-amd64/bin/

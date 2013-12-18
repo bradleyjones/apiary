@@ -39,6 +39,9 @@ class AgentMonitor(Base):
                             'events.agentmanager.agent.dead')
                         self.agentmodel.save(agent)
 
+                # Added sleep for the CPU's sake
+                time.sleep(1)
+
         except Exception as e:
             self.logger.error("Errors Occured: %s", str(e))
         except KeyboardInterrupt:
