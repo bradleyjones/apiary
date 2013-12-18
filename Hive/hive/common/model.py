@@ -49,15 +49,15 @@ class Model(object):
     # Functions for loading the indexer
     def loadIndexDriver(self):
         if len(self.indexes) > 0:
-            return (
-                self.my_import(
-                    self.config[
-                        'Database'][
-                        'indexdriver']).Driver(
-                    self.config, self.tablename)
-            )
-        else:
-            return None
+            if 'indexdriver' in self.config['Database']:
+                return (
+                    self.my_import(
+                        self.config[
+                            'Database'][
+                            'indexdriver']).Driver(
+                        self.config, self.tablename)
+                )
+        return None
 
     def my_import(self, name):
         __import__(name)
