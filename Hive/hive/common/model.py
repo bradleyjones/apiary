@@ -130,7 +130,8 @@ class Model(object):
             self.indexdriver.removeindex(model)
 
     def query(self, query):
-        pass
+        results = self.indexdriver.query(query)
+        return results
 
     def findAll(self):
         result = self.table.find({})
