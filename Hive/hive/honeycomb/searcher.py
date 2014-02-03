@@ -41,29 +41,24 @@ class Searcher(Proc):
         self.indexdir = "IndexOfLogs"
         self.d = SimpleFSDirectory(File(self.indexdir))
         self.analyzer = StandardAnalyzer(Version.LUCENE_CURRENT)
+        dr = DirectoryReader.open(self.d)
 
         while self.running:
-            searchresults = search(self.query)
-            self.channel.basic_publish(exchange='', routing_key=self.queue, body=searchresults)
+            dr = DirectoryReader.openIfChanged(dr)
+            searcher = IndexSearcher(dr)
+            query = QueryParser(Version.LUCENE_30, "id", self.analyzer).parse(query)
+            hits = searcher.search(query, 1000)
+
+            results = []
+            for hit in hits.scoreDocs:
+              doc = searcher.doc(hit.doc)
+              record = doc.get("id")
+              results.append(record)
+
+            self.channel.basic_publish(exchange='', routing_key=self.queue, body=results)
             time.sleep(1)
         
         self.connection.close()
-    
-    def search(self, query):
-        searcher = IndexSearcher(self.d)
-        query = QueryParser.parse(query, "text", self.analyzer)
-        hits = searcher.search(query)
-
-        results = []
-
-        for hit in hits.scoreDocs:
-            record = {}
-            doc = searcher.doc(hit.doc)
-            for field in fields:
-                record[field] = doc.get(field).encode("utf-8")
-            results.append(record)
-
-        return results
 
     def stop(self):
         running = False

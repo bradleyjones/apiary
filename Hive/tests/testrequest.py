@@ -10,7 +10,7 @@ data['METADATA'] = {}
 
 sdata = json.dumps(data)
 
-sdata = "+TYPE:string"
+sdata = "TYPE:string"
 
 config = {}
 config['Rabbit'] = {}
