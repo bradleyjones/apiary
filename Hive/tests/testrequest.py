@@ -10,6 +10,8 @@ data['METADATA'] = {}
 
 sdata = json.dumps(data)
 
+sdata = "+TYPE:string"
+
 config = {}
 config['Rabbit'] = {}
 config['Rabbit']['username'] = 'guest'
@@ -18,6 +20,6 @@ config['Rabbit']['host'] = '127.0.0.1'
 
 sender = RPCSender(config)
 
-resp = sender.send_request('FINDALL', 'hive', sdata, 'LKJABSDHBAS', 'Test Script', key='honeycomb')
+resp = sender.send_request('QUERY', 'hive', sdata, 'LKJABSDHBAS', 'Test Script', key='honeycomb')
 
 print resp
