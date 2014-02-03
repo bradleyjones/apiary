@@ -34,14 +34,8 @@
     NSString *fullURL = [obj.url stringByAppendingString:@"/login"];
     NSURL *url = [NSURL URLWithString:fullURL];
     
-    // Get deviceID
-    NSUUID *deviceUUID = [[UIDevice currentDevice] identifierForVendor];
-    NSString *deviceRef = deviceUUID.UUIDString;
-    
     // Build POST body
-    NSString *post = @"device_id=";
-    post = [post stringByAppendingString:deviceRef];
-    post = [post stringByAppendingString:@"&user="];
+    NSString *post = @"user=";
     post = [post stringByAppendingString:obj.user];
     post = [post stringByAppendingString:@"&password="];
     post = [post stringByAppendingString:obj.password];

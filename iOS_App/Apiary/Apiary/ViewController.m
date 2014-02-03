@@ -23,9 +23,11 @@
     obj.url = [obj.data_storage objectForKey:@"URL"];
     obj.user = [obj.data_storage objectForKey:@"username"];
     obj.password = [obj.data_storage objectForKey:@"password"];
+    obj.device_id = [obj.data_storage objectForKey:@"device_id"];
     hiveIPField.text = obj.url;
     usernameField.text = obj.user;
     passwordField.text = obj.password;
+    deviceField.text = obj.device_id;
 }
 
 - (void)didReceiveMemoryWarning

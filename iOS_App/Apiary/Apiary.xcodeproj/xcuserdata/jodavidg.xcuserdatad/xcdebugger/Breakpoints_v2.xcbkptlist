@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Apiary/DataClass.m"
-            timestampString = "409061520.138292"
+            timestampString = "413133979.559749"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
             landmarkName = "+getInstance"
             landmarkType = "5">
          </BreakpointContent>
