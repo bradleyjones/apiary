@@ -34,14 +34,14 @@ class Driver(object):
     def buildDocument(self, fields, record):
         doc = Document()
         doc.add(
-            Field("text",
+            Field("id",
                   record["_id"],
                   self.fieldType2))
         for field in fields:
-            doc.add(
-                Field("text",
-                      record[field],
-                      self.fieldType1))
+          doc.add(
+              Field(field,
+                    record[field],
+                    self.fieldType1))
         return doc
 
     def index(self, fields, record):
@@ -80,7 +80,7 @@ class Driver(object):
 
     def query(self, query):
         searcher = IndexSearcher(DirectoryReader.open(self.d))
-        query = QueryParser(Version.LUCENE_30, "text", self.analyzer).parse(query)
+        query = QueryParser(Version.LUCENE_30, "id", self.analyzer).parse(query)
         hits = searcher.search(query, 1000)
 
         results = []
@@ -88,9 +88,6 @@ class Driver(object):
         for hit in hits.scoreDocs:
             record = {}
             doc = searcher.doc(hit.doc)
-           # for field in fields:
-           #     record[field] = doc.get(field).encode("utf-8")
-            
             record = doc.get("text")
             results.append(record)
 
