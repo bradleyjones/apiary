@@ -1,3 +1,4 @@
+include settingsModal
 .navbar.navbar-inverse.navbar-fixed-top#main-navbar
   .container
     .navbar-header
@@ -17,3 +18,6 @@
       ul.nav.navbar-nav.pull-right
         li#logout
           a(href='logout') Logout
+        li#settings
+          button#settings.btn.btn-primary.btn-lg(data-toggle='modal', data-target='#settingsModal')
+            span.glyphicon.glyphicon-cog
