@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 John Davidge. All rights reserved.
 //
 
+#import "WebViewController.h"
 #import "ViewController.h"
 #import "DataClass.h"
 
@@ -34,6 +35,19 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    if (segue.identifier != NULL){
+        if (!([segue.identifier isEqualToString:@"nothing"])){
+            WebViewController *transferViewController = segue.destinationViewController;
+    
+            NSLog(@"prepareForSegue: %@", segue.identifier);
+            transferViewController.request_type = segue.identifier;
+        }
+    }
+    
 }
 
 - (IBAction)hiveIPFieldDismiss:(id)sender {
