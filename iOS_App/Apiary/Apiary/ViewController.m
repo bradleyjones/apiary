@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 John Davidge. All rights reserved.
 //
 
+#import "WebViewController.h"
 #import "ViewController.h"
 #import "DataClass.h"
 
@@ -23,15 +24,30 @@
     obj.url = [obj.data_storage objectForKey:@"URL"];
     obj.user = [obj.data_storage objectForKey:@"username"];
     obj.password = [obj.data_storage objectForKey:@"password"];
+    obj.device_id = [obj.data_storage objectForKey:@"device_id"];
     hiveIPField.text = obj.url;
     usernameField.text = obj.user;
     passwordField.text = obj.password;
+    deviceField.text = obj.device_id;
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    if (segue.identifier != NULL){
+        if (!([segue.identifier isEqualToString:@"nothing"])){
+            WebViewController *transferViewController = segue.destinationViewController;
+    
+            NSLog(@"prepareForSegue: %@", segue.identifier);
+            transferViewController.request_type = segue.identifier;
+        }
+    }
+    
 }
 
 - (IBAction)hiveIPFieldDismiss:(id)sender {

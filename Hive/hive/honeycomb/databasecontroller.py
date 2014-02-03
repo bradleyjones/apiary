@@ -31,7 +31,7 @@ class Controller(Parent):
         resp.respond(json.dumps(response))
 
     def query(self, msg, resp):
-        results = logs.query(msg['data'])
+        results = self.logs.query(msg['data'])
         resp.respond(results)
 
     def count(self, msg, resp):

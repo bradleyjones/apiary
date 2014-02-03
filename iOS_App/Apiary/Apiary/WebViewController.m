@@ -31,17 +31,14 @@
     
     // Build the Hive login URL
     DataClass *obj=[DataClass getInstance];
-    NSString *fullURL = [obj.url stringByAppendingString:@"/login"];
+    NSString *fullURL = [obj.url stringByAppendingString:self.request_type];
     NSURL *url = [NSURL URLWithString:fullURL];
     
-    // Get deviceID
-    NSUUID *deviceUUID = [[UIDevice currentDevice] identifierForVendor];
-    NSString *deviceRef = deviceUUID.UUIDString;
+    // Debug output
+    NSLog(@"URL: %@", fullURL);
     
     // Build POST body
-    NSString *post = @"device_id=";
-    post = [post stringByAppendingString:deviceRef];
-    post = [post stringByAppendingString:@"&user="];
+    NSString *post = @"user=";
     post = [post stringByAppendingString:obj.user];
     post = [post stringByAppendingString:@"&password="];
     post = [post stringByAppendingString:obj.password];
@@ -64,8 +61,9 @@
     NSDictionary *results = jsonData ? [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:&error] : nil;
     
     if (error) NSLog(@"[%@ %@] JSON error: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), error.localizedDescription);
-
+    
     [_webView loadRequest:request];
+    
 }
 
 - (void)didReceiveMemoryWarning

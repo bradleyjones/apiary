@@ -13,6 +13,7 @@
     IBOutlet UITextField *hiveIPField;
     IBOutlet UITextField *usernameField;
     IBOutlet UITextField *passwordField;
+    IBOutlet UITextView *deviceField;
 }
 - (IBAction)hiveIPFieldDismiss:(id)sender;
 - (IBAction)usernameFieldDismiss:(id)sender;
