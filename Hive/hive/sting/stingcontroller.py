@@ -8,6 +8,7 @@ import time
 class Controller(Parent):
 
     def models(self):
+        self.users = User(self.config)
 
     # BELOW THIS LINE ARE ALL CONTROLLER ACTIONS
 
