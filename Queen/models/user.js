@@ -6,7 +6,8 @@ var mongoose = require("mongoose")
 var UserSchema = new Schema({
   username: { type: String, required: true, index: {unique: true}},
   password: { type: String, required: true},
-  device_id: { type: String, required: false}
+  device_id: { type: String, required: false},
+  device_name: { type: String, required: false}
 });
 
 UserSchema.pre('save', function(next) {
