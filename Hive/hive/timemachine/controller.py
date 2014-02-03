@@ -2,8 +2,8 @@ import json
 from ..common.controller import Controller as Parent
 from ..common.simplepublisher import SimplePublisher
 from worker import Worker
-from machine import Machine
-
+from machine import Writer
+from hive.common.longrunningproc import ProcHandler
 
 class Controller(Parent):
 
@@ -15,11 +15,12 @@ class Controller(Parent):
     def new(self, body, resp):
         worker = self.workers.new()
 
-        machine = Machine(self.config)
+        
+        machine = ProcHandler(self.config, Writer)
         machine.start()
 
         worker.CONTROLQUEUE = machine.stopqueue
-        worker.OUTPUTQUEUE = machine.writer.queue
+        worker.OUTPUTQUEUE = machine.subproc.queue
 
         self.workers.save(worker)
 
