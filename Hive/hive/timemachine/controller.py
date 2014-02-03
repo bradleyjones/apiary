@@ -16,7 +16,7 @@ class Controller(Parent):
         worker = self.workers.new()
 
         
-        machine = ProcHandler(self.config, Writer)
+        machine = ProcHandler(self.config, Writer(self.config))
         machine.start()
 
         worker.CONTROLQUEUE = machine.stopqueue

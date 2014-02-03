@@ -12,7 +12,7 @@ class ProcHandler(Process):
         self.connection = None
         self.channel = None
         self.stopqueue = None
-        self.subproc = subproc(self.config)
+        self.subproc = subproc
 
     def run(self):
         #### Control Rig Setup ####
