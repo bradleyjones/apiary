@@ -8,3 +8,4 @@ class Routes(Parent):
         self.action("FIND", "find", "hive.honeycomb.databasecontroller")
         self.action("COUNT", "count", "hive.honeycomb.databasecontroller")
         self.action("FINDALL", "findall", "hive.honeycomb.databasecontroller")
+        self.action("QUERY", "query", "hive.honeycomb.databasecontroller")

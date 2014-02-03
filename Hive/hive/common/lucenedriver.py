@@ -8,6 +8,9 @@ from org.apache.lucene.document import Document, Field, FieldType
 from org.apache.lucene.index import FieldInfo, IndexWriter, IndexWriterConfig
 from org.apache.lucene.store import SimpleFSDirectory
 from org.apache.lucene.util import Version
+from org.apache.lucene.queryparser.classic import QueryParser
+from org.apache.lucene.search import IndexSearcher
+from org.apache.lucene.index import DirectoryReader
 
 class Driver(object):
 
@@ -76,8 +79,8 @@ class Driver(object):
         writer.close()
 
     def query(self, query):
-        searcher = IndexSearcher(self.d)
-        query = QueryParser(Version.LUCENE_30, "text", analyzer).parse(query)
+        searcher = IndexSearcher(DirectoryReader.open(self.d))
+        query = QueryParser(Version.LUCENE_30, "text", self.analyzer).parse(query)
         hits = searcher.search(query, 1000)
 
         results = []
@@ -85,8 +88,10 @@ class Driver(object):
         for hit in hits.scoreDocs:
             record = {}
             doc = searcher.doc(hit.doc)
-            for field in fields:
-                record[field] = doc.get(field).encode("utf-8")
+           # for field in fields:
+           #     record[field] = doc.get(field).encode("utf-8")
+            
+            record = doc.get("text")
             results.append(record)
 
         return results
