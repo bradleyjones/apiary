@@ -43,6 +43,8 @@ class Searcher(Proc):
         self.analyzer = StandardAnalyzer(Version.LUCENE_CURRENT)
         dr = DirectoryReader.open(self.d)
 
+        self.ready.set()
+
         while self.running:
             dr = DirectoryReader.openIfChanged(dr)
             searcher = IndexSearcher(dr)

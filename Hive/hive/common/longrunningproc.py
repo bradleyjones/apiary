@@ -2,7 +2,7 @@ from multiprocessing import Process
 import threading
 import pika
 from hive.common.rpcsender import RPCSender
-
+import time
 
 class ProcHandler(Process):
 
@@ -13,6 +13,7 @@ class ProcHandler(Process):
         self.channel = None
         self.stopqueue = None
         self.subproc = subproc
+        self.ready = threading.Event()
 
     def run(self):
         #### Control Rig Setup ####
@@ -27,7 +28,12 @@ class ProcHandler(Process):
         ############################
 
         self.subproc.start()
-
+        
+        if(not subproc.ready.wait(10)) {
+            raise Exception("Long Running Process Failed to Start")
+        }
+        self.ready.set()
+      
         # Start Consuming Stop Queue
         channel.basic_consume(on_message, queue=self.stopqueue, no_ack=True)
         channel.start_consuming()
@@ -41,9 +47,10 @@ class Proc(threading.Thread):
     def __init__(self, config):
         self.daemon = True
         self.config = config
+        self.ready = threading.Event()
 
     def run(self):
-        raise NotImplementedError
+        raise NotImplementedError()
 
     def stop(self):
         raise NotImplementedError

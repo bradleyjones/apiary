@@ -17,6 +17,10 @@ class Controller(Parent):
         machine = ProcHandler(self.config, Searcher(self.config, msg.data))
         machine.start()
 
+        if(not machine.ready.wait(10)) {
+            raise Exception("Long Running Process Failed to Start")
+        }
+
         searcher.CONTROLQUEUE = machine.stopqueue
         searcher.OUTPUTQUEUE = machine.subproc.queue
         searcher.QUERY = msg.body
