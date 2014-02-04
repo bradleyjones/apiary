@@ -2,6 +2,7 @@ import pika
 from hive.common.rpcsender import RPCSender
 from hive.common.longrunningproc import Proc
 import time
+import json
 
 import sys, os, lucene, threading, time
 from datetime import datetime
@@ -13,17 +14,22 @@ from org.apache.lucene.document import Document, Field, FieldType
 from org.apache.lucene.index import FieldInfo, IndexReader
 from org.apache.lucene.store import SimpleFSDirectory
 from org.apache.lucene.util import Version
-
+from org.apache.lucene.index import DirectoryReader
+from org.apache.lucene.search import IndexSearcher
+from org.apache.lucene.queryparser.classic import QueryParser
 
 class Searcher(Proc):
 
     def __init__(self, config, query):
-        super(Proc).__init__(config)
+        Proc.__init__(self, config)
         self.connection = None
         self.channel = None
         self.queue = None
         self.running = True
         self.query = query
+
+    def getQueue(self):
+      return self.queue
 
     def run(self):
         credentials = pika.PlainCredentials(
@@ -34,9 +40,9 @@ class Searcher(Proc):
         self.channel = self.connection.channel()
 
         # Setup queue for outputing data
-        result = channel.queue_declare(exclusive=true)
+        result = self.channel.queue_declare()
         self.queue = result.method.queue
-        
+
         lucene.initVM()
         self.indexdir = "IndexOfLogs"
         self.d = SimpleFSDirectory(File(self.indexdir))
@@ -46,10 +52,13 @@ class Searcher(Proc):
         self.ready.set()
 
         while self.running:
-            dr = DirectoryReader.openIfChanged(dr)
+            ndr = DirectoryReader.openIfChanged(dr)
+            if ndr is not None:
+              dr = ndr
+
             searcher = IndexSearcher(dr)
-            query = QueryParser(Version.LUCENE_30, "id", self.analyzer).parse(query)
-            hits = searcher.search(query, 1000)
+            pq = QueryParser(Version.LUCENE_30, "id", self.analyzer).parse(self.query)
+            hits = searcher.search(pq, 1000)
 
             results = []
             for hit in hits.scoreDocs:
@@ -57,7 +66,9 @@ class Searcher(Proc):
               record = doc.get("id")
               results.append(record)
 
-            self.channel.basic_publish(exchange='', routing_key=self.queue, body=results)
+            respon = json.dumps(results)
+
+            self.channel.basic_publish(exchange='', routing_key=self.queue, body=respon)
             time.sleep(1)
         
         self.connection.close()

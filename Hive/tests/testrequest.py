@@ -4,13 +4,13 @@ import json
 
 data = {}
 data['CONTENT'] = "OMGWTFBBQ"
-data['TYPE'] = "file"
+data['TYPE'] = "string"
 data['EVENTTIMESTAMP'] = str(time.time())
 data['METADATA'] = {}
 
 sdata = json.dumps(data)
 
-sdata = "TYPE:string"
+#sdata = "TYPE:string"
 
 config = {}
 config['Rabbit'] = {}
@@ -20,6 +20,6 @@ config['Rabbit']['host'] = '127.0.0.1'
 
 sender = RPCSender(config)
 
-resp = sender.send_request('QUERY', 'hive', sdata, 'LKJABSDHBAS', 'Test Script', key='honeycomb')
+resp = sender.send_request('DATA', 'hive', sdata, 'LKJABSDHBAS', 'Test Script', key='honeycomb')
 
 print resp

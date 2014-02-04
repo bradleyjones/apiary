@@ -1,3 +1,4 @@
+import json
 from multiprocessing import Process
 import threading
 import pika
@@ -6,14 +7,13 @@ import time
 
 class ProcHandler(Process):
 
-    def __init__(self, config, subproc):
-        super(Machine, self).__init__()
+    def __init__(self, config, subproc, queue):
+        Process.__init__(self)
         self.config = config
         self.connection = None
         self.channel = None
-        self.stopqueue = None
+        self.stopqueue = queue
         self.subproc = subproc
-        self.ready = threading.Event()
 
     def run(self):
         #### Control Rig Setup ####
@@ -23,28 +23,35 @@ class ProcHandler(Process):
         self.connection = pika.BlockingConnection(
             pika.ConnectionParameters(host=self.config['Rabbit']['host'], credentials=credentials))
         self.channel = self.connection.channel()
-        result = channel.queue_declare(exclusive=True)
-        self.stopqueue = result.method.queue
         ############################
-
+     
         self.subproc.start()
-        
-        if(not subproc.ready.wait(10)) {
-            raise Exception("Long Running Process Failed to Start")
-        }
-        self.ready.set()
+
+        if(not self.subproc.ready.wait(10)):
+          raise Exception("Long running process failed to start")
       
         # Start Consuming Stop Queue
-        channel.basic_consume(on_message, queue=self.stopqueue, no_ack=True)
-        channel.start_consuming()
+        self.channel.basic_consume(self.on_message, queue=self.stopqueue, no_ack=True)
+        self.channel.start_consuming()
 
-    def on_message(self, channel, method_frame, header_frame, body):
+    def on_message(self, channel, method_frame, props, body):
+        da = json.loads(body)
+        print da
         if body == "STOP":
             self.subproc.stop()
             self.connection.close()
+        elif da['action'] == "QUEUE":
+            self.channel.basic_publish(exchange='',
+                                   routing_key=props.reply_to,
+                                   properties=pika.BasicProperties(
+                                       correlation_id=props.correlation_id,
+                                   ),
+                                   body=self.subproc.queue)
+            
 
 class Proc(threading.Thread):
     def __init__(self, config):
+        threading.Thread.__init__(self) 
         self.daemon = True
         self.config = config
         self.ready = threading.Event()
