@@ -16,7 +16,7 @@ class Controller(Parent):
     def newsearch(self, msg, resp):
         searcher = self.searchers.new()
 
-        sender = RPCSender(self.config)
+        sender = RPCSender(self.config, channel=self.channel)
         r = sender.channel.queue_declare() 
         q = r.method.queue
 
