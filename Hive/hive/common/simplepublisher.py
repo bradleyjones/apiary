@@ -5,13 +5,16 @@ import logging
 
 class SimplePublisher(object):
 
-    def __init__(self, name, host, username, password):
+    def __init__(self, name, host="localhost", username="guest", password="guest", channel=None):
         self.exchange = name
         self.host = host
-        self.credentials = pika.PlainCredentials(username, password)
-        self.connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host=self.host, credentials=self.credentials))
-        self.channel = self.connection.channel()
+        if(channel is None):
+            self.credentials = pika.PlainCredentials(username, password)
+            self.connection = pika.BlockingConnection(
+                pika.ConnectionParameters(host=self.host, credentials=self.credentials))
+            self.channel = self.connection.channel()
+        else:
+            self.channel = channel
         self.channel.exchange_declare(exchange=self.exchange, type='topic')
         self.channel.basic_qos(prefetch_count=1)
         self.logger = logging.getLogger(__name__)

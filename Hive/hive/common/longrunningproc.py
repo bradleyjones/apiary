@@ -36,7 +36,6 @@ class ProcHandler(Process):
 
     def on_message(self, channel, method_frame, props, body):
         da = json.loads(body)
-        print da
         if body == "STOP":
             self.subproc.stop()
             self.connection.close()

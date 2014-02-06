@@ -22,7 +22,6 @@ class RabbitConsumer(threading.Thread):
         super(RabbitConsumer, self).__init__()
         self.daemon = True
         self.queue = name
-        print self.queue
         self.host = host
         self.connection = None
         self.channel = None
@@ -134,7 +133,7 @@ class RabbitConsumer(threading.Thread):
             request['reply_to'] = props.reply_to
 
             try:
-                self.router(request["action"], request, rpcresp)
+                self.router(request["action"], request, rpcresp, self.channel)
             except Exception as e:
                 rpcresp.action = "Error"
                 rpcresp.data = traceback.format_exc()
