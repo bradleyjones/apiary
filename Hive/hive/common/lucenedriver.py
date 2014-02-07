@@ -15,7 +15,8 @@ from org.apache.lucene.index import DirectoryReader
 class Driver(object):
 
     def __init__(self, config, tablename):
-        lucene.initVM()
+        self.env = lucene.getVMEnv()
+        self.env.attachCurrentThread()
         self.config = config
         self.indexdir = "IndexOf%s" % tablename
         self.d = SimpleFSDirectory(File(self.indexdir))
