@@ -4,7 +4,7 @@ from rabbitconsumer import RabbitConsumer
 from rabbitsubscriber import RabbitSubscriber
 import sys
 import time
-
+import signal
 
 class Base(object):
 
@@ -39,6 +39,8 @@ class Base(object):
             self.config['Rabbit']['password'],
             self.config['Rabbit']['sub_keys'])
 
+        yappi.start()
+
         try:
             # Threads
             self.extraThreads()
@@ -46,22 +48,32 @@ class Base(object):
             self.rpc.start()
             time.sleep(1)
             self.subscriber.start()
+        
+            signal.signal(signal.SIGINT, self.han)
 
-            while self.rpc.isAlive() and self.subscriber.isAlive():
-                time.sleep(1)
+            while self.rpc.isAlive():
+                self.rpc.join(600)
 
         except Exception as e:
             self.logger.error("Errors Occured: %s", str(e))
             self.rpc.stop()
             time.sleep(1)
             self.subscriber.stop()
-        except KeyboardInterrupt:
+        except (KeyboardInterrupt, SystemExit):
             self.rpc.stop()
             time.sleep(1)
             self.subscriber.stop()
         finally:
             self.logger.info("Exiting...")
+            yappi.get_func_stats().print_all()
             sys.exit(0)
+
+    def han(self, signal, frame):
+        self.rpc.stop()
+        time.sleep(1)
+        self.subscriber.stop()
+        self.logger.info("Exiting...")
+        sys.exit(0)
 
     def extraThreads(self):
         pass

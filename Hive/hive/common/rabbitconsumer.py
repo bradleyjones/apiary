@@ -14,6 +14,8 @@ from StringIO import StringIO
 import json
 from jsonschema import validate
 import threading
+import sys
+import signal
 
 
 class RabbitConsumer(threading.Thread):
