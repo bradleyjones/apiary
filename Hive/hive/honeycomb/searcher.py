@@ -47,6 +47,7 @@ class Searcher(Proc):
         self.indexdir = "IndexOfLogs"
         self.d = SimpleFSDirectory(File(self.indexdir))
         self.analyzer = StandardAnalyzer(Version.LUCENE_CURRENT)
+        pq = QueryParser(Version.LUCENE_30, "id", self.analyzer).parse(self.query)
         dr = DirectoryReader.open(self.d)
 
         self.ready.set()
@@ -57,7 +58,6 @@ class Searcher(Proc):
               dr = ndr
 
             searcher = IndexSearcher(dr)
-            pq = QueryParser(Version.LUCENE_30, "id", self.analyzer).parse(self.query)
             hits = searcher.search(pq, 1000)
 
             results = {}
