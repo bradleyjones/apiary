@@ -83,12 +83,18 @@ class Driver(object):
         query = QueryParser(Version.LUCENE_30, "id", self.analyzer).parse(query)
         hits = searcher.search(query, 1000)
 
-        results = []
+        results = {}
+        
+        results['totalHits'] = hits.totalHits
+        results['hits'] = []
 
         for hit in hits.scoreDocs:
             record = {}
             doc = searcher.doc(hit.doc)
-            record = doc.get("text")
-            results.append(record)
+            record['score'] = hit.score
+            fields = doc.getFields()
+            for field in fields:
+                record[field.name()] = field.stringValue()
+            results['hits'].append(record)
 
         return results

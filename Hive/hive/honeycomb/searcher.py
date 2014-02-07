@@ -60,11 +60,19 @@ class Searcher(Proc):
             pq = QueryParser(Version.LUCENE_30, "id", self.analyzer).parse(self.query)
             hits = searcher.search(pq, 1000)
 
-            results = []
+            results = {}
+        
+            results['totalHits'] = hits.totalHits
+            results['hits'] = []
+
             for hit in hits.scoreDocs:
-              doc = searcher.doc(hit.doc)
-              record = doc.get("id")
-              results.append(record)
+                record = {}
+                doc = searcher.doc(hit.doc)
+                record['score'] = hit.score
+                fields = doc.getFields()
+                for field in fields:
+                    record[field.name()] = field.stringValue()
+                results['hits'].append(record)
 
             respon = json.dumps(results)
 
