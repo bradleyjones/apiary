@@ -32,8 +32,8 @@ class RPCSender(object):
                      fro, timeout=10, exchange='', key=''):
         self.resp = None
 
-        if not isinstance(body, basestring):
-            raise TypeError('Data must be of type string')
+        if not isinstance(body, dict):
+            raise TypeError('Data must be a dict')
 
         data = {}
         data['action'] = action

@@ -59,7 +59,7 @@ class Controller(Parent):
         resp.respond(count)
 
     def get_single_agent(self, data, resp):
-        agent = self.agents.find(data["data"])
+        agent = self.agents.find(data["data"]["id"])
         response = None
         if agent is not None:
             response = {}

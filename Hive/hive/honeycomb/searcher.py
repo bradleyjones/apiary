@@ -74,9 +74,7 @@ class Searcher(Proc):
                     record[field.name()] = field.stringValue()
                 results['hits'].append(record)
 
-            respon = json.dumps(results)
-
-            self.channel.basic_publish(exchange='', routing_key=self.queue, body=respon)
+            self.channel.basic_publish(exchange='', routing_key=self.queue, body=results)
             time.sleep(1)
         
         self.connection.close()

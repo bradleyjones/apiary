@@ -20,12 +20,12 @@ class Controller(Parent):
         r = sender.channel.queue_declare() 
         q = r.method.queue
 
-        machine = ProcHandler(self.config, Searcher(self.config, msg['data']), q)
+        machine = ProcHandler(self.config, Searcher(self.config, msg['data']['query']), q)
         machine.start()
         
         searcher.OUTPUTQUEUE = sender.send_request('QUEUE', 'hive', '', '', '', key=q)
         searcher.CONTROLQUEUE = q
-        searcher.QUERY = msg['data']
+        searcher.QUERY = msg['data']['query']
 
         self.searchers.save(searcher)
 
