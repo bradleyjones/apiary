@@ -39,9 +39,6 @@ class Base(object):
             self.config['Rabbit']['password'],
             self.config['Rabbit']['sub_keys'])
 
-        # Throwing not defined errors on start, so commented out
-        # yappi.start()
-
         try:
             # Threads
             self.extraThreads()
@@ -66,7 +63,6 @@ class Base(object):
             self.subscriber.stop()
         finally:
             self.logger.info("Exiting...")
-            yappi.get_func_stats().print_all()
             sys.exit(0)
 
     def han(self, signal, frame):
