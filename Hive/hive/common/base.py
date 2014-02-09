@@ -39,7 +39,8 @@ class Base(object):
             self.config['Rabbit']['password'],
             self.config['Rabbit']['sub_keys'])
 
-        yappi.start()
+        # Throwing not defined errors on start, so commented out
+        # yappi.start()
 
         try:
             # Threads
