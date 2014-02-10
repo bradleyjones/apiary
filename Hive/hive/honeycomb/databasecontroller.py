@@ -19,6 +19,10 @@ class Controller(Parent):
         log = self.logs.save(log)
         resp.respond(log.to_hash())
 
+    def rebuildIndexes(self, msg, resp):
+        self.logs.rebuildIndex()
+        resp.respond('DONE')
+
     def find(self, msg, resp):
         resp.respond("WOOP")
 
