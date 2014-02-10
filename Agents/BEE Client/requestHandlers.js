@@ -14,7 +14,7 @@ var config = require('./config');
 var interval = {};
 var fileWatchers = [];
 var heartbeatFunction = function(){ // possibly just make normal function
-  pushOntoMessageBus("AgentManager", "agents."+config.clientID+".heartbeat", "HEARTBEAT", "Beat", "apiary");
+  pushOntoMessageBus("AgentManager", "agents."+config.clientID+".heartbeat", "HEARTBEAT", {}, "apiary");
   console.log("----^----");
 };
 

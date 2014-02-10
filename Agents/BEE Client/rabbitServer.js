@@ -77,7 +77,7 @@ function alertHive(queueName, hiveIP){
         action: "HANDSHAKE",
         to: "AgentManager",
         from: "Unidentified",
-        data: "",
+        data: {},
         machineid: config.macAddress
       }
           
