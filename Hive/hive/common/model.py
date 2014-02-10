@@ -59,6 +59,11 @@ class Model(object):
                 )
         return None
 
+    def rebuildIndex(self):
+        re = self.findAll()
+        self.indexdriver.rebuildIndex(self.indexes, re)
+        return True
+
     def my_import(self, name):
         __import__(name)
         return sys.modules[name]
