@@ -33,5 +33,5 @@ class Routes(Parent):
             'celiobee.controllers')
         self.action(
             "DELETELISTENER",
-            "deleteListener,
+            "deleteListener",
             'celiobee.controllers')

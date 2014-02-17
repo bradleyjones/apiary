@@ -29,19 +29,19 @@ class Controller(Parent):
                 while(1):
                    time.sleep(self.heartbeatInterval)
                    self.logger.debug("Sending HeartBeat")
-                   message = {
-                       "action": "HEARTBEAT"
-                       "to": "AgentManager"
-                       "from": self.clientID
-                       "data": "Beat"
-                       "machineID": get_mac()
-                   }
+                   message = {}
+                   message['action'] = "HEARTBEAT" 
+                   message['to'] = "AgentManager"
+                   message['from'] = self.clientID
+                   message['data'] = {}
+                   message['machineID'] = get_mac()
                    self.publisher.publish(message,"agents"+self.clientID+".heartbeat")
 
         self.clientID = data.UUID
         self.heartbeater = HeartBeater(self.clientID, self.config['Agent']['heartbeatInterval'])
         self.heartbeater.start()
         self.logger.debug("Agent Initialised")
+        resp.respond("Heartbeater beating")
 
     def createOpenStack(self, data, resp):
 
@@ -70,6 +70,7 @@ class Controller(Parent):
 
     def removeOpenStack(self, data, resp):
         print data.keystoneIP
+        resp.respond(data.keystoneIP)
 
     def getOpenStacks(self, data, resp):
         openstackList = self.openstacks.findAll()
@@ -83,7 +84,7 @@ class Controller(Parent):
 
     def setMeterListener(self, data, resp):
         openstack = self.openstacks.find(body['data']['UUID'])
-        ceilometer = ceilocleint.Cleint(endpoint=openstack['data']['CEILOENDPOINT'], token=openstack['data']['AUTHTOKEN'])
+        ceilometer = ceiloclient.Cleint(endpoint=openstack['data']['CEILOENDPOINT'], token=openstack['data']['AUTHTOKEN'])
         meter = data.meterName
         sampleRate = data.sampleRate
 
@@ -97,25 +98,26 @@ class Controller(Parent):
                 while(1):
                     time.sleep(self.sampleRate)
                     self.logger.debug("Sending Meter Samples")
-
-                    payload = {
-                        'CONTENT': ceilometer.meters.getMeter(meter)
-                        'TYPE':"meter"
-                        'EVENTTIMESTAMP':
-                        'METADATA':{
-                        }
-                    }
-
-                    message = {
-                       "action":"DATA"
-                       "to": "HoneyComb"
-                       "from": self.clientID
-                       "data": payload
-                       "machineID": get_mac()
-                    }
+                    
+                    payload = {}
+                    payload['CONTENT'] = ceilometer.meters.getMeter(meter)
+                    payload['TYPE'] = "meter "+meter
+                    payload['EVENTTIMESTAMP'] = time.time()
+                    payload['METADATA'] = {}
+                    
+                    message = {}
+                    message['action'] = "DATA"
+                    message['to'] = "HoneyComb"
+                    message['from'] = self.clientID
+                    message['data'] = payload
+                    message['machineID'] = get_mac()
+                    
                     self.publisher.publish(message,"agents."+self.clientID+".data")
 
         meterListener = MeterListener(ceilometer, meter, sampleRate)
         meterListener.start()
 
+        resp.respond("Done")
+
     def removeListener(self, listenerID):
+        resp.respond("listenerID")

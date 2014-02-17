@@ -28,31 +28,31 @@ function start(route, handle) {
   ('ready', function(){
 
     //Set receive queue
-  	config.connection.queue("",
+    config.connection.queue("",
   		{autoDelete: false,
        durable: true,
        exclusive: true}, 
-  		function(queue){
+       function(queue){
 
-        //Queue ready to recieve, so alert Hive
-        alertHive(queue.name, config.hiveIP);
-        console.log('Waiting for messages...');
+         //Queue ready to recieve, so alert Hive
+         alertHive(queue.name, config.hiveIP);
+         console.log('Waiting for messages...');
               
-        //Subscribe
-  			queue.subscribe(
+         //Subscribe
+         queue.subscribe(
 
-          //Action on message Received
-  				function(messageReceived){
-            data = JSON.parse(messageReceived.data);  
+           //Action on message Received
+  	   function(messageReceived){
+             data = JSON.parse(messageReceived.data);  
 
-            console.log("Request for " + data.action + " received.");
-            //Forward to Router
-            route(handle, data.action, data); 
+             console.log("Request for " + data.action + " received.");
+             //Forward to Router
+             route(handle, data.action, data); 
           
-  			  }  
-  			)
-  		}
-  	)
+  	   }  
+         )
+       }
+     )
   });
 }
 
