@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from routes import Routes
+from configobj import ConfigObj, ConfigObjError
 import pika
 import uuid
 import time
@@ -89,6 +90,51 @@ class CeiloBee():
                                        correclation_id=self.corr_id,
                                    ),
                                    body=json.dumps(data))
+    
+    def loadConfig(self, filepath):
+        try:
+            return ConfigObj(filepath, file_error=True)
+        except (ConfigObjError, IOError) as e:
+            logging.error("Config File Doesn't Exist: %s", filepath)
+            raise SystemExit
+
+    def configureLogger(self, filelocation, level):
+        if level == "debug":
+            logging.basicConfig(filename=filelocation,
+                                format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                                level=logging.DEBUG)
+        elif level == "info":
+            logging.basicConfig(filename=filelocation,
+                                format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                                level=logging.INFO)
+        elif level == "warning":
+            logging.basicConfig(filename=filelocation,
+                                format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                                level=logging.WARNING)
+        elif level == "error":
+            logging.basicConfig(filename=filelocation,
+                                format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                                level=logging.ERROR)
+        elif level == "critical":
+            logging.basicConfig(filename=filelocation,
+                                format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                                level=logging.CRITICAL)
+        else:
+            raise Exception("Invalid Debug Level " + level)
+
+        # create console handler and set level to debug
+        logger = logging.getLogger()
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.DEBUG)
+
+        # create formatter
+        # add formatter to ch
+        formatter = logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        ch.setFormatter(formatter)
+
+        logger.addHandler(ch)
+        logging.info('Logging Beginning')
 
 def main():
     ceiloagent = CeiloBee()

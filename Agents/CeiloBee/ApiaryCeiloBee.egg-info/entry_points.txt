@@ -1,0 +1,3 @@
+[console_scripts]
+apiary-ceilobee = ceilobee:main
+

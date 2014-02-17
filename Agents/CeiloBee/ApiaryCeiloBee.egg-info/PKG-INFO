@@ -1,0 +1,14 @@
+Metadata-Version: 1.0
+Name: ApiaryCeiloBee
+Version: 0.0.1
+Summary: Ceilometer Agent for the Apiary Project
+Home-page: http://bradleyjones.github.io/apiary
+Author: Sam Betts, Bradley Jones, John Davidge, Jack Peter Fletcher
+Author-email: jackfletcher2010@googlemail.com
+License: ../../LICENSE.txt
+Description: CeiloBee - Agent for communicating with OpenStack Ceilometer
+        =====================
+        
+        REQUIRES Python keystone and ceilometer clients to be install
+        
+Platform: UNKNOWN

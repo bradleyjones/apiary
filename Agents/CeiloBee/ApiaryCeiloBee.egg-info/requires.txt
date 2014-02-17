@@ -1,0 +1,4 @@
+configobj >= 4.7.2
+pika >= 0.9.13
+jsonschema >= 2.2.0
+pymongo >= 2.6.3
