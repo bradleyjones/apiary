@@ -3,7 +3,9 @@ from routes import Routes
 from configobj import ConfigObj, ConfigObjError
 import pika
 import uuid
+import json
 import time
+import logging
 from uuid import getnode as get_mac
 from hive.common.rpcresponse import RPCResponse
 
@@ -36,11 +38,11 @@ class CeiloBee():
         self.channel = self.connection.channel()
         self.corr_id = str(uuid.uuid4())
         self.id = "Unidentified"
-        self.result = self.channel.queue_declare(excluesive=True)
+        self.result = self.channel.queue_declare(exclusive=True)
         self.callback_queue = self.result.method.queue
         self.channel.basic_consume(self.on_response, no_ack=False, queue=self.callback_queue)
 
-        alertHive()
+        self.alertHive()
 
     # On response, send to router.
     def on_response(self, ch, method, props, body):
@@ -69,25 +71,22 @@ class CeiloBee():
                     'Outer Error Occured: %s',
                     traceback,format_exc())
              
-
-
-
     # Give Hive credentials
-    def alertHive(queueName, hiveIP):
+    def alertHive(self):
         
         # Build Payload
         data = {}
-        data['action'] = "HANDSHAKE",
-        data['to'] = "AgentManager",
-        data['from'] = "Undefined",
-        data['data'] = {""},
+        data['action'] = "HANDSHAKE"
+        data['to'] = "AgentManager"
+        data['from'] = "Undefined"
+        data['data'] = {}
         data['machineID'] = get_mac()
 
         # Send
         self.channel.basic_publish(exchange='',routing_key='',
                                    properties=pika.BasicProperties(
                                        reply_to=self.callback_queue,
-                                       correclation_id=self.corr_id,
+                                       correlation_id=self.corr_id,
                                    ),
                                    body=json.dumps(data))
     
