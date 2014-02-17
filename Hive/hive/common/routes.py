@@ -18,7 +18,7 @@ class Routes(object):
         __import__(name)
         return sys.modules[name]
 
-    def route(self, action, data, resp):
+    def route(self, action, data, resp, channel):
         getattr(self, "invert_op", None)
         if action not in self.routes:
             raise RoutingException("Route not found for: " + action)
@@ -27,7 +27,7 @@ class Routes(object):
                 self.routes[
                     action][
                     1]).Controller(
-                self.config)
+                self.config, channel)
             method = getattr(cont, self.routes[action][0], None)
             if not callable(method):
                 raise RoutingException(

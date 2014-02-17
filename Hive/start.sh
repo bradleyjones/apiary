@@ -71,7 +71,7 @@ elif [ $MULTIPLEXER == TMUX ]; then
     tmux new-window -n sting -t $NAME:6
     tmux send-keys -t $NAME:6 "apiary-sting" C-m
 
-    tmux new-window -n sting -t $NAME:7
+    tmux new-window -n timemachine -t $NAME:7
     tmux send-keys -t $NAME:7 "apiary-timemachine" C-m
 
     tmux select-window -t $NAME:1

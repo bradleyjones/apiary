@@ -14,7 +14,7 @@ var config = require('./config');
 var interval = {};
 var fileWatchers = [];
 var heartbeatFunction = function(){ // possibly just make normal function
-  pushOntoMessageBus("AgentManager", "agents."+config.clientID+".heartbeat", "HEARTBEAT", "Beat", "apiary");
+  pushOntoMessageBus("AgentManager", "agents."+config.clientID+".heartbeat", "HEARTBEAT", {}, "apiary");
   console.log("----^----");
 };
 
@@ -105,29 +105,28 @@ function pushOntoMessageBus(to, queueToSendTo, action, data, exchangeName){
     
     //Construct Message
     message = {
-                action: action,
-                to: to,
-                from: config.clientID,
-                data: data,
-                machineid: config.macAddress
-        }
-
-    //If no exchange defined, push onto default the old way
-    //Consider legacy, possibly remove.
-    if (exchangeName == undefined){
-        config.connection.publish(queueToSendTo, message, {correlationId: config.cID});   
-    } else {
-        var exchange = config.connection.exchange(exchangeName);
-        try {
-            exchange.publish(queueToSendTo, message, {correlationId: config.cID});       
-        } catch (err) {
-            console.log(err);
-        }
+            action: action,
+            to: to,
+            from: config.clientID,
+            data: data,
+            machineid: config.macAddress
     }
 
-    console.log("Sent message: ");
-    console.log(message);
-    console.log("On Queue : " +queueToSendTo);
+    try {
+        //If no exchange defined, push onto default the old way
+        //Consider legacy, possibly remove.
+        if (exchangeName == undefined){
+            config.connection.publish(queueToSendTo, message);   
+        } else {
+          var eAS = config.connection.exchange(exchangeName, {noDeclare:true})
+          eAS.publish(queueToSendTo, message, {});       
+          console.log("Sent message: ");
+          console.log(message);
+          console.log("On Queue : " +queueToSendTo);
+        }
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 //Expose functions for Router

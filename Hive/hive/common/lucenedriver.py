@@ -15,11 +15,13 @@ from org.apache.lucene.index import DirectoryReader
 class Driver(object):
 
     def __init__(self, config, tablename):
-        lucene.initVM()
+        self.env = lucene.getVMEnv()
+        self.env.attachCurrentThread()
         self.config = config
         self.indexdir = "IndexOf%s" % tablename
         self.d = SimpleFSDirectory(File(self.indexdir))
         self.analyzer = StandardAnalyzer(Version.LUCENE_CURRENT)
+        self.conf = IndexWriterConfig(Version.LUCENE_CURRENT, self.analyzer)
 
         self.fieldType1 = FieldType()
         self.fieldType1.setIndexed(True)
@@ -30,6 +32,18 @@ class Driver(object):
         self.fieldType2.setIndexed(True)
         self.fieldType2.setStored(True)
         self.fieldType2.setTokenized(False)
+
+    def rebuildIndex(self, fields, records):
+        writer = IndexWriter(
+            self.d, self.conf.setOpenMode(IndexWriterConfig.OpenMode.CREATE))
+
+        for record in records:
+          doc = self.buildDocument(fields, record)
+          writer.addDocument(doc)
+
+        writer.optimize()
+        writer.close()
+
 
     def buildDocument(self, fields, record):
         doc = Document()
@@ -45,9 +59,8 @@ class Driver(object):
         return doc
 
     def index(self, fields, record):
-        conf = IndexWriterConfig(Version.LUCENE_CURRENT, self.analyzer)
         writer = IndexWriter(
-            self.d, conf)
+            self.d, self.conf)
 
         doc = self.buildDocument(fields, record)
         writer.addDocument(doc)
@@ -56,9 +69,8 @@ class Driver(object):
         writer.close()
 
     def updateindex(self, fields, record):
-        conf = IndexWriterConfig(Version.LUCENE_CURRENT, self.analyzer)
         writer = IndexWriter(
-            self.d, conf)
+            self.d, self.conf)
 
         doc = self.buildDocument(fields, record)
         writer.updateDocument(lucene.Term("_id", record['_id']), doc)
@@ -68,10 +80,7 @@ class Driver(object):
 
     def removeindex(self, record):
         writer = IndexWriter(
-            self.d,
-            self.analyzer,
-            True,
-            IndexWriter.MaxFieldLength(512))
+            self.d, self.conf)
 
         writer.deleteDocuments(lucene.Term("_id", record['_id']))
 
@@ -83,12 +92,18 @@ class Driver(object):
         query = QueryParser(Version.LUCENE_30, "id", self.analyzer).parse(query)
         hits = searcher.search(query, 1000)
 
-        results = []
+        results = {}
+        
+        results['totalHits'] = hits.totalHits
+        results['hits'] = []
 
         for hit in hits.scoreDocs:
             record = {}
             doc = searcher.doc(hit.doc)
-            record = doc.get("text")
-            results.append(record)
+            record['score'] = hit.score
+            fields = doc.getFields()
+            for field in fields:
+                record[field.name()] = field.stringValue()
+            results['hits'].append(record)
 
         return results

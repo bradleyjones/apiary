@@ -47,7 +47,6 @@ connection.on('error', function(e) {
 });
 
 // Start listening
-//server.setMaxListeners(0); // Unlimited
 server.listen(3000, function(){
   console.log("Queen is listening on port %d".green, server.address().port)
 })
@@ -100,7 +99,7 @@ app.post('/login', function (req, res) {
         if (err) throw err;
         req.session.user_id = user._id;
         res.redirect('/');
-      })
+      });
     }
   });
 });
@@ -135,12 +134,16 @@ app.post('/newuser', function (req, res) {
  */
 
 // Render the home page
-var home = require('./controllers/home')
+var home = require('./controllers/home');
 app.get('/', checkAuth, home.index);
 
-var alerts = require('./controllers/alerts')
+var alerts = require('./controllers/alerts');
 app.get('/alerts', checkAuth, alerts.index);
 
 var agents = require('./controllers/agents');
 app.get('/agents', agents.list);
 app.get('/agents/:id', agents.individual);
+
+var settings = require('./controllers/settings');
+app.post('/settings', checkAuth, settings.update);
+app.get('/settings', checkAuth, settings.index);

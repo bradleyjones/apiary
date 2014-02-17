@@ -5,14 +5,17 @@ import time
 
 class RPCSender(object):
 
-    def __init__(self, config):
+    def __init__(self, config, channel=None):
         self.config = config
-        self.credentials = pika.PlainCredentials(
-            self.config['Rabbit']['username'],
-            self.config['Rabbit']['password'])
-        self.connection = pika.BlockingConnection(pika.ConnectionParameters(
-            host=self.config['Rabbit']['host'], credentials=self.credentials))
-        self.channel = self.connection.channel()
+        if channel is None:
+            self.credentials = pika.PlainCredentials(
+                self.config['Rabbit']['username'],
+                self.config['Rabbit']['password'])
+            self.connection = pika.BlockingConnection(pika.ConnectionParameters(
+                host=self.config['Rabbit']['host'], credentials=self.credentials))
+            self.channel = self.connection.channel()
+        else:
+            self.channel = channel
         self.corr_id = str(uuid.uuid4())
         self.resp = None
         self.id = "7beaecc1-d100-433b-803f-59920cc4dd20"
@@ -29,8 +32,8 @@ class RPCSender(object):
                      fro, timeout=10, exchange='', key=''):
         self.resp = None
 
-        if not isinstance(body, basestring):
-            raise TypeError('Data must be of type string')
+        if not isinstance(body, dict):
+            raise TypeError('Data must be a dict')
 
         data = {}
         data['action'] = action

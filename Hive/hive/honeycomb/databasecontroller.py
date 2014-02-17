@@ -11,14 +11,17 @@ class Controller(Parent):
         self.logs = Log(self.config)
 
     def insert(self, msg, resp):
-        data = json.loads(msg['data'])
         log = self.logs.new()
-        log.CONTENT = data['CONTENT']
-        log.TYPE = data['TYPE']
-        log.EVENTTIMESTAMP = data['EVENTTIMESTAMP']        
-        log.METADATA = data['METADATA']
-        self.logs.save(log)
+        log.CONTENT = msg['data']['CONTENT']
+        log.TYPE = msg['data']['TYPE']
+        log.EVENTTIMESTAMP = msg['data']['EVENTTIMESTAMP']        
+        log.METADATA = msg['data']['METADATA']
+        log = self.logs.save(log)
         resp.respond(log.to_hash())
+
+    def rebuildIndexes(self, msg, resp):
+        self.logs.rebuildIndex()
+        resp.respond('DONE')
 
     def find(self, msg, resp):
         resp.respond("WOOP")
@@ -28,10 +31,10 @@ class Controller(Parent):
         response = {}
         for log in logs:
             response[str(log._id)] = log.to_hash()
-        resp.respond(json.dumps(response))
+        resp.respond(response)
 
     def query(self, msg, resp):
-        results = self.logs.query(msg['data'])
+        results = self.logs.query(msg['data']['query'])
         resp.respond(results)
 
     def count(self, msg, resp):

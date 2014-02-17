@@ -7,15 +7,14 @@ import logging
 
 class Controller(object):
 
-    def __init__(self, config):
+    def __init__(self, config, channel):
         self.config = config
         self.models()
         self.logger = logging.getLogger(__name__)
+        self.channel = channel
         self.publisher = SimplePublisher(
             'apiary',
-            self.config['Rabbit']['host'],
-            self.config['Rabbit']['username'],
-            self.config['Rabbit']['password'])
+            channel=channel)
 
     def models(self):
         pass

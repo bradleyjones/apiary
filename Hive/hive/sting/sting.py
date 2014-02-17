@@ -1,7 +1,5 @@
-#!/usr/bin/env python
 from ..common.base import Base
 from routes import Routes
-
 
 class Sting(Base):
 

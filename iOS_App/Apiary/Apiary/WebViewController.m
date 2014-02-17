@@ -31,8 +31,11 @@
     
     // Build the Hive login URL
     DataClass *obj=[DataClass getInstance];
-    NSString *fullURL = [obj.url stringByAppendingString:@"/login"];
+    NSString *fullURL = [obj.url stringByAppendingString:self.request_type];
     NSURL *url = [NSURL URLWithString:fullURL];
+    
+    // Debug output
+    NSLog(@"URL: %@", fullURL);
     
     // Build POST body
     NSString *post = @"user=";
@@ -58,8 +61,9 @@
     NSDictionary *results = jsonData ? [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:&error] : nil;
     
     if (error) NSLog(@"[%@ %@] JSON error: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), error.localizedDescription);
-
+    
     [_webView loadRequest:request];
+    
 }
 
 - (void)didReceiveMemoryWarning

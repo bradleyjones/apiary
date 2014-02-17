@@ -148,7 +148,7 @@ class RabbitSubscriber(threading.Thread):
             self.logger.info('Message Received: %s', str(request))
 
             try:
-                self.router(request["action"], request, rpcresp)
+                self.router(request["action"], request, rpcresp, self.channel)
             except Exception as e:
                 self.logger.error(
                     'Inner Error Occured: %s',
