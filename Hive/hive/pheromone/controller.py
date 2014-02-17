@@ -25,6 +25,8 @@ class Controller(Parent):
         searcher.OUTPUTQUEUE = sender.send_request('QUEUE', 'hive', '', '', '', key=q)
         searcher.CONTROLQUEUE = q
         searcher.QUERY = msg['data']['query']
+        searcher.TIME = msg['data']['time']
+        searcher.QUANTITY = msg['data']['quantity']
 
         self.searchers.save(searcher)
 
