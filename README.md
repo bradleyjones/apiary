@@ -12,14 +12,22 @@ Installing Up-To-Date Nodejs on Ubuntu:
   sudo apt-get update
   
   sudo apt-get install nodejs
+
+* * *
+
+**Components 
+
+* Worker - Software Agents running on the nodes, harvesting data and returning it to the Hive
+
+* Hive - The middleware for the Apiary stack.
+
+* Queen - The Graphic visual dashboard for the Apiary Project
   
 * * *
 
-Worker - Software Agents running on the nodes, harvesting data and returning it to the Hive
+**Links
 
-Hive - The middleware for the Apiary stack.
-
-Queen - The Graphic visual dashboard for the Apiary Project
+* Wiki Page - [https://github.com/bradleyjones/apiary/wiki]
 
 * * *
 

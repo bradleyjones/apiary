@@ -14,7 +14,9 @@ Honeycomb - Controls insertion and collection of data from the database software
 
 TimeMachine - A service for retreiving streams of live and historic data.
 
-Sting - A apiary hook into the iOS push notification service.
+Pheromone - An alert system that uses honeycomb lucene querys and user parameters.
+
+Sting - A apiary hook into the Apple push notification service.
 
 Installing Hive
 ---------------
@@ -40,6 +42,7 @@ Current Binarys
 * apiary-agentmonitor -> Starts Agent Monitor
 * apiary-sting        -> Starts Sting 
 * apiary-timemachine  -> Starts Timemachine 
+* apiary-pheromone    -> Starts Pheromone
 
 Test Scripts
 ------------
@@ -59,3 +62,4 @@ Libraries Used and their Licenses
 * pika - MPL License - https://github.com/pika/pika/
 * pymongo - Apache v2.0 - https://github.com/mongodb/mongo-python-driver 
 * jsonschema - No License listed - https://github.com/Julian/jsonschema
+* pyLucene - Apache v2.0 - http://lucene.apache.org/pylucene/
