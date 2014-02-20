@@ -52,15 +52,17 @@ class Alerter(Proc):
 
     def on_message(self, channel, method_frame, header_frame, body):
         msg = json.loads(body)
+
+        if((self.capturedTime + self.maxTime) < time.time()) {
+          self.capturedTime = time.time()
+          self.currentCount = 0
+        }
+
         self.currentCount += len(msg['data']['hits'])
         if(currentCount >= maxQuantity):
-            if((time.time() - self.capturedTime) <= self.maxTime):
-                send_alert()
-            self.capturedTime = time.time()
-            self.currentCount = 0
-        elif((time.time() - self.capturedTime) > self.maxTime):
-            self.capturedTime = time.time()
-            self.currentCount = 0
+          send_alert()
+          self.capturedTime = time.time()
+          self.currentCount = 0
     
     def send_alert(self): 
         message = { "action":"ALERT", "to":"listener", "from":"pheromonealerter", "data": {}, "machineid":"something" }
