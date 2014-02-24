@@ -27,6 +27,7 @@ class Searcher(Proc):
         self.queue = None
         self.running = True
         self.query = query
+        self.totalHits = 0
 
     def getQueue(self):
       return self.queue
@@ -61,20 +62,21 @@ class Searcher(Proc):
             hits = searcher.search(pq, 1000)
 
             results = {}
-        
-            results['totalHits'] = hits.totalHits
-            results['hits'] = []
+       
+            if(self.totalHits < hits.totalHits):
+              results['totalHits'] = hits.totalHits
+              results['hits'] = []
 
-            for hit in hits.scoreDocs:
-                record = {}
-                doc = searcher.doc(hit.doc)
-                record['score'] = hit.score
-                fields = doc.getFields()
-                for field in fields:
-                    record[field.name()] = field.stringValue()
-                results['hits'].append(record)
+              for hit in hits.scoreDocs:
+                  record = {}
+                  doc = searcher.doc(hit.doc)
+                  record['score'] = hit.score
+                  fields = doc.getFields()
+                  for field in fields:
+                      record[field.name()] = field.stringValue()
+                  results['hits'].append(record)
 
-            self.channel.basic_publish(exchange='', routing_key=self.queue, body=results)
+              self.channel.basic_publish(exchange='', routing_key=self.queue, body=results)
             time.sleep(1)
         
         self.connection.close()

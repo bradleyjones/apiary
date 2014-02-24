@@ -19,6 +19,7 @@ class Alerter(Proc):
         self.maxQuantity = quantity
         self.capturedTime = time.time() + self.maxTime()
         self.currentCount = 0
+        self.totalHits = 0
         self.query = query
 
     def run(self):
@@ -58,12 +59,14 @@ class Alerter(Proc):
           self.currentCount = 0
         }
 
-        self.currentCount += len(msg['data']['hits'])
+        self.currentCount += (len(msg['data']['hits'] - self.totalHits)
         if(currentCount >= maxQuantity):
-          send_alert()
+          if(self.totalHits != 0): 
+            send_alert()
           self.capturedTime = time.time()
           self.currentCount = 0
-    
+          self.totalHits = len(msg['data']['hits'])
+
     def send_alert(self): 
         message = { "action":"ALERT", "to":"listener", "from":"pheromonealerter", "data": {}, "machineid":"something" }
         self.channel.basic_publish(exchange='', routing_key=self.queue, body=json.dumps(message))
