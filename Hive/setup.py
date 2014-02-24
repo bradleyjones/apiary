@@ -28,6 +28,7 @@ setup(
          'apiary-agentmonitor = hive.agentmonitor.agentmonitor:main',
          'apiary-timemachine = hive.timemachine.timemachine:main',
          'apiary-sting = hive.sting.sting:main',
+         'apiary-pheromone = hive.pheromone.pheromone:main',
          ]
     },
     package_data={
