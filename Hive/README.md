@@ -55,6 +55,9 @@ Troubleshooting
 ##### Python says it can't find develop
 You may need to install setuptools. To do that run "python ez\_setup.py". Or install it from your reposititory manager.
 
+##### ./install.sh errors. 
+You may have missing dependencies, make sure you install gcc, g++, make, ant, openjdk-7-jdk and python-dev.
+
 Libraries Used and their Licenses 
 --------------
 
