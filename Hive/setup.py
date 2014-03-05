@@ -22,13 +22,12 @@ setup(
     ],
     entry_points={
         'console_scripts':
-        ['apiary-honeycomb = hive.honeycomb.honeycomb:main',
-         'apiary-honeycomb-statemachine = hive.honeycombstatemachine.honeycombstatemachine:main',
-         'apiary-agentmanager = hive.agentmanager.agentmanager:main',
-         'apiary-agentmonitor = hive.agentmonitor.agentmonitor:main',
-         'apiary-timemachine = hive.timemachine.timemachine:main',
-         'apiary-sting = hive.sting.sting:main',
-         'apiary-pheromone = hive.pheromone.pheromone:main',
+        ['apiary-honeycomb = hive.honeycomb:main',
+         'apiary-agentmanager = hive.agentmanager:main',
+         'apiary-agentmonitor = hive.agentmonitor:main',
+         'apiary-timemachine = hive.timemachine:main',
+         'apiary-sting = hive.sting:main',
+         'apiary-pheromone = hive.pheromone:main',
          ]
     },
     package_data={

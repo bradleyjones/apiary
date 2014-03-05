@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hive.timemachine package &mdash; Apiary 1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Apiary 1 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">Apiary 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="hive-timemachine-package">
+<h1>hive.timemachine package<a class="headerlink" href="#hive-timemachine-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-hive.timemachine.controller">
+<span id="hive-timemachine-controller-module"></span><h2>hive.timemachine.controller module<a class="headerlink" href="#module-hive.timemachine.controller" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hive.timemachine.controller.Controller">
+<em class="property">class </em><tt class="descclassname">hive.timemachine.controller.</tt><tt class="descname">Controller</tt><big>(</big><em>config</em>, <em>channel</em><big>)</big><a class="reference internal" href="_modules/hive/timemachine/controller.html#Controller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.timemachine.controller.Controller" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="hive.common.html#hive.common.controller.Controller" title="hive.common.controller.Controller"><tt class="xref py py-class docutils literal"><span class="pre">hive.common.controller.Controller</span></tt></a></p>
+<dl class="method">
+<dt id="hive.timemachine.controller.Controller.delete">
+<tt class="descname">delete</tt><big>(</big><em>body</em>, <em>resp</em><big>)</big><a class="reference internal" href="_modules/hive/timemachine/controller.html#Controller.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.timemachine.controller.Controller.delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.timemachine.controller.Controller.models">
+<tt class="descname">models</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/timemachine/controller.html#Controller.models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.timemachine.controller.Controller.models" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.timemachine.controller.Controller.new">
+<tt class="descname">new</tt><big>(</big><em>body</em>, <em>resp</em><big>)</big><a class="reference internal" href="_modules/hive/timemachine/controller.html#Controller.new"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.timemachine.controller.Controller.new" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hive.timemachine.machine">
+<span id="hive-timemachine-machine-module"></span><h2>hive.timemachine.machine module<a class="headerlink" href="#module-hive.timemachine.machine" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hive.timemachine.machine.Writer">
+<em class="property">class </em><tt class="descclassname">hive.timemachine.machine.</tt><tt class="descname">Writer</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="_modules/hive/timemachine/machine.html#Writer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.timemachine.machine.Writer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="hive.common.html#hive.common.longrunningproc.Proc" title="hive.common.longrunningproc.Proc"><tt class="xref py py-class docutils literal"><span class="pre">hive.common.longrunningproc.Proc</span></tt></a></p>
+<dl class="method">
+<dt id="hive.timemachine.machine.Writer.on_message">
+<tt class="descname">on_message</tt><big>(</big><em>channel</em>, <em>method_frame</em>, <em>header_frame</em>, <em>body</em><big>)</big><a class="reference internal" href="_modules/hive/timemachine/machine.html#Writer.on_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.timemachine.machine.Writer.on_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.timemachine.machine.Writer.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/timemachine/machine.html#Writer.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.timemachine.machine.Writer.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.timemachine.machine.Writer.stop">
+<tt class="descname">stop</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/timemachine/machine.html#Writer.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.timemachine.machine.Writer.stop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hive.timemachine.routes">
+<span id="hive-timemachine-routes-module"></span><h2>hive.timemachine.routes module<a class="headerlink" href="#module-hive.timemachine.routes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hive.timemachine.routes.Routes">
+<em class="property">class </em><tt class="descclassname">hive.timemachine.routes.</tt><tt class="descname">Routes</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="_modules/hive/timemachine/routes.html#Routes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.timemachine.routes.Routes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="hive.common.html#hive.common.routes.Routes" title="hive.common.routes.Routes"><tt class="xref py py-class docutils literal"><span class="pre">hive.common.routes.Routes</span></tt></a></p>
+<dl class="method">
+<dt id="hive.timemachine.routes.Routes.setupRoutes">
+<tt class="descname">setupRoutes</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/timemachine/routes.html#Routes.setupRoutes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.timemachine.routes.Routes.setupRoutes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hive.timemachine.worker">
+<span id="hive-timemachine-worker-module"></span><h2>hive.timemachine.worker module<a class="headerlink" href="#module-hive.timemachine.worker" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hive.timemachine.worker.Worker">
+<em class="property">class </em><tt class="descclassname">hive.timemachine.worker.</tt><tt class="descname">Worker</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="_modules/hive/timemachine/worker.html#Worker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.timemachine.worker.Worker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="hive.common.html#hive.common.model.Model" title="hive.common.model.Model"><tt class="xref py py-class docutils literal"><span class="pre">hive.common.model.Model</span></tt></a></p>
+<dl class="method">
+<dt id="hive.timemachine.worker.Worker.define">
+<tt class="descname">define</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/timemachine/worker.html#Worker.define"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.timemachine.worker.Worker.define" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hive.timemachine">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-hive.timemachine" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hive.timemachine.TimeMachine">
+<em class="property">class </em><tt class="descclassname">hive.timemachine.</tt><tt class="descname">TimeMachine</tt><a class="reference internal" href="_modules/hive/timemachine.html#TimeMachine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.timemachine.TimeMachine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="hive.common.html#hive.common.base.Base" title="hive.common.base.Base"><tt class="xref py py-class docutils literal"><span class="pre">hive.common.base.Base</span></tt></a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hive.timemachine.main">
+<tt class="descclassname">hive.timemachine.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/timemachine.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.timemachine.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">hive.timemachine package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-hive.timemachine.controller">hive.timemachine.controller module</a></li>
+<li><a class="reference internal" href="#module-hive.timemachine.machine">hive.timemachine.machine module</a></li>
+<li><a class="reference internal" href="#module-hive.timemachine.routes">hive.timemachine.routes module</a></li>
+<li><a class="reference internal" href="#module-hive.timemachine.worker">hive.timemachine.worker module</a></li>
+<li><a class="reference internal" href="#module-hive.timemachine">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/hive.timemachine.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">Apiary 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Sam Betts, John Davidge, Brad Jones, Jack Peter Fletcher.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

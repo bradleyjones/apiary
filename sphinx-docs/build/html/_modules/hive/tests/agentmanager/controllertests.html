@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hive.tests.agentmanager.controllertests &mdash; Apiary 1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="Apiary 1 documentation" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../index.html">Apiary 1 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for hive.tests.agentmanager.controllertests</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">import</span> <span class="nn">pika</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">from</span> <span class="nn">hive.tests.basictest</span> <span class="kn">import</span> <span class="n">HiveBasicTest</span>
+<span class="kn">from</span> <span class="nn">hive.agentmanager.agentscontroller</span> <span class="kn">import</span> <span class="n">Controller</span>
+<span class="kn">from</span> <span class="nn">hive.common.rpcresponse</span> <span class="kn">import</span> <span class="n">RPCResponse</span>
+
+
+<div class="viewcode-block" id="ControllerTests"><a class="viewcode-back" href="../../../../hive.tests.agentmanager.html#hive.tests.agentmanager.controllertests.ControllerTests">[docs]</a><span class="k">class</span> <span class="nc">ControllerTests</span><span class="p">(</span><span class="n">HiveBasicTest</span><span class="p">):</span>
+
+    <span class="n">UUID</span> <span class="o">=</span> <span class="bp">None</span>
+
+<div class="viewcode-block" id="ControllerTests.setUp"><a class="viewcode-back" href="../../../../hive.tests.agentmanager.html#hive.tests.agentmanager.controllertests.ControllerTests.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">controller</span> <span class="o">=</span> <span class="n">Controller</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ControllerTests.handshake"><a class="viewcode-back" href="../../../../hive.tests.agentmanager.html#hive.tests.agentmanager.controllertests.ControllerTests.handshake">[docs]</a>    <span class="k">def</span> <span class="nf">handshake</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;action&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;HANDSHAKE&quot;</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;to&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;agentmanager&quot;</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;from&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;Unknown&quot;</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;machineid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;testmachine&quot;</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;reply_to&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;ASBDLHABSDJLHBASD&quot;</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">RPCResponse</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">handshake</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        <span class="n">ControllerTests</span><span class="o">.</span><span class="n">uuid</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">data</span>
+</div>
+<div class="viewcode-block" id="ControllerTests.getsingle"><a class="viewcode-back" href="../../../../hive.tests.agentmanager.html#hive.tests.agentmanager.controllertests.ControllerTests.getsingle">[docs]</a>    <span class="k">def</span> <span class="nf">getsingle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;action&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;SINGLEAGENT&quot;</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;to&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;agentmanager&quot;</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;from&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ControllerTests</span><span class="o">.</span><span class="n">uuid</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ControllerTests</span><span class="o">.</span><span class="n">uuid</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;machineid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;testmachine&quot;</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">RPCResponse</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">get_single_agent</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">data</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">ControllerTests</span><span class="o">.</span><span class="n">uuid</span><span class="p">]</span>
+                        <span class="p">[</span><span class="s">&#39;UUID&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">ControllerTests</span><span class="o">.</span><span class="n">uuid</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ControllerTests.heartbeat"><a class="viewcode-back" href="../../../../hive.tests.agentmanager.html#hive.tests.agentmanager.controllertests.ControllerTests.heartbeat">[docs]</a>    <span class="k">def</span> <span class="nf">heartbeat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;action&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;HEARTBEAT&quot;</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;to&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;agentmanager&quot;</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;from&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ControllerTests</span><span class="o">.</span><span class="n">uuid</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;machineid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;testmachine&quot;</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">RPCResponse</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">heartbeat</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ControllerTests.goodbye"><a class="viewcode-back" href="../../../../hive.tests.agentmanager.html#hive.tests.agentmanager.controllertests.ControllerTests.goodbye">[docs]</a>    <span class="k">def</span> <span class="nf">goodbye</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;action&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;GOODBYE&quot;</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;to&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;agentmanager&quot;</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;from&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ControllerTests</span><span class="o">.</span><span class="n">uuid</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;machineid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;testmachine&quot;</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">RPCResponse</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">goodbye</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s">&#39;GOODBYE!&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ControllerTests.getagents"><a class="viewcode-back" href="../../../../hive.tests.agentmanager.html#hive.tests.agentmanager.controllertests.ControllerTests.getagents">[docs]</a>    <span class="k">def</span> <span class="nf">getagents</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;action&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;ALLAGENTS&quot;</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;to&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;agentmanager&quot;</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;from&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ControllerTests</span><span class="o">.</span><span class="n">uuid</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ControllerTests</span><span class="o">.</span><span class="n">uuid</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;machineid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;testmachine&quot;</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">RPCResponse</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">get_agents</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">data</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="ow">not</span> <span class="p">(</span><span class="n">ControllerTests</span><span class="o">.</span><span class="n">uuid</span> <span class="ow">in</span> <span class="n">result</span><span class="p">))</span>
+
+</div></div>
+<span class="n">testSuite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">()</span>
+<span class="n">testSuite</span><span class="o">.</span><span class="n">addTest</span><span class="p">(</span><span class="n">ControllerTests</span><span class="p">(</span><span class="s">&#39;handshake&#39;</span><span class="p">,</span> <span class="n">configname</span><span class="o">=</span><span class="s">&#39;agentmanager&#39;</span><span class="p">))</span>
+<span class="n">testSuite</span><span class="o">.</span><span class="n">addTest</span><span class="p">(</span><span class="n">ControllerTests</span><span class="p">(</span><span class="s">&#39;getsingle&#39;</span><span class="p">,</span> <span class="n">configname</span><span class="o">=</span><span class="s">&#39;agentmanager&#39;</span><span class="p">))</span>
+<span class="n">testSuite</span><span class="o">.</span><span class="n">addTest</span><span class="p">(</span><span class="n">ControllerTests</span><span class="p">(</span><span class="s">&#39;heartbeat&#39;</span><span class="p">,</span> <span class="n">configname</span><span class="o">=</span><span class="s">&#39;agentmanager&#39;</span><span class="p">))</span>
+<span class="n">testSuite</span><span class="o">.</span><span class="n">addTest</span><span class="p">(</span><span class="n">ControllerTests</span><span class="p">(</span><span class="s">&#39;goodbye&#39;</span><span class="p">,</span> <span class="n">configname</span><span class="o">=</span><span class="s">&#39;agentmanager&#39;</span><span class="p">))</span>
+<span class="n">testSuite</span><span class="o">.</span><span class="n">addTest</span><span class="p">(</span><span class="n">ControllerTests</span><span class="p">(</span><span class="s">&#39;getagents&#39;</span><span class="p">,</span> <span class="n">configname</span><span class="o">=</span><span class="s">&#39;agentmanager&#39;</span><span class="p">))</span>
+
+<span class="n">unittest</span><span class="o">.</span><span class="n">TextTestRunner</span><span class="p">(</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">testSuite</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../index.html">Apiary 1 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Sam Betts, John Davidge, Brad Jones, Jack Peter Fletcher.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,610 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hive.common package &mdash; Apiary 1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Apiary 1 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">Apiary 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="hive-common-package">
+<h1>hive.common package<a class="headerlink" href="#hive-common-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-hive.common.base">
+<span id="hive-common-base-module"></span><h2>hive.common.base module<a class="headerlink" href="#module-hive.common.base" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hive.common.base.Base">
+<em class="property">class </em><tt class="descclassname">hive.common.base.</tt><tt class="descname">Base</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/hive/common/base.html#Base"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.base.Base" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="method">
+<dt id="hive.common.base.Base.configureLogger">
+<tt class="descname">configureLogger</tt><big>(</big><em>filelocation</em>, <em>level</em><big>)</big><a class="reference internal" href="_modules/hive/common/base.html#Base.configureLogger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.base.Base.configureLogger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.base.Base.extraThreads">
+<tt class="descname">extraThreads</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/base.html#Base.extraThreads"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.base.Base.extraThreads" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.base.Base.han">
+<tt class="descname">han</tt><big>(</big><em>signal</em>, <em>frame</em><big>)</big><a class="reference internal" href="_modules/hive/common/base.html#Base.han"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.base.Base.han" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.base.Base.loadConfig">
+<tt class="descname">loadConfig</tt><big>(</big><em>filepath</em><big>)</big><a class="reference internal" href="_modules/hive/common/base.html#Base.loadConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.base.Base.loadConfig" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.base.Base.start">
+<tt class="descname">start</tt><big>(</big><em>r</em><big>)</big><a class="reference internal" href="_modules/hive/common/base.html#Base.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.base.Base.start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hive.common.controller">
+<span id="hive-common-controller-module"></span><h2>hive.common.controller module<a class="headerlink" href="#module-hive.common.controller" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hive.common.controller.Controller">
+<em class="property">class </em><tt class="descclassname">hive.common.controller.</tt><tt class="descname">Controller</tt><big>(</big><em>config</em>, <em>channel</em><big>)</big><a class="reference internal" href="_modules/hive/common/controller.html#Controller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.controller.Controller" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="method">
+<dt id="hive.common.controller.Controller.default">
+<tt class="descname">default</tt><big>(</big><em>data</em>, <em>resp</em><big>)</big><a class="reference internal" href="_modules/hive/common/controller.html#Controller.default"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.controller.Controller.default" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.controller.Controller.event">
+<tt class="descname">event</tt><big>(</big><em>data</em>, <em>key=None</em><big>)</big><a class="reference internal" href="_modules/hive/common/controller.html#Controller.event"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.controller.Controller.event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.controller.Controller.models">
+<tt class="descname">models</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/controller.html#Controller.models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.controller.Controller.models" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hive.common.longrunningproc">
+<span id="hive-common-longrunningproc-module"></span><h2>hive.common.longrunningproc module<a class="headerlink" href="#module-hive.common.longrunningproc" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hive.common.longrunningproc.Proc">
+<em class="property">class </em><tt class="descclassname">hive.common.longrunningproc.</tt><tt class="descname">Proc</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="_modules/hive/common/longrunningproc.html#Proc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.longrunningproc.Proc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="http://docs.python.org/library/threading.html#threading.Thread" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">threading.Thread</span></tt></a></p>
+<dl class="method">
+<dt id="hive.common.longrunningproc.Proc.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/longrunningproc.html#Proc.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.longrunningproc.Proc.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.longrunningproc.Proc.stop">
+<tt class="descname">stop</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/longrunningproc.html#Proc.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.longrunningproc.Proc.stop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="hive.common.longrunningproc.ProcHandler">
+<em class="property">class </em><tt class="descclassname">hive.common.longrunningproc.</tt><tt class="descname">ProcHandler</tt><big>(</big><em>config</em>, <em>subproc</em>, <em>queue</em><big>)</big><a class="reference internal" href="_modules/hive/common/longrunningproc.html#ProcHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.longrunningproc.ProcHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">multiprocessing.process.Process</span></tt></p>
+<dl class="method">
+<dt id="hive.common.longrunningproc.ProcHandler.on_message">
+<tt class="descname">on_message</tt><big>(</big><em>channel</em>, <em>method_frame</em>, <em>props</em>, <em>body</em><big>)</big><a class="reference internal" href="_modules/hive/common/longrunningproc.html#ProcHandler.on_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.longrunningproc.ProcHandler.on_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.longrunningproc.ProcHandler.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/longrunningproc.html#ProcHandler.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.longrunningproc.ProcHandler.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="hive-common-lucenedriver-module">
+<h2>hive.common.lucenedriver module<a class="headerlink" href="#hive-common-lucenedriver-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-hive.common.model">
+<span id="hive-common-model-module"></span><h2>hive.common.model module<a class="headerlink" href="#module-hive.common.model" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hive.common.model.Model">
+<em class="property">class </em><tt class="descclassname">hive.common.model.</tt><tt class="descname">Model</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#Model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="method">
+<dt id="hive.common.model.Model.addcolumn">
+<tt class="descname">addcolumn</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#Model.addcolumn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.Model.addcolumn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.model.Model.addindex">
+<tt class="descname">addindex</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#Model.addindex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.Model.addindex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.model.Model.define">
+<tt class="descname">define</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#Model.define"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.Model.define" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.model.Model.delete">
+<tt class="descname">delete</tt><big>(</big><em>model</em><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#Model.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.Model.delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.model.Model.find">
+<tt class="descname">find</tt><big>(</big><em>id</em><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#Model.find"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.Model.find" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.model.Model.findAll">
+<tt class="descname">findAll</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#Model.findAll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.Model.findAll" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.model.Model.loadIndexDriver">
+<tt class="descname">loadIndexDriver</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#Model.loadIndexDriver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.Model.loadIndexDriver" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.model.Model.my_import">
+<tt class="descname">my_import</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#Model.my_import"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.Model.my_import" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.model.Model.new">
+<tt class="descname">new</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#Model.new"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.Model.new" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.model.Model.query">
+<tt class="descname">query</tt><big>(</big><em>query</em><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#Model.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.Model.query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.model.Model.rebuildIndex">
+<tt class="descname">rebuildIndex</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#Model.rebuildIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.Model.rebuildIndex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.model.Model.save">
+<tt class="descname">save</tt><big>(</big><em>model</em><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#Model.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.Model.save" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.model.Model.setprimary">
+<tt class="descname">setprimary</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#Model.setprimary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.Model.setprimary" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="hive.common.model.ModelObject">
+<em class="property">class </em><tt class="descclassname">hive.common.model.</tt><tt class="descname">ModelObject</tt><big>(</big><em>columns</em>, <em>data</em><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#ModelObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.ModelObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="method">
+<dt id="hive.common.model.ModelObject.to_hash">
+<tt class="descname">to_hash</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#ModelObject.to_hash"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.ModelObject.to_hash" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hive.common.mongotextdriver">
+<span id="hive-common-mongotextdriver-module"></span><h2>hive.common.mongotextdriver module<a class="headerlink" href="#module-hive.common.mongotextdriver" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hive.common.mongotextdriver.Driver">
+<em class="property">class </em><tt class="descclassname">hive.common.mongotextdriver.</tt><tt class="descname">Driver</tt><big>(</big><em>config</em>, <em>tablename</em><big>)</big><a class="reference internal" href="_modules/hive/common/mongotextdriver.html#Driver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.mongotextdriver.Driver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="method">
+<dt id="hive.common.mongotextdriver.Driver.index">
+<tt class="descname">index</tt><big>(</big><em>fields</em>, <em>record</em><big>)</big><a class="reference internal" href="_modules/hive/common/mongotextdriver.html#Driver.index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.mongotextdriver.Driver.index" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.mongotextdriver.Driver.query">
+<tt class="descname">query</tt><big>(</big><em>query</em><big>)</big><a class="reference internal" href="_modules/hive/common/mongotextdriver.html#Driver.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.mongotextdriver.Driver.query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.mongotextdriver.Driver.removeindex">
+<tt class="descname">removeindex</tt><big>(</big><em>fields</em>, <em>record</em><big>)</big><a class="reference internal" href="_modules/hive/common/mongotextdriver.html#Driver.removeindex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.mongotextdriver.Driver.removeindex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.mongotextdriver.Driver.updateindex">
+<tt class="descname">updateindex</tt><big>(</big><em>fields</em>, <em>record</em><big>)</big><a class="reference internal" href="_modules/hive/common/mongotextdriver.html#Driver.updateindex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.mongotextdriver.Driver.updateindex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hive.common.rabbitconsumer">
+<span id="hive-common-rabbitconsumer-module"></span><h2>hive.common.rabbitconsumer module<a class="headerlink" href="#module-hive.common.rabbitconsumer" title="Permalink to this headline">¶</a></h2>
+<p>A helper class for wrapping the creation and consuming of a queue
+using rabbit.</p>
+<dl class="exception">
+<dt id="hive.common.rabbitconsumer.RPCServerException">
+<em class="property">exception </em><tt class="descclassname">hive.common.rabbitconsumer.</tt><tt class="descname">RPCServerException</tt><a class="reference internal" href="_modules/hive/common/rabbitconsumer.html#RPCServerException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitconsumer.RPCServerException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="http://docs.python.org/library/exceptions.html#exceptions.Exception" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hive.common.rabbitconsumer.RabbitConsumer">
+<em class="property">class </em><tt class="descclassname">hive.common.rabbitconsumer.</tt><tt class="descname">RabbitConsumer</tt><big>(</big><em>name</em>, <em>host</em>, <em>router</em>, <em>username</em>, <em>password</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitconsumer.html#RabbitConsumer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitconsumer.RabbitConsumer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="http://docs.python.org/library/threading.html#threading.Thread" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">threading.Thread</span></tt></a></p>
+<dl class="method">
+<dt id="hive.common.rabbitconsumer.RabbitConsumer.closechannel">
+<tt class="descname">closechannel</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitconsumer.html#RabbitConsumer.closechannel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitconsumer.RabbitConsumer.closechannel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitconsumer.RabbitConsumer.connect">
+<tt class="descname">connect</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitconsumer.html#RabbitConsumer.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitconsumer.RabbitConsumer.connect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitconsumer.RabbitConsumer.jsonToHash">
+<tt class="descname">jsonToHash</tt><big>(</big><em>string</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitconsumer.html#RabbitConsumer.jsonToHash"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitconsumer.RabbitConsumer.jsonToHash" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitconsumer.RabbitConsumer.makeResponse">
+<tt class="descname">makeResponse</tt><big>(</big><em>request</em>, <em>rpcresp</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitconsumer.html#RabbitConsumer.makeResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitconsumer.RabbitConsumer.makeResponse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitconsumer.RabbitConsumer.onRequest">
+<tt class="descname">onRequest</tt><big>(</big><em>ch</em>, <em>method</em>, <em>props</em>, <em>body</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitconsumer.html#RabbitConsumer.onRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitconsumer.RabbitConsumer.onRequest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitconsumer.RabbitConsumer.on_cancelok">
+<tt class="descname">on_cancelok</tt><big>(</big><em>frame</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitconsumer.html#RabbitConsumer.on_cancelok"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitconsumer.RabbitConsumer.on_cancelok" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitconsumer.RabbitConsumer.on_queue_declareok">
+<tt class="descname">on_queue_declareok</tt><big>(</big><em>method_frame</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitconsumer.html#RabbitConsumer.on_queue_declareok"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitconsumer.RabbitConsumer.on_queue_declareok" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitconsumer.RabbitConsumer.onchannel_closed">
+<tt class="descname">onchannel_closed</tt><big>(</big><em>channel</em>, <em>reply_code</em>, <em>reply_text</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitconsumer.html#RabbitConsumer.onchannel_closed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitconsumer.RabbitConsumer.onchannel_closed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitconsumer.RabbitConsumer.onchannel_open">
+<tt class="descname">onchannel_open</tt><big>(</big><em>channel</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitconsumer.html#RabbitConsumer.onchannel_open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitconsumer.RabbitConsumer.onchannel_open" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitconsumer.RabbitConsumer.onconnection_closed">
+<tt class="descname">onconnection_closed</tt><big>(</big><em>connection</em>, <em>reply_code</em>, <em>reply_text</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitconsumer.html#RabbitConsumer.onconnection_closed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitconsumer.RabbitConsumer.onconnection_closed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitconsumer.RabbitConsumer.onconnection_open">
+<tt class="descname">onconnection_open</tt><big>(</big><em>unused_connection</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitconsumer.html#RabbitConsumer.onconnection_open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitconsumer.RabbitConsumer.onconnection_open" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitconsumer.RabbitConsumer.onconsumer_cancelled">
+<tt class="descname">onconsumer_cancelled</tt><big>(</big><em>method_frame</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitconsumer.html#RabbitConsumer.onconsumer_cancelled"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitconsumer.RabbitConsumer.onconsumer_cancelled" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitconsumer.RabbitConsumer.reconnect">
+<tt class="descname">reconnect</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitconsumer.html#RabbitConsumer.reconnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitconsumer.RabbitConsumer.reconnect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitconsumer.RabbitConsumer.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitconsumer.html#RabbitConsumer.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitconsumer.RabbitConsumer.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitconsumer.RabbitConsumer.stop">
+<tt class="descname">stop</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitconsumer.html#RabbitConsumer.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitconsumer.RabbitConsumer.stop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hive.common.rabbitsubscriber">
+<span id="hive-common-rabbitsubscriber-module"></span><h2>hive.common.rabbitsubscriber module<a class="headerlink" href="#module-hive.common.rabbitsubscriber" title="Permalink to this headline">¶</a></h2>
+<p>A helper class for wrapping the creation and consuming of a queue
+using rabbit.</p>
+<dl class="exception">
+<dt id="hive.common.rabbitsubscriber.RPCServerException">
+<em class="property">exception </em><tt class="descclassname">hive.common.rabbitsubscriber.</tt><tt class="descname">RPCServerException</tt><a class="reference internal" href="_modules/hive/common/rabbitsubscriber.html#RPCServerException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitsubscriber.RPCServerException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="http://docs.python.org/library/exceptions.html#exceptions.Exception" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hive.common.rabbitsubscriber.RabbitSubscriber">
+<em class="property">class </em><tt class="descclassname">hive.common.rabbitsubscriber.</tt><tt class="descname">RabbitSubscriber</tt><big>(</big><em>name</em>, <em>host</em>, <em>router</em>, <em>username</em>, <em>password</em>, <em>routingkeys</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitsubscriber.html#RabbitSubscriber"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitsubscriber.RabbitSubscriber" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="http://docs.python.org/library/threading.html#threading.Thread" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">threading.Thread</span></tt></a></p>
+<dl class="method">
+<dt id="hive.common.rabbitsubscriber.RabbitSubscriber.closechannel">
+<tt class="descname">closechannel</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitsubscriber.html#RabbitSubscriber.closechannel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitsubscriber.RabbitSubscriber.closechannel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitsubscriber.RabbitSubscriber.connect">
+<tt class="descname">connect</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitsubscriber.html#RabbitSubscriber.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitsubscriber.RabbitSubscriber.connect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitsubscriber.RabbitSubscriber.jsonToHash">
+<tt class="descname">jsonToHash</tt><big>(</big><em>string</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitsubscriber.html#RabbitSubscriber.jsonToHash"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitsubscriber.RabbitSubscriber.jsonToHash" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitsubscriber.RabbitSubscriber.onRequest">
+<tt class="descname">onRequest</tt><big>(</big><em>ch</em>, <em>method</em>, <em>props</em>, <em>body</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitsubscriber.html#RabbitSubscriber.onRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitsubscriber.RabbitSubscriber.onRequest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitsubscriber.RabbitSubscriber.on_cancelok">
+<tt class="descname">on_cancelok</tt><big>(</big><em>frame</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitsubscriber.html#RabbitSubscriber.on_cancelok"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitsubscriber.RabbitSubscriber.on_cancelok" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitsubscriber.RabbitSubscriber.on_exchange_declareok">
+<tt class="descname">on_exchange_declareok</tt><big>(</big><em>unused_frame</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitsubscriber.html#RabbitSubscriber.on_exchange_declareok"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitsubscriber.RabbitSubscriber.on_exchange_declareok" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitsubscriber.RabbitSubscriber.on_queue_declareok">
+<tt class="descname">on_queue_declareok</tt><big>(</big><em>method_frame</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitsubscriber.html#RabbitSubscriber.on_queue_declareok"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitsubscriber.RabbitSubscriber.on_queue_declareok" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitsubscriber.RabbitSubscriber.onbindok">
+<tt class="descname">onbindok</tt><big>(</big><em>unused_frame</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitsubscriber.html#RabbitSubscriber.onbindok"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitsubscriber.RabbitSubscriber.onbindok" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitsubscriber.RabbitSubscriber.onchannel_closed">
+<tt class="descname">onchannel_closed</tt><big>(</big><em>channel</em>, <em>reply_code</em>, <em>reply_text</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitsubscriber.html#RabbitSubscriber.onchannel_closed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitsubscriber.RabbitSubscriber.onchannel_closed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitsubscriber.RabbitSubscriber.onchannel_open">
+<tt class="descname">onchannel_open</tt><big>(</big><em>channel</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitsubscriber.html#RabbitSubscriber.onchannel_open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitsubscriber.RabbitSubscriber.onchannel_open" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitsubscriber.RabbitSubscriber.onconnection_closed">
+<tt class="descname">onconnection_closed</tt><big>(</big><em>connection</em>, <em>reply_code</em>, <em>reply_text</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitsubscriber.html#RabbitSubscriber.onconnection_closed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitsubscriber.RabbitSubscriber.onconnection_closed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitsubscriber.RabbitSubscriber.onconnection_open">
+<tt class="descname">onconnection_open</tt><big>(</big><em>unused_connection</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitsubscriber.html#RabbitSubscriber.onconnection_open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitsubscriber.RabbitSubscriber.onconnection_open" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitsubscriber.RabbitSubscriber.onconsumer_cancelled">
+<tt class="descname">onconsumer_cancelled</tt><big>(</big><em>method_frame</em><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitsubscriber.html#RabbitSubscriber.onconsumer_cancelled"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitsubscriber.RabbitSubscriber.onconsumer_cancelled" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitsubscriber.RabbitSubscriber.reconnect">
+<tt class="descname">reconnect</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitsubscriber.html#RabbitSubscriber.reconnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitsubscriber.RabbitSubscriber.reconnect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitsubscriber.RabbitSubscriber.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitsubscriber.html#RabbitSubscriber.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitsubscriber.RabbitSubscriber.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rabbitsubscriber.RabbitSubscriber.stop">
+<tt class="descname">stop</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/rabbitsubscriber.html#RabbitSubscriber.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitsubscriber.RabbitSubscriber.stop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hive.common.routes">
+<span id="hive-common-routes-module"></span><h2>hive.common.routes module<a class="headerlink" href="#module-hive.common.routes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hive.common.routes.Routes">
+<em class="property">class </em><tt class="descclassname">hive.common.routes.</tt><tt class="descname">Routes</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="_modules/hive/common/routes.html#Routes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.routes.Routes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="method">
+<dt id="hive.common.routes.Routes.action">
+<tt class="descname">action</tt><big>(</big><em>name</em>, <em>func</em>, <em>controller</em><big>)</big><a class="reference internal" href="_modules/hive/common/routes.html#Routes.action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.routes.Routes.action" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.routes.Routes.my_import">
+<tt class="descname">my_import</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/hive/common/routes.html#Routes.my_import"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.routes.Routes.my_import" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.routes.Routes.route">
+<tt class="descname">route</tt><big>(</big><em>action</em>, <em>data</em>, <em>resp</em>, <em>channel</em><big>)</big><a class="reference internal" href="_modules/hive/common/routes.html#Routes.route"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.routes.Routes.route" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.routes.Routes.setupRoutes">
+<tt class="descname">setupRoutes</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/routes.html#Routes.setupRoutes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.routes.Routes.setupRoutes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="hive.common.routes.RoutingException">
+<em class="property">exception </em><tt class="descclassname">hive.common.routes.</tt><tt class="descname">RoutingException</tt><a class="reference internal" href="_modules/hive/common/routes.html#RoutingException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.routes.RoutingException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="http://docs.python.org/library/exceptions.html#exceptions.Exception" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-hive.common.rpcresponse">
+<span id="hive-common-rpcresponse-module"></span><h2>hive.common.rpcresponse module<a class="headerlink" href="#module-hive.common.rpcresponse" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hive.common.rpcresponse.RPCResponse">
+<em class="property">class </em><tt class="descclassname">hive.common.rpcresponse.</tt><tt class="descname">RPCResponse</tt><a class="reference internal" href="_modules/hive/common/rpcresponse.html#RPCResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rpcresponse.RPCResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="method">
+<dt id="hive.common.rpcresponse.RPCResponse.respond">
+<tt class="descname">respond</tt><big>(</big><em>data</em>, <em>action=None</em><big>)</big><a class="reference internal" href="_modules/hive/common/rpcresponse.html#RPCResponse.respond"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rpcresponse.RPCResponse.respond" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="hive.common.rpcresponse.RPCResponseException">
+<em class="property">exception </em><tt class="descclassname">hive.common.rpcresponse.</tt><tt class="descname">RPCResponseException</tt><a class="reference internal" href="_modules/hive/common/rpcresponse.html#RPCResponseException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rpcresponse.RPCResponseException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="http://docs.python.org/library/exceptions.html#exceptions.Exception" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-hive.common.rpcsender">
+<span id="hive-common-rpcsender-module"></span><h2>hive.common.rpcsender module<a class="headerlink" href="#module-hive.common.rpcsender" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hive.common.rpcsender.RPCSender">
+<em class="property">class </em><tt class="descclassname">hive.common.rpcsender.</tt><tt class="descname">RPCSender</tt><big>(</big><em>config</em>, <em>channel=None</em><big>)</big><a class="reference internal" href="_modules/hive/common/rpcsender.html#RPCSender"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rpcsender.RPCSender" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="method">
+<dt id="hive.common.rpcsender.RPCSender.on_response">
+<tt class="descname">on_response</tt><big>(</big><em>ch</em>, <em>method</em>, <em>props</em>, <em>body</em><big>)</big><a class="reference internal" href="_modules/hive/common/rpcsender.html#RPCSender.on_response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rpcsender.RPCSender.on_response" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.rpcsender.RPCSender.send_request">
+<tt class="descname">send_request</tt><big>(</big><em>action</em>, <em>to</em>, <em>body</em>, <em>machineid</em>, <em>fro</em>, <em>timeout=10</em>, <em>exchange=''</em>, <em>key=''</em><big>)</big><a class="reference internal" href="_modules/hive/common/rpcsender.html#RPCSender.send_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rpcsender.RPCSender.send_request" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hive.common.simplepublisher">
+<span id="hive-common-simplepublisher-module"></span><h2>hive.common.simplepublisher module<a class="headerlink" href="#module-hive.common.simplepublisher" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hive.common.simplepublisher.SimplePublisher">
+<em class="property">class </em><tt class="descclassname">hive.common.simplepublisher.</tt><tt class="descname">SimplePublisher</tt><big>(</big><em>name</em>, <em>host='localhost'</em>, <em>username='guest'</em>, <em>password='guest'</em>, <em>channel=None</em><big>)</big><a class="reference internal" href="_modules/hive/common/simplepublisher.html#SimplePublisher"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.simplepublisher.SimplePublisher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="method">
+<dt id="hive.common.simplepublisher.SimplePublisher.publish_msg">
+<tt class="descname">publish_msg</tt><big>(</big><em>msg</em>, <em>routing_key</em><big>)</big><a class="reference internal" href="_modules/hive/common/simplepublisher.html#SimplePublisher.publish_msg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.simplepublisher.SimplePublisher.publish_msg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hive.common">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-hive.common" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">hive.common package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-hive.common.base">hive.common.base module</a></li>
+<li><a class="reference internal" href="#module-hive.common.controller">hive.common.controller module</a></li>
+<li><a class="reference internal" href="#module-hive.common.longrunningproc">hive.common.longrunningproc module</a></li>
+<li><a class="reference internal" href="#hive-common-lucenedriver-module">hive.common.lucenedriver module</a></li>
+<li><a class="reference internal" href="#module-hive.common.model">hive.common.model module</a></li>
+<li><a class="reference internal" href="#module-hive.common.mongotextdriver">hive.common.mongotextdriver module</a></li>
+<li><a class="reference internal" href="#module-hive.common.rabbitconsumer">hive.common.rabbitconsumer module</a></li>
+<li><a class="reference internal" href="#module-hive.common.rabbitsubscriber">hive.common.rabbitsubscriber module</a></li>
+<li><a class="reference internal" href="#module-hive.common.routes">hive.common.routes module</a></li>
+<li><a class="reference internal" href="#module-hive.common.rpcresponse">hive.common.rpcresponse module</a></li>
+<li><a class="reference internal" href="#module-hive.common.rpcsender">hive.common.rpcsender module</a></li>
+<li><a class="reference internal" href="#module-hive.common.simplepublisher">hive.common.simplepublisher module</a></li>
+<li><a class="reference internal" href="#module-hive.common">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/hive.common.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">Apiary 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Sam Betts, John Davidge, Brad Jones, Jack Peter Fletcher.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
