@@ -8,7 +8,7 @@
     
     <title>hive.pheromone package &mdash; Apiary 1 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pyramid.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -23,9 +23,16 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Apiary 1 documentation" href="index.html" /> 
+    <link rel="top" title="Apiary 1 documentation" href="index.html" />
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
   </head>
   <body>
+
     <div class="related">
       <h3>Navigation</h3>
       <ul>
@@ -49,11 +56,58 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="hive-pheromone-alerter-module">
-<h2>hive.pheromone.alerter module<a class="headerlink" href="#hive-pheromone-alerter-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-hive.pheromone.alerter">
+<span id="hive-pheromone-alerter-module"></span><h2>hive.pheromone.alerter module<a class="headerlink" href="#module-hive.pheromone.alerter" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hive.pheromone.alerter.Alerter">
+<em class="property">class </em><tt class="descclassname">hive.pheromone.alerter.</tt><tt class="descname">Alerter</tt><big>(</big><em>config</em>, <em>query</em>, <em>time</em>, <em>quantity</em><big>)</big><a class="reference internal" href="_modules/hive/pheromone/alerter.html#Alerter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.pheromone.alerter.Alerter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="hive.common.html#hive.common.longrunningproc.Proc" title="hive.common.longrunningproc.Proc"><tt class="xref py py-class docutils literal"><span class="pre">hive.common.longrunningproc.Proc</span></tt></a></p>
+<dl class="method">
+<dt id="hive.pheromone.alerter.Alerter.on_message">
+<tt class="descname">on_message</tt><big>(</big><em>channel</em>, <em>method_frame</em>, <em>header_frame</em>, <em>body</em><big>)</big><a class="reference internal" href="_modules/hive/pheromone/alerter.html#Alerter.on_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.pheromone.alerter.Alerter.on_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.pheromone.alerter.Alerter.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/pheromone/alerter.html#Alerter.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.pheromone.alerter.Alerter.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.pheromone.alerter.Alerter.send_alert">
+<tt class="descname">send_alert</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/pheromone/alerter.html#Alerter.send_alert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.pheromone.alerter.Alerter.send_alert" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.pheromone.alerter.Alerter.stop">
+<tt class="descname">stop</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/pheromone/alerter.html#Alerter.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.pheromone.alerter.Alerter.stop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="hive-pheromone-controller-module">
-<h2>hive.pheromone.controller module<a class="headerlink" href="#hive-pheromone-controller-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-hive.pheromone.controller">
+<span id="hive-pheromone-controller-module"></span><h2>hive.pheromone.controller module<a class="headerlink" href="#module-hive.pheromone.controller" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hive.pheromone.controller.Controller">
+<em class="property">class </em><tt class="descclassname">hive.pheromone.controller.</tt><tt class="descname">Controller</tt><big>(</big><em>config</em>, <em>channel</em><big>)</big><a class="reference internal" href="_modules/hive/pheromone/controller.html#Controller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.pheromone.controller.Controller" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="hive.common.html#hive.common.controller.Controller" title="hive.common.controller.Controller"><tt class="xref py py-class docutils literal"><span class="pre">hive.common.controller.Controller</span></tt></a></p>
+<dl class="method">
+<dt id="hive.pheromone.controller.Controller.delete">
+<tt class="descname">delete</tt><big>(</big><em>body</em>, <em>resp</em><big>)</big><a class="reference internal" href="_modules/hive/pheromone/controller.html#Controller.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.pheromone.controller.Controller.delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.pheromone.controller.Controller.models">
+<tt class="descname">models</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/pheromone/controller.html#Controller.models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.pheromone.controller.Controller.models" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.pheromone.controller.Controller.new">
+<tt class="descname">new</tt><big>(</big><em>body</em>, <em>resp</em><big>)</big><a class="reference internal" href="_modules/hive/pheromone/controller.html#Controller.new"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.pheromone.controller.Controller.new" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-hive.pheromone.routes">
 <span id="hive-pheromone-routes-module"></span><h2>hive.pheromone.routes module<a class="headerlink" href="#module-hive.pheromone.routes" title="Permalink to this headline">¶</a></h2>
@@ -72,12 +126,12 @@
 <div class="section" id="module-hive.pheromone.worker">
 <span id="hive-pheromone-worker-module"></span><h2>hive.pheromone.worker module<a class="headerlink" href="#module-hive.pheromone.worker" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="hive.pheromone.worker.SearcherModel">
-<em class="property">class </em><tt class="descclassname">hive.pheromone.worker.</tt><tt class="descname">SearcherModel</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="_modules/hive/pheromone/worker.html#SearcherModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.pheromone.worker.SearcherModel" title="Permalink to this definition">¶</a></dt>
+<dt id="hive.pheromone.worker.Worker">
+<em class="property">class </em><tt class="descclassname">hive.pheromone.worker.</tt><tt class="descname">Worker</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="_modules/hive/pheromone/worker.html#Worker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.pheromone.worker.Worker" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="hive.common.html#hive.common.model.Model" title="hive.common.model.Model"><tt class="xref py py-class docutils literal"><span class="pre">hive.common.model.Model</span></tt></a></p>
 <dl class="method">
-<dt id="hive.pheromone.worker.SearcherModel.define">
-<tt class="descname">define</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/pheromone/worker.html#SearcherModel.define"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.pheromone.worker.SearcherModel.define" title="Permalink to this definition">¶</a></dt>
+<dt id="hive.pheromone.worker.Worker.define">
+<tt class="descname">define</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/pheromone/worker.html#Worker.define"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.pheromone.worker.Worker.define" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -109,8 +163,8 @@
   <ul>
 <li><a class="reference internal" href="#">hive.pheromone package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#hive-pheromone-alerter-module">hive.pheromone.alerter module</a></li>
-<li><a class="reference internal" href="#hive-pheromone-controller-module">hive.pheromone.controller module</a></li>
+<li><a class="reference internal" href="#module-hive.pheromone.alerter">hive.pheromone.alerter module</a></li>
+<li><a class="reference internal" href="#module-hive.pheromone.controller">hive.pheromone.controller module</a></li>
 <li><a class="reference internal" href="#module-hive.pheromone.routes">hive.pheromone.routes module</a></li>
 <li><a class="reference internal" href="#module-hive.pheromone.worker">hive.pheromone.worker module</a></li>
 <li><a class="reference internal" href="#module-hive.pheromone">Module contents</a></li>
@@ -118,11 +172,6 @@
 </li>
 </ul>
 
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/hive.pheromone.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">

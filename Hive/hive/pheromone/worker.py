@@ -1,6 +1,6 @@
 from hive.common.model import Model
 
-class SearcherModel(Model): 
+class Worker(Model): 
   
   def define(self):
     self.addcolumn('CONTROLQUEUE')

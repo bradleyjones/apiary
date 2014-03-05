@@ -54,13 +54,12 @@ class Alerter(Proc):
     def on_message(self, channel, method_frame, header_frame, body):
         msg = json.loads(body)
 
-        if((self.capturedTime + self.maxTime) < time.time()) {
+        if((self.capturedTime + self.maxTime) < time.time()):
           self.capturedTime = time.time()
           self.currentCount = 0
-        }
 
-        self.currentCount += (len(msg['data']['hits'] - self.totalHits)
-        if(currentCount >= maxQuantity):
+        self.currentCount += (len(msg['data']['hits'] - self.totalHits))
+        if(self.currentCount >= self.maxQuantity):
           if(self.totalHits != 0): 
             send_alert()
           self.capturedTime = time.time()

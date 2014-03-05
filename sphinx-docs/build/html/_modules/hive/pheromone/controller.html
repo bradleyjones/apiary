@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hive.pheromone.controller &mdash; Apiary 1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/pyramid.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Apiary 1 documentation" href="../../../index.html" />
+    <link rel="up" title="hive.pheromone" href="../pheromone.html" />
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../../../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head>
+  <body>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Apiary 1 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../pheromone.html" accesskey="U">hive.pheromone</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for hive.pheromone.controller</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">..common.controller</span> <span class="kn">import</span> <span class="n">Controller</span> <span class="k">as</span> <span class="n">Parent</span>
+<span class="kn">from</span> <span class="nn">..common.simplepublisher</span> <span class="kn">import</span> <span class="n">SimplePublisher</span>
+<span class="kn">from</span> <span class="nn">worker</span> <span class="kn">import</span> <span class="n">Worker</span>
+<span class="kn">from</span> <span class="nn">alerter</span> <span class="kn">import</span> <span class="n">Alerter</span>
+<span class="kn">from</span> <span class="nn">hive.common.longrunningproc</span> <span class="kn">import</span> <span class="n">ProcHandler</span>
+
+<div class="viewcode-block" id="Controller"><a class="viewcode-back" href="../../../hive.pheromone.html#hive.pheromone.controller.Controller">[docs]</a><span class="k">class</span> <span class="nc">Controller</span><span class="p">(</span><span class="n">Parent</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Controller.models"><a class="viewcode-back" href="../../../hive.pheromone.html#hive.pheromone.controller.Controller.models">[docs]</a>    <span class="k">def</span> <span class="nf">models</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workers</span> <span class="o">=</span> <span class="n">Worker</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="c"># BELOW THIS LINE ARE ALL CONTROLLER ACTIONS</span>
+</div>
+<div class="viewcode-block" id="Controller.new"><a class="viewcode-back" href="../../../hive.pheromone.html#hive.pheromone.controller.Controller.new">[docs]</a>    <span class="k">def</span> <span class="nf">new</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">resp</span><span class="p">):</span>
+        <span class="n">searcher</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">searchers</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
+
+        <span class="n">sender</span> <span class="o">=</span> <span class="n">RPCSender</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">sender</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">queue_declare</span><span class="p">()</span> 
+        <span class="n">q</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">method</span><span class="o">.</span><span class="n">queue</span>
+
+        <span class="n">machine</span> <span class="o">=</span> <span class="n">ProcHandler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">Alerter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">msg</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;query&#39;</span><span class="p">],</span> <span class="n">msg</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;time&#39;</span><span class="p">],</span> <span class="n">msg</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;quantity&#39;</span><span class="p">]),</span> <span class="n">q</span><span class="p">)</span>
+        <span class="n">machine</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        
+        <span class="n">searcher</span><span class="o">.</span><span class="n">OUTPUTQUEUE</span> <span class="o">=</span> <span class="n">sender</span><span class="o">.</span><span class="n">send_request</span><span class="p">(</span><span class="s">&#39;QUEUE&#39;</span><span class="p">,</span> <span class="s">&#39;hive&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">q</span><span class="p">)</span>
+        <span class="n">searcher</span><span class="o">.</span><span class="n">CONTROLQUEUE</span> <span class="o">=</span> <span class="n">q</span>
+        <span class="n">searcher</span><span class="o">.</span><span class="n">QUERY</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;query&#39;</span><span class="p">]</span>
+        <span class="n">searcher</span><span class="o">.</span><span class="n">TIME</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;time&#39;</span><span class="p">]</span>
+        <span class="n">searcher</span><span class="o">.</span><span class="n">QUANTITY</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;quantity&#39;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">searchers</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">searcher</span><span class="p">)</span>
+
+        <span class="n">resp</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="n">searcher</span><span class="o">.</span><span class="n">OUTPUTQUEUE</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Controller.delete"><a class="viewcode-back" href="../../../hive.pheromone.html#hive.pheromone.controller.Controller.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">resp</span><span class="p">):</span>
+        <span class="n">worker</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workers</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">body</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">pub</span> <span class="o">=</span> <span class="n">SimplePublisher</span><span class="p">(</span>
+            <span class="s">&#39;&#39;</span><span class="o">.</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;Rabbit&#39;</span><span class="p">][</span><span class="s">&#39;host&#39;</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;Rabbit&#39;</span><span class="p">][</span><span class="s">&#39;username&#39;</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;Rabbit&#39;</span><span class="p">][</span><span class="s">&#39;passwords&#39;</span><span class="p">])</span>
+        <span class="n">pub</span><span class="o">.</span><span class="n">publish_msg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;STOP&#39;</span><span class="p">,</span> <span class="n">work</span><span class="o">.</span><span class="n">CONTROLQUEUE</span><span class="p">)</span>
+
+        <span class="n">resp</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="s">&#39;DELETED&#39;</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Apiary 1 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../pheromone.html" >hive.pheromone</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Sam Betts, John Davidge, Brad Jones, Jack Peter Fletcher.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

@@ -8,7 +8,7 @@
     
     <title>hive.pheromone.worker &mdash; Apiary 1 documentation</title>
     
-    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pyramid.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -24,9 +24,16 @@
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="top" title="Apiary 1 documentation" href="../../../index.html" />
-    <link rel="up" title="hive.pheromone" href="../pheromone.html" /> 
+    <link rel="up" title="hive.pheromone" href="../pheromone.html" />
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../../../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
   </head>
   <body>
+
     <div class="related">
       <h3>Navigation</h3>
       <ul>
@@ -50,9 +57,9 @@
   <h1>Source code for hive.pheromone.worker</h1><div class="highlight"><pre>
 <span class="kn">from</span> <span class="nn">hive.common.model</span> <span class="kn">import</span> <span class="n">Model</span>
 
-<div class="viewcode-block" id="SearcherModel"><a class="viewcode-back" href="../../../hive.pheromone.html#hive.pheromone.worker.SearcherModel">[docs]</a><span class="k">class</span> <span class="nc">SearcherModel</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span> 
+<div class="viewcode-block" id="Worker"><a class="viewcode-back" href="../../../hive.pheromone.html#hive.pheromone.worker.Worker">[docs]</a><span class="k">class</span> <span class="nc">Worker</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span> 
   
-<div class="viewcode-block" id="SearcherModel.define"><a class="viewcode-back" href="../../../hive.pheromone.html#hive.pheromone.worker.SearcherModel.define">[docs]</a>  <span class="k">def</span> <span class="nf">define</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Worker.define"><a class="viewcode-back" href="../../../hive.pheromone.html#hive.pheromone.worker.Worker.define">[docs]</a>  <span class="k">def</span> <span class="nf">define</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">addcolumn</span><span class="p">(</span><span class="s">&#39;CONTROLQUEUE&#39;</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">addcolumn</span><span class="p">(</span><span class="s">&#39;OUTPUTQUEUE&#39;</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">addcolumn</span><span class="p">(</span><span class="s">&#39;QUERY&#39;</span><span class="p">)</span>

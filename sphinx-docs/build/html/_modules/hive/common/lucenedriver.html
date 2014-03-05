@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hive.common.lucenedriver &mdash; Apiary 1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/pyramid.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Apiary 1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../../../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head>
+  <body>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Apiary 1 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for hive.common.lucenedriver</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">lucene</span><span class="o">,</span> <span class="nn">threading</span><span class="o">,</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="kn">from</span> <span class="nn">java.io</span> <span class="kn">import</span> <span class="n">File</span>
+<span class="kn">from</span> <span class="nn">org.apache.lucene.analysis.miscellaneous</span> <span class="kn">import</span> <span class="n">LimitTokenCountAnalyzer</span>
+<span class="kn">from</span> <span class="nn">org.apache.lucene.analysis.standard</span> <span class="kn">import</span> <span class="n">StandardAnalyzer</span>
+<span class="kn">from</span> <span class="nn">org.apache.lucene.document</span> <span class="kn">import</span> <span class="n">Document</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">FieldType</span>
+<span class="kn">from</span> <span class="nn">org.apache.lucene.index</span> <span class="kn">import</span> <span class="n">FieldInfo</span><span class="p">,</span> <span class="n">IndexWriter</span><span class="p">,</span> <span class="n">IndexWriterConfig</span>
+<span class="kn">from</span> <span class="nn">org.apache.lucene.store</span> <span class="kn">import</span> <span class="n">SimpleFSDirectory</span>
+<span class="kn">from</span> <span class="nn">org.apache.lucene.util</span> <span class="kn">import</span> <span class="n">Version</span>
+<span class="kn">from</span> <span class="nn">org.apache.lucene.queryparser.classic</span> <span class="kn">import</span> <span class="n">QueryParser</span>
+<span class="kn">from</span> <span class="nn">org.apache.lucene.search</span> <span class="kn">import</span> <span class="n">IndexSearcher</span>
+<span class="kn">from</span> <span class="nn">org.apache.lucene.index</span> <span class="kn">import</span> <span class="n">DirectoryReader</span>
+
+<div class="viewcode-block" id="Driver"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Driver">[docs]</a><span class="k">class</span> <span class="nc">Driver</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">tablename</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">lucene</span><span class="o">.</span><span class="n">getVMEnv</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">attachCurrentThread</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">indexdir</span> <span class="o">=</span> <span class="s">&quot;IndexOf</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">tablename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">SimpleFSDirectory</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">indexdir</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">StandardAnalyzer</span><span class="p">(</span><span class="n">Version</span><span class="o">.</span><span class="n">LUCENE_CURRENT</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conf</span> <span class="o">=</span> <span class="n">IndexWriterConfig</span><span class="p">(</span><span class="n">Version</span><span class="o">.</span><span class="n">LUCENE_CURRENT</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fieldType1</span> <span class="o">=</span> <span class="n">FieldType</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fieldType1</span><span class="o">.</span><span class="n">setIndexed</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fieldType1</span><span class="o">.</span><span class="n">setStored</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fieldType1</span><span class="o">.</span><span class="n">setTokenized</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fieldType2</span> <span class="o">=</span> <span class="n">FieldType</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fieldType2</span><span class="o">.</span><span class="n">setIndexed</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fieldType2</span><span class="o">.</span><span class="n">setStored</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fieldType2</span><span class="o">.</span><span class="n">setTokenized</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Driver.rebuildIndex"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Driver.rebuildIndex">[docs]</a>    <span class="k">def</span> <span class="nf">rebuildIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">records</span><span class="p">):</span>
+        <span class="n">writer</span> <span class="o">=</span> <span class="n">IndexWriter</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">setOpenMode</span><span class="p">(</span><span class="n">IndexWriterConfig</span><span class="o">.</span><span class="n">OpenMode</span><span class="o">.</span><span class="n">CREATE</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
+          <span class="n">doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buildDocument</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span>
+          <span class="n">writer</span><span class="o">.</span><span class="n">addDocument</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+
+        <span class="n">writer</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="Driver.buildDocument"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Driver.buildDocument">[docs]</a>    <span class="k">def</span> <span class="nf">buildDocument</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">Document</span><span class="p">()</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+            <span class="n">Field</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">,</span>
+                  <span class="n">record</span><span class="p">[</span><span class="s">&quot;_id&quot;</span><span class="p">],</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">fieldType2</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+          <span class="n">doc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+              <span class="n">Field</span><span class="p">(</span><span class="n">field</span><span class="p">,</span>
+                    <span class="n">record</span><span class="p">[</span><span class="n">field</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">fieldType1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">doc</span>
+</div>
+<div class="viewcode-block" id="Driver.index"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Driver.index">[docs]</a>    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
+        <span class="n">writer</span> <span class="o">=</span> <span class="n">IndexWriter</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">)</span>
+
+        <span class="n">doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buildDocument</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">addDocument</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+
+        <span class="n">writer</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Driver.updateindex"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Driver.updateindex">[docs]</a>    <span class="k">def</span> <span class="nf">updateindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
+        <span class="n">writer</span> <span class="o">=</span> <span class="n">IndexWriter</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">)</span>
+
+        <span class="n">doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buildDocument</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">updateDocument</span><span class="p">(</span><span class="n">lucene</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;_id&quot;</span><span class="p">,</span> <span class="n">record</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]),</span> <span class="n">doc</span><span class="p">)</span>
+
+        <span class="n">writer</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Driver.removeindex"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Driver.removeindex">[docs]</a>    <span class="k">def</span> <span class="nf">removeindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
+        <span class="n">writer</span> <span class="o">=</span> <span class="n">IndexWriter</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">)</span>
+
+        <span class="n">writer</span><span class="o">.</span><span class="n">deleteDocuments</span><span class="p">(</span><span class="n">lucene</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;_id&quot;</span><span class="p">,</span> <span class="n">record</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]))</span>
+
+        <span class="n">writer</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Driver.query"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Driver.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="n">searcher</span> <span class="o">=</span> <span class="n">IndexSearcher</span><span class="p">(</span><span class="n">DirectoryReader</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">))</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="n">QueryParser</span><span class="p">(</span><span class="n">Version</span><span class="o">.</span><span class="n">LUCENE_30</span><span class="p">,</span> <span class="s">&quot;id&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span><span class="p">)</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="n">hits</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+        
+        <span class="n">results</span><span class="p">[</span><span class="s">&#39;totalHits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hits</span><span class="o">.</span><span class="n">totalHits</span>
+        <span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">hits</span><span class="o">.</span><span class="n">scoreDocs</span><span class="p">:</span>
+            <span class="n">record</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="n">hit</span><span class="o">.</span><span class="n">doc</span><span class="p">)</span>
+            <span class="n">record</span><span class="p">[</span><span class="s">&#39;score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hit</span><span class="o">.</span><span class="n">score</span>
+            <span class="n">fields</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">getFields</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+                <span class="n">record</span><span class="p">[</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">stringValue</span><span class="p">()</span>
+            <span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">results</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Apiary 1 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Sam Betts, John Davidge, Brad Jones, Jack Peter Fletcher.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

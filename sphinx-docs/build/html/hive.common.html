@@ -8,7 +8,7 @@
     
     <title>hive.common package &mdash; Apiary 1 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pyramid.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -23,9 +23,16 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Apiary 1 documentation" href="index.html" /> 
+    <link rel="top" title="Apiary 1 documentation" href="index.html" />
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
   </head>
   <body>
+
     <div class="related">
       <h3>Navigation</h3>
       <ul>
@@ -142,8 +149,44 @@
 </dd></dl>
 
 </div>
-<div class="section" id="hive-common-lucenedriver-module">
-<h2>hive.common.lucenedriver module<a class="headerlink" href="#hive-common-lucenedriver-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-hive.common.lucenedriver">
+<span id="hive-common-lucenedriver-module"></span><h2>hive.common.lucenedriver module<a class="headerlink" href="#module-hive.common.lucenedriver" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hive.common.lucenedriver.Driver">
+<em class="property">class </em><tt class="descclassname">hive.common.lucenedriver.</tt><tt class="descname">Driver</tt><big>(</big><em>config</em>, <em>tablename</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Driver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Driver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="method">
+<dt id="hive.common.lucenedriver.Driver.buildDocument">
+<tt class="descname">buildDocument</tt><big>(</big><em>fields</em>, <em>record</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Driver.buildDocument"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Driver.buildDocument" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.lucenedriver.Driver.index">
+<tt class="descname">index</tt><big>(</big><em>fields</em>, <em>record</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Driver.index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Driver.index" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.lucenedriver.Driver.query">
+<tt class="descname">query</tt><big>(</big><em>query</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Driver.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Driver.query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.lucenedriver.Driver.rebuildIndex">
+<tt class="descname">rebuildIndex</tt><big>(</big><em>fields</em>, <em>records</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Driver.rebuildIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Driver.rebuildIndex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.lucenedriver.Driver.removeindex">
+<tt class="descname">removeindex</tt><big>(</big><em>record</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Driver.removeindex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Driver.removeindex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.lucenedriver.Driver.updateindex">
+<tt class="descname">updateindex</tt><big>(</big><em>fields</em>, <em>record</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Driver.updateindex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Driver.updateindex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-hive.common.model">
 <span id="hive-common-model-module"></span><h2>hive.common.model module<a class="headerlink" href="#module-hive.common.model" title="Permalink to this headline">¶</a></h2>
@@ -554,7 +597,7 @@ using rabbit.</p>
 <li><a class="reference internal" href="#module-hive.common.base">hive.common.base module</a></li>
 <li><a class="reference internal" href="#module-hive.common.controller">hive.common.controller module</a></li>
 <li><a class="reference internal" href="#module-hive.common.longrunningproc">hive.common.longrunningproc module</a></li>
-<li><a class="reference internal" href="#hive-common-lucenedriver-module">hive.common.lucenedriver module</a></li>
+<li><a class="reference internal" href="#module-hive.common.lucenedriver">hive.common.lucenedriver module</a></li>
 <li><a class="reference internal" href="#module-hive.common.model">hive.common.model module</a></li>
 <li><a class="reference internal" href="#module-hive.common.mongotextdriver">hive.common.mongotextdriver module</a></li>
 <li><a class="reference internal" href="#module-hive.common.rabbitconsumer">hive.common.rabbitconsumer module</a></li>
@@ -568,11 +611,6 @@ using rabbit.</p>
 </li>
 </ul>
 
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/hive.common.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
