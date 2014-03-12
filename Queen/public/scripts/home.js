@@ -6,6 +6,10 @@ socket.on('agentcount', function(data) {
 
 $(function() {
    $("#searchButton").click(function(){
-      console.log("hey");
+      searchTerm = $("#searchInput")[0].value;
+      console.log(searchTerm);
+      
+      //Edit so data sources and other stuff is also send down with data, Bro
+      socket.emit('querySubmit', searchTerm);
    });
 });
