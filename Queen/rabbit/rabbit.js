@@ -5,7 +5,7 @@ var rpc = require('./rabbit_rpc')
 
 exports.constructMessage = function (action, queueName, data) {
     if (typeof (data) === 'undefined') {
-        data = "";
+        data = {};
     } ;
     var message = {
             action: action,

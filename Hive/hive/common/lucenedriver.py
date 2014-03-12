@@ -52,11 +52,27 @@ class Driver(object):
                   record["_id"],
                   self.fieldType2))
         for field in fields:
-          doc.add(
-              Field(field,
-                    record[field],
-                    self.fieldType1))
+          if type(record[field]) is dict:
+            print "YO MAMA"
+            self.dictToFields(doc, record[field])
+          else: 
+            doc.add(
+                Field(field,
+                      record[field],
+                      self.fieldType1))
+
         return doc
+
+    def dictToFields(self, doc, record):
+        for key in record:
+          if type(record[key]) is dict:
+            self.dictToFields(doc, record[key])
+          else: 
+            doc.add(
+                Field(key,
+                      record[key],
+                      self.fieldType1))
+
 
     def index(self, fields, record):
         writer = IndexWriter(
