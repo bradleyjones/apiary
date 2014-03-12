@@ -21,4 +21,8 @@ io.of('/home').on('connection', function (socket) {
     console.log("AGENT COUNT ::: " + data.data);
     socket.emit('agentcount', data.data);
   });
+
+  socket.on("querySubmit", function(search) {
+    console.log("Searching for term: " + search);
+  });
 });
