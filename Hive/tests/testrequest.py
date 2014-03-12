@@ -7,6 +7,7 @@ data['CONTENT'] = "ERROR 128.10.10.3"
 data['TYPE'] = "string"
 data['EVENTTIMESTAMP'] = str(time.time())
 data['METADATA'] = {}
+data['METADATA']['TAGS'] = "firewall,yomama" 
 
 sdata = data
 
@@ -20,6 +21,6 @@ config['Rabbit']['host'] = '127.0.0.1'
 
 sender = RPCSender(config)
 
-resp = sender.send_request('DATA', 'hive', sdata, 'LKJABSDHBAS', 'Test Script', exchange="apiary", key='agents.4dd78cf7-ad26-4ecb-b916-3ff883aeac52.heartbeat')
+resp = sender.send_request('DATA', 'hive', sdata, 'LKJABSDHBAS', 'Test Script', exchange="", key='honeycomb')
 
 print resp

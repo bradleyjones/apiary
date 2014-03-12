@@ -11,3 +11,4 @@ class Log(Model):
         self.addindex('CONTENT')
         self.addindex('EVENTTIMESTAMP')
         self.addindex('TYPE')
+        self.addindex('METADATA')
