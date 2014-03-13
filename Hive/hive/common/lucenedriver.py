@@ -111,15 +111,16 @@ class Driver(object):
         results = {}
         
         results['totalHits'] = hits.totalHits
-        results['hits'] = []
+        results['hits'] = {}
 
         for hit in hits.scoreDocs:
             record = {}
             doc = searcher.doc(hit.doc)
-            record['score'] = hit.score
             fields = doc.getFields()
+            record['score'] = hit.score
             for field in fields:
+              if field.name() != "id":
                 record[field.name()] = field.stringValue()
-            results['hits'].append(record)
+            results['hits'][doc.get('id')] = record
 
         return results

@@ -136,6 +136,18 @@ class Model(object):
 
     def query(self, query):
         results = self.indexdriver.query(query)
+        query = { '$or': [] }
+        for hit in results['hits']:
+          query['$or'].append({self.primary: ObjectId(hit)})
+
+        print query
+
+        dbresult = self.table.find(query) 
+        for res in dbresult:
+            res['TIMESTAMP'] = str(res['_id'].generation_time)
+            res['_id'] = str(res['_id'])
+            results['hits'][str(res['_id'])]['log'] = ModelObject(self.columns, res).to_hash()
+
         return results
 
     def findAll(self):

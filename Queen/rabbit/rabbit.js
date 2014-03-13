@@ -17,6 +17,20 @@ exports.constructMessage = function (action, queueName, data) {
     return message;
 };
 
+exports.constructQuery = function (action, queueName, data) {
+    if (typeof (data) === 'undefined') {
+        data = {};
+    } ;
+    var message = {
+            action: action,
+            data: {"QUERY" : data},
+            to: queueName,
+            machineid: '',
+            from: 'Queen'
+        };
+    return message;
+};
+
 exports.rpc = function (queueName, data, callback) {
     rpc.RPCQuery(queueName, data, function (message) {
         callback(message);

@@ -25,7 +25,7 @@ io.of('/home').on('connection', function (socket) {
   socket.on("querySubmit", function(search) {
     console.log("Searching for term: " + search);
 
-    var msg = rabbit.contructMessage('QUERY', 'honeycomb')
+    var msg = rabbit.constructQuery('QUERY', 'honeycomb', search)
     new rabbit.rpc('honeycomb', msg, function (data) {
       console.log("RETURNED DATA FROM QUERY IS: " + data.data);
     });
