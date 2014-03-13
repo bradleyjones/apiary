@@ -7,22 +7,7 @@ html
     include partials/navbar
     // Make this page selected in the navbar
     script $("#searches_navbar").addClass("active")
-
-    .container.main-container
-      .row
-        .col-md-12
-          .stat-group
-            h2 Search YO!
-            #event-rate THE GRAPH WILL BE HERE
-      .row
-        .col-md-6
-          .stat-group
-            h2 Service Stats
-            #agentcount
-              h3 Number of Agents : 0
-        .col-md-6
-          .stat-group
-            h2 System Stats
+    script(src="/scripts/search.js")
 
    button#searchButton.btn(type=submit)
       Test button for searchy
