@@ -25,3 +25,8 @@ body {
 #AgentsDataGrid {
   height: 519px;
 }
+
+#search-container {
+  padding : 20px 15px;
+}
+

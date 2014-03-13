@@ -8,9 +8,23 @@ html
     // Make this page selected in the navbar
     script $("#searches_navbar").addClass("active")
     script(src="/scripts/search.js")
-
-   button#searchButton.btn(type=submit)
-      Test button for searchy
-
-   input#searchInput(type="text" placeholder = "type search here")
+  
+  .container#search-container
+    .row
+      .col-md-12
+        .stat-group
+          .input-group.input-group-lg#search-container
+            .input-group-btn
+              button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown') Tag
+                span.caret
+              ul.dropdown-menu
+                li
+                  a(href='#') Tag 1
+                li
+                  a(href='#') Tag 2
+                li
+                  a(href='#') Tag 3
+            input.form-control(type='text')
+            span.input-group-addon.searchButton Search
+          
 
