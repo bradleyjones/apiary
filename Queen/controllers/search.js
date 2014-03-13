@@ -10,6 +10,8 @@ exports.index = function (req, res) {
 
 // Web Sockets
 io.of('/search').on('connection', function (socket) {
+  console.log("THIS BETTER WORK");
+
   socket.on("querySubmit", function(search) {
     console.log("Searching for term: " + search);
 

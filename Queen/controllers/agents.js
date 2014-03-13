@@ -27,6 +27,8 @@ exports.individual = function (req, res) {
 
 // Web Sockets
 io.of('/agents').on('connection', function (socket) {
+  console.log("AGENTS");
+
   // Get the current number of connect agents
   socket.emit('init', dataCache.agents);
 

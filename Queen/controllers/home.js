@@ -21,13 +21,4 @@ io.of('/home').on('connection', function (socket) {
     console.log("AGENT COUNT ::: " + data.data);
     socket.emit('agentcount', data.data);
   });
-
-  socket.on("querySubmit", function(search) {
-    console.log("Searching for term: " + search);
-
-    var msg = rabbit.constructQuery('QUERY', 'honeycomb', search)
-    new rabbit.rpc('honeycomb', msg, function (data) {
-      console.log("RETURNED DATA FROM QUERY IS: " + data.data);
-    });
-  });
 });
