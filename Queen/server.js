@@ -137,6 +137,9 @@ app.post('/newuser', function (req, res) {
 var home = require('./controllers/home');
 app.get('/', checkAuth, home.index);
 
+var search = require('./controllers/search');
+app.get('/search', checkAuth, search.index);
+
 var alerts = require('./controllers/alerts');
 app.get('/alerts', checkAuth, alerts.index);
 
