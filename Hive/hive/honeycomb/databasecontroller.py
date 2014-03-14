@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from ..common.controller import Controller as Parent
+from hive.common.rpcsender import RPCSender
 import json
 from bson.objectid import ObjectId
 from log import Log
@@ -24,6 +25,7 @@ class Controller(Parent):
         resp.respond('DONE')
 
     def find(self, msg, resp):
+        sender = RPCSender(self.config)
         resp.respond("WOOP")
 
     def findall(self, msg, resp):

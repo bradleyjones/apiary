@@ -1,6 +1,4 @@
-import sys, os, lucene, threading, time
-from datetime import datetime
-
+import lucene
 from java.io import File
 from org.apache.lucene.analysis.miscellaneous import LimitTokenCountAnalyzer
 from org.apache.lucene.analysis.standard import StandardAnalyzer
@@ -12,28 +10,39 @@ from org.apache.lucene.queryparser.classic import QueryParser
 from org.apache.lucene.search import IndexSearcher
 from org.apache.lucene.index import DirectoryReader
 
-from multiprocessing import Process 
-import pika
-from hive.common.rpcsender import RPCSender
+from multiprocessing import Process, Manager
 import json
+import uuid
+
+luceneManager = None
+luceneQueue = None
+luceneReturn = None
+
 
 def setup(config, workers=4):
+    global luceneQueue, luceneManager, luceneReturn
+    luceneManager = Manager()
+    luceneQueue = luceneManager.Queue()
+    luceneReturn = luceneManager.dict()
     for x in range(0, workers):
-        worker = Worker(config)
+        worker = Worker(config, luceneQueue, luceneReturn)
         worker.start()
+
 
 class Worker(Process):
 
-    def __init__(self, config): 
+    def __init__(self, config, queue, ret):
         Process.__init__(self)
         self.config = config
         self.connection = None
         self.channel = None
+        self.queue = queue
+        self.ret = ret
 
     def run(self):
         print "Booting lucene driver worker...."
         lucene.initVM()
-        
+
         self.fieldType1 = FieldType()
         self.fieldType1.setIndexed(True)
         self.fieldType1.setStored(False)
@@ -44,44 +53,28 @@ class Worker(Process):
         self.fieldType2.setStored(True)
         self.fieldType2.setTokenized(False)
 
-        credentials = pika.PlainCredentials(
-            self.config['Rabbit']['username'],
-            self.config['Rabbit']['password'])
-        self.connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host=self.config['Rabbit']['host'], credentials=credentials))
-        self.channel = self.connection.channel()
+        while(True):
+            data = self.queue.get()
+            da = data[1]
+            self.d = SimpleFSDirectory(File(da['data']['indexdir']))
+            self.analyzer = StandardAnalyzer(Version.LUCENE_CURRENT)
+            self.conf = IndexWriterConfig(
+                Version.LUCENE_CURRENT,
+                self.analyzer)
 
-        self.channel.queue_declare(queue='lucene-worker')    
+            response = getattr(self, da['action'])(da['data'])
+            if response is None:
+                response = {}
 
-        self.channel.basic_consume(self.on_message, queue='lucene-worker')
-        self.channel.start_consuming()
+            self.ret[data[0]] = response
 
-
-    def on_message(self, channel, method, props, body): 
-        da = json.loads(body)
-
-        self.d = SimpleFSDirectory(File(da['data']['indexdir']))
-        self.analyzer = StandardAnalyzer(Version.LUCENE_CURRENT)
-        self.conf = IndexWriterConfig(Version.LUCENE_CURRENT, self.analyzer)
-
-        response = getattr(self, da['action'])(da['data'])
-        if response is None:
-            response = {}
-        channel.basic_publish(exchange='',
-                               routing_key=props.reply_to,
-                               properties=pika.BasicProperties(
-                                   correlation_id=props.correlation_id,
-                               ),  
-                               body=json.dumps(response))
-        channel.basic_ack(delivery_tag=method.delivery_tag)
-    
     def rebuildIndex(self, data):
         writer = IndexWriter(
             self.d, self.conf.setOpenMode(IndexWriterConfig.OpenMode.CREATE))
 
         for record in data['records']:
-          doc = self.buildDocument(data['fields'], record)
-          writer.addDocument(doc)
+            doc = self.buildDocument(data['fields'], record)
+            writer.addDocument(doc)
 
         writer.optimize()
         writer.close()
@@ -93,25 +86,25 @@ class Worker(Process):
                   record["_id"],
                   self.fieldType2))
         for field in fields:
-          if type(record[field]) is dict:
-            self.dictToFields(doc, record[field])
-          else: 
-            doc.add(
-                Field(field,
-                      record[field],
-                      self.fieldType1))
+            if isinstance(record[field], dict):
+                self.dictToFields(doc, record[field])
+            else:
+                doc.add(
+                    Field(field,
+                          record[field],
+                          self.fieldType1))
 
         return doc
 
     def dictToFields(self, doc, record):
         for key in record:
-          if type(record[key]) is dict:
-            self.dictToFields(doc, record[key])
-          else: 
-            doc.add(
-                Field(key,
-                      record[key],
-                      self.fieldType1))
+            if isinstance(record[key], dict):
+                self.dictToFields(doc, record[key])
+            else:
+                doc.add(
+                    Field(key,
+                          record[key],
+                          self.fieldType1))
 
     def index(self, data):
         writer = IndexWriter(
@@ -144,11 +137,15 @@ class Worker(Process):
 
     def query(self, data):
         searcher = IndexSearcher(DirectoryReader.open(self.d))
-        query = QueryParser(Version.LUCENE_30, "id", self.analyzer).parse(data['query'])
+        query = QueryParser(
+            Version.LUCENE_30,
+            "id",
+            self.analyzer).parse(
+            data['query'])
         hits = searcher.search(query, 1000)
 
         results = {}
-        
+
         results['totalHits'] = hits.totalHits
         results['hits'] = {}
 
@@ -158,35 +155,69 @@ class Worker(Process):
             fields = doc.getFields()
             record['score'] = hit.score
             for field in fields:
-              if field.name() != "id":
-                record[field.name()] = field.stringValue()
+                if field.name() != "id":
+                    record[field.name()] = field.stringValue()
             results['hits'][doc.get('id')] = record
 
         return results
 
+
 class Driver(object):
 
     def __init__(self, config, tablename):
+        global luceneQueue, luceneManager, luceneReturn
         self.config = config
         self.indexdir = "IndexOf%s" % tablename
-        self.sender = RPCSender(self.config)
+        if luceneQueue is None:
+            raise Exception("Run lucenedriver.setup() first!")
+
+    def _sendMessage(self, data):
+        id = str(uuid.uuid4())
+        luceneQueue.put([id, data])
+        while(not (id in luceneReturn)):
+            pass
+        return luceneReturn.pop(id)
 
     def rebuildIndex(self, fields, records):
-        data = { 'indexdir': self.indexdir, 'fields': fields, 'records': records }
-        return json.loads(self.sender.send_request('rebuildIndex', 'lucene-driver', data, '', '', key='lucene-worker'))
+        data = {
+            'action': 'rebuildIndex',
+            'data': {
+                'indexdir': self.indexdir,
+                'fields': fields,
+                'records': records}}
+        return self._sendMessage(data)
 
     def index(self, fields, record):
-        data = { 'indexdir': self.indexdir,'fields': fields, 'record': record }
-        return json.loads(self.sender.send_request('index', 'lucene-driver', data, '', '', key='lucene-worker'))
+        data = {
+            'action': 'index',
+            'data': {
+                'indexdir': self.indexdir,
+                'fields': fields,
+                'record': record}}
+        return self._sendMessage(data)
 
     def updateindex(self, fields, record):
-        data = { 'indexdir': self.indexdir, 'fields': fields, 'record': record }
-        return json.loads(self.sender.send_request('updateindex', 'lucene-driver', data, '', '', key='lucene-worker'))
+        data = {
+            'action': 'updateindex',
+            'data': {
+                'indexdir': self.indexdir,
+                'fields': fields,
+                'record': record}}
+        return self._sendMessage(data)
 
     def removeindex(self, record):
-        data = { 'indexdir': self.indexdir, 'fields': fields, 'record': record }
-        return json.loads(self.sender.send_request('removeindex', 'lucene-driver', data, '', '', key='lucene-worker'))
+        data = {
+            'action': 'removeindex',
+            'data': {
+                'indexdir': self.indexdir,
+                'fields': fields,
+                'record': record}}
+        return self._sendMessage(data)
 
     def query(self, query):
-        data = { 'indexdir': self.indexdir, 'query': query }
-        return json.loads(self.sender.send_request('query', 'lucene-driver', data, '', '', key='lucene-worker'))
+        data = {
+            'action': 'query',
+            'data': {
+                'indexdir': self.indexdir,
+                'query': query}}
+        return self._sendMessage(data)

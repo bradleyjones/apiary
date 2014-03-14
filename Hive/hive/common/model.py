@@ -140,8 +140,6 @@ class Model(object):
         for hit in results['hits']:
           query['$or'].append({self.primary: ObjectId(hit)})
 
-        print query
-
         dbresult = self.table.find(query) 
         for res in dbresult:
             res['TIMESTAMP'] = str(res['_id'].generation_time)

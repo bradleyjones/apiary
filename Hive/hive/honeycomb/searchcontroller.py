@@ -16,16 +16,16 @@ class Controller(Parent):
     def newsearch(self, msg, resp):
         searcher = self.searchers.new()
 
-        sender = RPCSender(self.config, channel=self.channel)
+        sender = RPCSender(self.config)
         r = sender.channel.queue_declare() 
         q = r.method.queue
 
-        machine = ProcHandler(self.config, Searcher(self.config, msg['data']['query']), q)
+        machine = ProcHandler(self.config, Searcher(self.config, msg['data']['QUERY']), q)
         machine.start()
         
-        searcher.OUTPUTQUEUE = sender.send_request('QUEUE', 'hive', '', '', '', key=q)
+        searcher.OUTPUTQUEUE = sender.send_request('QUEUE', 'hive', {}, '', '', key=q)
         searcher.CONTROLQUEUE = q
-        searcher.QUERY = msg['data']['query']
+        searcher.QUERY = msg['data']['QUERY']
 
         self.searchers.save(searcher)
 

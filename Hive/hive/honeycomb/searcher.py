@@ -1,22 +1,11 @@
 import pika
-from hive.common.rpcsender import RPCSender
 from hive.common.longrunningproc import Proc
 import time
 import json
+from hive.honeycomb.log import Log
+from hive.common.model import ModelObject
+from bson.objectid import ObjectId
 
-import sys, os, lucene, threading, time
-from datetime import datetime
-
-from java.io import File
-from org.apache.lucene.analysis.miscellaneous import LimitTokenCountAnalyzer
-from org.apache.lucene.analysis.standard import StandardAnalyzer
-from org.apache.lucene.document import Document, Field, FieldType
-from org.apache.lucene.index import FieldInfo, IndexReader
-from org.apache.lucene.store import SimpleFSDirectory
-from org.apache.lucene.util import Version
-from org.apache.lucene.index import DirectoryReader
-from org.apache.lucene.search import IndexSearcher
-from org.apache.lucene.queryparser.classic import QueryParser
 
 class Searcher(Proc):
 
@@ -27,7 +16,7 @@ class Searcher(Proc):
         self.queue = None
         self.running = True
         self.query = query
-        self.totalHits = 0
+        self.previousids = set({}.keys()) 
 
     def getQueue(self):
       return self.queue
@@ -43,40 +32,29 @@ class Searcher(Proc):
         # Setup queue for outputing data
         result = self.channel.queue_declare()
         self.queue = result.method.queue
-
-        lucene.initVM()
-        self.indexdir = "IndexOfLogs"
-        self.d = SimpleFSDirectory(File(self.indexdir))
-        self.analyzer = StandardAnalyzer(Version.LUCENE_CURRENT)
-        pq = QueryParser(Version.LUCENE_30, "id", self.analyzer).parse(self.query)
-        dr = DirectoryReader.open(self.d)
+        
+        logs = Log(self.config)
 
         self.ready.set()
 
         while self.running:
-            ndr = DirectoryReader.openIfChanged(dr)
-            if ndr is not None:
-              dr = ndr
+            results = logs.indexdriver.query(self.query)
+            diff = set(results['hits'].keys()) - self.previousids
 
-            searcher = IndexSearcher(dr)
-            hits = searcher.search(pq, 1000)
+            if(len(diff) > 0):
+              query = { '$or': [] }
+              for hit in results['hits']:
+                query['$or'].append({logs.primary: ObjectId(hit)})
 
-            results = {}
-       
-            if(self.totalHits < hits.totalHits):
-              results['totalHits'] = hits.totalHits
-              results['hits'] = []
+              dbresult = logs.table.find(query) 
+              for res in dbresult:
+                  res['TIMESTAMP'] = str(res['_id'].generation_time)
+                  res['_id'] = str(res['_id'])
+                  results['hits'][str(res['_id'])]['log'] = ModelObject(logs.columns, res).to_hash()
 
-              for hit in hits.scoreDocs:
-                  record = {}
-                  doc = searcher.doc(hit.doc)
-                  record['score'] = hit.score
-                  fields = doc.getFields()
-                  for field in fields:
-                      record[field.name()] = field.stringValue()
-                  results['hits'].append(record)
+              self.channel.basic_publish(exchange='', routing_key=self.queue, body=json.dumps(results))
+              self.previousids = set(results['hits'].keys())
 
-              self.channel.basic_publish(exchange='', routing_key=self.queue, body=results)
             time.sleep(1)
         
         self.connection.close()
