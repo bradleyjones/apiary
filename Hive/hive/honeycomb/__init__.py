@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-from ..common.base import Base
+from hive.common.base import Base
+import hive.common.lucenedriver
 from routes import Routes
 import sys
 import lucene
@@ -11,5 +12,5 @@ class Honeycomb(Base):
 
 def main():
     honeycomb = Honeycomb()
-    lucene.initVM()
+    hive.common.lucenedriver.setup(honeycomb.config)
     honeycomb.start(Routes)
