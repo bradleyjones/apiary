@@ -61,6 +61,10 @@
                     </view>
                     <navigationItem key="navigationItem" id="cO1-Jl-TUc"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="passwordField" destination="rVu-0Z-Ygi" id="ztz-5T-QZL"/>
+                        <outlet property="usernameField" destination="ane-8m-48e" id="8h8-7Y-WnD"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
