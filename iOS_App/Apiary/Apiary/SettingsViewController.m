@@ -7,6 +7,7 @@
 //
 
 #import "SettingsViewController.h"
+#import "DataClass.h"
 
 @interface SettingsViewController ()
 
@@ -26,13 +27,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    // Get and instance of DataClass
+    DataClass *obj=[DataClass getInstance];
+    // Get the url and set the text field
+    obj.url = [obj.data_storage objectForKey:@"URL"];
+    hiveURLField.text = obj.url;
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)hiveURLFieldDismiss:(id)sender {
+    // Get an instance of DataClass
+    DataClass *obj=[DataClass getInstance];
+    // Set the URL and save it
+    obj.url = hiveURLField.text;
+    [obj.data_storage setValue:obj.url forKey:@"URL"];
+    [obj.data_storage writeToFile:obj.filePath atomically:YES];
+    // Exit the textField
+    [hiveURLField resignFirstResponder];
 }
 
 /*

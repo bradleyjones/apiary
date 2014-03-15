@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SettingsViewController : UIViewController
+@interface SettingsViewController : UIViewController{
+    IBOutlet UITextField *hiveURLField;
+}
+
+- (IBAction)hiveURLFieldDismiss:(id)sender;
 
 @end
