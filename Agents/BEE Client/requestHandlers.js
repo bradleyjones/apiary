@@ -46,12 +46,12 @@ function initialise(messageData){
 function setFiles(messageData) {
 
   //Parse FileList
-  fileList = JSON.parse(messageData.data).files;
-  console.log("Logging - " + fileList);
+  fileList = messageData.data.files;
 
   for(file in fileList){
     filename = fileList[file];
-    tags = fileList[file][METADATA][TAGS];
+    console.log('Logging - ' + filename);
+    //tags = fileList[file][METADATA][TAGS];
     
     callback = function(lines){
       console.log(lines);
@@ -62,8 +62,8 @@ function setFiles(messageData) {
         'TYPE':"file",
         'EVENTTIMESTAMP': new Date().getTime().toString(),
         'METADATA': {
-              'FILENAME':filename,
-              'TAGS':tags
+              'FILENAME':filename
+              //'TAGS':tags
             }
       };
     
