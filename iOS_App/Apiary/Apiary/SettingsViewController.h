@@ -1,5 +1,5 @@
 //
-//  AppDelegate.h
+//  SettingsViewController.h
 //  Apiary
 //
 //  Created by John Davidge on 15/03/2014.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
-
-@property (strong, nonatomic) UIWindow *window;
+@interface SettingsViewController : UIViewController
 
 @end

@@ -1,18 +1,18 @@
 //
-//  WebViewController.m
+//  SettingsViewController.m
 //  Apiary
 //
 //  Created by John Davidge on 15/03/2014.
 //  Copyright (c) 2014 John Davidge. All rights reserved.
 //
 
-#import "WebViewController.h"
+#import "SettingsViewController.h"
 
-@interface WebViewController ()
+@interface SettingsViewController ()
 
 @end
 
-@implementation WebViewController
+@implementation SettingsViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

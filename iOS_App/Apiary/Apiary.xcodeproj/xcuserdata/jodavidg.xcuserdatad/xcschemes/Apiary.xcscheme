@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0500"
+   LastUpgradeVersion = "0510"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "75ED12F318194B5A00EFB4E5"
+               BlueprintIdentifier = "75BE383818D49FBA009905D4"
                BuildableName = "Apiary.app"
                BlueprintName = "Apiary"
                ReferencedContainer = "container:Apiary.xcodeproj">
@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "75ED131418194B5B00EFB4E5"
+               BlueprintIdentifier = "75BE385918D49FBA009905D4"
                BuildableName = "ApiaryTests.xctest"
                BlueprintName = "ApiaryTests"
                ReferencedContainer = "container:Apiary.xcodeproj">
@@ -42,7 +42,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "75ED12F318194B5A00EFB4E5"
+            BlueprintIdentifier = "75BE383818D49FBA009905D4"
             BuildableName = "Apiary.app"
             BlueprintName = "Apiary"
             ReferencedContainer = "container:Apiary.xcodeproj">
@@ -61,7 +61,7 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "75ED12F318194B5A00EFB4E5"
+            BlueprintIdentifier = "75BE383818D49FBA009905D4"
             BuildableName = "Apiary.app"
             BlueprintName = "Apiary"
             ReferencedContainer = "container:Apiary.xcodeproj">
@@ -79,7 +79,7 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "75ED12F318194B5A00EFB4E5"
+            BlueprintIdentifier = "75BE383818D49FBA009905D4"
             BuildableName = "Apiary.app"
             BlueprintName = "Apiary"
             ReferencedContainer = "container:Apiary.xcodeproj">

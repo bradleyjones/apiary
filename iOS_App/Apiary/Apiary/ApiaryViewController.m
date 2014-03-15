@@ -1,18 +1,18 @@
 //
-//  WebViewController.m
+//  ApiaryViewController.m
 //  Apiary
 //
 //  Created by John Davidge on 15/03/2014.
 //  Copyright (c) 2014 John Davidge. All rights reserved.
 //
 
-#import "WebViewController.h"
+#import "ApiaryViewController.h"
 
-@interface WebViewController ()
+@interface ApiaryViewController ()
 
 @end
 
-@implementation WebViewController
+@implementation ApiaryViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
