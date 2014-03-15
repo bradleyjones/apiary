@@ -24,6 +24,7 @@
 		75BE387218D4A999009905D4 /* ApiaryAvatar.png in Resources */ = {isa = PBXBuildFile; fileRef = 75BE387118D4A999009905D4 /* ApiaryAvatar.png */; };
 		75BE387518D4ADFE009905D4 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BE387418D4ADFE009905D4 /* SettingsViewController.m */; };
 		75BE387B18D4AEB6009905D4 /* ApiaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BE387A18D4AEB6009905D4 /* ApiaryViewController.m */; };
+		75BE387E18D4AF9F009905D4 /* DataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BE387D18D4AF9F009905D4 /* DataClass.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,8 @@
 		75BE387418D4ADFE009905D4 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		75BE387918D4AEB6009905D4 /* ApiaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiaryViewController.h; sourceTree = "<group>"; };
 		75BE387A18D4AEB6009905D4 /* ApiaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApiaryViewController.m; sourceTree = "<group>"; };
+		75BE387C18D4AF9F009905D4 /* DataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataClass.h; sourceTree = "<group>"; };
+		75BE387D18D4AF9F009905D4 /* DataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataClass.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +128,8 @@
 				75BE384B18D49FBA009905D4 /* AppDelegate.h */,
 				75BE384C18D49FBA009905D4 /* AppDelegate.m */,
 				75BE384E18D49FBA009905D4 /* Main.storyboard */,
+				75BE387C18D4AF9F009905D4 /* DataClass.h */,
+				75BE387D18D4AF9F009905D4 /* DataClass.m */,
 				75BE387118D4A999009905D4 /* ApiaryAvatar.png */,
 				75BE385118D49FBA009905D4 /* ViewController.h */,
 				75BE385218D49FBA009905D4 /* ViewController.m */,
@@ -266,6 +271,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75BE387E18D4AF9F009905D4 /* DataClass.m in Sources */,
 				75BE385318D49FBA009905D4 /* ViewController.m in Sources */,
 				75BE384D18D49FBA009905D4 /* AppDelegate.m in Sources */,
 				75BE384918D49FBA009905D4 /* main.m in Sources */,
