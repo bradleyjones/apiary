@@ -1,5 +1,3 @@
-//var socket = io.connect('http://localhost');
-
 $('#btnUpdateSettings').on('click', function() {
   console.log("UPDATING");
   var id = $('#did').val();

@@ -1,4 +1,4 @@
-var socket = io.connect('http://localhost/agents');
+var socket = io.connect(document.URL);
 var totalAgents = 0;
 
 function addAgent(agent, firstLoad) {
