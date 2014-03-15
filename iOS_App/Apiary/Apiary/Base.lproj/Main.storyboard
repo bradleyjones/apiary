@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="0bW-ff-kNk">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Navigation Controller-->
+        <scene sceneID="xWd-lZ-HpD">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="0bW-ff-kNk" sceneMemberID="viewController">
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Fjd-Pm-mos">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="c8z-yT-Kv7"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kjF-cH-RpC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-151" y="-162"/>
+        </scene>
+        <!--View Controller - Apiary-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
                 <viewController id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
@@ -16,19 +32,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PJN-SX-J8b">
-                                <rect key="frame" x="0.0" y="12" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="Apiary" id="IQq-dQ-wfs">
-                                        <barButtonItem key="rightBarButtonItem" title="setings" id="q1a-Uk-eGO">
-                                            <connections>
-                                                <segue destination="VRq-iw-IDw" kind="push" id="D0c-1B-NCA"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" textAlignment="center" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="ane-8m-48e">
                                 <rect key="frame" x="50" y="80" width="215" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -49,7 +52,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="Iwc-RX-cU1" kind="push" id="DCg-Is-uD2"/>
+                                    <segue destination="Iwc-RX-cU1" kind="push" id="C2U-XV-u4i"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ApiaryAvatar.png" translatesAutoresizingMaskIntoConstraints="NO" id="08L-v0-AYB">
@@ -59,7 +62,13 @@
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="cO1-Jl-TUc"/>
+                    <navigationItem key="navigationItem" title="Apiary" id="cO1-Jl-TUc">
+                        <barButtonItem key="rightBarButtonItem" title="settings" id="cmg-3m-FtT">
+                            <connections>
+                                <segue destination="VRq-iw-IDw" kind="push" id="N7c-Dh-Ozi"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="passwordField" destination="rVu-0Z-Ygi" id="ztz-5T-QZL"/>
@@ -68,9 +77,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="273" y="120"/>
+            <point key="canvasLocation" x="431" y="-168"/>
         </scene>
-        <!--Apiary View Controller-->
+        <!--Apiary View Controller - Apiary-->
         <scene sceneID="nNc-Cg-IQ4">
             <objects>
                 <viewController id="Iwc-RX-cU1" customClass="ApiaryViewController" sceneMemberID="viewController">
@@ -82,15 +91,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5OL-Sn-Sul">
-                                <rect key="frame" x="0.0" y="8" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="Apiary" id="WDC-3L-w20">
-                                        <barButtonItem key="leftBarButtonItem" title="back" id="SCf-lx-bi6"/>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j3j-Ph-xWx">
                                 <rect key="frame" x="0.0" y="52" width="320" height="516"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -99,14 +99,16 @@
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="nkT-Sa-2bt"/>
+                    <navigationItem key="navigationItem" title="Apiary" id="nkT-Sa-2bt">
+                        <barButtonItem key="backBarButtonItem" title="back" id="3e0-lH-wgi"/>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Nw-dt-G64" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="919" y="400"/>
         </scene>
-        <!--Settings View Controller-->
+        <!--Settings View Controller - Settings-->
         <scene sceneID="fG4-WH-11u">
             <objects>
                 <viewController id="VRq-iw-IDw" customClass="SettingsViewController" sceneMemberID="viewController">
@@ -118,19 +120,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FUU-Pz-FYq">
-                                <rect key="frame" x="0.0" y="10" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="Settings" id="aup-Tt-wuP">
-                                        <barButtonItem key="leftBarButtonItem" title="back" id="mGj-d1-iWh">
-                                            <connections>
-                                                <segue destination="vXZ-lx-hvc" kind="push" id="Zy3-6D-i69"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hive URL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u1j-Qj-UI4">
                                 <rect key="frame" x="97" y="73" width="126" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -147,7 +136,9 @@
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="tPQ-ez-Rbe"/>
+                    <navigationItem key="navigationItem" title="Settings" id="tPQ-ez-Rbe">
+                        <barButtonItem key="backBarButtonItem" title="back" id="zii-EI-N86"/>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ng9-qZ-5WJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
