@@ -66,10 +66,10 @@
             </objects>
             <point key="canvasLocation" x="273" y="120"/>
         </scene>
-        <!--View Controller-->
+        <!--Apiary View Controller-->
         <scene sceneID="nNc-Cg-IQ4">
             <objects>
-                <viewController id="Iwc-RX-cU1" sceneMemberID="viewController">
+                <viewController id="Iwc-RX-cU1" customClass="ApiaryViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Wka-t5-Un6"/>
                         <viewControllerLayoutGuide type="bottom" id="Yfu-iC-3gk"/>
@@ -102,10 +102,10 @@
             </objects>
             <point key="canvasLocation" x="919" y="400"/>
         </scene>
-        <!--View Controller-->
+        <!--Settings View Controller-->
         <scene sceneID="fG4-WH-11u">
             <objects>
-                <viewController id="VRq-iw-IDw" sceneMemberID="viewController">
+                <viewController id="VRq-iw-IDw" customClass="SettingsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jrc-iG-bMR"/>
                         <viewControllerLayoutGuide type="bottom" id="Ab6-yU-Lvr"/>
