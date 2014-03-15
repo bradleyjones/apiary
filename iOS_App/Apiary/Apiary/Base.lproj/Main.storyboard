@@ -140,6 +140,9 @@
                         <barButtonItem key="backBarButtonItem" title="back" id="zii-EI-N86"/>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="hiveURLField" destination="LLj-ae-46t" id="1B6-Vn-3V0"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ng9-qZ-5WJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
