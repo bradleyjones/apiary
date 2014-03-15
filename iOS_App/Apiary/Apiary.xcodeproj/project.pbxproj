@@ -21,6 +21,7 @@
 		75BE385E18D49FBA009905D4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75BE384018D49FBA009905D4 /* UIKit.framework */; };
 		75BE386618D49FBA009905D4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 75BE386418D49FBA009905D4 /* InfoPlist.strings */; };
 		75BE386818D49FBA009905D4 /* ApiaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BE386718D49FBA009905D4 /* ApiaryTests.m */; };
+		75BE387218D4A999009905D4 /* ApiaryAvatar.png in Resources */ = {isa = PBXBuildFile; fileRef = 75BE387118D4A999009905D4 /* ApiaryAvatar.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		75BE386318D49FBA009905D4 /* ApiaryTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ApiaryTests-Info.plist"; sourceTree = "<group>"; };
 		75BE386518D49FBA009905D4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		75BE386718D49FBA009905D4 /* ApiaryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ApiaryTests.m; sourceTree = "<group>"; };
+		75BE387118D4A999009905D4 /* ApiaryAvatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ApiaryAvatar.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 				75BE384B18D49FBA009905D4 /* AppDelegate.h */,
 				75BE384C18D49FBA009905D4 /* AppDelegate.m */,
 				75BE384E18D49FBA009905D4 /* Main.storyboard */,
+				75BE387118D4A999009905D4 /* ApiaryAvatar.png */,
 				75BE385118D49FBA009905D4 /* ViewController.h */,
 				75BE385218D49FBA009905D4 /* ViewController.m */,
 				75BE385418D49FBA009905D4 /* Images.xcassets */,
@@ -231,6 +234,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75BE387218D4A999009905D4 /* ApiaryAvatar.png in Resources */,
 				75BE385518D49FBA009905D4 /* Images.xcassets in Resources */,
 				75BE384718D49FBA009905D4 /* InfoPlist.strings in Resources */,
 				75BE385018D49FBA009905D4 /* Main.storyboard in Resources */,
@@ -463,6 +467,7 @@
 				75BE386D18D49FBA009905D4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		75BE386E18D49FBA009905D4 /* Build configuration list for PBXNativeTarget "ApiaryTests" */ = {
 			isa = XCConfigurationList;
@@ -471,6 +476,7 @@
 				75BE387018D49FBA009905D4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
