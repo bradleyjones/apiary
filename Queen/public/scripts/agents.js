@@ -1,4 +1,4 @@
-var socket = io.connect('http://localhost/agents');
+var socket = io.connect(document.URL);
 var totalAgents = 0;
 
 function addAgent(agent, firstLoad) {
@@ -73,6 +73,6 @@ function testnewtarget(uuid) {
     console.log("testing new target");
     socket.emit('newTarget', {
       "agents": [uuid],
-      "files": ["/home/bradley/test.txt"]
+      "files": ["/root/test.txt"]
     });
 }
