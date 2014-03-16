@@ -63,6 +63,11 @@
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Apiary" id="cO1-Jl-TUc">
+                        <barButtonItem key="leftBarButtonItem" title="new user" id="ZZN-FL-mfK">
+                            <connections>
+                                <segue destination="OfE-lX-x25" kind="push" id="3ox-kC-ouT"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="settings" id="cmg-3m-FtT">
                             <connections>
                                 <segue destination="VRq-iw-IDw" kind="push" id="N7c-Dh-Ozi"/>
@@ -92,7 +97,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j3j-Ph-xWx">
-                                <rect key="frame" x="0.0" y="52" width="320" height="516"/>
+                                <rect key="frame" x="0.0" y="63" width="320" height="417"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </webView>
@@ -106,7 +111,36 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Nw-dt-G64" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="919" y="400"/>
+            <point key="canvasLocation" x="919" y="-162"/>
+        </scene>
+        <!--New User View Controller - New User-->
+        <scene sceneID="wjI-Uy-R18">
+            <objects>
+                <viewController id="OfE-lX-x25" customClass="NewUserViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9Cs-zO-D5f"/>
+                        <viewControllerLayoutGuide type="bottom" id="HdM-4I-gHs"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="qxF-qk-FUn">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DcS-0U-x2I">
+                                <rect key="frame" x="0.0" y="64" width="320" height="426"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="New User" id="1Lb-PX-7tl">
+                        <barButtonItem key="backBarButtonItem" title="back" id="vZe-rX-jET"/>
+                    </navigationItem>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lda-XN-LwK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="431" y="-834"/>
         </scene>
         <!--Settings View Controller - Settings-->
         <scene sceneID="fG4-WH-11u">
@@ -146,7 +180,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ng9-qZ-5WJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="919" y="-284"/>
+            <point key="canvasLocation" x="919" y="-834"/>
         </scene>
     </scenes>
     <resources>

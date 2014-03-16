@@ -25,6 +25,7 @@
 		75BE387518D4ADFE009905D4 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BE387418D4ADFE009905D4 /* SettingsViewController.m */; };
 		75BE387B18D4AEB6009905D4 /* ApiaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BE387A18D4AEB6009905D4 /* ApiaryViewController.m */; };
 		75BE387E18D4AF9F009905D4 /* DataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BE387D18D4AF9F009905D4 /* DataClass.m */; };
+		75BE388118D5F105009905D4 /* NewUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BE388018D5F105009905D4 /* NewUserViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,8 @@
 		75BE387A18D4AEB6009905D4 /* ApiaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApiaryViewController.m; sourceTree = "<group>"; };
 		75BE387C18D4AF9F009905D4 /* DataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataClass.h; sourceTree = "<group>"; };
 		75BE387D18D4AF9F009905D4 /* DataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataClass.m; sourceTree = "<group>"; };
+		75BE387F18D5F105009905D4 /* NewUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewUserViewController.h; sourceTree = "<group>"; };
+		75BE388018D5F105009905D4 /* NewUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewUserViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +131,8 @@
 				75BE384B18D49FBA009905D4 /* AppDelegate.h */,
 				75BE384C18D49FBA009905D4 /* AppDelegate.m */,
 				75BE384E18D49FBA009905D4 /* Main.storyboard */,
+				75BE387F18D5F105009905D4 /* NewUserViewController.h */,
+				75BE388018D5F105009905D4 /* NewUserViewController.m */,
 				75BE387C18D4AF9F009905D4 /* DataClass.h */,
 				75BE387D18D4AF9F009905D4 /* DataClass.m */,
 				75BE387118D4A999009905D4 /* ApiaryAvatar.png */,
@@ -277,6 +282,7 @@
 				75BE384918D49FBA009905D4 /* main.m in Sources */,
 				75BE387518D4ADFE009905D4 /* SettingsViewController.m in Sources */,
 				75BE387B18D4AEB6009905D4 /* ApiaryViewController.m in Sources */,
+				75BE388118D5F105009905D4 /* NewUserViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
