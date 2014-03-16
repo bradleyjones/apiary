@@ -20,7 +20,7 @@
             </objects>
             <point key="canvasLocation" x="-151" y="-162"/>
         </scene>
-        <!--View Controller - Apiary-->
+        <!--View Controller - User Login-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
                 <viewController id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
@@ -62,7 +62,7 @@
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Apiary" id="cO1-Jl-TUc">
+                    <navigationItem key="navigationItem" title="User Login" id="cO1-Jl-TUc">
                         <barButtonItem key="leftBarButtonItem" title="new user" id="ZZN-FL-mfK">
                             <connections>
                                 <segue destination="OfE-lX-x25" kind="push" id="3ox-kC-ouT"/>
