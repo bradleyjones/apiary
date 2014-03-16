@@ -9,7 +9,7 @@ html
     // Make this page selected in the navbar
     script $("#home_navbar").addClass("active")
 
-    .container.main-container
+    .container.main-container.stat-group
       | Add a new Device
       br
       | Device Name :
@@ -20,13 +20,19 @@ html
 
       button#btnUpdateSettings.btn(type='button') Update
 
+      script(src="/scripts/libs/underscore-min.js")
+      include partials/deviceDatagrid.jade
+      script(src="/scripts/devicesDatagrid.js")
+
+      script(type='text/javascript').
+        console.log("ASIDBIABSDIJABSDHB");
+        //Fill in the default values
+        var devices = JSON.parse(!{JSON.stringify(devices)});
+        console.log(devices.length);
+        devices.forEach( function (dev) {
+          console.log(dev);
+            $('#MyGrid').data().datagrid.options.dataSource._data.push(dev);
+            $('#MyGrid').datagrid('reload');
+        })
+
 script(src="/scripts/settings.js")
-
-script
-  //Fill in the default values
-  var id = !{id};
-  var name = !{name};
-
-  document.getElementById("dname").value = name;
-  document.getElementById("did").value = id;
-

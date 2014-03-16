@@ -52,6 +52,28 @@ exports.update = function(req, res) {
 exports.index = function(req, res) {
   var user = User.findOne({ _id: req.session.user_id }, function(err, user) {
     console.log(user);
-    res.render("settings.jade", { id: JSON.stringify(user.device_id), name: JSON.stringify(user.device_name)});
+
+    var devices = [];
+    for (var i = 0; i < user.devices.length; i++) {
+      var dev = user.devices[i];
+      console.log(dev);
+      Device.findOne({ _id: dev }, function(err, tmp) {
+        console.log(tmp);
+        devices.push( { UUID: tmp.device_id, NAME: tmp.device_name} );
+
+        console.log(i);
+        console.log(user.devices.length);
+        // if at the last device render the page
+        if (i == (user.devices.length)) {
+          console.log("DEVICES");
+          console.log(devices);
+          res.render("settings.jade", { devices : JSON.stringify(devices) });
+        }
+      });
+    }
+
+    if (user.devices.length == 0) {
+      res.render("settings.jade");
+    }
   });
 };
