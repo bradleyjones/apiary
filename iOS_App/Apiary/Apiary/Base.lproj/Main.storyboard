@@ -106,6 +106,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Apiary" id="nkT-Sa-2bt">
                         <barButtonItem key="backBarButtonItem" title="back" id="3e0-lH-wgi"/>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" image="Barry_small.png" id="aRM-uO-4zY"/>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                 </viewController>
@@ -135,6 +136,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="New User" id="1Lb-PX-7tl">
                         <barButtonItem key="backBarButtonItem" title="back" id="vZe-rX-jET"/>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" image="Barry_small.png" id="hGR-CJ-CNy"/>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                 </viewController>
@@ -172,6 +174,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="tPQ-ez-Rbe">
                         <barButtonItem key="backBarButtonItem" title="back" id="zii-EI-N86"/>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" image="Barry_small.png" id="eoi-f0-nOu"/>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
@@ -185,6 +188,7 @@
     </scenes>
     <resources>
         <image name="ApiaryAvatar.png" width="1277" height="1327"/>
+        <image name="Barry_small.png" width="40" height="40"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
