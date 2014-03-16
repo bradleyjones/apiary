@@ -18,7 +18,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kjF-cH-RpC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-151" y="-162"/>
+            <point key="canvasLocation" x="-117" y="-168"/>
         </scene>
         <!--View Controller - User Login-->
         <scene sceneID="ufC-wZ-h7g">
