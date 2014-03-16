@@ -109,6 +109,10 @@ app.get('/logout', function (req, res) {
   res.redirect('/');
 });
 
+app.get('/newuser', function(req, res) {
+  delete req.session.user_id;
+  res.render('newuser.jade');
+});
 app.post('/newuser', function (req, res) {
   var post = req.body;
 

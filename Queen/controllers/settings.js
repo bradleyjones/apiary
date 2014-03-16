@@ -1,9 +1,10 @@
 "use strict";
 
 var main = require('../server.js')
-  , io = main.io;
-var mongoose = require('mongoose')
-  , User = require('../models/user');
+  , io = main.io
+  , mongoose = require('mongoose')
+  , User = require('../models/user')
+  , Device = require('../models/device');
 
 exports.update = function(req, res) {
   var userid = req.session.user_id;
@@ -14,11 +15,24 @@ exports.update = function(req, res) {
   var devid = req.body.id;
   var devname = req.body.name;
 
+  // Create a new device in the DB
+  var newDevice = new Device({
+    device_name: devname,
+    device_id: devid
+  })
+  newDevice.save(function(err) {
+    if (err) throw err;
+  });
+
   console.log(devid + devname);
   User.update({ _id: userid },
-      {device_id: devid, device_name: devname},
+      {$push : {
+            // push the id of the new device in the DB
+            devices : newDevice._id
+              }},
       function(err, model) {
         if (err) {
+          throw err;
           console.log("there was an error adding device");
         } else {
           res.redirect('/settings');
