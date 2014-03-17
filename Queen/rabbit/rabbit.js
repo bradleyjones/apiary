@@ -1,7 +1,7 @@
 "use strict";
 
 var rpc = require('./rabbit_rpc')
-  , pubsub = require('./rabbit_pubsub')
+  , pubsub = require('./rabbit_pubsub');
 
 exports.constructMessage = function (action, queueName, data) {
     if (typeof (data) === 'undefined') {
