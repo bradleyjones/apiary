@@ -152,14 +152,25 @@ class Model(object):
 
         return results
 
-    def findAll(self):
-        result = self.table.find({})
+    def mongoQuery(self, query, fields={}):
+        if len(fields) > 0:
+            result = self.table.find(query, fields)
+            newColumns = [self.primary, 'TIMESTAMP']
+            for f in fields:
+                newColumns.append(f)
+        else: 
+            result = self.table.find(query)
+            newColumns = self.columns
+           
         response = []
         for res in result:
             res['TIMESTAMP'] = str(res['_id'].generation_time)
             res['_id'] = str(res['_id'])
-            response.append(ModelObject(self.columns, res))
+            response.append(ModelObject(newColumns, res))
         return response
+
+    def findAll(self):
+        return self.mongoQuery({})
 
     def find(self, id):
         query = {self.primary: id}
