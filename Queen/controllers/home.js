@@ -5,11 +5,6 @@ var rabbit = require('../rabbit/rabbit')
 , io = main.io;
 
 exports.index = function (req, res) {
-  var msg = rabbit.constructMessage('AGENTSCOUNT', 'agentmanager');
-  new rabbit.rpc('agentmanager', msg, function (data) {
-    console.log("AGENT COUNT ::: " + data.data)
-  });
-
   res.render('home.jade');
 };
 
@@ -20,5 +15,13 @@ io.of('/home').on('connection', function (socket) {
   new rabbit.rpc('agentmanager', msg, function (data) {
     console.log("AGENT COUNT ::: " + data.data);
     socket.emit('agentcount', data.data);
+  });
+
+  // Get the timestamps of all events
+  var msg = rabbit.constructMessage('TIMESTAMPS', 'honeycomb');
+  console.log(msg);
+  new rabbit.rpc('honeycomb', msg, function (data) {
+    console.log("TIMESTAMP DATA :::" + data.data);
+    socket.emit('timestamps', data.data);
   });
 });
