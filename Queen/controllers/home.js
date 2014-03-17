@@ -29,7 +29,7 @@ io.of('/home').on('connection', function (socket) {
 
       // Convert time to nearest 100 seconds
       var epochTime = d.EVENTTIMESTAMP;
-      epochTime = Math.round(epochTime / 100) * 100;
+      epochTime = Math.round(epochTime / 10000) * 10000;
 
       if (epochTime in timestamps) {
         timestamps[epochTime] += 1;

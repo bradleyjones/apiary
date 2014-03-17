@@ -7,5 +7,5 @@ socket.on('agentcount', function (data) {
 
 // Timestamp data for every event
 socket.on('timestamps', function (data) {
-  console.log(data);
+  sparkline('#event-rate', data);
 });
