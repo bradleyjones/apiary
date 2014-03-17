@@ -5,6 +5,7 @@ import time
 import inspect
 import threading
 
+
 class RPCSender(object):
 
     def __init__(self, config, channel=None):
@@ -24,14 +25,14 @@ class RPCSender(object):
         self.resp = None
         self.id = "7beaecc1-d100-433b-803f-59920cc4dd20"
 
-        if type(self.channel) is pika.channel.Channel:
-          self.event = threading.Event()
-          self.channel.queue_declare(self.onQueueOk, exclusive=True)
-        elif type(self.channel) is pika.adapters.blocking_connection.BlockingChannel:
-          self.result = self.channel.queue_declare(exclusive=True)
-          self.callback_queue = self.result.method.queue
-          self.channel.basic_consume(self.on_response, no_ack=True,
-                                     queue=self.callback_queue)
+        if isinstance(self.channel, pika.channel.Channel):
+            self.event = threading.Event()
+            self.channel.queue_declare(self.onQueueOk, exclusive=True)
+        elif isinstance(self.channel, pika.adapters.blocking_connection.BlockingChannel):
+            self.result = self.channel.queue_declare(exclusive=True)
+            self.callback_queue = self.result.method.queue
+            self.channel.basic_consume(self.on_response, no_ack=True,
+                                       queue=self.callback_queue)
 
     def onQueueOk(self, method_frame):
         print "Queue Created!"
@@ -47,7 +48,7 @@ class RPCSender(object):
     def send_request(self, action, to, body, machineid,
                      fro, timeout=10, exchange='', key=''):
         if self.event is not None:
-          self.event.wait()
+            self.event.wait()
 
         self.resp = None
 
@@ -70,8 +71,8 @@ class RPCSender(object):
                                    body=json.dumps(data))
         starttime = time.time()
         while self.resp is None:
-          if (starttime + timeout) <= time.time():
-            return "Timeout!"
-          self.connection.process_data_events()
+            if (starttime + timeout) <= time.time():
+                return "Timeout!"
+            self.connection.process_data_events()
 
         return self.resp

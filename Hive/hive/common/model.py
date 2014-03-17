@@ -99,7 +99,7 @@ class Model(object):
         obj = {}
         record = None
 
-        if getattr(model, self.primary) is not None: 
+        if getattr(model, self.primary) is not None:
             query = {self.primary: getattr(model, self.primary)}
             record = self.table.find_one(query)
 
@@ -112,13 +112,13 @@ class Model(object):
         # Add columns to hash
         for col in self.columns:
             d = getattr(model, col)
-            if d is not None: 
+            if d is not None:
                 obj[col] = d
 
         objid = self.table.save(obj)
         obj['_id'] = objid
 
-        if type(obj['_id']) is ObjectId:
+        if isinstance(obj['_id'], ObjectId):
             obj['_id'] = str(obj['_id'])
             obj['TIMESTAMP'] = str(objid.generation_time)
 
@@ -139,16 +139,17 @@ class Model(object):
 
     def query(self, query):
         results = self.indexdriver.query(query)
-        query = { '$or': [] }
+        query = {'$or': []}
         for hit in results['hits']:
-          query['$or'].append({self.primary: ObjectId(hit)})
+            query['$or'].append({self.primary: ObjectId(hit)})
 
         if len(results['hits']) > 0:
-            dbresult = self.table.find(query) 
+            dbresult = self.table.find(query)
             for res in dbresult:
                 res['TIMESTAMP'] = str(res['_id'].generation_time)
                 res['_id'] = str(res['_id'])
-                results['hits'][str(res['_id'])]['log'] = ModelObject(self.columns, res).to_hash()
+                results['hits'][str(res['_id'])]['log'] = ModelObject(
+                    self.columns, res).to_hash()
 
         return results
 
@@ -158,10 +159,10 @@ class Model(object):
             newColumns = [self.primary, 'TIMESTAMP']
             for f in fields:
                 newColumns.append(f)
-        else: 
+        else:
             result = self.table.find(query)
             newColumns = self.columns
-           
+
         response = []
         for res in result:
             res['TIMESTAMP'] = str(res['_id'].generation_time)

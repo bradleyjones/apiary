@@ -1,6 +1,7 @@
 from ..common.base import Base
 from routes import Routes
 
+
 class Sting(Base):
 
     def __init__(self):

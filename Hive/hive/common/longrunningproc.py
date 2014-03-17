@@ -5,6 +5,7 @@ import pika
 from hive.common.rpcsender import RPCSender
 import time
 
+
 class ProcHandler(Process):
 
     def __init__(self, config, subproc, queue):
@@ -24,14 +25,17 @@ class ProcHandler(Process):
             pika.ConnectionParameters(host=self.config['Rabbit']['host'], credentials=credentials))
         self.channel = self.connection.channel()
         ############################
-     
+
         self.subproc.start()
 
         if(not self.subproc.ready.wait(10)):
-          raise Exception("Long running process failed to start")
-      
+            raise Exception("Long running process failed to start")
+
         # Start Consuming Stop Queue
-        self.channel.basic_consume(self.on_message, queue=self.stopqueue, no_ack=True)
+        self.channel.basic_consume(
+            self.on_message,
+            queue=self.stopqueue,
+            no_ack=True)
         self.channel.start_consuming()
 
     def on_message(self, channel, method_frame, props, body):
@@ -41,16 +45,17 @@ class ProcHandler(Process):
             self.connection.close()
         elif da['action'] == "QUEUE":
             self.channel.basic_publish(exchange='',
-                                   routing_key=props.reply_to,
-                                   properties=pika.BasicProperties(
-                                       correlation_id=props.correlation_id,
-                                   ),
-                                   body=self.subproc.queue)
-            
+                                       routing_key=props.reply_to,
+                                       properties=pika.BasicProperties(
+                                           correlation_id=props.correlation_id,
+                                       ),
+                                       body=self.subproc.queue)
+
 
 class Proc(threading.Thread):
+
     def __init__(self, config):
-        threading.Thread.__init__(self) 
+        threading.Thread.__init__(self)
         self.daemon = True
         self.config = config
         self.ready = threading.Event()

@@ -16,7 +16,7 @@ class HoneycombApiTests(HiveBasicTest):
         data['action'] = "INSERT"
         data['to'] = "hive"
         data['from'] = self.id
-        data['data'] = { "Time":1234567, "Text":"TESTESTESTESTEST" }
+        data['data'] = {"Time": 1234567, "Text": "TESTESTESTESTEST"}
         data['machineid'] = "havsbdjhlbasd"
         self.channel.basic_publish(exchange='',
                                    routing_key='honeycomb',
@@ -43,7 +43,7 @@ class HoneycombApiTests(HiveBasicTest):
         data['action'] = "FIND"
         data['to'] = "hive"
         data['from'] = self.id
-        data['data'] = { "Time":1234567 }
+        data['data'] = {"Time": 1234567}
         data['machineid'] = "havsbdjhlbasd"
         self.channel.basic_publish(exchange='',
                                    routing_key='honeycomb',

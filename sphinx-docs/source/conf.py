@@ -14,7 +14,6 @@
 
 import sys
 import os
-import sphinx_rtd_theme
 import mock 
 
 MOCK_MODULES = ['lucene', 'apns', 'java', 'java.io', 'org', 'org.apache','org.apache.lucene','org.apache.lucene.analysis','org.apache.lucene.analysis.miscellaneous', 'org.apache.lucene.analysis.standard', 'org.apache.lucene.document', 'org.apache.lucene.index', 'org.apache.lucene.store', 'org.apache.lucene.util', 'org.apache.lucene.search', 'org.apache.lucene.queryparser', 'org.apache.lucene.queryparser.classic']
