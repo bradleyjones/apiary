@@ -1,11 +1,12 @@
 "use strict"
 
-var width = 200
-  , height = 50
-  , x = d3.scale.linear().range([0, width])
-  , y = d3.scale.linear().range([height, 0])
+var width = 500
+  , height = 100
+  , x = d3.scale.linear().range([0, width - 2])
+  , y = d3.scale.linear().range([height - 4, 0])
   , parseTime = d3.time.format("%H")
   , line = d3.svg.line()
+                    .interpolate("basis")
                     .x(function(d) { return x(d.time) })
                     .y(function(d) { return y(d.count) });
 
@@ -16,14 +17,18 @@ var width = 200
  * @param data is the data to be displayed on the sparkline
  * @param time is the unit of time to calculate the sparkline against
  */
-function sparkline(divId, data, time) {
+function sparkline(divId, orig_data, time) {
   // Calculate the number of data items in a specific time
-  Object.keys(data).forEach(function(k) {
-    var d = data[k];
-    console.log(d);
+  var data = [];
+  Object.keys(orig_data).forEach(function(k) {
+    var d = {};
     d.time = k;
-    d.count = d[k];
+    d.count = orig_data[k];
+
+    data.push(d);
   });
+
+  console.log(data);
 
   x.domain(d3.extent(data, function (d) {
     return d.time;

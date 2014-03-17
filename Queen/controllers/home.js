@@ -37,6 +37,26 @@ io.of('/home').on('connection', function (socket) {
         timestamps[epochTime] = 1;
       }
     });
-    socket.emit('timestamps', timestamps);
+    socket.emit('timestamps', sortObject(timestamps));
   });
 });
+
+// Sort an object so that it is ordered by key
+function sortObject(o) {
+  var sorted = {}
+    , a = [];
+
+  for (key in o) {
+    if (o.hasOwnProperty(key)) {
+      a.push(key);
+    }
+  }
+
+  a.sort();
+
+  for (var key = 0; key < a.length; key++) {
+    sorted[a[key]] = o[a[key]];
+  }
+
+  return sorted;
+}
