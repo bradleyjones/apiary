@@ -9,5 +9,6 @@ class Routes(Parent):
         self.action("COUNT", "count", "hive.honeycomb.databasecontroller")
         self.action("FINDALL", "findall", "hive.honeycomb.databasecontroller")
         self.action("QUERY", "query", "hive.honeycomb.databasecontroller")
+        self.action("REBUILD", "rebuildIndexes", "hive.honeycomb.databasecontroller")
         self.action("SEARCH", "newsearch", "hive.honeycomb.searchcontroller")
         self.action("STOPSEARCH", "stop", "hive.honeycomb.searchcontroller")

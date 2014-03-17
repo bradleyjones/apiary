@@ -61,7 +61,10 @@ class Model(object):
 
     def rebuildIndex(self):
         re = self.findAll()
-        self.indexdriver.rebuildIndex(self.indexes, re)
+        data = []
+        for r in re:
+            data.append(r.to_hash())
+        self.indexdriver.rebuildIndex(self.indexes, data)
         return True
 
     def my_import(self, name):

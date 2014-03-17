@@ -76,7 +76,7 @@ class Worker(Process):
             doc = self.buildDocument(data['fields'], record)
             writer.addDocument(doc)
 
-        writer.optimize()
+        writer.commit()
         writer.close()
 
     def buildDocument(self, fields, record):
