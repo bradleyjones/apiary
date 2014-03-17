@@ -58,7 +58,7 @@ function setFiles(messageData) {
 
       //Construct Message
       payload = {
-        'CONTENT':JSON.stringify(message),
+        'CONTENT':lines,
         'TYPE':"file",
         'EVENTTIMESTAMP': new Date().getTime().toString(),
         'METADATA': {
@@ -68,7 +68,7 @@ function setFiles(messageData) {
       };
     
       //Push onto bus
-      pushOntoMessageBus("HoneyComb","agents."+config.clientID+".data","DATA",JSON.stringify(payload),"apiary");
+      pushOntoMessageBus("HoneyComb","agents."+config.clientID+".data","DATA",payload,"apiary");
   
       //Reset Interval Timer 
       clearInterval(interval);

@@ -13,7 +13,7 @@ do
 
   echo $(date) $RANDOM_STRING
   # write to file
-  echo $(date) $RANDOM_STRING >> ./test.txt
+  echo $(date) $RANDOM_STRING >> /test.txt
 
   SLEEP_TIME=$[ ($RANDOM % 6 ) + 1 ]s
   # echo "sleeping for" $SLEEP_TIME
