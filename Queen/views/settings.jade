@@ -19,6 +19,7 @@ html
       input#did(type="text")
 
       button#btnUpdateSettings.btn(type='button') Update
+      script(src="/scripts/settings.js")
 
       script(src="/scripts/libs/underscore-min.js")
       include partials/deviceDatagrid.jade
@@ -35,4 +36,3 @@ html
             $('#MyGrid').datagrid('reload');
         })
 
-script(src="/scripts/settings.js")

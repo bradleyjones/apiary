@@ -9,7 +9,7 @@ html
     script $("#searches_navbar").addClass("active")
     script(src="/scripts/search.js")
   
-  .container#search-container
+  .container.main-container#search-container
     .row
       .col-md-12
         .stat-group
@@ -26,5 +26,10 @@ html
                   a(href='#') Tag 3
             input#searchTerm.form-control(type='text')
             span.input-group-addon#searchButton Search
-          
+    .row
+      .col-md-12
+        .stat-group
+          script(src="/scripts/libs/underscore-min.js")
+          include partials/searchDatagrid.jade
+          script(src="/scripts/searchDatagrid.js")
 
