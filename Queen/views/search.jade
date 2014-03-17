@@ -13,19 +13,7 @@ html
     .row
       .col-md-12
         .stat-group
-          .input-group.input-group-lg#search-container
-            .input-group-btn
-              button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown') Tag
-                span.caret
-              ul.dropdown-menu
-                li
-                  a(href='#') Tag 1
-                li
-                  a(href='#') Tag 2
-                li
-                  a(href='#') Tag 3
-            input#searchTerm.form-control(type='text')
-            span.input-group-addon#searchButton Search
+          include partials/searchbar.jade
     .row
       .col-md-12
         .stat-group
