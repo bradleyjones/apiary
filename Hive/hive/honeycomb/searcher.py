@@ -46,14 +46,15 @@ class Searcher(Proc):
               for hit in results['hits']:
                 query['$or'].append({logs.primary: ObjectId(hit)})
 
-              dbresult = logs.table.find(query) 
-              for res in dbresult:
-                  res['TIMESTAMP'] = str(res['_id'].generation_time)
-                  res['_id'] = str(res['_id'])
-                  results['hits'][str(res['_id'])]['log'] = ModelObject(logs.columns, res).to_hash()
+              if len(results['hits']) > 0:
+                  dbresult = logs.table.find(query) 
+                  for res in dbresult:
+                      res['TIMESTAMP'] = str(res['_id'].generation_time)
+                      res['_id'] = str(res['_id'])
+                      results['hits'][str(res['_id'])]['log'] = ModelObject(logs.columns, res).to_hash()
 
-              self.channel.basic_publish(exchange='', routing_key=self.queue, body=json.dumps(results))
-              self.previousids = set(results['hits'].keys())
+                  self.channel.basic_publish(exchange='', routing_key=self.queue, body=json.dumps(results))
+                  self.previousids = set(results['hits'].keys())
 
             time.sleep(1)
         

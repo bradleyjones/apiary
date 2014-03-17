@@ -140,11 +140,12 @@ class Model(object):
         for hit in results['hits']:
           query['$or'].append({self.primary: ObjectId(hit)})
 
-        dbresult = self.table.find(query) 
-        for res in dbresult:
-            res['TIMESTAMP'] = str(res['_id'].generation_time)
-            res['_id'] = str(res['_id'])
-            results['hits'][str(res['_id'])]['log'] = ModelObject(self.columns, res).to_hash()
+        if len(results['hits']) > 0:
+            dbresult = self.table.find(query) 
+            for res in dbresult:
+                res['TIMESTAMP'] = str(res['_id'].generation_time)
+                res['_id'] = str(res['_id'])
+                results['hits'][str(res['_id'])]['log'] = ModelObject(self.columns, res).to_hash()
 
         return results
 
