@@ -21,3 +21,8 @@ class Routes(Parent):
             "TIMESTAMPS",
             "timestamps",
             "hive.honeycomb.querycontroller")
+
+        self.action(
+            "TAGS",
+            "tags",
+            "hive.honeycomb.querycontroller")

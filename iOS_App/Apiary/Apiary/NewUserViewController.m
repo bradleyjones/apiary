@@ -27,16 +27,25 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _webView.delegate = self;
+    [_activityIndicator startAnimating];
     // Build the New User URL
     DataClass *obj=[DataClass getInstance];
+    obj.url = [obj.data_storage objectForKey:@"URL"];
     NSString *fullURL = [obj.url stringByAppendingString:@"/newuser"];
     NSURL *url = [NSURL URLWithString:fullURL];
+    NSLog(@"URL: %@", obj.url);
     // Build the HTTP request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:url];
-    [request setHTTPMethod:@"POST"];
+    [request setHTTPMethod:@"GET"];
     // Make the HTTP request and load the result
     [_webView loadRequest:request];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    [_activityIndicator stopAnimating];
 }
 
 - (void)didReceiveMemoryWarning

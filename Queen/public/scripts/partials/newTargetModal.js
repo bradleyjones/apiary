@@ -16,3 +16,7 @@ $('#btnWizardNext').on('click', function() {
     //TODO Reset the form
   }
 });
+
+// Setup the multiselect forms
+$('#select-tags').multiSelect();
+$('#select-agents').multiSelect();

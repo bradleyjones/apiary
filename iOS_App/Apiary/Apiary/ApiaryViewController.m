@@ -7,6 +7,7 @@
 //
 
 #import "ApiaryViewController.h"
+#import "DataClass.h"
 
 @interface ApiaryViewController ()
 
@@ -26,7 +27,40 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    _webView.delegate = self;
+    [_activityIndicator startAnimating];
+    // Get an instance of DataClass
+    DataClass *obj=[DataClass getInstance];
+    obj.url = [obj.data_storage objectForKey:@"URL"];
+    obj.user = [obj.data_storage objectForKey:@"username"];
+    obj.password = [obj.data_storage objectForKey:@"password"];
+    // Build the login URL
+    NSString *fullURL = [obj.url stringByAppendingString:@"/login"];
+    NSURL *url = [NSURL URLWithString:fullURL];
+    // Debug output
+    NSLog(@"URL: %@", fullURL);
+    // Build POST body
+    NSString *post = @"user=";
+    post = [post stringByAppendingString:obj.user];
+    post = [post stringByAppendingString:@"&password="];
+    post = [post stringByAppendingString:obj.password];
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+    // Initialise and config an HTTP request
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    // Set the request body
+    [request setHTTPBody:postData];
+    // Fire the HTTP request and load the result
+    [_webView loadRequest:request];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    [_activityIndicator stopAnimating];
 }
 
 - (void)didReceiveMemoryWarning

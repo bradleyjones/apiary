@@ -10,4 +10,7 @@
 
 @interface ApiaryViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UIWebView *webView;
+
 @end
