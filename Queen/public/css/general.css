@@ -30,8 +30,16 @@ body {
   padding : 20px 15px;
 }
 
+
+/*
+ * Sparkline
+ */
 .sparkline {
   fill: none;
   stroke: #000;
   stroke-width: 0.5px;
+}
+.sparkcircle {
+  fill: #f00;
+  stroke: none;
 }

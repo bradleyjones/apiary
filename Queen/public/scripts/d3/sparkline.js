@@ -49,9 +49,9 @@ function sparkline(divId, orig_data, time) {
      .attr("d", line);
 
   // Circle at the end of line
-  //vis.append("circle")
-     //.attr("class", "sparkcircle")
-     //.attr("cx", x(data[0].time))
-     //.attr("cy", y(data[0].count))
-     //.attr("r", 1.5);
+  vis.append("circle")
+     .attr("class", "sparkcircle")
+     .attr("cx", x(data[data.length - 1].time))
+     .attr("cy", y(data[data.length - 1].count))
+     .attr("r", 1.5);
 }
