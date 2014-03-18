@@ -19,6 +19,7 @@ setup(
         "jsonschema >= 2.2.0",
         "apns >= 1.1.2",
         "pymongo >= 2.6.3",
+        "pytz >= 2014.1"
     ],
     entry_points={
         'console_scripts':
