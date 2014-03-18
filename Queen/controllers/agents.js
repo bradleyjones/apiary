@@ -27,10 +27,14 @@ exports.individual = function (req, res) {
 
 // Web Sockets
 io.of('/agents').on('connection', function (socket) {
-  console.log("AGENTS");
-
   // Get the current number of connect agents
   socket.emit('init', dataCache.agents);
+
+  // Get the current tags
+  var msg = rabbit.constructMessage('TAGS', 'honeycomb');
+  new rabbit.rpc('honeycomb', msg, function(data) {
+    socket.emit('tags', data.data);
+  });
 
   // New agent added
   socket.on('newTarget', function (data) {
@@ -41,7 +45,7 @@ io.of('/agents').on('connection', function (socket) {
     });
   });
 
-   //Agent gone offline
+  //Agent gone offline
   //socket.on('agentOffline', function (id) {
     //socket.broadcast.emit('offline', id);
   //});
