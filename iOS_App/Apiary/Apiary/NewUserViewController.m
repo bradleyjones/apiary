@@ -7,6 +7,7 @@
 //
 
 #import "NewUserViewController.h"
+#import "DataClass.h"
 
 @interface NewUserViewController ()
 
@@ -26,7 +27,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    // Build the New User URL
+    DataClass *obj=[DataClass getInstance];
+    obj.url = [obj.data_storage objectForKey:@"URL"];
+    NSString *fullURL = [obj.url stringByAppendingString:@"/newuser"];
+    NSURL *url = [NSURL URLWithString:fullURL];
+    NSLog(@"URL: %@", obj.url);
+    // Build the HTTP request
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:url];
+    [request setHTTPMethod:@"GET"];
+    // Make the HTTP request and load the result
+    [_webView loadRequest:request];
 }
 
 - (void)didReceiveMemoryWarning
