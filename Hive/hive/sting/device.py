@@ -1,10 +1,10 @@
 from ..common.model import Model
 
 
-class user(Model):
+class device(Model):
 
     def define(self):
         self.addcolumn('UUID')
-        self.addcolumn('USERNAME')
-        self.addcolumn('DEVICE')
+        self.addcolumn('NAME')
+        self.addcolumn('DEVICE_ID')
         self.setprimary('UUID')

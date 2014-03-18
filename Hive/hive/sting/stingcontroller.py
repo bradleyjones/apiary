@@ -5,7 +5,6 @@ import pika
 import json
 import sys
 
-
 class Controller(Parent):
 
     def models(self):
@@ -66,6 +65,8 @@ class Controller(Parent):
 
     def main():
 
+		print "HELLOOOOOOO"
+
         # Define connection to rabbit
         connection = pika.BlockingConnection(
             pika.ConnectionParameters(host='127.0.0.1'))
@@ -78,13 +79,21 @@ class Controller(Parent):
             connection,
             'events.agentmanager.agent.dead')
 
+		for device in self.users.devices:
+        	apns = APNS(use_sandbox=True, cert_file=(
+            	resource_filename(__name__,'apns/certs/ApiaryCert.pem')),
+            	key_file=(resource_filename(__name__,'apns/certs/ApiaryKey.pem')))
+        	token_hex = device.device_id
+        	payload = Payload(alert="Sting Running", sound="default", badge=0)
+        	apns.gateway_server.send_notification(token_hex, payload)
+	
         # Debug APNS Notification
-        apns = APNS(use_sandbox=True, cert_file=(
-            resource_filename(__name__,'apns/certs/ApiaryCert.pem')),
-            key_file=(resource_filename(__name__,'apns/certs/ApiaryKey.pem')))
-        token_hex = 'c337dce1b94e8908e3b9768516fed42c90b1dff0ad01dfe7334970227da0a229'
-        payload = Payload(alert="Sting Running", sound="default", badge=0)
-        apns.gateway_server.send_notification(token_hex, payload)
+        #apns = APNS(use_sandbox=True, cert_file=(
+        #    resource_filename(__name__,'apns/certs/ApiaryCert.pem')),
+        #    key_file=(resource_filename(__name__,'apns/certs/ApiaryKey.pem')))
+        #token_hex = 'c337dce1b94e8908e3b9768516fed42c90b1dff0ad01dfe7334970227da0a229'
+        #payload = Payload(alert="Sting Running", sound="default", badge=0)
+        #apns.gateway_server.send_notification(token_hex, payload)
         #########################
 
         # Start channel consumers
