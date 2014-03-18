@@ -62,15 +62,18 @@
 <dt id="hive.common.base.Base">
 <em class="property">class </em><tt class="descclassname">hive.common.base.</tt><tt class="descname">Base</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/hive/common/base.html#Base"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.base.Base" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>A common base class for most hive components, pulls in config file and setups up rabbit consumer and rabbit subscriber threads.</p>
 <dl class="method">
 <dt id="hive.common.base.Base.configureLogger">
 <tt class="descname">configureLogger</tt><big>(</big><em>filelocation</em>, <em>level</em><big>)</big><a class="reference internal" href="_modules/hive/common/base.html#Base.configureLogger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.base.Base.configureLogger" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Configure the logger format and logging level according to the config file.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hive.common.base.Base.extraThreads">
 <tt class="descname">extraThreads</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/base.html#Base.extraThreads"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.base.Base.extraThreads" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Function that will get called inside the start function for any threads added in child classes.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hive.common.base.Base.han">
@@ -80,12 +83,14 @@
 <dl class="method">
 <dt id="hive.common.base.Base.loadConfig">
 <tt class="descname">loadConfig</tt><big>(</big><em>filepath</em><big>)</big><a class="reference internal" href="_modules/hive/common/base.html#Base.loadConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.base.Base.loadConfig" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Try to load config using ConfigObj and make sure it exists.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hive.common.base.Base.start">
 <tt class="descname">start</tt><big>(</big><em>r</em><big>)</big><a class="reference internal" href="_modules/hive/common/base.html#Base.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.base.Base.start" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Start the threads for receiving messages.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -156,11 +161,6 @@
 <em class="property">class </em><tt class="descclassname">hive.common.lucenedriver.</tt><tt class="descname">Driver</tt><big>(</big><em>config</em>, <em>tablename</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Driver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Driver" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <dl class="method">
-<dt id="hive.common.lucenedriver.Driver.buildDocument">
-<tt class="descname">buildDocument</tt><big>(</big><em>fields</em>, <em>record</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Driver.buildDocument"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Driver.buildDocument" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
 <dt id="hive.common.lucenedriver.Driver.index">
 <tt class="descname">index</tt><big>(</big><em>fields</em>, <em>record</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Driver.index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Driver.index" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -186,6 +186,57 @@
 <dd></dd></dl>
 
 </dd></dl>
+
+<dl class="class">
+<dt id="hive.common.lucenedriver.Worker">
+<em class="property">class </em><tt class="descclassname">hive.common.lucenedriver.</tt><tt class="descname">Worker</tt><big>(</big><em>config</em>, <em>queue</em>, <em>ret</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Worker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Worker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">multiprocessing.process.Process</span></tt></p>
+<dl class="method">
+<dt id="hive.common.lucenedriver.Worker.buildDocument">
+<tt class="descname">buildDocument</tt><big>(</big><em>fields</em>, <em>record</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Worker.buildDocument"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Worker.buildDocument" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.lucenedriver.Worker.dictToFields">
+<tt class="descname">dictToFields</tt><big>(</big><em>doc</em>, <em>record</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Worker.dictToFields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Worker.dictToFields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.lucenedriver.Worker.index">
+<tt class="descname">index</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Worker.index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Worker.index" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.lucenedriver.Worker.query">
+<tt class="descname">query</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Worker.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Worker.query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.lucenedriver.Worker.rebuildIndex">
+<tt class="descname">rebuildIndex</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Worker.rebuildIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Worker.rebuildIndex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.lucenedriver.Worker.removeindex">
+<tt class="descname">removeindex</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Worker.removeindex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Worker.removeindex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.lucenedriver.Worker.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Worker.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Worker.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.lucenedriver.Worker.updateindex">
+<tt class="descname">updateindex</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Worker.updateindex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Worker.updateindex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="hive.common.lucenedriver.setup">
+<tt class="descclassname">hive.common.lucenedriver.</tt><tt class="descname">setup</tt><big>(</big><em>config</em>, <em>workers=4</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.setup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 <div class="section" id="module-hive.common.model">
@@ -227,6 +278,11 @@
 <dl class="method">
 <dt id="hive.common.model.Model.loadIndexDriver">
 <tt class="descname">loadIndexDriver</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#Model.loadIndexDriver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.Model.loadIndexDriver" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.common.model.Model.mongoQuery">
+<tt class="descname">mongoQuery</tt><big>(</big><em>query</em>, <em>fields={}</em><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#Model.mongoQuery"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.Model.mongoQuery" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -552,6 +608,11 @@ using rabbit.</p>
 <dt id="hive.common.rpcsender.RPCSender">
 <em class="property">class </em><tt class="descclassname">hive.common.rpcsender.</tt><tt class="descname">RPCSender</tt><big>(</big><em>config</em>, <em>channel=None</em><big>)</big><a class="reference internal" href="_modules/hive/common/rpcsender.html#RPCSender"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rpcsender.RPCSender" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="method">
+<dt id="hive.common.rpcsender.RPCSender.onQueueOk">
+<tt class="descname">onQueueOk</tt><big>(</big><em>method_frame</em><big>)</big><a class="reference internal" href="_modules/hive/common/rpcsender.html#RPCSender.onQueueOk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rpcsender.RPCSender.onQueueOk" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="hive.common.rpcsender.RPCSender.on_response">
 <tt class="descname">on_response</tt><big>(</big><em>ch</em>, <em>method</em>, <em>props</em>, <em>body</em><big>)</big><a class="reference internal" href="_modules/hive/common/rpcsender.html#RPCSender.on_response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rpcsender.RPCSender.on_response" title="Permalink to this definition">¶</a></dt>

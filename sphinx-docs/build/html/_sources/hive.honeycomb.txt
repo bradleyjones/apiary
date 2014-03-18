@@ -20,6 +20,14 @@ hive.honeycomb.log module
     :undoc-members:
     :show-inheritance:
 
+hive.honeycomb.querycontroller module
+-------------------------------------
+
+.. automodule:: hive.honeycomb.querycontroller
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 hive.honeycomb.routes module
 ----------------------------
 

@@ -5,6 +5,7 @@ import pika
 import json
 import sys
 
+
 class Controller(Parent):
 
     def models(self):
@@ -15,12 +16,12 @@ class Controller(Parent):
     def callback(ch, method, properties, body):
         # Initialise Apple Push Notification System object
         apns = APNS(use_sandbox=True, cert_file=(
-            resource_filename(__name__,'apns/certs/ApiaryCert.pem')),
-            key_file=(resource_filename(__name__,'apns/certs/ApiaryKey.pem')))
+            resource_filename(__name__, 'apns/certs/ApiaryCert.pem')),
+            key_file=(resource_filename(__name__, 'apns/certs/ApiaryKey.pem')))
 
         # Initialise String for message to be sent in alert
         alert_text = "None"
-        
+
         # Load data from json recieved on message queue
         data = json.loads(body)
 
@@ -41,7 +42,7 @@ class Controller(Parent):
         payload = Payload(alert=alert_text, sound="default", badge=1)
         apns.gateway_server.send_notification(token_hex, payload)
 
-        print "Notification Sent: " +alert_text
+        print "Notification Sent: " + alert_text
 
     def new_channel(connection, routing_key_name):
 
@@ -77,12 +78,15 @@ class Controller(Parent):
             connection,
             'events.agentmanager.agent.dead')
 
+        # Debug APNS Notification
+        apns = APNS(use_sandbox=True, cert_file=(
+            resource_filename(__name__,'apns/certs/ApiaryCert.pem')),
+            key_file=(resource_filename(__name__,'apns/certs/ApiaryKey.pem')))
+        token_hex = 'c337dce1b94e8908e3b9768516fed42c90b1dff0ad01dfe7334970227da0a229'
+        payload = Payload(alert="Sting Running", sound="default", badge=0)
+        apns.gateway_server.send_notification(token_hex, payload)
+        #########################
+
         # Start channel consumers
         new_agent_channel.start_consuming()
         dead_agent_channel.start_consuming()
-
-
-
-
-
-

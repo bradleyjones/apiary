@@ -56,24 +56,13 @@
             
   <h1>Source code for hive.honeycomb.searcher</h1><div class="highlight"><pre>
 <span class="kn">import</span> <span class="nn">pika</span>
-<span class="kn">from</span> <span class="nn">hive.common.rpcsender</span> <span class="kn">import</span> <span class="n">RPCSender</span>
 <span class="kn">from</span> <span class="nn">hive.common.longrunningproc</span> <span class="kn">import</span> <span class="n">Proc</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">hive.honeycomb.log</span> <span class="kn">import</span> <span class="n">Log</span>
+<span class="kn">from</span> <span class="nn">hive.common.model</span> <span class="kn">import</span> <span class="n">ModelObject</span>
+<span class="kn">from</span> <span class="nn">bson.objectid</span> <span class="kn">import</span> <span class="n">ObjectId</span>
 
-<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">lucene</span><span class="o">,</span> <span class="nn">threading</span><span class="o">,</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-
-<span class="kn">from</span> <span class="nn">java.io</span> <span class="kn">import</span> <span class="n">File</span>
-<span class="kn">from</span> <span class="nn">org.apache.lucene.analysis.miscellaneous</span> <span class="kn">import</span> <span class="n">LimitTokenCountAnalyzer</span>
-<span class="kn">from</span> <span class="nn">org.apache.lucene.analysis.standard</span> <span class="kn">import</span> <span class="n">StandardAnalyzer</span>
-<span class="kn">from</span> <span class="nn">org.apache.lucene.document</span> <span class="kn">import</span> <span class="n">Document</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">FieldType</span>
-<span class="kn">from</span> <span class="nn">org.apache.lucene.index</span> <span class="kn">import</span> <span class="n">FieldInfo</span><span class="p">,</span> <span class="n">IndexReader</span>
-<span class="kn">from</span> <span class="nn">org.apache.lucene.store</span> <span class="kn">import</span> <span class="n">SimpleFSDirectory</span>
-<span class="kn">from</span> <span class="nn">org.apache.lucene.util</span> <span class="kn">import</span> <span class="n">Version</span>
-<span class="kn">from</span> <span class="nn">org.apache.lucene.index</span> <span class="kn">import</span> <span class="n">DirectoryReader</span>
-<span class="kn">from</span> <span class="nn">org.apache.lucene.search</span> <span class="kn">import</span> <span class="n">IndexSearcher</span>
-<span class="kn">from</span> <span class="nn">org.apache.lucene.queryparser.classic</span> <span class="kn">import</span> <span class="n">QueryParser</span>
 
 <div class="viewcode-block" id="Searcher"><a class="viewcode-back" href="../../../hive.honeycomb.html#hive.honeycomb.searcher.Searcher">[docs]</a><span class="k">class</span> <span class="nc">Searcher</span><span class="p">(</span><span class="n">Proc</span><span class="p">):</span>
 
@@ -84,7 +73,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">queue</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">query</span> <span class="o">=</span> <span class="n">query</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">totalHits</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">previousids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">({}</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> 
 
 <div class="viewcode-block" id="Searcher.getQueue"><a class="viewcode-back" href="../../../hive.honeycomb.html#hive.honeycomb.searcher.Searcher.getQueue">[docs]</a>    <span class="k">def</span> <span class="nf">getQueue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
       <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span>
@@ -100,40 +89,30 @@
         <span class="c"># Setup queue for outputing data</span>
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">queue_declare</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">queue</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">method</span><span class="o">.</span><span class="n">queue</span>
-
-        <span class="n">lucene</span><span class="o">.</span><span class="n">initVM</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">indexdir</span> <span class="o">=</span> <span class="s">&quot;IndexOfLogs&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">SimpleFSDirectory</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">indexdir</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">StandardAnalyzer</span><span class="p">(</span><span class="n">Version</span><span class="o">.</span><span class="n">LUCENE_CURRENT</span><span class="p">)</span>
-        <span class="n">pq</span> <span class="o">=</span> <span class="n">QueryParser</span><span class="p">(</span><span class="n">Version</span><span class="o">.</span><span class="n">LUCENE_30</span><span class="p">,</span> <span class="s">&quot;id&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span><span class="p">)</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">)</span>
-        <span class="n">dr</span> <span class="o">=</span> <span class="n">DirectoryReader</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">)</span>
+        
+        <span class="n">logs</span> <span class="o">=</span> <span class="n">Log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ready</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
 
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">:</span>
-            <span class="n">ndr</span> <span class="o">=</span> <span class="n">DirectoryReader</span><span class="o">.</span><span class="n">openIfChanged</span><span class="p">(</span><span class="n">dr</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">ndr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-              <span class="n">dr</span> <span class="o">=</span> <span class="n">ndr</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">logs</span><span class="o">.</span><span class="n">indexdriver</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">)</span>
+            <span class="n">diff</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">previousids</span>
 
-            <span class="n">searcher</span> <span class="o">=</span> <span class="n">IndexSearcher</span><span class="p">(</span><span class="n">dr</span><span class="p">)</span>
-            <span class="n">hits</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+            <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+              <span class="n">query</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&#39;$or&#39;</span><span class="p">:</span> <span class="p">[]</span> <span class="p">}</span>
+              <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">]:</span>
+                <span class="n">query</span><span class="p">[</span><span class="s">&#39;$or&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="n">logs</span><span class="o">.</span><span class="n">primary</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">hit</span><span class="p">)})</span>
 
-            <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
-       
-            <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">totalHits</span> <span class="o">&lt;</span> <span class="n">hits</span><span class="o">.</span><span class="n">totalHits</span><span class="p">):</span>
-              <span class="n">results</span><span class="p">[</span><span class="s">&#39;totalHits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hits</span><span class="o">.</span><span class="n">totalHits</span>
-              <span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+              <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                  <span class="n">dbresult</span> <span class="o">=</span> <span class="n">logs</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">query</span><span class="p">)</span> 
+                  <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">dbresult</span><span class="p">:</span>
+                      <span class="n">res</span><span class="p">[</span><span class="s">&#39;TIMESTAMP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">generation_time</span><span class="p">)</span>
+                      <span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">])</span>
+                      <span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">])][</span><span class="s">&#39;log&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ModelObject</span><span class="p">(</span><span class="n">logs</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span><span class="o">.</span><span class="n">to_hash</span><span class="p">()</span>
 
-              <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">hits</span><span class="o">.</span><span class="n">scoreDocs</span><span class="p">:</span>
-                  <span class="n">record</span> <span class="o">=</span> <span class="p">{}</span>
-                  <span class="n">doc</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="n">hit</span><span class="o">.</span><span class="n">doc</span><span class="p">)</span>
-                  <span class="n">record</span><span class="p">[</span><span class="s">&#39;score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hit</span><span class="o">.</span><span class="n">score</span>
-                  <span class="n">fields</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">getFields</span><span class="p">()</span>
-                  <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
-                      <span class="n">record</span><span class="p">[</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">stringValue</span><span class="p">()</span>
-                  <span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">basic_publish</span><span class="p">(</span><span class="n">exchange</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">routing_key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">previousids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
-              <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">basic_publish</span><span class="p">(</span><span class="n">exchange</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">routing_key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">results</span><span class="p">)</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>

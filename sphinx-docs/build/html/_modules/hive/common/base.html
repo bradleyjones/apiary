@@ -63,6 +63,7 @@
 <span class="kn">import</span> <span class="nn">signal</span>
 
 <div class="viewcode-block" id="Base"><a class="viewcode-back" href="../../../hive.common.html#hive.common.base.Base">[docs]</a><span class="k">class</span> <span class="nc">Base</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A common base class for most hive components, pulls in config file and setups up rabbit consumer and rabbit subscriber threads.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loadConfig</span><span class="p">(</span><span class="s">&quot;/etc/apiary/</span><span class="si">%s</span><span class="s">_config.ini&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
@@ -72,14 +73,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Base.start"><a class="viewcode-back" href="../../../hive.common.html#hive.common.base.Base.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
-        <span class="c"># Initialise the controllers and router</span>
+        <span class="sd">&quot;&quot;&quot; Start the threads for receiving messages. &quot;&quot;&quot;</span> 
+
+        <span class="c">#: Initialise the controllers and router</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">router</span> <span class="o">=</span> <span class="n">r</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
             <span class="s">&quot;Setting Up Server on </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;Rabbit&#39;</span><span class="p">][</span><span class="s">&#39;host&#39;</span><span class="p">])</span>
 
-        <span class="c"># Create the RPC consumer and data subscribers</span>
+        <span class="c">#: Create the RPC consumer</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rpc</span> <span class="o">=</span> <span class="n">RabbitConsumer</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;Rabbit&#39;</span><span class="p">][</span><span class="s">&#39;rpc_queue&#39;</span><span class="p">],</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;Rabbit&#39;</span><span class="p">][</span><span class="s">&#39;host&#39;</span><span class="p">],</span>
@@ -87,6 +90,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;Rabbit&#39;</span><span class="p">][</span><span class="s">&#39;username&#39;</span><span class="p">],</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;Rabbit&#39;</span><span class="p">][</span><span class="s">&#39;password&#39;</span><span class="p">])</span>
 
+        <span class="c">#: Create the RPC subscriber</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">subscriber</span> <span class="o">=</span> <span class="n">RabbitSubscriber</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;Rabbit&#39;</span><span class="p">][</span><span class="s">&#39;sub_queue&#39;</span><span class="p">],</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;Rabbit&#39;</span><span class="p">][</span><span class="s">&#39;host&#39;</span><span class="p">],</span>
@@ -96,7 +100,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;Rabbit&#39;</span><span class="p">][</span><span class="s">&#39;sub_keys&#39;</span><span class="p">])</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="c"># Threads</span>
+            <span class="c">#: Start Threads</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">extraThreads</span><span class="p">()</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">rpc</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
@@ -129,9 +133,11 @@
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Base.extraThreads"><a class="viewcode-back" href="../../../hive.common.html#hive.common.base.Base.extraThreads">[docs]</a>    <span class="k">def</span> <span class="nf">extraThreads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Function that will get called inside the start function for any threads added in child classes. &quot;&quot;&quot;</span> 
         <span class="k">pass</span>
 </div>
 <div class="viewcode-block" id="Base.loadConfig"><a class="viewcode-back" href="../../../hive.common.html#hive.common.base.Base.loadConfig">[docs]</a>    <span class="k">def</span> <span class="nf">loadConfig</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Try to load config using ConfigObj and make sure it exists. &quot;&quot;&quot;</span> 
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">ConfigObj</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">file_error</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">(</span><span class="n">ConfigObjError</span><span class="p">,</span> <span class="ne">IOError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -139,6 +145,8 @@
             <span class="k">raise</span> <span class="ne">SystemExit</span>
 </div>
 <div class="viewcode-block" id="Base.configureLogger"><a class="viewcode-back" href="../../../hive.common.html#hive.common.base.Base.configureLogger">[docs]</a>    <span class="k">def</span> <span class="nf">configureLogger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filelocation</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Configure the logger format and logging level according to the config file. &quot;&quot;&quot;</span> 
+
         <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="s">&quot;debug&quot;</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">filelocation</span><span class="p">,</span>
                                 <span class="n">format</span><span class="o">=</span><span class="s">&#39;</span><span class="si">%(asctime)s</span><span class="s"> - </span><span class="si">%(name)s</span><span class="s"> - </span><span class="si">%(levelname)s</span><span class="s"> - </span><span class="si">%(message)s</span><span class="s">&#39;</span><span class="p">,</span>
@@ -162,15 +170,15 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Invalid Debug Level &quot;</span> <span class="o">+</span> <span class="n">level</span><span class="p">)</span>
 
-        <span class="c"># create console handler and set level to debug</span>
+        <span class="c">#: Create console handler and set level to debug</span>
         <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
         <span class="n">ch</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
         <span class="n">ch</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
 
-        <span class="c"># create formatter</span>
-        <span class="c"># add formatter to ch</span>
+        <span class="c">#: Create formatter</span>
         <span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span>
             <span class="s">&#39;</span><span class="si">%(asctime)s</span><span class="s"> - </span><span class="si">%(name)s</span><span class="s"> - </span><span class="si">%(levelname)s</span><span class="s"> - </span><span class="si">%(message)s</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="c">#: Add formatter to console handler</span>
         <span class="n">ch</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>

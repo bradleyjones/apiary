@@ -61,7 +61,10 @@ class Model(object):
 
     def rebuildIndex(self):
         re = self.findAll()
-        self.indexdriver.rebuildIndex(self.indexes, re)
+        data = []
+        for r in re:
+            data.append(r.to_hash())
+        self.indexdriver.rebuildIndex(self.indexes, data)
         return True
 
     def my_import(self, name):
@@ -96,7 +99,7 @@ class Model(object):
         obj = {}
         record = None
 
-        if getattr(model, self.primary) is not None: 
+        if getattr(model, self.primary) is not None:
             query = {self.primary: getattr(model, self.primary)}
             record = self.table.find_one(query)
 
@@ -109,13 +112,13 @@ class Model(object):
         # Add columns to hash
         for col in self.columns:
             d = getattr(model, col)
-            if d is not None: 
+            if d is not None:
                 obj[col] = d
 
         objid = self.table.save(obj)
         obj['_id'] = objid
 
-        if type(obj['_id']) is ObjectId:
+        if isinstance(obj['_id'], ObjectId):
             obj['_id'] = str(obj['_id'])
             obj['TIMESTAMP'] = str(objid.generation_time)
 
@@ -136,26 +139,39 @@ class Model(object):
 
     def query(self, query):
         results = self.indexdriver.query(query)
-        query = { '$or': [] }
+        query = {'$or': []}
         for hit in results['hits']:
-          query['$or'].append({self.primary: ObjectId(hit)})
+            query['$or'].append({self.primary: ObjectId(hit)})
 
-        dbresult = self.table.find(query) 
-        for res in dbresult:
-            res['TIMESTAMP'] = str(res['_id'].generation_time)
-            res['_id'] = str(res['_id'])
-            results['hits'][str(res['_id'])]['log'] = ModelObject(self.columns, res).to_hash()
+        if len(results['hits']) > 0:
+            dbresult = self.table.find(query)
+            for res in dbresult:
+                res['TIMESTAMP'] = str(res['_id'].generation_time)
+                res['_id'] = str(res['_id'])
+                results['hits'][str(res['_id'])]['log'] = ModelObject(
+                    self.columns, res).to_hash()
 
         return results
 
-    def findAll(self):
-        result = self.table.find({})
+    def mongoQuery(self, query, fields={}):
+        if len(fields) > 0:
+            result = self.table.find(query, fields)
+            newColumns = [self.primary, 'TIMESTAMP']
+            for f in fields:
+                newColumns.append(f)
+        else:
+            result = self.table.find(query)
+            newColumns = self.columns
+
         response = []
         for res in result:
             res['TIMESTAMP'] = str(res['_id'].generation_time)
             res['_id'] = str(res['_id'])
-            response.append(ModelObject(self.columns, res))
+            response.append(ModelObject(newColumns, res))
         return response
+
+    def findAll(self):
+        return self.mongoQuery({})
 
     def find(self, id):
         query = {self.primary: id}

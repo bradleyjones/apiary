@@ -54,9 +54,7 @@
           <div class="body">
             
   <h1>Source code for hive.common.lucenedriver</h1><div class="highlight"><pre>
-<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">lucene</span><span class="o">,</span> <span class="nn">threading</span><span class="o">,</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-
+<span class="kn">import</span> <span class="nn">lucene</span>
 <span class="kn">from</span> <span class="nn">java.io</span> <span class="kn">import</span> <span class="n">File</span>
 <span class="kn">from</span> <span class="nn">org.apache.lucene.analysis.miscellaneous</span> <span class="kn">import</span> <span class="n">LimitTokenCountAnalyzer</span>
 <span class="kn">from</span> <span class="nn">org.apache.lucene.analysis.standard</span> <span class="kn">import</span> <span class="n">StandardAnalyzer</span>
@@ -68,16 +66,38 @@
 <span class="kn">from</span> <span class="nn">org.apache.lucene.search</span> <span class="kn">import</span> <span class="n">IndexSearcher</span>
 <span class="kn">from</span> <span class="nn">org.apache.lucene.index</span> <span class="kn">import</span> <span class="n">DirectoryReader</span>
 
-<div class="viewcode-block" id="Driver"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Driver">[docs]</a><span class="k">class</span> <span class="nc">Driver</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Process</span><span class="p">,</span> <span class="n">Manager</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">tablename</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">lucene</span><span class="o">.</span><span class="n">getVMEnv</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">attachCurrentThread</span><span class="p">()</span>
+<span class="n">luceneManager</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="n">luceneQueue</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="n">luceneReturn</span> <span class="o">=</span> <span class="bp">None</span>
+
+
+<div class="viewcode-block" id="setup"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.setup">[docs]</a><span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">luceneQueue</span><span class="p">,</span> <span class="n">luceneManager</span><span class="p">,</span> <span class="n">luceneReturn</span>
+    <span class="n">luceneManager</span> <span class="o">=</span> <span class="n">Manager</span><span class="p">()</span>
+    <span class="n">luceneQueue</span> <span class="o">=</span> <span class="n">luceneManager</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+    <span class="n">luceneReturn</span> <span class="o">=</span> <span class="n">luceneManager</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">workers</span><span class="p">):</span>
+        <span class="n">worker</span> <span class="o">=</span> <span class="n">Worker</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">luceneQueue</span><span class="p">,</span> <span class="n">luceneReturn</span><span class="p">)</span>
+        <span class="n">worker</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="Worker"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Worker">[docs]</a><span class="k">class</span> <span class="nc">Worker</span><span class="p">(</span><span class="n">Process</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="n">ret</span><span class="p">):</span>
+        <span class="n">Process</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">indexdir</span> <span class="o">=</span> <span class="s">&quot;IndexOf</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">tablename</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">SimpleFSDirectory</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">indexdir</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">StandardAnalyzer</span><span class="p">(</span><span class="n">Version</span><span class="o">.</span><span class="n">LUCENE_CURRENT</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">conf</span> <span class="o">=</span> <span class="n">IndexWriterConfig</span><span class="p">(</span><span class="n">Version</span><span class="o">.</span><span class="n">LUCENE_CURRENT</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue</span> <span class="o">=</span> <span class="n">queue</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ret</span> <span class="o">=</span> <span class="n">ret</span>
+
+<div class="viewcode-block" id="Worker.run"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Worker.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Booting lucene driver worker....&quot;</span>
+        <span class="n">lucene</span><span class="o">.</span><span class="n">initVM</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">fieldType1</span> <span class="o">=</span> <span class="n">FieldType</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fieldType1</span><span class="o">.</span><span class="n">setIndexed</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
@@ -89,80 +109,174 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">fieldType2</span><span class="o">.</span><span class="n">setStored</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fieldType2</span><span class="o">.</span><span class="n">setTokenized</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Driver.rebuildIndex"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Driver.rebuildIndex">[docs]</a>    <span class="k">def</span> <span class="nf">rebuildIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">records</span><span class="p">):</span>
+        <span class="k">while</span><span class="p">(</span><span class="bp">True</span><span class="p">):</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="n">da</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">SimpleFSDirectory</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">da</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;indexdir&#39;</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">StandardAnalyzer</span><span class="p">(</span><span class="n">Version</span><span class="o">.</span><span class="n">LUCENE_CURRENT</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conf</span> <span class="o">=</span> <span class="n">IndexWriterConfig</span><span class="p">(</span>
+                <span class="n">Version</span><span class="o">.</span><span class="n">LUCENE_CURRENT</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span><span class="p">)</span>
+
+            <span class="n">response</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">da</span><span class="p">[</span><span class="s">&#39;action&#39;</span><span class="p">])(</span><span class="n">da</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">response</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">ret</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">response</span>
+</div>
+<div class="viewcode-block" id="Worker.rebuildIndex"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Worker.rebuildIndex">[docs]</a>    <span class="k">def</span> <span class="nf">rebuildIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="n">writer</span> <span class="o">=</span> <span class="n">IndexWriter</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">setOpenMode</span><span class="p">(</span><span class="n">IndexWriterConfig</span><span class="o">.</span><span class="n">OpenMode</span><span class="o">.</span><span class="n">CREATE</span><span class="p">))</span>
 
-        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
-          <span class="n">doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buildDocument</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span>
-          <span class="n">writer</span><span class="o">.</span><span class="n">addDocument</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;records&#39;</span><span class="p">]:</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buildDocument</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;fields&#39;</span><span class="p">],</span> <span class="n">record</span><span class="p">)</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">addDocument</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
 
-        <span class="n">writer</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
         <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-
 </div>
-<div class="viewcode-block" id="Driver.buildDocument"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Driver.buildDocument">[docs]</a>    <span class="k">def</span> <span class="nf">buildDocument</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
+<div class="viewcode-block" id="Worker.buildDocument"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Worker.buildDocument">[docs]</a>    <span class="k">def</span> <span class="nf">buildDocument</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
         <span class="n">doc</span> <span class="o">=</span> <span class="n">Document</span><span class="p">()</span>
         <span class="n">doc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
             <span class="n">Field</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">,</span>
                   <span class="n">record</span><span class="p">[</span><span class="s">&quot;_id&quot;</span><span class="p">],</span>
                   <span class="bp">self</span><span class="o">.</span><span class="n">fieldType2</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
-          <span class="n">doc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-              <span class="n">Field</span><span class="p">(</span><span class="n">field</span><span class="p">,</span>
-                    <span class="n">record</span><span class="p">[</span><span class="n">field</span><span class="p">],</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">fieldType1</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="n">field</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dictToFields</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">record</span><span class="p">[</span><span class="n">field</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">doc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                    <span class="n">Field</span><span class="p">(</span><span class="n">field</span><span class="p">,</span>
+                          <span class="n">record</span><span class="p">[</span><span class="n">field</span><span class="p">],</span>
+                          <span class="bp">self</span><span class="o">.</span><span class="n">fieldType1</span><span class="p">))</span>
+
         <span class="k">return</span> <span class="n">doc</span>
 </div>
-<div class="viewcode-block" id="Driver.index"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Driver.index">[docs]</a>    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
+<div class="viewcode-block" id="Worker.dictToFields"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Worker.dictToFields">[docs]</a>    <span class="k">def</span> <span class="nf">dictToFields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">record</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dictToFields</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">record</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">doc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                    <span class="n">Field</span><span class="p">(</span><span class="n">key</span><span class="p">,</span>
+                          <span class="n">record</span><span class="p">[</span><span class="n">key</span><span class="p">],</span>
+                          <span class="bp">self</span><span class="o">.</span><span class="n">fieldType1</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Worker.index"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Worker.index">[docs]</a>    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="n">writer</span> <span class="o">=</span> <span class="n">IndexWriter</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">)</span>
 
-        <span class="n">doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buildDocument</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buildDocument</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;fields&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;record&#39;</span><span class="p">])</span>
         <span class="n">writer</span><span class="o">.</span><span class="n">addDocument</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
 
         <span class="n">writer</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
         <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="Driver.updateindex"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Driver.updateindex">[docs]</a>    <span class="k">def</span> <span class="nf">updateindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
+<div class="viewcode-block" id="Worker.updateindex"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Worker.updateindex">[docs]</a>    <span class="k">def</span> <span class="nf">updateindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="n">writer</span> <span class="o">=</span> <span class="n">IndexWriter</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">)</span>
 
-        <span class="n">doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buildDocument</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span>
-        <span class="n">writer</span><span class="o">.</span><span class="n">updateDocument</span><span class="p">(</span><span class="n">lucene</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;_id&quot;</span><span class="p">,</span> <span class="n">record</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]),</span> <span class="n">doc</span><span class="p">)</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buildDocument</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;fields&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;record&#39;</span><span class="p">])</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">updateDocument</span><span class="p">(</span><span class="n">lucene</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;_id&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;record&#39;</span><span class="p">][</span><span class="s">&#39;_id&#39;</span><span class="p">]),</span> <span class="n">doc</span><span class="p">)</span>
 
         <span class="n">writer</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
         <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="Driver.removeindex"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Driver.removeindex">[docs]</a>    <span class="k">def</span> <span class="nf">removeindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
+<div class="viewcode-block" id="Worker.removeindex"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Worker.removeindex">[docs]</a>    <span class="k">def</span> <span class="nf">removeindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="n">writer</span> <span class="o">=</span> <span class="n">IndexWriter</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">)</span>
 
-        <span class="n">writer</span><span class="o">.</span><span class="n">deleteDocuments</span><span class="p">(</span><span class="n">lucene</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;_id&quot;</span><span class="p">,</span> <span class="n">record</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]))</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">deleteDocuments</span><span class="p">(</span><span class="n">lucene</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;_id&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;record&#39;</span><span class="p">][</span><span class="s">&#39;_id&#39;</span><span class="p">]))</span>
 
         <span class="n">writer</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
         <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="Driver.query"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Driver.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+<div class="viewcode-block" id="Worker.query"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Worker.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="n">searcher</span> <span class="o">=</span> <span class="n">IndexSearcher</span><span class="p">(</span><span class="n">DirectoryReader</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">))</span>
-        <span class="n">query</span> <span class="o">=</span> <span class="n">QueryParser</span><span class="p">(</span><span class="n">Version</span><span class="o">.</span><span class="n">LUCENE_30</span><span class="p">,</span> <span class="s">&quot;id&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span><span class="p">)</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="n">QueryParser</span><span class="p">(</span>
+            <span class="n">Version</span><span class="o">.</span><span class="n">LUCENE_30</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span><span class="p">)</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;query&#39;</span><span class="p">])</span>
         <span class="n">hits</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
 
         <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
-        
+
         <span class="n">results</span><span class="p">[</span><span class="s">&#39;totalHits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hits</span><span class="o">.</span><span class="n">totalHits</span>
-        <span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">hits</span><span class="o">.</span><span class="n">scoreDocs</span><span class="p">:</span>
             <span class="n">record</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="n">doc</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="n">hit</span><span class="o">.</span><span class="n">doc</span><span class="p">)</span>
-            <span class="n">record</span><span class="p">[</span><span class="s">&#39;score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hit</span><span class="o">.</span><span class="n">score</span>
             <span class="n">fields</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">getFields</span><span class="p">()</span>
+            <span class="n">record</span><span class="p">[</span><span class="s">&#39;score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hit</span><span class="o">.</span><span class="n">score</span>
             <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
-                <span class="n">record</span><span class="p">[</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">stringValue</span><span class="p">()</span>
-            <span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">!=</span> <span class="s">&quot;id&quot;</span><span class="p">:</span>
+                    <span class="n">record</span><span class="p">[</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">stringValue</span><span class="p">()</span>
+            <span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">][</span><span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">record</span>
 
-        <span class="k">return</span> <span class="n">results</span></div></div>
+        <span class="k">return</span> <span class="n">results</span>
+
+</div></div>
+<div class="viewcode-block" id="Driver"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Driver">[docs]</a><span class="k">class</span> <span class="nc">Driver</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">tablename</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">luceneQueue</span><span class="p">,</span> <span class="n">luceneManager</span><span class="p">,</span> <span class="n">luceneReturn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">indexdir</span> <span class="o">=</span> <span class="s">&quot;IndexOf</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">tablename</span>
+        <span class="k">if</span> <span class="n">luceneQueue</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Run lucenedriver.setup() first!&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_sendMessage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+        <span class="n">luceneQueue</span><span class="o">.</span><span class="n">put</span><span class="p">([</span><span class="nb">id</span><span class="p">,</span> <span class="n">data</span><span class="p">])</span>
+        <span class="k">while</span><span class="p">(</span><span class="ow">not</span> <span class="p">(</span><span class="nb">id</span> <span class="ow">in</span> <span class="n">luceneReturn</span><span class="p">)):</span>
+            <span class="k">pass</span>
+        <span class="k">return</span> <span class="n">luceneReturn</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Driver.rebuildIndex"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Driver.rebuildIndex">[docs]</a>    <span class="k">def</span> <span class="nf">rebuildIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">records</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;action&#39;</span><span class="p">:</span> <span class="s">&#39;rebuildIndex&#39;</span><span class="p">,</span>
+            <span class="s">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s">&#39;indexdir&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexdir</span><span class="p">,</span>
+                <span class="s">&#39;fields&#39;</span><span class="p">:</span> <span class="n">fields</span><span class="p">,</span>
+                <span class="s">&#39;records&#39;</span><span class="p">:</span> <span class="n">records</span><span class="p">}}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sendMessage</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Driver.index"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Driver.index">[docs]</a>    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;action&#39;</span><span class="p">:</span> <span class="s">&#39;index&#39;</span><span class="p">,</span>
+            <span class="s">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s">&#39;indexdir&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexdir</span><span class="p">,</span>
+                <span class="s">&#39;fields&#39;</span><span class="p">:</span> <span class="n">fields</span><span class="p">,</span>
+                <span class="s">&#39;record&#39;</span><span class="p">:</span> <span class="n">record</span><span class="p">}}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sendMessage</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Driver.updateindex"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Driver.updateindex">[docs]</a>    <span class="k">def</span> <span class="nf">updateindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;action&#39;</span><span class="p">:</span> <span class="s">&#39;updateindex&#39;</span><span class="p">,</span>
+            <span class="s">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s">&#39;indexdir&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexdir</span><span class="p">,</span>
+                <span class="s">&#39;fields&#39;</span><span class="p">:</span> <span class="n">fields</span><span class="p">,</span>
+                <span class="s">&#39;record&#39;</span><span class="p">:</span> <span class="n">record</span><span class="p">}}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sendMessage</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Driver.removeindex"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Driver.removeindex">[docs]</a>    <span class="k">def</span> <span class="nf">removeindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;action&#39;</span><span class="p">:</span> <span class="s">&#39;removeindex&#39;</span><span class="p">,</span>
+            <span class="s">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s">&#39;indexdir&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexdir</span><span class="p">,</span>
+                <span class="s">&#39;fields&#39;</span><span class="p">:</span> <span class="n">fields</span><span class="p">,</span>
+                <span class="s">&#39;record&#39;</span><span class="p">:</span> <span class="n">record</span><span class="p">}}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sendMessage</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Driver.query"><a class="viewcode-back" href="../../../hive.common.html#hive.common.lucenedriver.Driver.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;action&#39;</span><span class="p">:</span> <span class="s">&#39;query&#39;</span><span class="p">,</span>
+            <span class="s">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s">&#39;indexdir&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexdir</span><span class="p">,</span>
+                <span class="s">&#39;query&#39;</span><span class="p">:</span> <span class="n">query</span><span class="p">}}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sendMessage</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>

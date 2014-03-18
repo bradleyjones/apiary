@@ -16,10 +16,10 @@ config = {}
 config['Rabbit'] = {}
 config['Rabbit']['username'] = 'guest'
 config['Rabbit']['password'] = 'guest'
-config['Rabbit']['host'] = '127.0.0.1'
+config['Rabbit']['host'] = '192.168.1.106'
 
 sender = RPCSender(config)
 
-resp = sender.send_request('DATA', 'hive', sdata, 'LKJABSDHBAS', 'Test Script', exchange="", key='honeycomb')
+resp = sender.send_request('ALLAGENTS', 'hive', sdata, 'LKJABSDHBAS', 'Test Script', exchange="", key='agentmanager')
 
 print resp

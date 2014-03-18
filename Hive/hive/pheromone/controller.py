@@ -5,6 +5,7 @@ from worker import Worker
 from alerter import Alerter
 from hive.common.longrunningproc import ProcHandler
 
+
 class Controller(Parent):
 
     def models(self):
@@ -16,13 +17,26 @@ class Controller(Parent):
         searcher = self.searchers.new()
 
         sender = RPCSender(self.config, channel=self.channel)
-        r = sender.channel.queue_declare() 
+        r = sender.channel.queue_declare()
         q = r.method.queue
 
-        machine = ProcHandler(self.config, Alerter(self.config, msg['data']['query'], msg['data']['time'], msg['data']['quantity']), q)
+        machine = ProcHandler(
+            self.config,
+            Alerter(
+                self.config,
+                msg['data']['query'],
+                msg['data']['time'],
+                msg['data']['quantity']),
+            q)
         machine.start()
-        
-        searcher.OUTPUTQUEUE = sender.send_request('QUEUE', 'hive', '', '', '', key=q)
+
+        searcher.OUTPUTQUEUE = sender.send_request(
+            'QUEUE',
+            'hive',
+            '',
+            '',
+            '',
+            key=q)
         searcher.CONTROLQUEUE = q
         searcher.QUERY = msg['data']['query']
         searcher.TIME = msg['data']['time']

@@ -1,13 +1,17 @@
+/*
+ * Model for the User
+ */
+
 var mongoose = require("mongoose")
   , Schema = mongoose.Schema
   , bcrypt = require('bcrypt')
-  , SALT_WORK_FACTOR = 10;
+  , SALT_WORK_FACTOR = 10
+  , Device = require('./device');
 
 var UserSchema = new Schema({
   username: { type: String, required: true, index: {unique: true}},
   password: { type: String, required: true},
-  device_id: { type: String, required: false},
-  device_name: { type: String, required: false}
+  devices: { type: [], required: false}
 });
 
 UserSchema.pre('save', function(next) {
