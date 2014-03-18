@@ -28,7 +28,7 @@ class Controller(Parent):
                     for tag in row:
                         if tag not in response['TAGS']:
                             response['TAGS'][tag] = 1
-                        else: 
+                        else:
                             response['TAGS'][tag] = response['TAGS'][tag] + 1
-                            
+
         resp.respond(response)

@@ -7,6 +7,7 @@ import sys
 from hive.sting.user import user
 from hive.sting.device import device
 
+
 class Controller(Parent):
 
     def models(self):
@@ -17,8 +18,8 @@ class Controller(Parent):
     def callback(ch, method, properties, body):
         # Initialise Apple Push Notification System object
         apns = APNS(use_sandbox=True, cert_file=(
-            resource_filename(__name__, 'apns/certs/ApiaryCert.pem')),
-            key_file=(resource_filename(__name__, 'apns/certs/ApiaryKey.pem')))
+        resource_filename(__name__, 'apns/certs/ApiaryCert.pem')),
+        key_file=(resource_filename(__name__, 'apns/certs/ApiaryKey.pem')))
 
         # Initialise String for message to be sent in alert
         alert_text = "None"
@@ -45,60 +46,45 @@ class Controller(Parent):
 
         print "Notification Sent: " + alert_text
 
-    def new_channel(connection, routing_key_name):
+#def new_channel(connection, routing_key_name):
+#
+## Initialise channel
+#channel = connection.channel()
+#
+## Configure channel
+#channel.exchange_declare(exchange='apiary', type='topic')
+#
+#result = channel.queue_declare(exclusive=True)
+#queue_name = result.method.queue
+#
+#channel.queue_bind(
+#exchange='apiary',
+#queue=queue_name,
+#routing_key=routing_key_name)
+#
+#channel.basic_consume(callback, queue=queue_name, no_ack=False)
+#
+#return channel
 
-        # Initialise channel
-        channel = connection.channel()
+    def event():
 
-        # Configure channel
-        channel.exchange_declare(exchange='apiary', type='topic')
+        print "HELLOOOOOOO"
 
-        result = channel.queue_declare(exclusive=True)
-        queue_name = result.method.queue
+        for user in self.users.findAll():
+            for device in user.devices:
+                apns = APNS(use_sandbox=True, cert_file=(
+                resource_filename(__name__,'apns/certs/ApiaryCert.pem')),
+                key_file=(resource_filename(__name__,'apns/certs/ApiaryKey.pem')))
+                token_hex = device.device_id
+                payload = Payload(alert="Sting Running", sound="default", badge=0)
+                apns.gateway_server.send_notification(token_hex, payload)
 
-        channel.queue_bind(
-            exchange='apiary',
-            queue=queue_name,
-            routing_key=routing_key_name)
+# Debug APNS Notification
+# apns = APNS(use_sandbox=True, cert_file=(
+#    resource_filename(__name__,'apns/certs/ApiaryCert.pem')),
+#    key_file=(resource_filename(__name__,'apns/certs/ApiaryKey.pem')))
+# token_hex = 'c337dce1b94e8908e3b9768516fed42c90b1dff0ad01dfe7334970227da0a229'
+# payload = Payload(alert="Sting Running", sound="default", badge=0)
+# apns.gateway_server.send_notification(token_hex, payload)
+#########################
 
-        channel.basic_consume(callback, queue=queue_name, no_ack=False)
-
-        return channel
-
-    def main():
-
-		print "HELLOOOOOOO"
-
-        # Define connection to rabbit
-        connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host='127.0.0.1'))
-
-        # Define channels to listen on
-        new_agent_channel = new_channel(
-            connection,
-            'events.agentmanager.agent.new')
-        dead_agent_channel = new_channel(
-            connection,
-            'events.agentmanager.agent.dead')
-
-		for user in self.users.findAll():
-			for device in user.devices:
-        		apns = APNS(use_sandbox=True, cert_file=(
-           		 	resource_filename(__name__,'apns/certs/ApiaryCert.pem')),
-            		key_file=(resource_filename(__name__,'apns/certs/ApiaryKey.pem')))
-        		token_hex = device.device_id
-        		payload = Payload(alert="Sting Running", sound="default", badge=0)
-        		apns.gateway_server.send_notification(token_hex, payload)
-	
-        # Debug APNS Notification
-        #apns = APNS(use_sandbox=True, cert_file=(
-        #    resource_filename(__name__,'apns/certs/ApiaryCert.pem')),
-        #    key_file=(resource_filename(__name__,'apns/certs/ApiaryKey.pem')))
-        #token_hex = 'c337dce1b94e8908e3b9768516fed42c90b1dff0ad01dfe7334970227da0a229'
-        #payload = Payload(alert="Sting Running", sound="default", badge=0)
-        #apns.gateway_server.send_notification(token_hex, payload)
-        #########################
-
-        # Start channel consumers
-        new_agent_channel.start_consuming()
-        dead_agent_channel.start_consuming()

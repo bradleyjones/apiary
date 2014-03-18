@@ -13,3 +13,7 @@ class Routes(Parent):
             "NEWCHANNEL",
             "new_channel",
             'hive.sting.stingcontroller')
+        self.action(
+            "EVENT",
+            "event",
+            'hive.sting.stingcontroller')

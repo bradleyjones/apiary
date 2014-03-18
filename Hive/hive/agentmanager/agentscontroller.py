@@ -12,9 +12,9 @@ class Controller(Parent):
         self.agents = Agent(self.config)
 
     def send_agent_event(self, agent, key):
-        event = {}
-        event[agent.UUID] = agent.to_hash()
-        self.event(json.dumps(event), 'agent.%s' % key)
+        event = {"agents": {}}
+        event['agents'][agent.UUID] = agent.to_hash()
+        self.event(event, 'agent.%s' % key)
 
     # BELOW THIS LINE ARE ALL CONTROLLER ACTIONS
 
