@@ -20,6 +20,7 @@ var yAxis = d3.svg.axis()
     .orient("left").ticks(2);
 
 var area = d3.svg.area()
+    .interpolate("basis")
     .x(function(d) { return x(d.time); })
     .y0(height)
     .y1(function(d) { return y(d.count); });
