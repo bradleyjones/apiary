@@ -4,11 +4,12 @@ $('#btnWizardPrev').on('click', function() {
 
 $('#btnWizardNext').on('click', function() {
   var selectedItem = $('#myWizard').wizard('selectedItem').step;
+  console.log(selectedItem);
 
-  $('#myWizard').wizard('next');
-
-  if (selectedItem == 2) {
-    $('#btnWizardNext').html("FINISH HIM!!");
+  if (selectedItem == 1)  {
+    $('#myWizard').wizard('next');
+  } else if (selectedItem == 2) {
+    $('#myWizard').wizard('next');
   } else if (selectedItem == 3) {
     // Close modal on finish
     $('#newTargetModal').modal('hide');
@@ -43,5 +44,13 @@ function populateTagsList(tags) {
   console.log(tags);
 
   var select = document.getElementById('select-tags');
+  for (t in tags) {
+    console.log(t);
+    var opt = document.createElement('option');
+    opt.value = t;
+    opt.innerHTML = t;
+    select.appendChild(opt);
+  }
+
   $('#select-tags').multiSelect();
 }
