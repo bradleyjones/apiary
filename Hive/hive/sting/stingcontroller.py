@@ -18,8 +18,6 @@ class Controller(Parent):
 
     def event(self, message, response):
 
-        print "HELLOOOOOOO"
-
         for user in self.users.findAll():
             for device in user.devices:
                 device = self.devices.find(device)
@@ -29,5 +27,6 @@ class Controller(Parent):
                 token_hex = device.device_id
                 payload = Payload(alert="Sting Running", sound="default", badge=1)
                 apns.gateway_server.send_notification(token_hex, payload)
+                print "Notification sent to device " + device.device_id 
 
 
