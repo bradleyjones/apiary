@@ -37,8 +37,8 @@ body {
  */
 .sparkline {
   fill: none;
-  stroke: #000;
-  stroke-width: 0.5px;
+  stroke: steelblue;
+  stroke-width: 1.5px;
 }
 .sparkcircle {
   fill: #f00;
