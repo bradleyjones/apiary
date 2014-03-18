@@ -36,7 +36,7 @@ class Controller(Parent):
         resp.respond(response)
 
     def query(self, msg, resp):
-        results = self.logs.query(msg['data']['QUERY'])
+        results = self.logs.query(msg['data']['QUERY'], msg['data']['TIMESCALE'])
         resp.respond(results)
 
     def count(self, msg, resp):
