@@ -16,7 +16,7 @@ config = {}
 config['Rabbit'] = {}
 config['Rabbit']['username'] = 'guest'
 config['Rabbit']['password'] = 'guest'
-config['Rabbit']['host'] = '192.168.1.106'
+config['Rabbit']['host'] = '192.168.1.96'
 
 sender = RPCSender(config)
 

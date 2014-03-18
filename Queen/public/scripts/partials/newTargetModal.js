@@ -17,6 +17,31 @@ $('#btnWizardNext').on('click', function() {
   }
 });
 
-// Setup the multiselect forms
-$('#select-tags').multiSelect();
-$('#select-agents').multiSelect();
+/*
+ * populate the selectable list of agents
+ */
+function populateAgentsList(agents) {
+  console.log(agents);
+
+  var select = document.getElementById('select-agents');
+  for (a in agents) {
+    console.log(agents[a]);
+    var opt = document.createElement('option');
+    opt.value = agents[a].UUID;
+    // use user defined name if it exists else use UUID
+    opt.innerHTML = agents[a].UUID;
+    select.appendChild(opt);
+  }
+
+  $('#select-agents').multiSelect();
+}
+
+/*
+ * populate the selectable list of tags
+ */
+function populateTagsList(tags) {
+  console.log(tags);
+
+  var select = document.getElementById('select-tags');
+  $('#select-tags').multiSelect();
+}
