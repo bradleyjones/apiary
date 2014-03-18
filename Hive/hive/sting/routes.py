@@ -10,6 +10,6 @@ class Routes(Parent):
             "callback",
             'hive.sting.stingcontroller')
         self.action(
-            "NEwCHANNEL",
+            "NEWCHANNEL",
             "new_channel",
             'hive.sting.stingcontroller')

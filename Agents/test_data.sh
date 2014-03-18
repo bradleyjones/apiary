@@ -15,7 +15,7 @@ do
   # write to file
   echo $(date) $RANDOM_STRING >> /test.txt
 
-  SLEEP_TIME=$[ ($RANDOM % 6 )/10 + 1 / 10 ]s
+  SLEEP_TIME=$[ ($RANDOM % 6 ) + 1 ]s
   echo "sleeping for" $SLEEP_TIME
   sleep $SLEEP_TIME
 done
