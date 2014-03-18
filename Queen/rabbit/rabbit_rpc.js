@@ -23,6 +23,7 @@ exports.RPCQuery = function (queueName, data, callback) {
           callback(JSON.parse(msg));
         }
       } catch(err) {
+        throw err;
         console.log("Some Error Occured: ".red + err.red);
         return
       }

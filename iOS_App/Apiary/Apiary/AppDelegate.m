@@ -2,8 +2,8 @@
 //  AppDelegate.m
 //  Apiary
 //
-//  Created by John Davidge on 10/24/13.
-//  Copyright (c) 2013 John Davidge. All rights reserved.
+//  Created by John Davidge on 15/03/2014.
+//  Copyright (c) 2014 John Davidge. All rights reserved.
 //
 
 #import "AppDelegate.h"
@@ -11,20 +11,11 @@
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-	// Let the device know we want to receive push notifications
-	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    // Request push notifications
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
      (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setBool:YES forKey:@"Key1"];
-    [userDefaults setInteger:123 forKey:@"Key2"];
-    [userDefaults setObject:@"Some Object" forKey:@"Key3"];
-    [userDefaults boolForKey:@"Key1"];
-    [userDefaults integerForKey:@"Key2"];
-    [userDefaults objectForKey:@"Key3"];
-    [userDefaults synchronize];
-    
     return YES;
 }
 							

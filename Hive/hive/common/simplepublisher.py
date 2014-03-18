@@ -5,7 +5,8 @@ import logging
 
 class SimplePublisher(object):
 
-    def __init__(self, name, host="localhost", username="guest", password="guest", channel=None):
+    def __init__(self, name, host="localhost", username="guest",
+                 password="guest", channel=None):
         self.exchange = name
         self.host = host
         if(channel is None):

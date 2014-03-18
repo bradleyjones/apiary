@@ -5,11 +5,6 @@ var rabbit = require('../rabbit/rabbit')
 , io = main.io;
 
 exports.index = function (req, res) {
-  var msg = rabbit.constructMessage('AGENTSCOUNT', 'agentmanager');
-  new rabbit.rpc('agentmanager', msg, function (data) {
-    console.log("AGENT COUNT ::: " + data.data)
-  });
-
   res.render('home.jade');
 };
 
@@ -22,12 +17,46 @@ io.of('/home').on('connection', function (socket) {
     socket.emit('agentcount', data.data);
   });
 
-  socket.on("querySubmit", function(search) {
-    console.log("Searching for term: " + search);
+  // Get the timestamps of all events
+  var msg = rabbit.constructMessage('TIMESTAMPS', 'honeycomb');
+  console.log(msg);
+  new rabbit.rpc('honeycomb', msg, function (data) {
+    console.log("TIMESTAMP DATA :::" + data.data);
 
-    var msg = rabbit.constructQuery('QUERY', 'honeycomb', search)
-    new rabbit.rpc('honeycomb', msg, function (data) {
-      console.log("RETURNED DATA FROM QUERY IS: " + data.data);
+    var timestamps = {};
+    Object.keys(data.data).forEach( function (k) {
+      var d = data.data[k];
+
+      // Convert time to nearest 100 seconds
+      var epochTime = d.EVENTTIMESTAMP;
+      epochTime = Math.round(epochTime / 10000) * 10000;
+
+      if (epochTime in timestamps) {
+        timestamps[epochTime] += 1;
+      } else {
+        timestamps[epochTime] = 1;
+      }
     });
+    socket.emit('timestamps', sortObject(timestamps));
   });
 });
+
+// Sort an object so that it is ordered by key
+function sortObject(o) {
+  var sorted = {}
+    , a = [];
+
+  for (key in o) {
+    if (o.hasOwnProperty(key)) {
+      a.push(key);
+    }
+  }
+
+  a.sort();
+
+  for (var key = 0; key < a.length; key++) {
+    sorted[a[key]] = o[a[key]];
+  }
+
+  return sorted;
+}

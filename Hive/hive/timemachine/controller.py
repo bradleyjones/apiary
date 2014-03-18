@@ -5,6 +5,7 @@ from worker import Worker
 from machine import Writer
 from hive.common.longrunningproc import ProcHandler
 
+
 class Controller(Parent):
 
     def models(self):
@@ -15,7 +16,6 @@ class Controller(Parent):
     def new(self, body, resp):
         worker = self.workers.new()
 
-        
         machine = ProcHandler(self.config, Writer(self.config))
         machine.start()
 

@@ -109,6 +109,10 @@ app.get('/logout', function (req, res) {
   res.redirect('/');
 });
 
+app.get('/newuser', function(req, res) {
+  delete req.session.user_id;
+  res.render('newuser.jade');
+});
 app.post('/newuser', function (req, res) {
   var post = req.body;
 
@@ -136,6 +140,9 @@ app.post('/newuser', function (req, res) {
 // Render the home page
 var home = require('./controllers/home');
 app.get('/', checkAuth, home.index);
+
+var search = require('./controllers/search');
+app.get('/search', checkAuth, search.index);
 
 var alerts = require('./controllers/alerts');
 app.get('/alerts', checkAuth, alerts.index);

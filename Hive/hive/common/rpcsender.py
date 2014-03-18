@@ -2,6 +2,9 @@ import pika
 import uuid
 import json
 import time
+import inspect
+import threading
+
 
 class RPCSender(object):
 
@@ -16,13 +19,27 @@ class RPCSender(object):
             self.channel = self.connection.channel()
         else:
             self.channel = channel
+
+        self.event = None
         self.corr_id = str(uuid.uuid4())
         self.resp = None
         self.id = "7beaecc1-d100-433b-803f-59920cc4dd20"
-        self.result = self.channel.queue_declare(exclusive=True)
-        self.callback_queue = self.result.method.queue
+
+        if isinstance(self.channel, pika.channel.Channel):
+            self.event = threading.Event()
+            self.channel.queue_declare(self.onQueueOk, exclusive=True)
+        elif isinstance(self.channel, pika.adapters.blocking_connection.BlockingChannel):
+            self.result = self.channel.queue_declare(exclusive=True)
+            self.callback_queue = self.result.method.queue
+            self.channel.basic_consume(self.on_response, no_ack=True,
+                                       queue=self.callback_queue)
+
+    def onQueueOk(self, method_frame):
+        print "Queue Created!"
+        self.callback_queue = method_frame.queue
         self.channel.basic_consume(self.on_response, no_ack=True,
                                    queue=self.callback_queue)
+        self.event.set()
 
     def on_response(self, ch, method, props, body):
         if self.corr_id == props.correlation_id:
@@ -30,6 +47,9 @@ class RPCSender(object):
 
     def send_request(self, action, to, body, machineid,
                      fro, timeout=10, exchange='', key=''):
+        if self.event is not None:
+            self.event.wait()
+
         self.resp = None
 
         if not isinstance(body, dict):
@@ -51,8 +71,8 @@ class RPCSender(object):
                                    body=json.dumps(data))
         starttime = time.time()
         while self.resp is None:
-          if (starttime + timeout) <= time.time():
-            return "Timeout!"
-          self.connection.process_data_events()
+            if (starttime + timeout) <= time.time():
+                return "Timeout!"
+            self.connection.process_data_events()
 
         return self.resp

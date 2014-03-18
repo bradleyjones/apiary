@@ -46,29 +46,30 @@ function initialise(messageData){
 function setFiles(messageData) {
 
   //Parse FileList
-  fileList = JSON.parse(messageData.data).files;
-  console.log("Logging - " + fileList);
+  fileList = messageData.data.files;
 
   for(file in fileList){
-    filename = fileList[file];
-    tags = fileList[file][METADATA][TAGS];
+    filename = fileList[file][path];
+    console.log('Logging - ' + filename);
+    tags = fileList[file][file][tags];
     
     callback = function(lines){
       console.log(lines);
 
       //Construct Message
       payload = {
-        'CONTENT':JSON.stringify(message),
+        'CONTENT':lines,
         'TYPE':"file",
         'EVENTTIMESTAMP': new Date().getTime().toString(),
         'METADATA': {
               'FILENAME':filename,
+              'AGENT': config.clientID,
               'TAGS':tags
             }
       };
     
       //Push onto bus
-      pushOntoMessageBus("HoneyComb","agents."+config.clientID+".data","DATA",JSON.stringify(payload),"apiary");
+      pushOntoMessageBus("HoneyComb","agents."+config.clientID+".data","DATA",payload,"apiary");
   
       //Reset Interval Timer 
       clearInterval(interval);

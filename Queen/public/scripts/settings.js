@@ -1,12 +1,10 @@
-//var socket = io.connect('http://localhost');
-
 $('#btnUpdateSettings').on('click', function() {
   console.log("UPDATING");
   var id = $('#did').val();
   var hrm = $('#dname').val();
 
   //addDevice(id, hrm);
-  post_to_url('http://localhost:3000/settings', {id: id, name: hrm});
+  post_to_url(document.URL, {id: id, name: hrm});
 });
 
  //id - the id of the device

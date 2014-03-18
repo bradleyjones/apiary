@@ -77,5 +77,5 @@ elif [ $MULTIPLEXER == TMUX ]; then
     tmux select-window -t $NAME:1
   fi
 
-  #tmux attach -t $NAME
+  tmux attach -t $NAME
 fi

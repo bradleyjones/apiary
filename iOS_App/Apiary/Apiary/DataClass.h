@@ -2,8 +2,8 @@
 //  DataClass.h
 //  Apiary
 //
-//  Created by John Davidge on 12/16/13.
-//  Copyright (c) 2013 John Davidge. All rights reserved.
+//  Created by John Davidge on 15/03/2014.
+//  Copyright (c) 2014 John Davidge. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

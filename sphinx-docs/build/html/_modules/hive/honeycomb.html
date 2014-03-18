@@ -55,7 +55,8 @@
             
   <h1>Source code for hive.honeycomb</h1><div class="highlight"><pre>
 <span class="c">#!/usr/bin/env python</span>
-<span class="kn">from</span> <span class="nn">..common.base</span> <span class="kn">import</span> <span class="n">Base</span>
+<span class="kn">from</span> <span class="nn">hive.common.base</span> <span class="kn">import</span> <span class="n">Base</span>
+<span class="kn">import</span> <span class="nn">hive.common.lucenedriver</span>
 <span class="kn">from</span> <span class="nn">routes</span> <span class="kn">import</span> <span class="n">Routes</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">lucene</span>
@@ -67,7 +68,7 @@
 </div>
 <div class="viewcode-block" id="main"><a class="viewcode-back" href="../../hive.honeycomb.html#hive.honeycomb.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="n">honeycomb</span> <span class="o">=</span> <span class="n">Honeycomb</span><span class="p">()</span>
-    <span class="n">lucene</span><span class="o">.</span><span class="n">initVM</span><span class="p">()</span>
+    <span class="n">hive</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">lucenedriver</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">honeycomb</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
     <span class="n">honeycomb</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">Routes</span><span class="p">)</span></div>
 </pre></div>
 

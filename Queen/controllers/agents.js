@@ -27,13 +27,15 @@ exports.individual = function (req, res) {
 
 // Web Sockets
 io.of('/agents').on('connection', function (socket) {
+  console.log("AGENTS");
+
   // Get the current number of connect agents
   socket.emit('init', dataCache.agents);
 
   // New agent added
   socket.on('newTarget', function (data) {
     console.log("adding new target");
-    var msg = rabbit.constructMessage('SETFILES', 'agentmanager', JSON.stringify(data));
+    var msg = rabbit.constructMessage('SETFILES', 'agentmanager', data);
     new rabbit.rpc('agentmanager', msg, function (data) {
       console.log(data);
     });

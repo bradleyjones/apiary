@@ -2,6 +2,7 @@ import pika
 from hive.common.rpcsender import RPCSender
 from hive.common.longrunningproc import Proc
 
+
 class Writer(Proc):
 
     def __init__(self, config):
