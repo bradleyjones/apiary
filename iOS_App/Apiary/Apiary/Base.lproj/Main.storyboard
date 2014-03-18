@@ -115,6 +115,9 @@
                         <barButtonItem key="rightBarButtonItem" enabled="NO" image="Barry_small.png" id="aRM-uO-4zY"/>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="webView" destination="j3j-Ph-xWx" id="o2q-Ph-iXU"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Nw-dt-G64" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

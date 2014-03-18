@@ -25,14 +25,15 @@ class RPCSender(object):
         self.resp = None
         self.id = "7beaecc1-d100-433b-803f-59920cc4dd20"
 
-        if isinstance(self.channel, pika.channel.Channel):
-            self.event = threading.Event()
-            self.channel.queue_declare(self.onQueueOk, exclusive=True)
-        elif isinstance(self.channel, pika.adapters.blocking_connection.BlockingChannel):
-            self.result = self.channel.queue_declare(exclusive=True)
-            self.callback_queue = self.result.method.queue
-            self.channel.basic_consume(self.on_response, no_ack=True,
-                                       queue=self.callback_queue)
+#        if isinstance(self.channel, pika.channel.Channel):
+#            self.event = threading.Event()
+#            self.channel.queue_declare(self.onQueueOk, exclusive=True)
+# elif isinstance(self.channel,
+# pika.adapters.blocking_connection.BlockingChannel):
+        self.result = self.channel.queue_declare(exclusive=True)
+        self.callback_queue = self.result.method.queue
+        self.channel.basic_consume(self.on_response, no_ack=True,
+                                   queue=self.callback_queue)
 
     def onQueueOk(self, method_frame):
         print "Queue Created!"
