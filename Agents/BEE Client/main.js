@@ -14,5 +14,6 @@ var handle = {}
 handle["DONE"] = requestHandlers.initialise;
 handle["SETFILES"] = requestHandlers.setFiles;
 handle["removeTarget"] = requestHandlers.removeTarget;
+handle["Error"] = requestHandlers.receivedError;
 
 server.start(router.route, handle);

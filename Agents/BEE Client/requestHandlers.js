@@ -90,6 +90,11 @@ function removeTarget(messageData) {
   console.log("Removing Target");
 }
 
+function receivedError(messageData) {
+  console.log("RECEIVED ERROR");
+  console.log(messageData);
+  console.log(messageData.data);
+}
 
 /* 
   Helper Function - Error Response
@@ -136,3 +141,4 @@ function pushOntoMessageBus(to, queueToSendTo, action, data, exchangeName){
 exports.initialise = initialise;
 exports.setFiles = setFiles;
 exports.removeTarget = removeTarget;
+exports.receivedError = receivedError;
