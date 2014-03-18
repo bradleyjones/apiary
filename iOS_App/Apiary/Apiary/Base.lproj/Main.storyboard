@@ -146,7 +146,7 @@
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
-                        <outlet property="webView" destination="DcS-0U-x2I" id="7ho-ru-mGf"/>
+                        <outlet property="webView" destination="DcS-0U-x2I" id="p7C-7d-CBo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lda-XN-LwK" userLabel="First Responder" sceneMemberID="firstResponder"/>
