@@ -128,6 +128,7 @@
 		75BE384218D49FBA009905D4 /* Apiary */ = {
 			isa = PBXGroup;
 			children = (
+				75BE388618D6108E009905D4 /* iPad */,
 				75BE388418D5F37D009905D4 /* Barry_small.png */,
 				75BE387918D4AEB6009905D4 /* ApiaryViewController.h */,
 				75BE387A18D4AEB6009905D4 /* ApiaryViewController.m */,
@@ -176,6 +177,13 @@
 				75BE386418D49FBA009905D4 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		75BE388618D6108E009905D4 /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = iPad;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -415,6 +423,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Apiary/Apiary-Prefix.pch";
 				INFOPLIST_FILE = "Apiary/Apiary-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -430,6 +439,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Apiary/Apiary-Prefix.pch";
 				INFOPLIST_FILE = "Apiary/Apiary-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;

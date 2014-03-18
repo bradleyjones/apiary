@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface NewUserViewController : UIViewController
+@property (strong, nonatomic) IBOutlet UIWebView *webView;
 
 @end
