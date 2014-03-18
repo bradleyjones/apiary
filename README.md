@@ -13,7 +13,7 @@ Installing Up-To-Date Nodejs on Ubuntu:
   
   sudo apt-get install nodejs
 
-  curl http://npmjs.org/install.sh -L -o -| sudo sh
+  sudo curl http://npmjs.org/install.sh -L -o -| sudo sh
 
 * * *
 
