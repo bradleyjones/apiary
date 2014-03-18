@@ -49,9 +49,9 @@ function setFiles(messageData) {
   fileList = messageData.data.files;
 
   for(file in fileList){
-    filename = fileList[file];
+    filename = fileList[file][path];
     console.log('Logging - ' + filename);
-    //tags = fileList[file][METADATA][TAGS];
+    tags = fileList[file][file][tags];
     
     callback = function(lines){
       console.log(lines);
@@ -62,8 +62,9 @@ function setFiles(messageData) {
         'TYPE':"file",
         'EVENTTIMESTAMP': new Date().getTime().toString(),
         'METADATA': {
-              'FILENAME':filename
-              //'TAGS':tags
+              'FILENAME':filename,
+              'AGENT': config.clientID,
+              'TAGS':tags
             }
       };
     
