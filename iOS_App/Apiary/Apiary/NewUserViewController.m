@@ -27,6 +27,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _webView.delegate = self;
+    [_activityIndicator startAnimating];
     // Build the New User URL
     DataClass *obj=[DataClass getInstance];
     obj.url = [obj.data_storage objectForKey:@"URL"];
@@ -39,6 +41,11 @@
     [request setHTTPMethod:@"GET"];
     // Make the HTTP request and load the result
     [_webView loadRequest:request];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    [_activityIndicator stopAnimating];
 }
 
 - (void)didReceiveMemoryWarning
