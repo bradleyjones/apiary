@@ -9,3 +9,18 @@ $(function() {
       socket.emit('querySubmit', searchTerm);
    });
 });
+
+$('#results a').click(function (e) {
+   e.preventDefault()
+   $(this).tab('show')
+});
+
+$('#graphs a').click(function (e) {
+   e.preventDefault()
+   $(this).tab('show')
+});
+
+$('#stored a').click(function (e) {
+   e.preventDefault()
+   $(this).tab('show')
+})
