@@ -1,6 +1,6 @@
 from ..common.controller import Controller as Parent
 from pkg_resources import resource_filename
-from apns import APNS, Payload
+from apns import APNs, Payload
 import pika
 import json
 import sys
