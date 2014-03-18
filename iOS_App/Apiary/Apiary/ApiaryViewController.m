@@ -27,6 +27,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _webView.delegate = self;
+    [_activityIndicator startAnimating];
     // Get an instance of DataClass
     DataClass *obj=[DataClass getInstance];
     obj.url = [obj.data_storage objectForKey:@"URL"];
@@ -54,6 +56,11 @@
     [request setHTTPBody:postData];
     // Fire the HTTP request and load the result
     [_webView loadRequest:request];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    [_activityIndicator stopAnimating];
 }
 
 - (void)didReceiveMemoryWarning
