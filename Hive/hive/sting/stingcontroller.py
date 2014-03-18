@@ -77,12 +77,15 @@ class Controller(Parent):
             connection,
             'events.agentmanager.agent.dead')
 
+        # Debug APNS Notification
+        apns = APNS(use_sandbox=True, cert_file=(
+            resource_filename(__name__,'apns/certs/ApiaryCert.pem')),
+            key_file=(resource_filename(__name__,'apns/certs/ApiaryKey.pem')))
+        token_hex = 'c337dce1b94e8908e3b9768516fed42c90b1dff0ad01dfe7334970227da0a229'
+        payload = Payload(alert="Sting Running", sound="default", badge=0)
+        apns.gateway_server.send_notification(token_hex, payload)
+        #########################
+
         # Start channel consumers
         new_agent_channel.start_consuming()
         dead_agent_channel.start_consuming()
-
-
-
-
-
-
