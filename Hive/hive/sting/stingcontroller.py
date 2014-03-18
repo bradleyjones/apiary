@@ -4,11 +4,13 @@ from apns import APNS, Payload
 import pika
 import json
 import sys
+from hive.sting.user import user
+from hive.sting.device import device
 
 class Controller(Parent):
 
     def models(self):
-        self.users = User(self.config)
+        self.users = user(self.config)
 
     # BELOW THIS LINE ARE ALL CONTROLLER ACTIONS
 
@@ -79,13 +81,14 @@ class Controller(Parent):
             connection,
             'events.agentmanager.agent.dead')
 
-		for device in self.users.devices:
-        	apns = APNS(use_sandbox=True, cert_file=(
-            	resource_filename(__name__,'apns/certs/ApiaryCert.pem')),
-            	key_file=(resource_filename(__name__,'apns/certs/ApiaryKey.pem')))
-        	token_hex = device.device_id
-        	payload = Payload(alert="Sting Running", sound="default", badge=0)
-        	apns.gateway_server.send_notification(token_hex, payload)
+		for user in self.users.findAll():
+			for device in user.devices:
+        		apns = APNS(use_sandbox=True, cert_file=(
+           		 	resource_filename(__name__,'apns/certs/ApiaryCert.pem')),
+            		key_file=(resource_filename(__name__,'apns/certs/ApiaryKey.pem')))
+        		token_hex = device.device_id
+        		payload = Payload(alert="Sting Running", sound="default", badge=0)
+        		apns.gateway_server.send_notification(token_hex, payload)
 	
         # Debug APNS Notification
         #apns = APNS(use_sandbox=True, cert_file=(
