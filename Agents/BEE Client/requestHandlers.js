@@ -49,9 +49,9 @@ function setFiles(messageData) {
   fileList = messageData.data.files;
 
   for(file in fileList){
-    filename = fileList[file][path];
+    filename = fileList[file].path;
     console.log('Logging - ' + filename);
-    tags = fileList[file][file][tags];
+    tags = fileList[file].tags;
     
     callback = function(lines){
       console.log(lines);
