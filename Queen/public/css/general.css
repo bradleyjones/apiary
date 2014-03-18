@@ -41,6 +41,21 @@ body {
   stroke-width: 1.5px;
 }
 .sparkcircle {
-  fill: #f00;
+  fill: steelblue;
   stroke: none;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+.area {
+  fill: lightsteelblue;
+  stroke-width: 0;
 }

@@ -19,6 +19,11 @@ var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left").ticks(2);
 
+var area = d3.svg.area()
+    .x(function(d) { return x(d.time); })
+    .y0(height)
+    .y1(function(d) { return y(d.count); });
+
 /*
  * Create the sparkline
  *
@@ -51,6 +56,12 @@ function sparkline(divId, orig_data, time) {
               .attr("height", height + margin.top + margin.bottom)
               .append("g")
               .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  
+  // Draw Area
+  vis.append("path")
+     .datum(data)
+     .attr("class", "area")
+     .attr("d", area);
 
   // The line
   vis.append("path")
