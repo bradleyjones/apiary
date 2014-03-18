@@ -15,11 +15,11 @@ button#new.btn.btn-primary.btn-lg(data-toggle='modal', data-target='#newTargetMo
             ul.steps
               li.active(data-target='#step1')
                 span.badge.badge-info 1
-                | Step 1
+                | Choose file
                 span.chevron
               li(data-target='#step2')
                 span.badge 2
-                | Step 2
+                | Select Tags
                 span.chevron
               li(data-target='#step3')
                 span.badge 3
@@ -27,14 +27,25 @@ button#new.btn.btn-primary.btn-lg(data-toggle='modal', data-target='#newTargetMo
                 span.chevron
 
           .step-content
-            #step1.step-pane.active Choose a target file then select the agents to target
-            #step2.step-pane This is step 2
+            #step1.step-pane.active
+              | Enter the full path of the file to monitor
+              input#filepath(type='text', class='form-control', placeholder='/var/logs/filename')
+            #step2.step-pane
+              | Select Tags to apply to the file
+              select#select-tags(multiple='multiple', name='select-tags[]')
+                option(value='elem1') elem1
+                option(value='elem2') elem2
             #step3.step-pane This is step 3
+              | Select Agents to monitor this file
+              select#select-agents(multiple='multiple', name='select-agents[]')
+                option(value='elem1') elem1
+                option(value='elem2') elem2
 
       .modal-footer
         button.btn(type='button', data-dismiss='modal') Close
         button#btnWizardPrev.btn.btn-prev(type='button') Prev
         button#btnWizardNext.btn.btn-primary.btn-next(type='button', data-last='Finish') Next
 
+script(src="/scripts/libs/jquery.multi-select.js")
 script(src="/scripts/partials/newTargetModal.js")
 
