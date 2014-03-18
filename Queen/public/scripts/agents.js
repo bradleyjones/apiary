@@ -82,6 +82,6 @@ function testnewtarget(uuid) {
     console.log("testing new target");
     socket.emit('newTarget', {
       "agents": [uuid],
-      "files": ["/test.txt"]
+      "files": [{path:"/test.txt", tags:"test"}]
     });
 }

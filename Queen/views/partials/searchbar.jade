@@ -1,8 +1,8 @@
 .input-group.input-group-lg#search-container
   .input-group-btn
-    button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown') Sources 
+    button.btn.btn-default.dropdown-toggle(type='button', data-toggle="dropdown") Sources 
       span.caret
-    ul.dropdown-menu
+    ul.dropdown-menu(role="menu")
       li(role='presentation').dropdown-header Select Sources
       li
         label.checkbox Tag 1
@@ -11,18 +11,25 @@
         label.checkbox Tag 2
           input(type='checkbox' name="Tag 2" value="Tag 2")
   input#searchTerm.form-control(type='text' placeholder='Search')
-  span.input-group-addon#searchButton
+  span.btn.input-group-addon#searchButton
     span.glyphicon.glyphicon-search
 span Time Frame: 
-button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown') 1 Hr 
-  span.caret
-ul.dropdown-menu
-  li(role="presentation").dropdown-header Choose TimeFrame
-  li
-    a(href='#') 1 hr 
-  li
-    a(href='#') 6 hrs 
-  li
-    a(href='#') 24 hrs 
-  li
-    a(href='#') 1 Week 
+.input-group
+  .input-group-btn
+    input.form-control#timeInput(type="number" value"" placeholder="All")
+    button.btn.btn-default.dropdown-toggle(type='button', data-toggle="dropdown") Minutes 
+      span.caret
+    ul.dropdown-menu(role="menu")
+      li(role="presentation").dropdown-header Choose TimeFrame
+      li
+        a(href='#') Minutes 
+      li
+        a(href='#') Hours
+      li
+        a(href='#') Days
+      li
+        a(href='#') Weeks
+      li
+        a(href='#') Months
+      li
+        a(href='#') All

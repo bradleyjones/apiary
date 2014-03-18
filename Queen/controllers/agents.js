@@ -40,6 +40,7 @@ io.of('/agents').on('connection', function (socket) {
   socket.on('newTarget', function (data) {
     console.log("adding new target");
     var msg = rabbit.constructMessage('SETFILES', 'agentmanager', data);
+    console.log(msg);
     new rabbit.rpc('agentmanager', msg, function (data) {
       console.log(data);
     });
