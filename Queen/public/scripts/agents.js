@@ -1,5 +1,7 @@
 var socket = io.connect(document.URL);
 var totalAgents = 0;
+var agents = [];
+var tags;
 
 function addAgent(agent, firstLoad) {
   console.log("AGENT:");
@@ -9,6 +11,7 @@ function addAgent(agent, firstLoad) {
   $('#MyGrid').datagrid('reload');
 
   totalAgents += 1;
+  agents.push(agent);
   updateTotal();
 
   if (!firstLoad) {
@@ -59,6 +62,12 @@ socket.on('init', function(data) {
   for (var agent in data) {
     addAgent(data[agent], true);
   }
+});
+
+socket.on('tags', function(data) {
+  console.log("TAGSSS");
+  console.log(data);
+  tags = data;
 });
 
 /*
