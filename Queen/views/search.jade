@@ -16,6 +16,33 @@ html
           include partials/searchbar.jade
     .row
       .col-md-12
+        #accordion.stat-group.panel-group
+          .panel.panel-default
+            .panel-heading
+              h4.panel-title
+                a(data-toggle='collapse', data-parent='#accordion', href='#collapseOne') Add Fields
+            #collapseOne.panel-collapse.collapse
+              .panel-body
+                ul.nav.nav-pills.nav-stacked#fieldTabs
+                  li.active
+                    a(href='#fieldOne', data-toggle='tab') Field One
+                  li
+                    a(href='#fieldTwo', data-toggle='tab') Field Two
+                  li
+                    button.btn.btn-default(type='button') + Add Field
+                .tab-content.pull-right
+                  #fieldOne.tab-pane.fade.in.active
+                    h4 Identify Field Members
+                    p Name: 
+                      input.form-control(type='text' value="")
+                    p SubQuery: 
+                      input.form-control(type='text' value="")
+ 
+
+                  #fieldTwo.tab-pane.fade
+                    h4 Field 2
+    .row
+      .col-md-12
         .stat-group
           ul.nav.nav-tabs
             li.active
@@ -34,4 +61,3 @@ html
 
           script(src="/scripts/libs/underscore-min.js")
           script(src="/scripts/searchDatagrid.js")
-

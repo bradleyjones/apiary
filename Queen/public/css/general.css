@@ -35,6 +35,11 @@ body {
   width : 150px;
 }
 
+#fieldTabs{
+  width : 100px;
+  float: left;
+}
+
 /*
  * Sparkline
  */
