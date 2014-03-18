@@ -12,7 +12,7 @@ class Controller(Parent):
         self.logs = Log(self.config)
 
     def timestamps(self, msg, resp):
-        logs = self.logs.mongoQuery({}, {'EVENTTIMESTAMP' : 1})
+        logs = self.logs.mongoQuery({}, {'EVENTTIMESTAMP': 1})
         response = {}
         for log in logs:
             response[str(log._id)] = log.to_hash()

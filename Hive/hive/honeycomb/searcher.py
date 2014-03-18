@@ -16,10 +16,10 @@ class Searcher(Proc):
         self.queue = None
         self.running = True
         self.query = query
-        self.previousids = set({}.keys()) 
+        self.previousids = set({}.keys())
 
     def getQueue(self):
-      return self.queue
+        return self.queue
 
     def run(self):
         credentials = pika.PlainCredentials(
@@ -32,7 +32,7 @@ class Searcher(Proc):
         # Setup queue for outputing data
         result = self.channel.queue_declare()
         self.queue = result.method.queue
-        
+
         logs = Log(self.config)
 
         self.ready.set()
@@ -42,22 +42,26 @@ class Searcher(Proc):
             diff = set(results['hits'].keys()) - self.previousids
 
             if(len(diff) > 0):
-              query = { '$or': [] }
-              for hit in results['hits']:
-                query['$or'].append({logs.primary: ObjectId(hit)})
+                query = {'$or': []}
+                for hit in results['hits']:
+                    query['$or'].append({logs.primary: ObjectId(hit)})
 
-              if len(results['hits']) > 0:
-                  dbresult = logs.table.find(query) 
-                  for res in dbresult:
-                      res['TIMESTAMP'] = str(res['_id'].generation_time)
-                      res['_id'] = str(res['_id'])
-                      results['hits'][str(res['_id'])]['log'] = ModelObject(logs.columns, res).to_hash()
+                if len(results['hits']) > 0:
+                    dbresult = logs.table.find(query)
+                    for res in dbresult:
+                        res['TIMESTAMP'] = str(res['_id'].generation_time)
+                        res['_id'] = str(res['_id'])
+                        results['hits'][str(res['_id'])]['log'] = ModelObject(
+                            logs.columns, res).to_hash()
 
-                  self.channel.basic_publish(exchange='', routing_key=self.queue, body=json.dumps(results))
-                  self.previousids = set(results['hits'].keys())
+                    self.channel.basic_publish(
+                        exchange='',
+                        routing_key=self.queue,
+                        body=json.dumps(results))
+                    self.previousids = set(results['hits'].keys())
 
             time.sleep(1)
-        
+
         self.connection.close()
 
     def stop(self):
