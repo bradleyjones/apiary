@@ -21,11 +21,14 @@ class Controller(Parent):
 
     def tags(self, msg, resp):
         logs = self.logs.mongoQuery({}, {'METADATA': 1})
-        response = {'TAGS': []}
+        response = {'TAGS': {}}
         for log in logs:
             if 'TAGS' in log.METADATA:
                 for row in csv.reader([log.METADATA['TAGS']]):
                     for tag in row:
                         if tag not in response['TAGS']:
-                            response['TAGS'].append(tag)
+                            response['TAGS'][tag] = 1
+                        else: 
+                            response['TAGS'][tag] = response['TAGS'][tag] + 1
+                            
         resp.respond(response)
