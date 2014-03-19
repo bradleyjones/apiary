@@ -9,7 +9,7 @@ socket.on('agentcount', function (data) {
 socket.on('timestamps', function (data) {
   console.log(data);
   if($.isEmptyObject(data)){
-    $('#event-rate').append("<h4>No data yet havested</h4><p>Add Data Sources on the data page!</p>");
+    $('#event-rate').append("<p class=\"alert alert-warning\">No data yet havested - Add Data Sources on the data page!</p>");
   } else {
     sparkline('#event-rate', data);
   }
