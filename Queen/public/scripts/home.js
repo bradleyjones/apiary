@@ -7,5 +7,10 @@ socket.on('agentcount', function (data) {
 
 // Timestamp data for every event
 socket.on('timestamps', function (data) {
-  sparkline('#event-rate', data);
+  console.log(data);
+  if($.isEmptyObject(data)){
+    $('#event-rate').append("<h4>No data yet havested</h4><p>Add Data Sources on the data page!</p>");
+  } else {
+    sparkline('#event-rate', data);
+  }
 });
