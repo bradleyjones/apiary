@@ -23,6 +23,11 @@ body {
   /*box-shadow: 5px 5px 5px #888888;*/
 }
 
+.fieldTable {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #AgentsDataGrid {
   height: 519px;
 }

@@ -30,15 +30,30 @@ html
                     a(href='#fieldTwo', data-toggle='tab') Field Two
                   li
                     button.btn.btn-default(type='button') + Add Field
-                .tab-content.pull-right
+                .tab-content
                   #fieldOne.tab-pane.fade.in.active
-                    h4 Identify Field Members
-                    p Name: 
-                      input.form-control(type='text' value="")
-                    p SubQuery: 
-                      input.form-control(type='text' value="")
- 
-
+                    table.fieldTable
+                      thead
+                        tr
+                          th #
+                          th Term Name
+                          th Sub Query
+                          th  
+                      tbody
+                        tr
+                          th 1 
+                          th 
+                            input.form-control(type='text' value='' placeholder='Bananas')
+                          th
+                            input.form-control(type='text' value='' placeholder='Fruit:Banana')
+                          th
+                            button.btn.btn-default(type='button') X
+                        tr
+                          th
+                          th
+                          th
+                          th
+                            button.btn.btn-default(type='button') +
                   #fieldTwo.tab-pane.fade
                     h4 Field 2
     .row
