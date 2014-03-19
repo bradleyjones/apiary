@@ -34,8 +34,15 @@ class AgentMonitor(Base):
                         self.logger.info("Agent %s is Dead!", agent.UUID)
                         event = {}
                         event[agent.UUID] = agent.to_hash()
+
+                        doc = {
+                            'action': 'EVENT',
+                            "to": "hive",
+                            "from": "hive",
+                            "data": {'agents': event},
+                            "machineid": "boop"}
                         self.publisher.publish_msg(
-                            json.dumps(event),
+                            json.dumps(doc),
                             'events.agentmanager.agent.dead')
                         self.agentmodel.save(agent)
 
