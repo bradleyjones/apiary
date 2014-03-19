@@ -90,6 +90,7 @@ function newtarget(paths, tags, uuids) {
       tagsToString += tags[t] + ",";
     }
     console.log("testing new target");
+    console.log(uuids);
     socket.emit('newTarget', {
       "agents": uuids,
       "files": [{path:paths, tags:tagsToString}]

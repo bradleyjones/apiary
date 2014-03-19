@@ -24,6 +24,10 @@ $('#btnWizardNext').on('click', function() {
     $('#newTargetModal').modal('hide');
 
     //TODO Reset the form
+    $('#myWizard').wizard('previous');
+    $('#myWizard').wizard('previous');
+    selectedAgents = [];
+    selectedTags = [];
   }
 });
 
@@ -45,11 +49,13 @@ function populateAgentsList(agents) {
 
   $('#select-agents').multiSelect({
     afterSelect: function (value) {
-      selectedAgents.push(value);
+      console.log(value[0]);
+      selectedAgents.push(value[0]);
+      console.log(selectedAgents);
     },
 
     afterDeselect: function (value) {
-      var index = selectedAgents.indexOf(value);
+      var index = selectedAgents.indexOf(value[0]);
       if (index > -1 ) {
         selectedAgents.splice(index, 1);
       }
