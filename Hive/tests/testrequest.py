@@ -9,6 +9,7 @@ data['EVENTTIMESTAMP'] = str(time.time())
 data['METADATA'] = {}
 data['METADATA']['TAGS'] = "firewall,yomama" 
 data['QUERY'] = "CONTENT:\"ERROR *.*.*.*\"" 
+data['TIMESCALE'] = "86400" 
 
 sdata = data
  
@@ -16,10 +17,10 @@ config = {}
 config['Rabbit'] = {}
 config['Rabbit']['username'] = 'guest'
 config['Rabbit']['password'] = 'guest'
-config['Rabbit']['host'] = '192.168.1.96'
+config['Rabbit']['host'] = '192.168.1.106'
 
 sender = RPCSender(config)
 
-resp = sender.send_request('ALLAGENTS', 'hive', sdata, 'LKJABSDHBAS', 'Test Script', exchange="", key='agentmanager')
+resp = sender.send_request('TAGS', 'hive', sdata, 'LKJABSDHBAS', 'Test Script', exchange="", key="honeycomb")
 
 print resp

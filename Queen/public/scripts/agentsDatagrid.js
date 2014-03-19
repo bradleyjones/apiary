@@ -82,6 +82,11 @@ var dataSource = new StaticDataSource({
     property: 'HEARTBEAT',
       label: 'Heartbeat',
       sortable: true
+  },
+  {
+    property: 'MACHINEID',
+      label: 'Machine ID',
+      sortable: true
   }],
   data:[],
   delay: 250
