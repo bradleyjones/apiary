@@ -85,7 +85,7 @@ var dataSource = new StaticDataSource({
   },
   {
     property: 'MACHINEID',
-      label: 'Machine ID',
+      label: 'Machine Hostname',
       sortable: true
   }],
   data:[],
