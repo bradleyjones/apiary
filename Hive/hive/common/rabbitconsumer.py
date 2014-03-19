@@ -133,6 +133,7 @@ class RabbitConsumer(threading.Thread):
             request = self.jsonToHash(body)
             self.logger.info('Message Received: %s', str(request))
             request['reply_to'] = props.reply_to
+            request['routing_key'] = method.routing_key
 
             try:
                 self.router(request["action"], request, rpcresp, self.channel)
