@@ -21,14 +21,18 @@ class Controller(Parent):
 
     def tags(self, msg, resp):
         logs = self.logs.mongoQuery({}, {'METADATA': 1})
-        response = {'TAGS': {}}
+        histogram = {'TAGS': {}}
         for log in logs:
             if 'TAGS' in log.METADATA:
                 for row in csv.reader([log.METADATA['TAGS']]):
                     for tag in row:
-                        if tag not in response['TAGS']:
-                            response['TAGS'][tag] = 1
+                        if tag not in histogram['TAGS']:
+                            histogram['TAGS'][tag] = 1
                         else:
-                            response['TAGS'][tag] = response['TAGS'][tag] + 1
+                            histogram['TAGS'][tag] = histogram['TAGS'][tag] + 1
+        
+        response = {'TAGS':[]}
+        for tag in histogram['TAGS']:
+            response['TAGS'].append({'NAME':tag, 'COUNT':histogram['TAGS'][tag]})
 
         resp.respond(response)
