@@ -150,8 +150,8 @@ var alerts = require('./controllers/alerts');
 app.get('/alerts', checkAuth, alerts.index);
 
 var agents = require('./controllers/agents');
-app.get('/agents', agents.list);
-app.get('/agents/:id', agents.individual);
+app.get('/agents', checkAuth, agents.list);
+app.get('/agents/:id', checkAuth, agents.individual);
 
 var settings = require('./controllers/settings');
 app.post('/settings', checkAuth, settings.update);

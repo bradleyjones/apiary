@@ -77,7 +77,7 @@ var dataSource = new StaticDataSource({
   delay: 250
   });
 
-$('#MyGrid').datagrid({
+$('#TagsGrid').datagrid({
   dataSource: dataSource,
   stretchHeight: true
 });
