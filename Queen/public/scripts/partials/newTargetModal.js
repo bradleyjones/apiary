@@ -1,3 +1,6 @@
+var selectedAgents = [];
+var selectedTags = [];
+
 $('#btnWizardPrev').on('click', function() {
   $('#myWizard').wizard('previous');
 });
@@ -11,6 +14,12 @@ $('#btnWizardNext').on('click', function() {
   } else if (selectedItem == 2) {
     $('#myWizard').wizard('next');
   } else if (selectedItem == 3) {
+    // push new target
+    var files = $('#filepath').val();
+    console.log(files);
+    newtarget(files, selectedTags, selectedAgents);
+
+
     // Close modal on finish
     $('#newTargetModal').modal('hide');
 
@@ -34,7 +43,18 @@ function populateAgentsList(agents) {
     select.appendChild(opt);
   }
 
-  $('#select-agents').multiSelect();
+  $('#select-agents').multiSelect({
+    afterSelect: function (value) {
+      selectedAgents.push(value);
+    },
+
+    afterDeselect: function (value) {
+      var index = selectedAgents.indexOf(value);
+      if (index > -1 ) {
+        selectedAgents.splice(index, 1);
+      }
+    }
+  });
 }
 
 /*
@@ -53,5 +73,16 @@ function populateTagsList(tags) {
     select.appendChild(opt);
   }
 
-  $('#select-tags').multiSelect();
+  $('#select-tags').multiSelect({
+    afterSelect: function (value) {
+      selectedTags.push(value);
+    },
+
+    afterDeselect: function (value) {
+      var index = selectedAgents.indexOf(value);
+      if (index > -1 ) {
+        selectedTags.splice(index, 1);
+      }
+    }
+  });
 }
