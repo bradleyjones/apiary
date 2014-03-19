@@ -23,7 +23,13 @@ class Controller(object):
         rk = "events.%s" % self.config['Rabbit']['event_prefix']
         if key is not None:
             rk = "%s.%s" % (rk, key)
-        self.publisher.publish_msg(data, rk)
+        doc = {
+            'action': 'EVENT',
+            "to": "hive",
+            "from": "hive",
+            "data": data,
+            "machineid": "boop"}
+        self.publisher.publish_msg(json.dumps(doc), rk)
 
     def default(self, data, resp):
         resp.respond("THIS IS THE DEFAULT ACTION")

@@ -7,7 +7,8 @@ var http = require('http')
   , server = http.createServer(app)
   , io = require('socket.io').listen(server)
   , MongoStore = require('connect-mongo')(express)
-  , colors = require('colors');
+  , colors = require('colors')
+  , config = require('./config/config');
 
 exports.io = io;
 
@@ -25,6 +26,7 @@ app.configure(function () {
   app.use(express.session({
     secret: 'THISISASECRETSSHHH',
     store: new MongoStore({
+      host: config.mongoIP,
       db: 'queensessions'
     })
   }));
@@ -56,9 +58,10 @@ server.listen(3000, function(){
  */
 
 var mongoose = require('mongoose')
-  , User = require('./models/user');
+  , User = require('./models/user')
+  , Device = require('./models/device');
 
-mongoose.connect('mongodb://localhost:27017/queen-users', function(err){
+mongoose.connect('mongodb://' + config.mongoIP + ':27017/queen-users', function(err){
   if (err) {
     console.log("Unable to connect to mongodb".red);
     console.log("Start the mongodb daemon by running \"mongod\"".red);
@@ -98,6 +101,32 @@ app.post('/login', function (req, res) {
       user.comparePassword(post.password, function(err, isMatch){
         if (err) throw err;
         req.session.user_id = user._id;
+        // If the request contains a device_id, create a new device (if it is new)
+        var devid = post.device_id;
+        var devname = post.device_name;
+        if (devid != null) {
+          if (devname == null) {
+            devname = "Device";
+          }
+          var newDevice = new Device({
+            device_id: devid,
+            device_name: devname
+          })
+          newDevice.save(function(err) {
+          });
+          // Update the user
+          User.update({ _id: user._id },
+            {$push : {
+              // Push the id of the new device in the DB
+              devices : newDevice._id
+                }},
+            function(err, model) {
+              if (err) {
+                throw err;
+                console.log("there was an error adding device");
+              }
+            });
+          }
         res.redirect('/');
       });
     }
@@ -148,8 +177,8 @@ var alerts = require('./controllers/alerts');
 app.get('/alerts', checkAuth, alerts.index);
 
 var agents = require('./controllers/agents');
-app.get('/agents', agents.list);
-app.get('/agents/:id', agents.individual);
+app.get('/agents', checkAuth, agents.list);
+app.get('/agents/:id', checkAuth, agents.individual);
 
 var settings = require('./controllers/settings');
 app.post('/settings', checkAuth, settings.update);

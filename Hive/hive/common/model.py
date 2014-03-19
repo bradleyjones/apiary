@@ -3,7 +3,8 @@ from bson.objectid import ObjectId
 from collections import OrderedDict
 import logging
 import sys
-
+import datetime
+import pytz
 
 class ModelObject(object):
 
@@ -137,21 +138,32 @@ class Model(object):
         if self.indexdriver:
             self.indexdriver.removeindex(model)
 
-    def query(self, query):
+    def query(self, query, timescale):
         results = self.indexdriver.query(query)
+        
+        now = datetime.datetime.now(pytz.utc)
+        response = {'totalHits': 0, 'hits': {}}
+
         query = {'$or': []}
         for hit in results['hits']:
-            query['$or'].append({self.primary: ObjectId(hit)})
+            if self.primary == "_id":
+                query['$or'].append({self.primary: ObjectId(hit)})
+            else:
+                query['$or'].append({self.primary: hit})
 
         if len(results['hits']) > 0:
             dbresult = self.table.find(query)
             for res in dbresult:
-                res['TIMESTAMP'] = str(res['_id'].generation_time)
-                res['_id'] = str(res['_id'])
-                results['hits'][str(res['_id'])]['log'] = ModelObject(
-                    self.columns, res).to_hash()
+                time = res['_id'].generation_time
+                if (now - time).total_seconds() < float(timescale): 
+                    res['TIMESTAMP'] = str(time)
+                    res['_id'] = str(res['_id'])
+                    response['hits'][str(res['_id'])] = {}
+                    response['hits'][str(res['_id'])]['score'] = results['hits'][str(res['_id'])]['score']
+                    response['hits'][str(res['_id'])]['log'] = ModelObject(
+                        self.columns, res).to_hash()
 
-        return results
+        return response
 
     def mongoQuery(self, query, fields={}):
         if len(fields) > 0:
@@ -174,6 +186,8 @@ class Model(object):
         return self.mongoQuery({})
 
     def find(self, id):
+        if self.primary == "_id" and not isinstance(id, ObjectId):
+            id = ObjectId(id)
         query = {self.primary: id}
         record = self.table.find_one(query)
         if record is None:

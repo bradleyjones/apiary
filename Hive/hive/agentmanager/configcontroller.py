@@ -19,14 +19,17 @@ class Controller(Parent):
         sbody = {"files": data['files']}
         for agent in data['agents']:
             ag = self.agents.find(agent)
-            self.logger.info("Sending %s to %s" % (sbody, agent))
-            r = self.sender.send_request(
-                'SETFILES',
-                agent,
-                sbody,
-                '000000000000',
-                'agentmanager',
-                key=ag.QUEUE)
-            self.logger.info("Sent!")
+            if ag is not None:
+                self.logger.info("Sending %s to %s" % (sbody, agent))
+                r = { agent : self.sender.send_request(
+                    'SETFILES',
+                    agent,
+                    sbody,
+                    '000000000000',
+                    'agentmanager',
+                    key=ag.QUEUE) }
+                self.logger.info("Sent!")
+            else:
+                r = { agent : 'Agent Doesnt Exist!' }
             response.append(r)
         resp.respond(response)

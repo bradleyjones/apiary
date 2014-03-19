@@ -39,7 +39,7 @@ StaticDataSource.prototype = {
         if (options.sortDirection === 'desc') data.reverse();
       } // SORT BY TIMESTAMP
       else {
-        data = _.sortBy(data, 'TIMESTAMP');
+        data = _.sortBy(data, 'name');
         data.reverse();
       }
 
@@ -53,12 +53,7 @@ StaticDataSource.prototype = {
       var start = startIndex + 1;
 
       data = data.slice(startIndex, endIndex);
-
       console.log(data);
-      for (var i = 0; i < data.length; i++) {
-        var id = data[i].UUID;
-        data[i].UUID = '<a onclick="testnewtarget(\''+id+'\')">'+id+'</a>';
-      }
 
       callback({ data: data, start: start, end: end, count: count, pages: pages, page: page });
 
@@ -69,30 +64,20 @@ StaticDataSource.prototype = {
 var dataSource = new StaticDataSource({
   columns: [
   {
-    property: 'TIMESTAMP',
-      label: 'Time Initiated',
+    property: 'NAME',
+      label: 'Tag name',
       sortable: true
   },
   {
-    property: 'UUID',
-      label: 'UUID',
-      sortable: true
-  },
-  {
-    property: 'DEAD',
-      label: 'Dead',
-      sortable: true
-  },
-  {
-    property: 'MACHINEID',
-      label: 'Machine Hostname',
+    property: 'COUNT',
+      label: 'Tag count',
       sortable: true
   }],
   data:[],
   delay: 250
   });
 
-$('#MyGrid').datagrid({
+$('#TagsGrid').datagrid({
   dataSource: dataSource,
   stretchHeight: true
 });

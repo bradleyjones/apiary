@@ -10,5 +10,6 @@ class Agent(Model):
         self.addcolumn('AUTHENTICATED')
         self.addcolumn('BOUND')
         self.addcolumn('QUEUE')
+        self.addcolumn('MACHINEID')
         self.addcolumn('METADATA')
         self.setprimary('UUID')

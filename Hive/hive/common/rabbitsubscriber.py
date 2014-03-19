@@ -146,6 +146,7 @@ class RabbitSubscriber(threading.Thread):
         try:
             request = self.jsonToHash(body)
             self.logger.info('Message Received: %s', str(request))
+            request['routing_key'] = method.routing_key
 
             try:
                 self.router(request["action"], request, rpcresp, self.channel)

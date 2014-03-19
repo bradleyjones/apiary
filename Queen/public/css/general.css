@@ -1,10 +1,11 @@
 body {
   padding-top: 50px;
-  background: rgb(224, 224, 224);
+  background: rgb(210, 210, 210);
 }
 
 .jumbotron {
   padding: 0.5em 0.6em;
+  background: rgb(210,210,210);
 }
 
 .main-container {
@@ -22,6 +23,11 @@ body {
   /*box-shadow: 5px 5px 5px #888888;*/
 }
 
+.fieldTable {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #AgentsDataGrid {
   height: 519px;
 }
@@ -30,8 +36,39 @@ body {
   padding : 20px 15px;
 }
 
+#timeInput{
+  width : 150px;
+}
+
+#fieldTabs{
+  width : 100px;
+  float: left;
+}
+
+/*
+ * Sparkline
+ */
 .sparkline {
   fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+.sparkcircle {
+  fill: steelblue;
+  stroke: none;
+}
+
+.axis path,
+.axis line {
+  fill: none;
   stroke: #000;
-  stroke-width: 0.5px;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+.area {
+  fill: lightsteelblue;
+  stroke-width: 0;
 }

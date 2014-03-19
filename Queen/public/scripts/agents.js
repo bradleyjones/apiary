@@ -2,8 +2,8 @@ var socket = io.connect(document.URL);
 var totalAgents = 0;
 
 function addAgent(agent, firstLoad) {
-  console.log("AGENT:");
-  console.log(agent);
+  //console.log("AGENT:");
+  //console.log(agent);
 
   $('#MyGrid').data().datagrid.options.dataSource._data.push(agent);
   $('#MyGrid').datagrid('reload');
@@ -56,9 +56,24 @@ socket.on('offline', function(data) {
 
 socket.on('init', function(data) {
   console.log(data);
+  var agents = [];
   for (var agent in data) {
     addAgent(data[agent], true);
+    agents.push(data[agent]);
   }
+  populateAgentsList(agents);
+});
+
+socket.on('tags', function(data) {
+  console.log("TAGSSS");
+  console.log(data);
+  populateTagsList(data);
+
+  for (var t in data) {
+    $('#TagsGrid').data().datagrid.options.dataSource._data.push(data[t]);
+    $('#TagsGrid').datagrid('reload');
+  }
+
 });
 
 /*
@@ -69,10 +84,14 @@ $(function() {
   });
 });
 
-function testnewtarget(uuid) {
+function newtarget(paths, tags, uuids) {
+    var tagsToString = "";
+    for (t in tags) {
+      tagsToString += tags[t] + ",";
+    }
     console.log("testing new target");
     socket.emit('newTarget', {
-      "agents": [uuid],
-      "files": ["/test.txt"]
+      "agents": uuids,
+      "files": [{path:paths, tags:tagsToString}]
     });
 }

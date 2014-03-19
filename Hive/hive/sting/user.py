@@ -1,11 +1,8 @@
 from ..common.model import Model
 
 
-class User(Model):
+class user(Model):
 
     def define(self):
-        self.addcolumn('UUID')
-        self.addcolumn('USERNAME')
-        self.addcolumn('DEVICE')
-        self.addcolumn('NOTIFICATIONS')
-        self.setprimary('UUID')
+        self.addcolumn('username')
+        self.addcolumn('devices')

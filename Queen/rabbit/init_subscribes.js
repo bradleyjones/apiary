@@ -7,17 +7,17 @@ exports.subscribe = function() {
   console.log('calling subscribe function');
   // Look for new agents
   console.log(rabbit)
-  new rabbit.pubsub('apiary', 'events.agentmanager.agent.new', function (data) {
+  new rabbit.pubsub('apiary', 'events.agentmanager.agent.new', function (msg) {
     // Update the local data cache with the new data
-    for (var k in data) {
-      if (data.hasOwnProperty(k)) {
-        dataCache.agents[k] = data[k];
+    for (var k in msg.data.agents) {
+      if (msg.data.agents.hasOwnProperty(k)) {
+        dataCache.agents[k] = msg.data.agents[k];
       }
     }
 
     // Send new agents to the agents page
-    io.of('/agents').emit('agent', data);
+    io.of('/agents').emit('agent', msg.data.agents);
     // Send new agents to the home page
-    io.of('/home').emit('agent', data);
+    io.of('/home').emit('agent', msg.data.agents);
   });
 }

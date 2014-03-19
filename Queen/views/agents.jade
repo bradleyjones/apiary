@@ -20,8 +20,11 @@ html
         .col-sm-6
           include partials/newTargetModal.jade
 
-    .container.main-container.stat-group
-
-      script(src="/scripts/libs/underscore-min.js")
-      include partials/agentDatagrid.jade
-      script(src="/scripts/agentsDatagrid.js")
+    .container.main-container
+      .stat-group
+        script(src="/scripts/libs/underscore-min.js")
+        include partials/agentDatagrid.jade
+        script(src="/scripts/agentsDatagrid.js")
+      .stat-group
+        include partials/tagsDatagrid.jade
+        script(src="/scripts/tagsDatagrid.js")
