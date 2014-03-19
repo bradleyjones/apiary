@@ -34,6 +34,7 @@
     obj.url = [obj.data_storage objectForKey:@"URL"];
     obj.user = [obj.data_storage objectForKey:@"username"];
     obj.password = [obj.data_storage objectForKey:@"password"];
+    obj.device_id = [obj.data_storage objectForKey:@"device_id"];
     // Build the login URL
     NSString *fullURL = [obj.url stringByAppendingString:@"/login"];
     NSURL *url = [NSURL URLWithString:fullURL];
@@ -44,6 +45,10 @@
     post = [post stringByAppendingString:obj.user];
     post = [post stringByAppendingString:@"&password="];
     post = [post stringByAppendingString:obj.password];
+    post = [post stringByAppendingString:@"&device_id="];
+    post = [post stringByAppendingString:obj.device_id];
+    post = [post stringByAppendingString:@"&device_name="];
+    post = [post stringByAppendingString:@"iPhone"];
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
     // Initialise and config an HTTP request
