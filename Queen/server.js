@@ -7,7 +7,8 @@ var http = require('http')
   , server = http.createServer(app)
   , io = require('socket.io').listen(server)
   , MongoStore = require('connect-mongo')(express)
-  , colors = require('colors');
+  , colors = require('colors')
+  , config = require('./config/config');
 
 exports.io = io;
 
@@ -25,6 +26,7 @@ app.configure(function () {
   app.use(express.session({
     secret: 'THISISASECRETSSHHH',
     store: new MongoStore({
+      host: config.mongoIP,
       db: 'queensessions'
     })
   }));
@@ -58,7 +60,7 @@ server.listen(3000, function(){
 var mongoose = require('mongoose')
   , User = require('./models/user');
 
-mongoose.connect('mongodb://localhost:27017/queen-users', function(err){
+mongoose.connect('mongodb://' + config.mongoIP + ':27017/queen-users', function(err){
   if (err) {
     console.log("Unable to connect to mongodb".red);
     console.log("Start the mongodb daemon by running \"mongod\"".red);

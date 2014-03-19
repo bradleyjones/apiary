@@ -26,6 +26,7 @@ class Controller(Parent):
         agent.DEAD = False
         agent.AUTHENTICATED = False
         agent.QUEUE = data['reply_to']
+        agent.MACHINEID = data['machineid']
         agent.BOUND = False
         agent.METADATA = {}
         agent = self.agents.save(agent)
