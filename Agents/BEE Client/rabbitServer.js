@@ -6,6 +6,7 @@
 var amqp = require('amqp');
 var config = require('./config');
 var getMac = require('getmac');
+var os = require("os");
 
 //Start Rabbit Server
 function start(route, handle) {
@@ -61,30 +62,25 @@ function start(route, handle) {
 //
 function alertHive(queueName, hiveIP){
 
-  //Get Systems Mac Address for ID purpose.  
-  getMac.getMac(function(err,macAddress){
-      if (err)  throw err;
+    //Set macAddress global
+    config.macAddress = os.hostname();
 
-      //Set macAddress global
-      config.macAddress = macAddress;
+    //TODO Check if ID already present, could be preinitialised machine reconnecting.      
 
-      //TODO Check if ID already present, could be preinitialised machine reconnecting.      
+    var queueToSendTo = "agentmanager";
+    config.cID = generateUUID();          
 
-      var queueToSendTo = "agentmanager";
-      config.cID = generateUUID();          
-
-      message = {
-        action: "HANDSHAKE",
-        to: "AgentManager",
-        from: "Unidentified",
-        data: {},
-        machineid: config.macAddress
-      }
-          
-      config.connection.publish(queueToSendTo, message,{replyTo: queueName});
-      console.log("Sent message: ");
-      console.log(message);      
-  });
+    message = {
+      action: "HANDSHAKE",
+      to: "AgentManager",
+      from: "Unidentified",
+      data: {},
+      machineid: config.macAddress
+    }
+        
+    config.connection.publish(queueToSendTo, message,{replyTo: queueName});
+    console.log("Sent message: ");
+    console.log(message);      
 }
 
 /*
