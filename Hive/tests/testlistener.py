@@ -5,8 +5,8 @@ def on_message(channel, method_frame, header_frame, body):
 
 credentials = pika.PlainCredentials("guest","guest")
 connection = pika.BlockingConnection(
-pika.ConnectionParameters(host="localhost", credentials=credentials))
+pika.ConnectionParameters(host="192.168.1.106", credentials=credentials))
 channel = connection.channel()
-channel.basic_consume(on_message, queue="amq.gen-Qr5HTRcEvlYeWnYYDq8YC_", no_ack=True)
+channel.basic_consume(on_message, queue="amq.gen-wCCFTtxidsWLA4C19mFi--", no_ack=True)
 channel.start_consuming()
 

@@ -84,10 +84,14 @@ $(function() {
   });
 });
 
-function testnewtarget(uuid) {
+function newtarget(paths, tags, uuids) {
+    var tagsToString = "";
+    for (t in tags) {
+      tagsToString += tags[t] + ",";
+    }
     console.log("testing new target");
     socket.emit('newTarget', {
-      "agents": [uuid],
-      "files": [{path:"/test.txt", tags:"test"}]
+      "agents": uuids,
+      "files": [{path:paths, tags:tagsToString}]
     });
 }

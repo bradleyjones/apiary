@@ -186,6 +186,8 @@ class Model(object):
         return self.mongoQuery({})
 
     def find(self, id):
+        if self.primary == "_id" and not isinstance(id, ObjectId):
+            id = ObjectId(id)
         query = {self.primary: id}
         record = self.table.find_one(query)
         if record is None:
