@@ -67,7 +67,13 @@ socket.on('init', function(data) {
 socket.on('tags', function(data) {
   console.log("TAGSSS");
   console.log(data);
-  populateTagsList(data.TAGS);
+  populateTagsList(data);
+
+  for (var t in data) {
+    $('#TagsGrid').data().datagrid.options.dataSource._data.push(data[t]);
+    $('#TagsGrid').datagrid('reload');
+  }
+
 });
 
 /*

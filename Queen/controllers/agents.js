@@ -33,7 +33,8 @@ io.of('/agents').on('connection', function (socket) {
   // Get the current tags
   var msg = rabbit.constructMessage('TAGS', 'honeycomb');
   new rabbit.rpc('honeycomb', msg, function(data) {
-    socket.emit('tags', data.data);
+    console.log(data.data.TAGS);
+    socket.emit('tags', data.data.TAGS);
   });
 
   // New agent added

@@ -45,10 +45,11 @@ function populateTagsList(tags) {
 
   var select = document.getElementById('select-tags');
   for (t in tags) {
-    console.log(t);
+    var x = tags[t];
+    console.log(x);
     var opt = document.createElement('option');
-    opt.value = t;
-    opt.innerHTML = t;
+    opt.value = x.NAME;
+    opt.innerHTML = x.NAME;
     select.appendChild(opt);
   }
 

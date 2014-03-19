@@ -27,12 +27,8 @@ class Controller(Parent):
                 for row in csv.reader([log.METADATA['TAGS']]):
                     for tag in row:
                         if tag not in histogram['TAGS']:
-                            histogram['TAGS'][tag] = 1
+                            histogram['TAGS'][tag] = {'NAME':tag, 'COUNT': 1}
                         else:
-                            histogram['TAGS'][tag] = histogram['TAGS'][tag] + 1
-        
-        response = {'TAGS':[]}
-        for tag in histogram['TAGS']:
-            response['TAGS'].append({'NAME':tag, 'COUNT':histogram['TAGS'][tag]})
+                            histogram['TAGS'][tag]['COUNT'] = histogram['TAGS'][tag]['COUNT'] + 1
 
-        resp.respond(response)
+        resp.respond(histogram)

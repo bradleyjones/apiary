@@ -79,8 +79,8 @@ var dataSource = new StaticDataSource({
       sortable: true
   },
   {
-    property: 'HEARTBEAT',
-      label: 'Heartbeat',
+    property: 'DEAD',
+      label: 'Dead',
       sortable: true
   },
   {
