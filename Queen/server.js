@@ -100,6 +100,33 @@ app.post('/login', function (req, res) {
       user.comparePassword(post.password, function(err, isMatch){
         if (err) throw err;
         req.session.user_id = user._id;
+        // If the request contains a device_id, create a new device (if it is new)
+        var devid = post.device_id;
+        var devname = post.device_name;
+        if (devid != null) {
+          if (devname == null) {
+            devname = "Device";
+          }
+          var newDevice = new Device({
+            device_id: devid,
+            device_name: devname
+          })
+          newDevice.save(function(err) {
+            if (err) throw err;
+          });
+          // Update the user
+          User.update({ _id: user._id },
+            {$push : {
+              // Push the id of the new device in the DB
+              devices : newDevice._id
+                }},
+            function(err, model) {
+              if (err) {
+                throw err;
+                console.log("there was an error adding device");
+              }
+            });
+          }
         res.redirect('/');
       });
     }
