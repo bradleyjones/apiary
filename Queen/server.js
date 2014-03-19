@@ -58,7 +58,8 @@ server.listen(3000, function(){
  */
 
 var mongoose = require('mongoose')
-  , User = require('./models/user');
+  , User = require('./models/user')
+  , Device = require('./models/device');
 
 mongoose.connect('mongodb://' + config.mongoIP + ':27017/queen-users', function(err){
   if (err) {
@@ -112,7 +113,6 @@ app.post('/login', function (req, res) {
             device_name: devname
           })
           newDevice.save(function(err) {
-            if (err) throw err;
           });
           // Update the user
           User.update({ _id: user._id },
