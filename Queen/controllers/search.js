@@ -20,4 +20,11 @@ io.of('/search').on('connection', function (socket) {
       console.log("RETURNED DATA FROM QUERY IS: " + data.data);
     });
   });
+
+  // Get the current tags
+  var msg = rabbit.constructMessage('TAGS', 'honeycomb');
+  new rabbit.rpc('honeycomb', msg, function(data) {
+    console.log(data.data.TAGS);
+    socket.emit('tags', data.data.TAGS);
+  });
 });
