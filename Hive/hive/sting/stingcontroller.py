@@ -18,14 +18,14 @@ class Controller(Parent):
 
     def event(self, message, response):
 
-        for user in self.users.findAll():
+        for user in self.users.find(message['USER']):
             for device in user.devices:
                 device = self.devices.find(device)
                 apns = APNs(use_sandbox=True, cert_file=(
                 resource_filename(__name__,'apns/certs/ApiaryCert.pem')),
                 key_file=(resource_filename(__name__,'apns/certs/ApiaryKey.pem')))
                 token_hex = device.device_id
-                payload = Payload(alert="Sting Running", sound="default", badge=0)
+                payload = Payload(alert=message['TEXT'], sound="default", badge=0)
                 apns.gateway_server.send_notification(token_hex, payload)
                 print "Notification sent to device " + device.device_id 
 
