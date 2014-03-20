@@ -7,6 +7,6 @@ credentials = pika.PlainCredentials("guest","guest")
 connection = pika.BlockingConnection(
 pika.ConnectionParameters(host="192.168.1.106", credentials=credentials))
 channel = connection.channel()
-channel.basic_consume(on_message, queue="amq.gen-wCCFTtxidsWLA4C19mFi--", no_ack=True)
+channel.basic_consume(on_message, queue="amq.gen-QJ4jaMCapbrhQZPhpP6IOL", no_ack=True)
 channel.start_consuming()
 
