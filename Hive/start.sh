@@ -39,6 +39,7 @@ if [ $MULTIPLEXER == SCREEN ]; then
   add_to_screen "apiary-agentmanager"
   add_to_screen "apiary-agentmonitor"
   add_to_screen "apiary-timemachine"
+  add_to_screen "apiary-pheromone"
   add_to_screen "apiary-sting"
 
 elif [ $MULTIPLEXER == TMUX ]; then
@@ -73,6 +74,9 @@ elif [ $MULTIPLEXER == TMUX ]; then
 
     tmux new-window -n timemachine -t $NAME:7
     tmux send-keys -t $NAME:7 "apiary-timemachine" C-m
+
+    tmux new-window -n pheromone -t $NAME:8
+    tmux send-keys -t $NAME:8 "apiary-pheromone" C-m
 
     tmux select-window -t $NAME:1
   fi

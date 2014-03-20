@@ -35,12 +35,12 @@ $(function() {
      $('#TermTabs').append("<div id='"+fieldName+"' class='tab-pane fade'></div>");
      //Repopulate Table with field terms and queries
   });
-
+  
   $('#AddTermButton').click(function (e) {
      e.preventDefault()
      console.log("Adding Field Row");
-     $("<tr><th>1</th><th><input class='form-control' type='text' value='' placeholder='Bananas'></input></th><th><input class='form-control' type='text' value='' placeholder='Fruit:Banana'></input></th><th><button class='btn btn-default' type='button'>X</button></th></tr>").insertBefore('#termAddButtonRow');
-
+     $("<tr><th>1</th><th><input class='form-control fieldName' type='text' value='' placeholder='Bananas'></input></th><th><input class='form-control' type='text' value='' placeholder='Fruit:Banana'></input></th><th><button class='btn btn-default' type='button'>X</button></th></tr>").insertBefore('#termAddButtonRow');
+     
 
      //Add Term to Field
      //Rerun Search?
@@ -68,12 +68,35 @@ $(function() {
   });
 
   $('#addPieButton').click(function (e) {
-    //Get Search Query
-    //Get Field
+    //Get Search Queryi
+    searchTerm = $("#searchTerm")[0].value;
+    console.log(searchTerm);
+    //Get Fields
+    fields = $('.fieldName');
+    fieldList = []
+    console.log(fields);
+    fields.each(function(){
+      var $field = $(this);
+      fieldList.push({
+        label : $field.val(),
+        subQuery : $field.parent().next().children().val()
+      });
+    });
+
+    console.log(fieldList);
+    //
     //Make Query for each Term in field
+    searchParams = {
+      main:{
+        search: searchTerm,
+        subsearch: fieldList
+      }
+    }
+
+    socket.emit('pieQuerySubmit', searchParams);
     //Parse and format fields and data
     //Feed to graph
-    pieChart("#piechart", [{label: "hello", value:10},{label:"2lo",value:5}]);
+    //pieChart("#piechart", [{label: "hello", value:10},{label:"2lo",value:5}]);
   });
 });
 
@@ -122,6 +145,14 @@ socket.on('results', function(data) {
 
 socket.on('usersSavedSearches', function(data) {
   console.log(data);
+});
+
+//HACK CODE, WILL BE STRIPPED OUT
+socket.on('pieHackResults', function(data){
+  pieChart("#piechart", data);
+  // pieChart("#piechart", [{label: "hello", value:10},{label:"2lo",value:5}]);
+
+
 });
 
 //$('#fieldAccordionButton').click(function (e) {

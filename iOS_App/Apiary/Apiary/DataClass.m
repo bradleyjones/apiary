@@ -13,6 +13,7 @@
 @synthesize password;
 @synthesize url;
 @synthesize device_id;
+@synthesize device_type;
 @synthesize filePath;
 @synthesize data_storage;
 static DataClass *instance =nil;
@@ -29,7 +30,7 @@ static DataClass *instance =nil;
             instance.filePath = [documents stringByAppendingPathComponent:@"data_storage.plist"];
             NSMutableDictionary *dataLoad = [NSMutableDictionary dictionaryWithContentsOfFile:instance.filePath];
             if (dataLoad == Nil) {
-                instance.data_storage = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"URL", @"", @"username", @"", @"password", @"", @"device_id", @"", nil];
+                instance.data_storage = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"URL", @"", @"username", @"", @"password", @"", @"device_id", @"", @"device_type", @"", nil];
                 [instance.data_storage writeToFile:instance.filePath atomically:YES];
             }
             else {
