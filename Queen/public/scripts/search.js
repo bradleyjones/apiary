@@ -1,4 +1,5 @@
 var socket = io.connect(document.URL);
+var currentSearch = "";
 
 $(function() {
    $("#searchButton").click(function(){
@@ -6,6 +7,7 @@ $(function() {
       console.log(searchTerm);
       if(doCheckLuceneQueryValue(searchTerm)){
         //Edit so data sources and other stuff is also send down with data, Bro
+        currentSearch = "";
         socket.emit('querySubmit', searchTerm);
       }
    });
@@ -42,6 +44,15 @@ $(function() {
 
      //Add Term to Field
      //Rerun Search?
+  });
+
+  // save search
+  $('#saveSearch').click( function() {
+    console.log("saving search");
+
+    if (currentSearch != "") {
+      socket.emit('saveSearch', currentSearch);
+    }
   });
 
   $('#addSparkLineButton').click(function (e) {
@@ -91,6 +102,8 @@ function setTimeFrame(timeFrame){
   $('#timeFrameDropdown').val(timeFrame);
 
 }
+
+//Add Term ButtonS
 
 
 /*

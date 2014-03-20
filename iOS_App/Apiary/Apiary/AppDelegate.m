@@ -58,10 +58,22 @@
     // Debug output
 	NSLog(@"My token is: %@", hexToken);
     
-    // Save device_id to disk
+    // Determine the devive type
+    NSString *type = @"iPhone";
+    
+    NSString *deviceType = [UIDevice currentDevice].model;
+    
+    if([deviceType isEqualToString:@"iPad"]) {
+        type = @"iPad";
+    }
+    
+    // Save device id and type to disk
     DataClass *obj=[DataClass getInstance];
     obj.device_id = hexToken;
+    obj.device_type = type;
     [obj.data_storage setValue:obj.device_id forKey:@"device_id"];
+    [obj.data_storage writeToFile:obj.filePath atomically:YES];
+    [obj.data_storage setValue:obj.device_id forKey:@"device_type"];
     [obj.data_storage writeToFile:obj.filePath atomically:YES];
 }
 
