@@ -27,6 +27,7 @@
 		75BE387E18D4AF9F009905D4 /* DataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BE387D18D4AF9F009905D4 /* DataClass.m */; };
 		75BE388118D5F105009905D4 /* NewUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BE388018D5F105009905D4 /* NewUserViewController.m */; };
 		75BE388518D5F37D009905D4 /* Barry_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 75BE388418D5F37D009905D4 /* Barry_small.png */; };
+		75BE388A18DB39DE009905D4 /* iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75BE388918DB39DE009905D4 /* iPad.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		75BE387F18D5F105009905D4 /* NewUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewUserViewController.h; sourceTree = "<group>"; };
 		75BE388018D5F105009905D4 /* NewUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewUserViewController.m; sourceTree = "<group>"; };
 		75BE388418D5F37D009905D4 /* Barry_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Barry_small.png; sourceTree = "<group>"; };
+		75BE388918DB39DE009905D4 /* iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = iPad.storyboard; path = "../../Apiary 15.56.05/Apiary/iPad.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 				75BE384B18D49FBA009905D4 /* AppDelegate.h */,
 				75BE384C18D49FBA009905D4 /* AppDelegate.m */,
 				75BE384E18D49FBA009905D4 /* Main.storyboard */,
+				75BE388918DB39DE009905D4 /* iPad.storyboard */,
 				75BE387F18D5F105009905D4 /* NewUserViewController.h */,
 				75BE388018D5F105009905D4 /* NewUserViewController.m */,
 				75BE387C18D4AF9F009905D4 /* DataClass.h */,
@@ -269,6 +272,7 @@
 				75BE388518D5F37D009905D4 /* Barry_small.png in Resources */,
 				75BE385518D49FBA009905D4 /* Images.xcassets in Resources */,
 				75BE384718D49FBA009905D4 /* InfoPlist.strings in Resources */,
+				75BE388A18DB39DE009905D4 /* iPad.storyboard in Resources */,
 				75BE385018D49FBA009905D4 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -425,7 +429,7 @@
 				INFOPLIST_FILE = "Apiary/Apiary-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -441,7 +445,7 @@
 				INFOPLIST_FILE = "Apiary/Apiary-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
