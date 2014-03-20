@@ -51,7 +51,6 @@ io.of('/search').on('connection', function (socket) {
         } else {
           console.log("Finished updating user searches");
         }
-      }
-    });
+      });
   });
 });
