@@ -29,14 +29,15 @@ $('#stored a').click(function (e) {
 socket.on('tags', function(data){
   console.log("TAGGGSSS");
   console.log(data);
-  
+
   for( var t in data){
+    console.log(t);
     $('#TagList').append(
-      "<li><label class='checkbox'>"+data[t][NAME]+"<input type='checkbox' name='' value="+data[t][NAME]+"></input></label></li>"
+      "<li><label class='checkbox'>"+data[t].NAME+"<input type='checkbox' name='' value="+data[t].NAME+"></input></label></li>"
     )
   }
 
-}
+});
 
 //$('#fieldAccordionButton').click(function (e) {
 //  e.preventDefault();
