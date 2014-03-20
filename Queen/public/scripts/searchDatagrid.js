@@ -68,6 +68,11 @@ var dataSource = new StaticDataSource({
     property: 'TIMESTAMP',
       label: 'Time Initiated',
       sortable: true
+  },
+  {
+    property: 'CONTENT',
+      label: 'Log Content',
+      sortable: true
   }],
   data:[],
   delay: 250

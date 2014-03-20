@@ -17,7 +17,10 @@ io.of('/search').on('connection', function (socket) {
 
     var msg = rabbit.constructQuery('QUERY', 'honeycomb', search)
     new rabbit.rpc('honeycomb', msg, function (data) {
-      console.log("RETURNED DATA FROM QUERY IS: " + data.data);
+      console.log("TOTAL HITS RETURNED IS: " + data.data.totalhits);
+      console.log("RETURNED DATA FROM QUERY IS: " + data.data.hits);
+
+      socket.emit('results', data.data.hits)
     });
   });
 
