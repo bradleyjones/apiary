@@ -162,6 +162,7 @@ class Model(object):
                     response['hits'][str(res['_id'])]['score'] = results['hits'][str(res['_id'])]['score']
                     response['hits'][str(res['_id'])]['log'] = ModelObject(
                         self.columns, res).to_hash()
+                    response['totalHits'] = response['totalHits'] + 1
 
         return response
 
