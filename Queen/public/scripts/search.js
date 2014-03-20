@@ -31,17 +31,25 @@ $('#AddFieldButton').click(function (e) {
    $('#fieldTabs').append("<li><a href='fieldOne' data-toggle='tab'>A Field</a></li>");
 });
 
+//Time Frame Dropdown
+function setTimeFrame(timeFrame){
+  console.log("Change timeFrame");
+  $('#timeFrameDropdown').text(timeFrame + " ").append("<span class='caret'></span>");
+  $('#timeFrameDropdown').val(timeFrame);
+
+}
+
 //Add Term ButtonS
 
 //Get Tags
 socket.on('tags', function(data){
   console.log("TAGGGSSS");
   console.log(data);
-  
+
   for( var t in data){
     console.log(t);
     $('#TagList').append(
-      "<li><label class='checkbox'>"+data[t][NAME]+"<input type='checkbox' name='' value="+data[t][NAME]+"></input></label></li>"
+      "<li><label class='checkbox'>"+data[t].NAME+"<input type='checkbox' name='' value="+data[t].NAME+"></input></label></li>"
     )
   }
 

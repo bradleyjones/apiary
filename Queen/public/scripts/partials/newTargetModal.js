@@ -32,6 +32,19 @@ $('#btnWizardNext').on('click', function() {
 });
 
 /*
+ * Add new tag to tag list
+ */
+$('#newtagbtn').on('click', function (){
+  console.log("adding new tag")
+  var value = $('#newtag').val();
+  $('#select-tags').multiSelect('addOption', {
+    value: value,
+    text: value,
+    index: 0
+  });
+});
+
+/*
  * populate the selectable list of agents
  */
 function populateAgentsList(agents) {
