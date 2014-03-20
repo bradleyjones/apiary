@@ -11,13 +11,14 @@ from hive.common.longrunningproc import Proc
 
 class Alerter(Proc):
 
-    def __init__(self, config, query, maxTime, quantity, message):
+    def __init__(self, config, query, maxTime, quantity, message, user):
         Proc.__init__(self, config)
         self.connection = None
         self.channel = None
         self.uuid = str(uuid.uuid4())
         self.query = query
         self.message = message
+        self.user = user
         self.maxTime = maxTime
         self.maxQuantity = quantity
         self.capturedTime = time.time() + self.maxTime
@@ -75,7 +76,7 @@ class Alerter(Proc):
             "action": "EVENT",
             "to": "listener",
             "from": "pheromonealerter",
-            "data": {"ALERT": {"UUID": self.uuid, "COUNT": count, "TEXT": self.message}},
+            "data": {"ALERT": {"UUID": self.uuid, "COUNT": count, "TEXT": self.message, 'USER': self.user}},
             "machineid": "something"}
         self.channel.basic_publish(
             exchange='apiary',

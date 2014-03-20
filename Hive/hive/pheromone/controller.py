@@ -28,7 +28,8 @@ class Controller(Parent):
                 msg['data']['query'],
                 msg['data']['time'],
                 msg['data']['quantity'],
-                msg['data']['message']),
+                msg['data']['message'],
+                msg['data']['user']),
             q)
         machine.start()
 
