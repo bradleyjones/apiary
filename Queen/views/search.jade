@@ -24,13 +24,9 @@ html
             #fieldAccordion.panel-collapse.collapse.in
               .panel-body
                 ul.nav.nav-pills.nav-stacked#fieldTabs
-                  li.active
-                    a(href='#fieldOne', data-toggle='tab') Field One
-                  li
-                    a(href='#fieldTwo', data-toggle='tab') Field Two
                   li
                     button.btn.btn-default#AddFieldButton(type='button') + Add Field
-                .tab-content
+                .tab-content#TermTabs
                   #fieldOne.tab-pane.fade.in.active
                     table.fieldTable
                       thead
@@ -39,7 +35,7 @@ html
                           th Term Name
                           th Sub Query
                           th  
-                      tbody
+                      tbody#TermTableBody
                         tr
                           th 1 
                           th 
@@ -48,12 +44,12 @@ html
                             input.form-control(type='text' value='' placeholder='Fruit:Banana')
                           th
                             button.btn.btn-default(type='button') X
-                        tr
+                        tr#termAddButtonRow
                           th
                           th
                           th
                           th
-                            button.btn.btn-default(type='button') +
+                            button.btn.btn-default(type='button')#AddTermButton +
                   #fieldTwo.tab-pane.fade
                     h4 Field 2
     .row

@@ -28,7 +28,20 @@ $(function() {
   //Add Field Button
   $('#AddFieldButton').click(function (e) {
      e.preventDefault()
-     $('#fieldTabs').append("<li><a href='fieldOne' data-toggle='tab'>A Field</a></li>");
+     fieldName = window.prompt("Field Name :", "Field 1");
+     $('#fieldTabs').append("<li><a href='"+fieldName+"' data-toggle='tab'>"+fieldName+"</a></li>");
+     $('#TermTabs').append("<div id='"+fieldName+"' class='tab-pane fade'></div>");
+     //Repopulate Table with field terms and queries
+  });
+  
+  $('#AddTermButton').click(function (e) {
+     e.preventDefault()
+     console.log("Adding Field Row");
+     $("<tr><th>1</th><th><input class='form-control' type='text' value='' placeholder='Bananas'></input></th><th><input class='form-control' type='text' value='' placeholder='Fruit:Banana'></input></th><th><button class='btn btn-default' type='button'>X</button></th></tr>").insertBefore('#termAddButtonRow');
+     
+
+     //Add Term to Field
+     //Rerun Search?
   });
 });
 
