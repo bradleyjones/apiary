@@ -14,7 +14,7 @@ class Controller(Parent):
     # BELOW THIS LINE ARE ALL CONTROLLER ACTIONS
 
     def new(self, body, resp):
-        searcher = self.searchers.new()
+        worker = self.workers.new()
 
         sender = RPCSender(self.config, channel=self.channel)
         r = sender.channel.queue_declare()
@@ -30,21 +30,23 @@ class Controller(Parent):
             q)
         machine.start()
 
-        searcher.OUTPUTQUEUE = sender.send_request(
-            'QUEUE',
+        req = json.loads(sender.send_request(
+            'GET',
             'hive',
+            {'variables':['uuid']},
             '',
             '',
-            '',
-            key=q)
-        searcher.CONTROLQUEUE = q
-        searcher.QUERY = msg['data']['query']
-        searcher.TIME = msg['data']['time']
-        searcher.QUANTITY = msg['data']['quantity']
+            key=q))
 
-        self.searchers.save(searcher)
+        worker.UUID = req['data']['uuid']
+        worker.CONTROLQUEUE = q
+        worker.QUERY = msg['data']['query']
+        worker.TIME = msg['data']['time']
+        worker.QUANTITY = msg['data']['quantity']
 
-        resp.respond(searcher.OUTPUTQUEUE)
+        self.workers.save(worker)
+
+        resp.respond({'UUID': worker.UUID})
 
     def delete(self, body, resp):
         worker = self.workers.find(body.data)
