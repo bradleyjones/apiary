@@ -23,7 +23,7 @@ exports.constructQuery = function (action, queueName, data) {
     } ;
     var message = {
             action: action,
-            data: {"QUERY" : data},
+            data: {"QUERY" : data, "TIMESCALE" : 900000000000},
             to: queueName,
             machineid: '',
             from: 'Queen'

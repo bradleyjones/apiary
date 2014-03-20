@@ -41,8 +41,12 @@ function setTimeFrame(timeFrame){
 
 //Add Term ButtonS
 
+
+/*
+ * Sockets
+ */
 //Get Tags
-socket.on('tags', function(data){
+socket.on('tags', function(data) {
   console.log("TAGGGSSS");
   console.log(data);
 
@@ -53,6 +57,16 @@ socket.on('tags', function(data){
     )
   }
 
+});
+
+socket.on('results', function(data) {
+  console.log('results');
+  console.log(data);
+
+  for (var t in data) {
+    $('#MyGrid').data().datagrid.options.dataSource._data.push(data[t].log);
+    $('#MyGrid').datagrid('reload');
+  }
 });
 
 //$('#fieldAccordionButton').click(function (e) {
