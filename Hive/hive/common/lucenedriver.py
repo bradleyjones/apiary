@@ -147,7 +147,7 @@ class Worker(Process):
             "id",
             self.analyzer).parse(
             data['query'])
-        hits = searcher.search(query, 1000)
+        hits = searcher.search(query, 100000)
 
         results = {}
 
