@@ -13,6 +13,12 @@ data['TIMESCALE'] = "86400"
 data['files'] = {'PATH': "/etc/path", 'TAGS': "firewall"}
 data['agents'] = ['17af7719-f759-44a5-95a6-f66d31c53f86']
 
+data['query'] = "CONTENT:\"ERROR *.*.*.*\""
+data['time'] = 600
+data['quantity'] = 10
+data['message'] = "HOLY MOTHER OF JEBUS"
+data['user'] = "insertauserid"
+
 sdata = data
  
 config = {}
@@ -23,6 +29,7 @@ config['Rabbit']['host'] = '192.168.1.106'
 
 sender = RPCSender(config)
 
-resp = sender.send_request('SEARCH', 'hive', sdata, 'LKJABSDHBAS', 'Test Script', exchange="", key="honeycomb")
+resp = sender.send_request('DATA', 'hive', sdata, 'LKJABSDHBAS', 'Test Script', exchange="", key="honeycomb")
+#resp = sender.send_request('NEW', 'hive', sdata, 'LKJABSDHBAS', 'Test Script', exchange="", key="pheromone")
 
 print resp
