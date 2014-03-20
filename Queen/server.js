@@ -91,7 +91,6 @@ function checkAuth(req, res, next) {
 app.post('/login', function (req, res) {
   console.log(req);
   var post = req.body;
-
   // Find a user with matching username
   User.findOne({ username: post.user }, function(err, user){
     if (!user) {
@@ -111,22 +110,25 @@ app.post('/login', function (req, res) {
           var newDevice = new Device({
             device_id: devid,
             device_name: devname
-          })
-          newDevice.save(function(err) {
           });
-          // Update the user
-          User.update({ _id: user._id },
-            {$push : {
-              // Push the id of the new device in the DB
-              devices : newDevice._id
-                }},
-            function(err, model) {
-              if (err) {
-                throw err;
-                console.log("there was an error adding device");
-              }
-            });
-          }
+          newDevice.save(function(err) {
+            if (err) {
+              // Do Nothing
+            } else {
+              User.update({ _id: user._id },
+              {$push : {
+                // Push the id of the new device in the DB
+                devices : newDevice._id
+                  }},
+              function(err, model) {
+                if (err) {
+                  throw err;
+                  console.log("there was an error adding device");
+                }
+              });
+            }
+          });
+        }
         res.redirect('/');
       });
     }

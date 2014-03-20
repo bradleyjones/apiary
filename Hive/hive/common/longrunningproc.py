@@ -40,16 +40,28 @@ class ProcHandler(Process):
 
     def on_message(self, channel, method_frame, props, body):
         da = json.loads(body)
-        if body == "STOP":
+        if da['action'] == 'STOP':
             self.subproc.stop()
             self.connection.close()
-        elif da['action'] == "QUEUE":
+        elif da['action'] == "SET":
+            for var in da['data']:
+                setattr(self.subproc, var, da['data'][var])
             self.channel.basic_publish(exchange='',
                                        routing_key=props.reply_to,
                                        properties=pika.BasicProperties(
                                            correlation_id=props.correlation_id,
                                        ),
-                                       body=self.subproc.queue)
+                                       body={})
+        elif da['action'] == "GET":
+            response = {}
+            for var in da['data']['variables']:
+                response[var] = getattr(self.subproc, var)
+            self.channel.basic_publish(exchange='',
+                                       routing_key=props.reply_to,
+                                       properties=pika.BasicProperties(
+                                           correlation_id=props.correlation_id,
+                                       ),
+                                       body=json.dumps(response))
 
 
 class Proc(threading.Thread):

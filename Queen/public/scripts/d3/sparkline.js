@@ -58,7 +58,7 @@ function sparkline(divId, orig_data, time) {
               .attr("height", height + margin.top + margin.bottom)
               .append("g")
               .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-  
+
   // Draw Area
   vis.append("path")
      .datum(data)

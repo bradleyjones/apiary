@@ -55,10 +55,10 @@ StaticDataSource.prototype = {
       data = data.slice(startIndex, endIndex);
 
       console.log(data);
-      //for (var i = 0; i < data.length; i++) {
-        //var id = data[i].UUID;
-        //data[i].UUID = '<a onclick="testnewtarget(\''+id+'\')">'+id+'</a>';
-      //}
+      for (var i = 0; i < data.length; i++) {
+        var id = data[i].UUID;
+        data[i].DELETE = '<a onclick="deleteDevice(\''+id+'\')">x</a>';
+      }
 
       callback({ data: data, start: start, end: end, count: count, pages: pages, page: page });
 
@@ -77,6 +77,11 @@ var dataSource = new StaticDataSource({
     property: 'UUID',
       label: 'UUID',
       sortable: true
+  },
+  {
+    property: 'DELETE',
+      label: 'delete',
+      sortable: false
   }],
   data:[],
   delay: 250
