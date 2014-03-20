@@ -24,3 +24,11 @@ $('#stored a').click(function (e) {
    e.preventDefault()
    $(this).tab('show')
 })
+
+//$('#fieldAccordionButton').click(function (e) {
+//  e.preventDefault();
+//  $('#fieldAccordion').collapse({
+//    toggle: true
+//  });
+//})
+
