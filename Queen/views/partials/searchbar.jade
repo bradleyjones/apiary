@@ -11,19 +11,19 @@ span Time Frame:
 .input-group
   .input-group-btn
     input.form-control#timeInput(type="number" value="" placeholder="All")
-    button.btn.btn-default.dropdown-toggle(type='button', data-toggle="dropdown") Minutes 
+    button.btn.btn-default.dropdown-toggle#timeFrameDropdown(type='button', data-toggle="dropdown" value="Minutes") Minutes 
       span.caret
     ul.dropdown-menu(role="menu")
       li(role="presentation").dropdown-header Choose TimeFrame
       li
-        a(href='#') Minutes 
+        a(href='#' onclick='setTimeFrame("Minutes")') Minutes 
       li
-        a(href='#') Hours
+        a(href='#' onclick='setTimeFrame("Hours")') Hours
       li
-        a(href='#') Days
+        a(href='#' onclick='setTimeFrame("Days")') Days
       li
-        a(href='#') Weeks
+        a(href='#' onclick='setTimeFrame("Weeks")') Weeks
       li
-        a(href='#') Months
+        a(href='#' onclick='setTimeFrame("Months")') Months
       li
-        a(href='#') All
+        a(href='#' onclick='setTimeFrame("All")')  All

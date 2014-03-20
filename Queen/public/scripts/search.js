@@ -31,6 +31,14 @@ $('#AddFieldButton').click(function (e) {
    $('#fieldTabs').append("<li><a href='fieldOne' data-toggle='tab'>A Field</a></li>");
 });
 
+//Time Frame Dropdown
+function setTimeFrame(timeFrame){
+  console.log("Change timeFrame");
+  $('#timeFrameDropdown').text(timeFrame + " ").append("<span class='caret'></span>");
+  $('#timeFrameDropdown').val(timeFrame);
+
+}
+
 //Add Term ButtonS
 
 //Get Tags
