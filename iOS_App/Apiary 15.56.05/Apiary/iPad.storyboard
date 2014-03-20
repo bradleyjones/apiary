@@ -19,10 +19,10 @@
             </objects>
             <point key="canvasLocation" x="-1116" y="-249"/>
         </scene>
-        <!--View Controller-->
+        <!--View Controller - User Login-->
         <scene sceneID="sru-2A-8bg">
             <objects>
-                <viewController id="efj-cd-thQ" customClass="ViewController" sceneMemberID="viewController">
+                <viewController title="User Login" id="efj-cd-thQ" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1xi-ft-DvH"/>
                         <viewControllerLayoutGuide type="bottom" id="cDn-Ca-qnx"/>
@@ -30,15 +30,115 @@
                     <view key="view" contentMode="scaleToFill" id="bCs-OI-OWE">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ApiaryAvatar.png" translatesAutoresizingMaskIntoConstraints="NO" id="sQw-FN-7SC">
+                                <rect key="frame" x="184" y="442" width="401" height="481"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lwt-Yv-kvD">
+                                <rect key="frame" x="175" y="143" width="418" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rXG-Fz-f2s">
+                                <rect key="frame" x="175" y="209" width="418" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P7R-aQ-lzs">
+                                <rect key="frame" x="273" y="278" width="223" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="72"/>
+                                <state key="normal" title="Login">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="Sba-Ko-cPo" kind="push" id="54l-hj-pZj"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="QWe-HN-c6t"/>
+                    <navigationItem key="navigationItem" id="QWe-HN-c6t">
+                        <barButtonItem key="leftBarButtonItem" title="new user" id="AKS-d5-eA3">
+                            <connections>
+                                <segue destination="8Am-dn-lYH" kind="push" id="IBx-G0-eZd"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="settings" id="em5-iB-wmg">
+                            <connections>
+                                <segue destination="TC9-NO-rVl" kind="push" id="PU1-CD-olg"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kGr-AC-Uqf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-159" y="-249"/>
         </scene>
+        <!--Settings View Controller - Settings-->
+        <scene sceneID="lN1-R1-YYG">
+            <objects>
+                <viewController title="Settings" id="TC9-NO-rVl" customClass="SettingsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="q4Q-pM-wvp"/>
+                        <viewControllerLayoutGuide type="bottom" id="rEi-fp-u2b"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="sLr-h3-k2R">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="AKG-aM-QxP"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dRj-wg-WAR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="789" y="-1429"/>
+        </scene>
+        <!--Apiary View Controller - Apiary-->
+        <scene sceneID="0sZ-f7-LzP">
+            <objects>
+                <viewController title="Apiary" id="Sba-Ko-cPo" customClass="ApiaryViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="hXN-nb-IX5"/>
+                        <viewControllerLayoutGuide type="bottom" id="o2f-I8-d5P"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="itT-nL-JGV">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="BfQ-y4-4rS"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ORX-RU-Qon" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="789" y="-253"/>
+        </scene>
+        <!--New User View Controller - New User-->
+        <scene sceneID="Cql-J3-IZj">
+            <objects>
+                <viewController title="New User" id="8Am-dn-lYH" customClass="NewUserViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tgM-6d-gaM"/>
+                        <viewControllerLayoutGuide type="bottom" id="Ing-il-B4Q"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kDy-NG-Vye">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="j4m-G5-TEX"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qIq-fj-3GR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-159" y="-1429"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="ApiaryAvatar.png" width="1277" height="1327"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
