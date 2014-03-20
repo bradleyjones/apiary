@@ -33,6 +33,8 @@ button#new.btn.btn-primary.btn-lg(data-toggle='modal', data-target='#newTargetMo
             #step2.step-pane
               | Select Tags to apply to the file
               select#select-tags(multiple='multiple', name='select-tags[]')
+              input#newtag(type='text', class='form-control', placeholder='tag name')
+              button#newtagbtn.btn(type='button') Add Tag
             #step3.step-pane
               | Select Agents to monitor this file
               select#select-agents(multiple='multiple', name='select-agents[]')
