@@ -16,7 +16,7 @@ var width = 960,
 .innerRadius(radius * 0.9)
   .outerRadius(radius * 0.9);
 
-
+  var color;
 
   var key = function(d){ return d.data.label; };
 
@@ -31,10 +31,10 @@ function pieChart(divID, data){
   console.log(data);
 
   //Put labels in domain
-  var color = d3.scale.ordinal20()
-    .domain(return data.map(function(item){
+  color = d3.scale.category20()
+    .domain(data.map(function(item){
       return item.label;
-    });
+    }));
 
         var svg = d3.select(divID)
         .append("svg")
@@ -57,7 +57,8 @@ function pieChart(divID, data){
 
 function pieChange(divID, data) {
 
-  var svg = d3.select(divID)
+  var svg = d3.select(divID);
+  console.log("Creating Pie");
 
     /* ------- PIE SLICES -------*/
     var slice = svg.select(".slices").selectAll("path.slice")

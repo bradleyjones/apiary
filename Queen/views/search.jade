@@ -66,7 +66,13 @@ html
             #results.tab-pane.fade.in.active
               include partials/searchDatagrid.jade
             #graphs.tab-pane.fade
-              h1 graph stuff here
+              button.btn.btn-default(type='button')#addSparklineButton Add Event Frequency SparkLine
+              button.btn.btn-default(type='button')#addPieButton Add Pie
+              input.form-control(type='text' value='' placeholder='Field Name')
+              #sparkline
+                script(src="/scripts/d3/sparkline.js")
+              #piechart
+                script(src="/scripts/d3/pie.js")
             #stored.tab-pane.fade
               h1 show stored queries here
 

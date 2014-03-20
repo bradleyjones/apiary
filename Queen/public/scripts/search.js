@@ -43,6 +43,21 @@ $(function() {
      //Add Term to Field
      //Rerun Search?
   });
+
+  $('#addSparkLineButton').click(function (e) {
+    //Get search query
+    //format data
+    //feed to graph
+  });
+
+  $('#addPieButton').click(function (e) {
+    //Get Search Query
+    //Get Field
+    //Make Query for each Term in field
+    //Parse and format fields and data
+    //Feed to graph
+    pieChart("#piechart", [{label: "hello", value:10},{label:"2lo",value:5}]);
+  });
 });
 
 
