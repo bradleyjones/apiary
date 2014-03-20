@@ -9,28 +9,29 @@ $(function() {
         socket.emit('querySubmit', searchTerm);
       }
    });
+
+  $('#results a').click(function (e) {
+     e.preventDefault()
+     $(this).tab('show')
+  });
+
+  $('#graphs a').click(function (e) {
+     e.preventDefault()
+     $(this).tab('show')
+  });
+
+  $('#stored a').click(function (e) {
+     e.preventDefault()
+     $(this).tab('show')
+  });
+
+  //Add Field Button
+  $('#AddFieldButton').click(function (e) {
+     e.preventDefault()
+     $('#fieldTabs').append("<li><a href='fieldOne' data-toggle='tab'>A Field</a></li>");
+  });
 });
 
-$('#results a').click(function (e) {
-   e.preventDefault()
-   $(this).tab('show')
-});
-
-$('#graphs a').click(function (e) {
-   e.preventDefault()
-   $(this).tab('show')
-});
-
-$('#stored a').click(function (e) {
-   e.preventDefault()
-   $(this).tab('show')
-});
-
-//Add Field Button
-$('#AddFieldButton').click(function (e) {
-   e.preventDefault()
-   $('#fieldTabs').append("<li><a href='fieldOne' data-toggle='tab'>A Field</a></li>");
-});
 
 //Time Frame Dropdown
 function setTimeFrame(timeFrame){
