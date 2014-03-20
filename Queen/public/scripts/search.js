@@ -63,6 +63,10 @@ socket.on('results', function(data) {
   console.log('results');
   console.log(data);
 
+  // reset results
+  $('#MyGrid').data().datagrid.options.dataSource._data = [];
+
+  // add data to datagrid
   for (var t in data) {
     $('#MyGrid').data().datagrid.options.dataSource._data.push(data[t].log);
     $('#MyGrid').datagrid('reload');
