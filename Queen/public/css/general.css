@@ -32,6 +32,15 @@ body {
   height: 519px;
 }
 
+#TagsDataGrid {
+  height: 519px;
+}
+
+
+#MyGrid {
+  height: 519px;
+}
+
 #search-container {
   padding : 20px 15px;
 }
