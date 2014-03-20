@@ -138,13 +138,19 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </webView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="RhS-JC-Cth">
+                                <rect key="frame" x="366" y="493" width="37" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Apiary" id="BfQ-y4-4rS">
                         <barButtonItem key="rightBarButtonItem" enabled="NO" image="Barry_small.png" id="iZt-1m-B07"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="RhS-JC-Cth" id="aW1-3Z-hEG"/>
                         <outlet property="webView" destination="dtp-tI-c9p" id="Mir-eb-uxo"/>
                     </connections>
                 </viewController>
@@ -169,6 +175,11 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </webView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="0FY-dX-sWB">
+                                <rect key="frame" x="366" y="493" width="37" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -176,6 +187,7 @@
                         <barButtonItem key="rightBarButtonItem" enabled="NO" image="Barry_small.png" id="k16-S9-dlL"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="0FY-dX-sWB" id="uQt-f3-xl2"/>
                         <outlet property="webView" destination="Ndf-py-6us" id="WM7-19-QqJ"/>
                     </connections>
                 </viewController>
