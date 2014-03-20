@@ -114,7 +114,7 @@
                         <barButtonItem key="rightBarButtonItem" enabled="NO" image="Barry_small.png" id="etw-gi-4dy"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="hiveURLField" destination="Qou-HA-OMC" id="snO-dI-jPy"/>
+                        <outlet property="hiveURLField" destination="Qou-HA-OMC" id="HSB-17-PV1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dRj-wg-WAR" userLabel="First Responder" sceneMemberID="firstResponder"/>
