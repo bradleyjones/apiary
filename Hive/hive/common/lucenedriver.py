@@ -56,13 +56,18 @@ class Worker(Process):
         while(True):
             data = self.queue.get()
             da = data[1]
-            self.d = SimpleFSDirectory(File(da['data']['indexdir']))
-            self.analyzer = StandardAnalyzer(Version.LUCENE_CURRENT)
-            self.conf = IndexWriterConfig(
-                Version.LUCENE_CURRENT,
-                self.analyzer)
+            response = None
+            try:
+                self.d = SimpleFSDirectory(File(da['data']['indexdir']))
+                self.analyzer = StandardAnalyzer(Version.LUCENE_CURRENT)
+                self.conf = IndexWriterConfig(
+                    Version.LUCENE_CURRENT,
+                    self.analyzer)
 
-            response = getattr(self, da['action'])(da['data'])
+                response = getattr(self, da['action'])(da['data'])
+                self.d.close()
+            except:
+                pass
             if response is None:
                 response = {}
 
