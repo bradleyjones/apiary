@@ -127,9 +127,18 @@
                     <view key="view" contentMode="scaleToFill" id="kDy-NG-Vye">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ndf-py-6us">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="j4m-G5-TEX"/>
+                    <navigationItem key="navigationItem" id="j4m-G5-TEX">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" image="Barry_small.png" id="k16-S9-dlL"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qIq-fj-3GR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -138,6 +147,7 @@
     </scenes>
     <resources>
         <image name="ApiaryAvatar.png" width="1277" height="1327"/>
+        <image name="Barry_small.png" width="40" height="40"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
