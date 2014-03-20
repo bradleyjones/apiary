@@ -28,6 +28,8 @@ body {
   margin-right: auto;
 }
 
+
+
 #AgentsDataGrid {
   height: 519px;
 }
@@ -36,6 +38,17 @@ body {
   height: 519px;
 }
 
+#sparklineGraph{
+  margin-left: auto;
+  margin-right: auto;
+  width:725px;
+}
+
+#piechart{
+  margin-left: auto;
+  margin-right: auto;
+  width: 600px;
+}
 
 #MyGrid {
   height: 519px;
