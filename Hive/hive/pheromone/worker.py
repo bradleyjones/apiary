@@ -9,4 +9,5 @@ class Worker(Model):
         self.addcolumn('QUERY')
         self.addcolumn('QUANTITY')
         self.addcolumn('TIME')
+        self.addcolumn('MESSAGE')
         self.setprimary('CONTROLQUEUE')

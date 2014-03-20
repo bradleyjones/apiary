@@ -26,7 +26,8 @@ class Controller(Parent):
                 self.config,
                 msg['data']['query'],
                 msg['data']['time'],
-                msg['data']['quantity']),
+                msg['data']['quantity'],
+                msg['data']['message']),
             q)
         machine.start()
 
@@ -43,6 +44,7 @@ class Controller(Parent):
         worker.QUERY = msg['data']['query']
         worker.TIME = msg['data']['time']
         worker.QUANTITY = msg['data']['quantity']
+        worker.MESSAGE = msg['data']['message']
 
         self.workers.save(worker)
 
