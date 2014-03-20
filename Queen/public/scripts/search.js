@@ -23,7 +23,15 @@ $('#graphs a').click(function (e) {
 $('#stored a').click(function (e) {
    e.preventDefault()
    $(this).tab('show')
-})
+});
+
+//Add Field Button
+$('#AddFieldButton').click(function (e) {
+   e.preventDefault()
+   $('#fieldTabs').append("<li><a href='fieldOne' data-toggle='tab'>A Field</a></li>");
+});
+
+//Add Term ButtonS
 
 //Get Tags
 socket.on('tags', function(data){
@@ -31,12 +39,13 @@ socket.on('tags', function(data){
   console.log(data);
   
   for( var t in data){
+    console.log(t);
     $('#TagList').append(
       "<li><label class='checkbox'>"+data[t][NAME]+"<input type='checkbox' name='' value="+data[t][NAME]+"></input></label></li>"
     )
   }
 
-}
+});
 
 //$('#fieldAccordionButton').click(function (e) {
 //  e.preventDefault();

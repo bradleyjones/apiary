@@ -10,12 +10,13 @@ from hive.common.longrunningproc import Proc
 
 class Alerter(Proc):
 
-    def __init__(self, config, query, time, quantity):
+    def __init__(self, config, query, time, quantity, message):
         Proc.__init__(self, config)
         self.connection = None
         self.channel = None
-        self.queue = None
+        self.uuid = str(uuid.uuid4())
         self.query = query
+        self.message = message
         self.maxTime = time
         self.maxQuantity = quantity
         self.capturedTime = time.time() + self.maxTime()
@@ -32,11 +33,7 @@ class Alerter(Proc):
             pika.ConnectionParameters(host=self.config['Rabbit']['host'], credentials=credentials))
         self.channel = self.connection.channel()
 
-        # Setup queue for outputing data
-        result = channel.queue_declare(exclusive=true)
-        self.queue = result.method.queue
-
-        # Push all historic data from honeycomb
+        # Setup recurring search
         rpcSender = RPCSender(self.config, channel=self.channel)
         resp = rpcSender.send_request(
             'SEARCH',
@@ -65,22 +62,23 @@ class Alerter(Proc):
         self.currentCount += (len(msg['data']['hits'] - self.totalHits))
         if(self.currentCount >= self.maxQuantity):
             if(self.totalHits != 0):
-                send_alert()
+                send_alert(self.currentCount)
             self.capturedTime = time.time()
             self.currentCount = 0
             self.totalHits = len(msg['data']['hits'])
 
-    def send_alert(self):
+    def send_alert(self, count):
         message = {
-            "action": "ALERT",
+            "action": "EVENT",
             "to": "listener",
             "from": "pheromonealerter",
-            "data": {},
+            "data": {"ALERT": { "COUNT": count, "TEXT": self.message}},
             "machineid": "something"}
         self.channel.basic_publish(
-            exchange='',
-            routing_key=self.queue,
+            exchange='apiary',
+            routing_key="events.pheromone.alert",
             body=json.dumps(message))
 
     def stop(self):
-        self.connection.close()
+        nit__(self, config, query, time, quantity):
+            .connection.close()
