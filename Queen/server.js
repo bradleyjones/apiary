@@ -5,12 +5,20 @@ var http = require('http')
   , express = require('express')
   , app = express()
   , server = http.createServer(app)
-  , io = require('socket.io').listen(server)
+  , io = require('socket.io')
   , MongoStore = require('connect-mongo')(express)
   , colors = require('colors')
-  , config = require('./config/config');
+  , config = require('./config/config')
+  , connect = require('express/node_modules/connect')
+  , cookie = require('cookie');
 
-exports.io = io;
+
+var session_store = new connect.middleware.session.MemoryStore;
+//new MongoStore({
+      //host: config.mongoIP,
+      //db: 'queensessions'
+    //});
+exports.session_store = session_store;
 
 // Setup express to use views and public folder
 // Use Jade as the template engine for views
@@ -25,10 +33,8 @@ app.configure(function () {
   app.use(express.cookieParser());
   app.use(express.session({
     secret: 'THISISASECRETSSHHH',
-    store: new MongoStore({
-      host: config.mongoIP,
-      db: 'queensessions'
-    })
+    key: 'express.sid',
+    store: session_store
   }));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
@@ -52,6 +58,28 @@ connection.on('error', function(e) {
 server.listen(3000, function(){
   console.log("Queen is listening on port %d".green, server.address().port)
 })
+
+// Setup socket IO
+exports.io = io.listen(server).set('authorization', function(data, accept) {
+  console.log(data);
+  if (!data.headers.cookie) {
+    return accept('No cookie transmitted.', false);
+  }
+
+  data.cookie = cookie.parse(data.headers.cookie);
+
+  console.log("cookie        ",data.cookie['express.sid'])
+  data.sessionID = data.cookie['express.sid'].substring(2,26);
+
+  session_store.load(data.sessionID, function(err, session) {
+    console.log(session)
+
+    if (err || !session) return accept('Error', false);
+
+    data.session = session;
+    return accept(null, true);
+  });
+});
 
 /*
  *  Authentication

@@ -50,6 +50,12 @@ $(function() {
   $('#saveSearch').click( function() {
     console.log("saving search");
 
+    var searchObj = {main:{
+                        search: currentSearch,
+                        subsearch: {
+                        }
+                    }}
+
     if (currentSearch != "") {
       socket.emit('saveSearch', currentSearch);
     }
@@ -112,6 +118,10 @@ socket.on('results', function(data) {
     $('#MyGrid').data().datagrid.options.dataSource._data.push(data[t].log);
     $('#MyGrid').datagrid('reload');
   }
+});
+
+socket.on('usersSavedSearches', function(data) {
+  console.log(data);
 });
 
 //$('#fieldAccordionButton').click(function (e) {
