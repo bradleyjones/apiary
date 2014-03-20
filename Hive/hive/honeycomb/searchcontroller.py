@@ -15,33 +15,62 @@ class Controller(Parent):
         self.searchers = SearcherModel(self.config)
 
     def newsearch(self, msg, resp):
-        searcher = self.searchers.new()
-
         sender = RPCSender(self.config)
-        r = sender.channel.queue_declare()
-        q = r.method.queue
 
-        machine = ProcHandler(
-            self.config,
-            Searcher(
+        queue = sender.channel.queue_declare()
+        queue_name = queue.method.queue
+
+        results = self.searchers.mongoQuery({'QUERY': msg['data']['QUERY']})
+
+        if len(results) > 0:
+            searcher = results[0]
+
+            sender.channel.queue_bind(exchange=searcher.OUTPUTEXCHANGE, queue=queue_name)
+
+            req = sender.send_request(
+                'SET',
+                'hive',
+                {'override': True},
+                '',
+                '',
+                key=searcher.CONTROLQUEUE)
+        else:
+            searcher = self.searchers.new()
+            r = sender.channel.queue_declare()
+            q = r.method.queue
+            machine = ProcHandler(
                 self.config,
-                msg['data']['QUERY']),
-            q)
-        machine.start()
+                Searcher(
+                    self.config,
+                    msg['data']['QUERY']),
+                q)
+            machine.start()
 
-        searcher.OUTPUTQUEUE = sender.send_request(
-            'QUEUE',
-            'hive',
-            {},
-            '',
-            '',
-            key=q)
-        searcher.CONTROLQUEUE = q
-        searcher.QUERY = msg['data']['QUERY']
+            req = json.loads(sender.send_request(
+                'GET',
+                'hive',
+                {'variables': ['exchange']},
+                '',
+                '',
+                key=q))
 
-        self.searchers.save(searcher)
+            searcher.OUTPUTEXCHANGE = req['exchange']
+            searcher.CONTROLQUEUE = q
+            searcher.QUERY = msg['data']['QUERY']
 
-        resp.respond(searcher.OUTPUTQUEUE)
+            sender.channel.queue_bind(exchange=searcher.OUTPUTEXCHANGE, queue=queue_name)
+
+            req = sender.send_request(
+                'SET',
+                'hive',
+                {'override': True},
+                '',
+                '',
+                key=q)
+
+            self.searchers.save(searcher)
+
+        resp.respond({'queue': queue_name})
 
     def stop(self, msg, resp):
         searcher = self.searchers.find(msg.data)

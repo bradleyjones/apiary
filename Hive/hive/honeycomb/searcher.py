@@ -5,6 +5,7 @@ import json
 from hive.honeycomb.log import Log
 from hive.common.model import ModelObject
 from bson.objectid import ObjectId
+import uuid
 
 
 class Searcher(Proc):
@@ -13,9 +14,10 @@ class Searcher(Proc):
         Proc.__init__(self, config)
         self.connection = None
         self.channel = None
-        self.queue = None
+        self.exchange = None
         self.running = True
         self.query = query
+        self.override = False
         self.previousids = set({}.keys())
 
     def getQueue(self):
@@ -30,8 +32,8 @@ class Searcher(Proc):
         self.channel = self.connection.channel()
 
         # Setup queue for outputing data
-        result = self.channel.queue_declare()
-        self.queue = result.method.queue
+        self.exchange = str(uuid.uuid4())
+        self.channel.exchange_declare(exchange=self.exchange, type='fanout')
 
         logs = Log(self.config)
 
@@ -41,7 +43,8 @@ class Searcher(Proc):
             results = logs.indexdriver.query(self.query)
             diff = set(results['hits'].keys()) - self.previousids
 
-            if(len(diff) > 0):
+            if(len(diff) > 0) or self.override:
+                self.override = False
                 query = {'$or': []}
                 for hit in results['hits']:
                     query['$or'].append({logs.primary: ObjectId(hit)})
@@ -55,8 +58,8 @@ class Searcher(Proc):
                             logs.columns, res).to_hash()
 
                     self.channel.basic_publish(
-                        exchange='',
-                        routing_key=self.queue,
+                        exchange=self.exchange,
+                        routing_key='',
                         body=json.dumps(results))
                     self.previousids = set(results['hits'].keys())
 
