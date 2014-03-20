@@ -38,7 +38,14 @@ function watchFile(filename, callback){
       })
       change.on('data', function(data) {
         console.log(data.toString());
-        callback(data.toString());
+        
+        stringS = data.toString().split('\n');
+        for (string in stringS){
+          if(stringS[string]){
+            callback(stringS[string]);
+          }
+        }
+
         startByte = stats.size;
         change.destroy();
       })

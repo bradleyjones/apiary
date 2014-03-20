@@ -4,6 +4,7 @@ from ..common.simplepublisher import SimplePublisher
 from worker import Worker
 from alerter import Alerter
 from hive.common.longrunningproc import ProcHandler
+from hive.common.rpcsender import RPCSender
 
 
 class Controller(Parent):
@@ -13,10 +14,10 @@ class Controller(Parent):
 
     # BELOW THIS LINE ARE ALL CONTROLLER ACTIONS
 
-    def new(self, body, resp):
+    def new(self, msg, resp):
         worker = self.workers.new()
 
-        sender = RPCSender(self.config, channel=self.channel)
+        sender = RPCSender(self.config)
         r = sender.channel.queue_declare()
         q = r.method.queue
 
@@ -27,7 +28,8 @@ class Controller(Parent):
                 msg['data']['query'],
                 msg['data']['time'],
                 msg['data']['quantity'],
-                msg['data']['message']),
+                msg['data']['message'],
+                msg['data']['user']),
             q)
         machine.start()
 
@@ -39,7 +41,9 @@ class Controller(Parent):
             '',
             key=q))
 
-        worker.UUID = req['data']['uuid']
+        print req
+
+        worker.UUID = req['uuid']
         worker.CONTROLQUEUE = q
         worker.QUERY = msg['data']['query']
         worker.TIME = msg['data']['time']
