@@ -12,33 +12,66 @@ exports.update = function(req, res) {
 
   console.log(req.body);
 
-  var devid = req.body.id;
-  var devname = req.body.name;
+  if (req.body.deleting != null) {
+    // delete an existing device
 
-  // Create a new device in the DB
-  var newDevice = new Device({
-    device_name: devname,
-    device_id: devid
-  })
-  newDevice.save(function(err) {
-    if (err) throw err;
-  });
+    var uuid = req.body.id;
+    var devid;
 
-  console.log(devid + devname);
-  User.update({ _id: userid },
-      {$push : {
-            // push the id of the new device in the DB
-            devices : newDevice._id
-              }},
-      function(err, model) {
+    // remove the device from the device table
+    Device.findOne({ device_id: uuid}, function (err, dev) {
+      if (err) throw err;
+
+      devid = dev._id;
+
+      dev.remove();
+
+      console.log("Device to be deleted");
+      console.log(dev);
+    });
+
+    //remove the device from the user table
+    User.findOne({ _id: userid}, function (err, user) {
         if (err) {
-          throw err;
-          console.log("there was an error adding device");
+          console.log("there was an error removing device");
         } else {
-          res.redirect('/settings');
-        }
-      });
+          user.devices.remove(devid);
 
+          console.log("User to delete device from");
+          console.log(user);
+        }
+    });
+
+  } else {
+    // Add a new device
+
+    var devid = req.body.id;
+    var devname = req.body.name;
+
+    // Create a new device in the DB
+    var newDevice = new Device({
+      device_name: devname,
+      device_id: devid
+    })
+    newDevice.save(function(err) {
+      if (err) throw err;
+    });
+
+    console.log(devid + devname);
+    User.update({ _id: userid },
+        {$push : {
+              // push the id of the new device in the DB
+              devices : newDevice._id
+                }},
+        function(err, model) {
+          if (err) {
+            throw err;
+            console.log("there was an error adding device");
+          } else {
+            res.redirect('/settings');
+          }
+        });
+  }
   // Web Sockets
   //io.on('connection', function(socket) {
     //socket.on('addDevice', function(data) {
@@ -64,8 +97,8 @@ exports.index = function(req, res) {
         console.log(i);
         console.log(user.devices.length);
         // if at the last device render the page
-        if (i == (user.devices.length)) {
-          console.log("DEVICES");
+        if (devices.length == (user.devices.length)) {
+          console.log("SENDING DEVICES");
           console.log(devices);
           res.render("settings.jade", { devices : JSON.stringify(devices) });
         }

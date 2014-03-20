@@ -43,3 +43,13 @@ function post_to_url(path, params, method) {
     document.body.appendChild(form);
     form.submit();
 }
+
+/*
+ * Delete a device
+ */
+function deleteDevice(uuid) {
+  console.log("deleting a device");
+  var id = uuid;
+  post_to_url(document.URL, {id: id, deleting: true});
+}
+

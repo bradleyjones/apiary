@@ -57,7 +57,7 @@ StaticDataSource.prototype = {
       console.log(data);
       for (var i = 0; i < data.length; i++) {
         var id = data[i].UUID;
-        data[i].DELETE = '<a onclick="deleteDevice(\''+id+'\')">'+x+'</a>';
+        data[i].DELETE = '<a onclick="deleteDevice(\''+id+'\')">x</a>';
       }
 
       callback({ data: data, start: start, end: end, count: count, pages: pages, page: page });
