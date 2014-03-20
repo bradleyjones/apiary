@@ -61,7 +61,7 @@
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="QWe-HN-c6t">
+                    <navigationItem key="navigationItem" title="User Login" id="QWe-HN-c6t">
                         <barButtonItem key="leftBarButtonItem" title="new user" id="AKS-d5-eA3">
                             <connections>
                                 <segue destination="8Am-dn-lYH" kind="push" id="IBx-G0-eZd"/>
@@ -106,7 +106,7 @@
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="AKG-aM-QxP">
+                    <navigationItem key="navigationItem" title="Settings" id="AKG-aM-QxP">
                         <barButtonItem key="rightBarButtonItem" enabled="NO" image="Barry_small.png" id="etw-gi-4dy"/>
                     </navigationItem>
                 </viewController>
@@ -134,7 +134,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="BfQ-y4-4rS">
+                    <navigationItem key="navigationItem" title="Apiary" id="BfQ-y4-4rS">
                         <barButtonItem key="rightBarButtonItem" enabled="NO" image="Barry_small.png" id="iZt-1m-B07"/>
                     </navigationItem>
                 </viewController>
@@ -162,7 +162,7 @@
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="j4m-G5-TEX">
+                    <navigationItem key="navigationItem" title="New User" id="j4m-G5-TEX">
                         <barButtonItem key="rightBarButtonItem" enabled="NO" image="Barry_small.png" id="k16-S9-dlL"/>
                     </navigationItem>
                 </viewController>
