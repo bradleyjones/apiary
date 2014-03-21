@@ -7,6 +7,13 @@ html
     include partials/navbar
     // Make this page selected in the navbar
     script $("#alerts_navbar").addClass("active")
-    include partials/newAlertModal.jade
 
+    .container.main-container#search-container
+      .row
+        .col-md-12
+          .stat-group
+            include partials/newalert.jade
+      .row
+          .col-md-12
+            .stat-group
 

@@ -1,0 +1,25 @@
+#construct-query
+  span.btn.input-group-addon#alertButton
+    span.glyphicon.glyphicon-search
+  #alert-container
+    .input-group.input-group-lg
+      .input-group-btn
+        button.btn.btn-default.alert-query-button.dropdown-toggle(type='button', data-toggle="dropdown") Sources
+          span.caret
+        ul.dropdown-menu#TagList(role="menu")
+          li(role='presentation').dropdown-header Select Sources
+      input#query-term-search.form-control(type='text' placeholder='Alert Query')
+    .input-group.input-group-lg
+      .input-group-btn
+        button.btn.btn-default.alert-query-button Time
+      input#query-term-time.form-control(type='text' placeholder='Time frame to monitor (seconds)')
+    .input-group.input-group-lg
+      .input-group-btn
+        button.btn.btn-default.alert-query-button Quantity
+      input#query-term-quantity.form-control(type='text' placeholder='Quantity before alert')
+    .input-group.input-group-lg
+      .input-group-btn
+        button.btn.btn-default.alert-query-button Message
+      input#query-term-message.form-control(type='text' placeholder='Message to receive on alert')
+
+  script(src="/scripts/alerts.js")

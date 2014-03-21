@@ -57,7 +57,7 @@ io.of('/search').on('connection', function (socket) {
   //HACK CODE, PLZ REMOVE
   socket.on("pieQuerySubmit", function(searches){
     console.log("Query for Pie Chart");
-   
+
     runningResults = [];
 
     function recursiveQuery(searches, runningResults){

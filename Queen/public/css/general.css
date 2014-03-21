@@ -28,6 +28,26 @@ body {
   margin-right: auto;
 }
 
+.alert-query-button {
+  width: 140px;
+}
+
+#construct-query {
+  padding : 20px 15px;
+  width: auto;
+  height: auto;
+}
+
+#alert-container {
+  overflow: hidden;
+}
+
+#alertButton {
+  width: 80px;
+  height: auto;
+  padding : 80px 15px;
+  float: right;
+}
 
 
 #AgentsDataGrid {

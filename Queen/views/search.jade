@@ -9,67 +9,67 @@ html
     script $("#searches_navbar").addClass("active")
     script(src="/scripts/search.js")
 
-  .container.main-container#search-container
-    .row
-      .col-md-12
-        .stat-group
-          include partials/searchbar.jade
-    .row
-      .col-md-12
-        #accordion.stat-group.panel-group
-          .panel.panel-default
-            .panel-heading
-              h4.panel-title
-                #fieldAccordionButton.btn(data-toggle="collapse" data-target"#fieldAccordion") Add Fields
-            #fieldAccordion.panel-collapse.collapse.in
-              .panel-body
-                ul.nav.nav-pills.nav-stacked#fieldTabs
-                  li
-                    button.btn.btn-default#AddFieldButton(type='button') + Add Field
-                .tab-content#TermTabs
-                  #fieldOne.tab-pane.fade.in.active
-                    table.fieldTable
-                      thead
-                        tr
-                          th #
-                          th Term Name
-                          th Sub Query
-                          th  
-                      tbody#TermTableBody
-                        tr
-                          th 1 
-                          th 
-                            input.form-control.fieldName(type='text' value='' placeholder='Bananas')
-                          th
-                            input.form-control(type='text' value='' placeholder='Fruit:Banana')
-                          th
-                            button.btn.btn-default(type='button') X
-                        tr#termAddButtonRow
-                          th
-                          th
-                          th
-                          th
-                            button.btn.btn-default(type='button')#AddTermButton +
-                  #fieldTwo.tab-pane.fade
-                    h4 Field 2
-    .row
-      .col-md-12
-        .stat-group
-          ul.nav.nav-tabs
-            li.active
-              a(href='#results', data-toggle='tab') Results
-            li
-              a(href='#graphs', data-toggle='tab') Graphing
-            li.pull-right
-              a(href='#stored', data-toggle='tab') Stored Queries   
-          .tab-content
-            #results.tab-pane.fade.in.active
-              include partials/searchDatagrid.jade
-            #graphs.tab-pane.fade
-              button.btn.btn-default(type='button')#addSparklineButton Add Event Frequency SparkLine
-              button.btn.btn-default(type='button')#addPieButton Add Pie
-              input.form-control(type='text' value='' placeholder='Field Name')
-              #sparklineGraoh
+    .container.main-container#search-container
+      .row
+        .col-md-12
+          .stat-group
+            include partials/searchbar.jade
+      .row
+        .col-md-12
+          #accordion.stat-group.panel-group
+            .panel.panel-default
+              .panel-heading
+                h4.panel-title
+                  #fieldAccordionButton.btn(data-toggle="collapse" data-target"#fieldAccordion") Add Fields
+              #fieldAccordion.panel-collapse.collapse.in
+                .panel-body
+                  ul.nav.nav-pills.nav-stacked#fieldTabs
+                    li
+                      button.btn.btn-default#AddFieldButton(type='button') + Add Field
+                  .tab-content#TermTabs
+                    #fieldOne.tab-pane.fade.in.active
+                      table.fieldTable
+                        thead
+                          tr
+                            th #
+                            th Term Name
+                            th Sub Query
+                            th
+                        tbody#TermTableBody
+                          tr
+                            th 1
+                            th
+                              input.form-control.fieldName(type='text' value='' placeholder='Bananas')
+                            th
+                              input.form-control(type='text' value='' placeholder='Fruit:Banana')
+                            th
+                              button.btn.btn-default(type='button') X
+                          tr#termAddButtonRow
+                            th
+                            th
+                            th
+                            th
+                              button.btn.btn-default(type='button')#AddTermButton +
+                    #fieldTwo.tab-pane.fade
+                      h4 Field 2
+      .row
+        .col-md-12
+          .stat-group
+            ul.nav.nav-tabs
+              li.active
+                a(href='#results', data-toggle='tab') Results
+              li
+                a(href='#graphs', data-toggle='tab') Graphing
+              li.pull-right
+                a(href='#stored', data-toggle='tab') Stored Queries
+            .tab-content
+              #results.tab-pane.fade.in.active
+                include partials/searchDatagrid.jade
+              #graphs.tab-pane.fade
+                button.btn.btn-default(type='button')#addSparklineButton Add Event Frequency SparkLine
+                button.btn.btn-default(type='button')#addPieButton Add Pie
+                input.form-control(type='text' value='' placeholder='Field Name')
+                #sparklineGraoh
                 script(src="/scripts/d3/sparkline.js")
               #piechart
                 script(src="/scripts/d3/pie.js")
