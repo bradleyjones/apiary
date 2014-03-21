@@ -96,11 +96,11 @@ body {
   width:725px;
 }
 
-#piechart{
-  margin-left: auto;
-  margin-right: auto;
-  width: 600px;
-}
+/*#piechart{*/
+  /*margin-left: auto;*/
+  /*margin-right: auto;*/
+  /*width: 600px;*/
+/*}*/
 
 #search-container {
   padding : 20px 15px;
