@@ -40,8 +40,42 @@ $(function() {
   $('#AddTermButton').click(function (e) {
     e.preventDefault()
     console.log("Adding Field Row");
-  $("<tr><th>1</th><th><input class='form-control fieldName' type='text' value='' placeholder='Bananas'></input></th><th><input class='form-control' type='text' value='' placeholder='Fruit:Banana'></input></th><th><button class='btn btn-default' type='button'>X</button></th></tr>").insertBefore('#termAddButtonRow');
 
+    var table = document.getElementById('fieldTable');
+    var row = table.insertRow(table.rows.length - 1);
+
+    // Insert Count
+    //var count = table.rows.length - 2;
+    //var count_CELL = row.insertCell(0);
+    //count_CELL.innerHTML=count;
+
+    // Insert field name input box
+    var fieldName = document.createElement("input");
+    fieldName.type = "text";
+    fieldName.placeholder = "Bananas";
+    fieldName.className = "form-control fieldName";
+    var fieldName_CELL = row.insertCell(0);
+    fieldName_CELL.appendChild(fieldName);
+
+    // Insert sub query input
+    var subquery = document.createElement("input");
+    subquery.type = "text";
+    subquery.placeholder = "CONTENT:banana";
+    subquery.className = "form-control"
+    var subquery_CELL = row.insertCell(1);
+    subquery_CELL.appendChild(subquery);
+
+    // Add Remove button
+    var remove = document.createElement("button");
+    remove.className = "btn btn-default";
+    remove.type = "button";
+    remove.innerHTML = "X";
+    remove.onclick = function() {
+      var todelete = this.parentNode.parentNode.rowIndex;
+      var table = document.getElementById('fieldTable').deleteRow(todelete);
+    }
+    var remove_CELL = row.insertCell(2);
+    remove_CELL.appendChild(remove);
 
   //Add Term to Field
   //Rerun Search?

@@ -28,27 +28,22 @@ html
                       //button.btn.btn-default#AddFieldButton(type='button') + Add Field
                   .tab-content#TermTabs
                     #fieldOne.tab-pane.fade.in.active
-                      table.fieldTable
+                      table#fieldTable
                         thead
                           tr
-                            th #
                             th Term Name
                             th Sub Query
                             th
                         tbody#TermTableBody
                           tr
-                            th 1
-                            th
+                            td
                               input.form-control.fieldName(type='text' value='' placeholder='Bananas')
-                            th
-                              input.form-control(type='text' value='' placeholder='Fruit:Banana')
-                            th
-                              button.btn.btn-default(type='button') X
+                            td
+                              input.form-control(type='text' value='' placeholder='CONTENT:Banana')
                           tr#termAddButtonRow
-                            th
-                            th
-                            th
-                            th
+                            td
+                            td
+                            td
                               button.btn.btn-default(type='button')#AddTermButton +
                     #fieldTwo.tab-pane.fade
                       h4 Field 2
