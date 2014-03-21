@@ -78,7 +78,7 @@ var dataSource = new StaticDataSource({
   delay: 250
   });
 
-$('#MyGrid').datagrid({
+$('#SearchGrid').datagrid({
   dataSource: dataSource,
   stretchHeight: true
 });

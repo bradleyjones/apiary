@@ -140,7 +140,7 @@ class Model(object):
 
     def query(self, query, timescale):
         results = self.indexdriver.query(query)
-        
+
         now = datetime.datetime.now(pytz.utc)
         response = {'totalHits': 0, 'hits': {}}
 

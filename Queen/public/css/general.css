@@ -32,16 +32,17 @@ body {
   width: 140px;
 }
 
+/*
+ * Query for alert
+ */
 #construct-query {
   padding : 20px 15px;
   width: auto;
   height: auto;
 }
-
 #alert-container {
   overflow: hidden;
 }
-
 #alertButton {
   width: 80px;
   height: auto;
@@ -49,7 +50,26 @@ body {
   float: right;
 }
 
+/*
+ * Search bar
+ */
+.search-query-button {
+  width:140px;
+}
 
+/*
+ * Progress loader
+ */
+.preloader {
+  display: none;
+  margin: auto;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+/*
+ * Datagrids
+ */
 #AgentsDataGrid {
   height: 519px;
 }
@@ -59,6 +79,14 @@ body {
 }
 
 #TagsDataGrid {
+  height: 519px;
+}
+
+#MyGrid {
+  height: 519px;
+}
+
+#SearchGrid {
   height: 519px;
 }
 
@@ -74,16 +102,8 @@ body {
   width: 600px;
 }
 
-#MyGrid {
-  height: 519px;
-}
-
 #search-container {
   padding : 20px 15px;
-}
-
-#timeInput{
-  width : 150px;
 }
 
 #fieldTabs{

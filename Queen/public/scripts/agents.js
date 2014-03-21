@@ -5,8 +5,8 @@ function addAgent(agent, firstLoad) {
   //console.log("AGENT:");
   //console.log(agent);
 
-  $('#MyGrid').data().datagrid.options.dataSource._data.push(agent);
-  $('#MyGrid').datagrid('reload');
+  $('#AgentsGrid').data().datagrid.options.dataSource._data.push(agent);
+  $('#AgentsGrid').datagrid('reload');
 
   totalAgents += 1;
   updateTotal();

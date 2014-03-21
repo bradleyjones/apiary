@@ -92,7 +92,7 @@ var dataSource = new StaticDataSource({
   delay: 250
   });
 
-$('#MyGrid').datagrid({
+$('#AgentsGrid').datagrid({
   dataSource: dataSource,
   stretchHeight: true
 });
