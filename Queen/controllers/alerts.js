@@ -23,7 +23,7 @@ io.of('/alerts').on('connection', function(socket) {
   // Get all current running alerts
   var msg = rabbit.constructMessage('ALL', 'pheromone');
   new rabbit.rpc('pheromone', msg, function(resp) {
-    console.log(resp);
+    socket.emit('allalerts', resp.data);
   });
 
   socket.on('newalert', function(data) {

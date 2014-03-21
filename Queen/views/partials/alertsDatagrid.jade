@@ -1,0 +1,53 @@
+.fuelux#AlertsDataGrid
+  table#AlertsGrid.table.table-bordered.datagrid
+    thead
+      tr
+        th
+          span.datagrid-header-title Alerts
+          .datagrid-header-left
+            .input-append.search.datagrid-search
+              input.input-large(type='text', placeholder='Search')
+              button.btn(type='button')
+                i.icon-search
+    tfoot
+      tr
+        th
+          .datagrid-footer-left(style='display:none;')
+            .grid-controls
+              span
+                span.grid-start
+                | -
+                span.grid-end
+                | of
+                span.grid-count
+              .select.grid-pagesize(data-resize='auto')
+                button.btn.dropdown-toggle(type='button', data-toggle='dropdown')
+                  span.dropdown-label
+                  span.caret
+                ul.dropdown-menu
+                  li(data-value='5', data-selected='true')
+                    a(href='#') 5
+                  li(data-value='10')
+                    a(href='#') 10
+                  li(data-value='20')
+                    a(href='#') 20
+                  li(data-value='50')
+                    a(href='#') 50
+                  li(data-value='100')
+                    a(href='#') 100
+              span Per Page
+          .datagrid-footer-right(style='display:none;')
+            .grid-pager
+              button.btn.grid-prevpage(type='button')
+                i.icon-chevron-left
+              span Page
+              .input-append.dropdown.combobox
+                input.span1(type='text')
+                button.btn(type='button', data-toggle='dropdown')
+                  i.caret
+                ul.dropdown-menu
+              span
+                | of
+                span.grid-pages
+              button.btn.grid-nextpage(type='button')
+                i.icon-chevron-right

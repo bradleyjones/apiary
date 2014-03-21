@@ -54,6 +54,10 @@ body {
   height: 519px;
 }
 
+#AlertsDataGrid {
+  height: 519px;
+}
+
 #TagsDataGrid {
   height: 519px;
 }

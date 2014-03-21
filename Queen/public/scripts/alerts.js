@@ -54,3 +54,16 @@ $(function() {
 function isNumeric(str) {
   return (str==Number(str))?true:false;
 }
+
+/*
+ * Sockets
+ */
+socket.on('allalerts', function(data) {
+  console.log('All alerts data', data);
+
+  for (var a in data) {
+    $('#AlertsGrid').data().datagrid.options.dataSource._data.push(data[a]);
+  }
+
+  $('#AlertsGrid').datagrid('reload');
+})
