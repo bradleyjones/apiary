@@ -61,7 +61,7 @@ class Controller(Parent):
 
         self.workers.save(worker)
 
-        resp.respond({'UUID': worker.UUID})
+        resp.respond({worker.UUID: worker.to_hash()})
 
     def delete(self, body, resp):
         worker = self.workers.find(body.data)

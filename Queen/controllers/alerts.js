@@ -34,7 +34,9 @@ io.of('/alerts').on('connection', function(socket) {
 
     var msg = rabbit.constructMessage('NEW', 'pheromone', data);
     new rabbit.rpc('pheromone', msg, function(resp) {
-      console.log(resp);
+      console.log('successfully added new alert');
+
+      socket.emit('added', resp.data);
     });
   })
 })
