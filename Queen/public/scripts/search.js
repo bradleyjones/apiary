@@ -41,6 +41,13 @@ $(function() {
     e.preventDefault()
     console.log("Adding Field Row");
 
+    addTermToTable();
+
+  //Add Term to Field
+  //Rerun Search?
+  });
+
+  function addTermToTable(name, query) {
     var table = document.getElementById('fieldTable');
     var row = table.insertRow(table.rows.length - 1);
 
@@ -54,6 +61,9 @@ $(function() {
     fieldName.type = "text";
     fieldName.placeholder = "Bananas";
     fieldName.className = "form-control fieldName";
+    if (name != null) {
+      fieldName.value = name;
+    }
     var fieldName_CELL = row.insertCell(0);
     fieldName_CELL.appendChild(fieldName);
 
@@ -62,6 +72,9 @@ $(function() {
     subquery.type = "text";
     subquery.placeholder = "CONTENT:banana";
     subquery.className = "form-control"
+    if (query != null) {
+      subquery.value = query;
+    }
     var subquery_CELL = row.insertCell(1);
     subquery_CELL.appendChild(subquery);
 
@@ -76,24 +89,29 @@ $(function() {
     }
     var remove_CELL = row.insertCell(2);
     remove_CELL.appendChild(remove);
-
-  //Add Term to Field
-  //Rerun Search?
-  });
+  }
 
   // save search
   $('#saveSearch').click( function() {
     console.log("saving search");
 
-    var searchObj = {main:{
-      search: currentSearch,
-    subsearch: {
-    }
-    }}
+    // TEMP HACK FOR DEMO
+    $('#searchTerm').val("CONTENT:SALE");
+    addTermToTable('Bananas', 'CONTENT:banana');
+    addTermToTable('Apples', 'CONTENT:apple');
+    addTermToTable('Pineapples', 'CONTENT:pineapple');
+    addTermToTable('Mangos', 'CONTENT:mango');
+    addTermToTable('Durians', 'CONTENT:durian');
 
-    if (currentSearch != "") {
-      socket.emit('saveSearch', currentSearch);
-    }
+    //var searchObj = {main:{
+      //search: currentSearch,
+    //subsearch: {
+    //}
+    //}}
+
+    //if (currentSearch != "") {
+      //socket.emit('saveSearch', currentSearch);
+    //}
   });
 
   $('#addSparkLineButton').click(function (e) {
