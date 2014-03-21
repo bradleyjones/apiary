@@ -36,9 +36,9 @@ exports.update = function(req, res) {
           console.log("there was an error removing device");
         } else {
           user.devices.remove(devid);
-
           console.log("User to delete device from");
           console.log(user);
+          res.redirect('/settings');
         }
     });
 
@@ -87,17 +87,21 @@ exports.index = function(req, res) {
     console.log(user);
 
     var devices = [];
+    var deleted = 0;
     for (var i = 0; i < user.devices.length; i++) {
       var dev = user.devices[i];
       console.log(dev);
       Device.findOne({ _id: dev }, function(err, tmp) {
-        console.log(tmp);
-        devices.push( { UUID: tmp.device_id, NAME: tmp.device_name} );
-
+        if (tmp != null) {
+          console.log(tmp);
+          devices.push( { UUID: tmp.device_id, NAME: tmp.device_name} );
+        } else {
+          deleted++;
+        }
         console.log(i);
         console.log(user.devices.length);
         // if at the last device render the page
-        if (devices.length == (user.devices.length)) {
+        if (devices.length == (user.devices.length-deleted)) {
           console.log("SENDING DEVICES");
           console.log(devices);
           res.render("settings.jade", { devices : JSON.stringify(devices) });
