@@ -14,6 +14,15 @@ class Controller(Parent):
 
     # BELOW THIS LINE ARE ALL CONTROLLER ACTIONS
 
+    def get_all(self, msg, resp):
+        # find all currently running alert
+        workers = self.workers.findAll()
+        response = {}
+        for w in workers:
+            response[w.UUID] = w.to_hash()
+
+        resp.respond(response)
+
     def new(self, msg, resp):
         worker = self.workers.new()
 

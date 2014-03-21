@@ -20,6 +20,11 @@ io.of('/alerts').on('connection', function(socket) {
 
   var userid = sess.user_id;
 
+  // Get all current running alerts
+  var msg = rabbit.constructMessage('ALL', 'pheromone');
+  new rabbit.rpc('pheromone', msg, function(resp) {
+    console.log(resp);
+  });
 
   socket.on('newalert', function(data) {
     console.log("setting up a new alert");
