@@ -4,7 +4,7 @@ from org.apache.lucene.analysis.miscellaneous import LimitTokenCountAnalyzer
 from org.apache.lucene.analysis.standard import StandardAnalyzer
 from org.apache.lucene.document import Document, Field, FieldType
 from org.apache.lucene.index import FieldInfo, IndexWriter, IndexWriterConfig
-from org.apache.lucene.store import SimpleFSDirectory
+from org.apache.lucene.store import NIOFSDirectory
 from org.apache.lucene.util import Version
 from org.apache.lucene.queryparser.classic import QueryParser
 from org.apache.lucene.search import IndexSearcher
@@ -58,7 +58,8 @@ class Worker(Process):
             da = data[1]
             response = None
             try:
-                self.d = SimpleFSDirectory(File(da['data']['indexdir']))
+                self.fil = File(da['data']['indexdir'])
+                self.d = NIOFSDirectory(self.fil)
                 self.analyzer = StandardAnalyzer(Version.LUCENE_CURRENT)
                 self.conf = IndexWriterConfig(
                     Version.LUCENE_CURRENT,
@@ -66,8 +67,8 @@ class Worker(Process):
 
                 response = getattr(self, da['action'])(da['data'])
                 self.d.close()
-            except:
-                pass
+            except Exception as e:
+                print e 
             if response is None:
                 response = {}
 
@@ -141,30 +142,32 @@ class Worker(Process):
         writer.close()
 
     def query(self, data):
-        searcher = IndexSearcher(DirectoryReader.open(self.d))
-        query = QueryParser(
-            Version.LUCENE_30,
-            "id",
-            self.analyzer).parse(
-            data['query'])
-        hits = searcher.search(query, 100000)
+        if self.fil.exists():
+            searcher = IndexSearcher(DirectoryReader.open(self.d))
+            query = QueryParser(
+                Version.LUCENE_30,
+                "id",
+                self.analyzer).parse(
+                data['query'])
+            hits = searcher.search(query, 100000)
 
-        results = {}
+            results = {}
 
-        results['totalHits'] = hits.totalHits
-        results['hits'] = {}
+            results['totalHits'] = hits.totalHits
+            results['hits'] = {}
 
-        for hit in hits.scoreDocs:
-            record = {}
-            doc = searcher.doc(hit.doc)
-            fields = doc.getFields()
-            record['score'] = hit.score
-            for field in fields:
-                if field.name() != "id":
-                    record[field.name()] = field.stringValue()
-            results['hits'][doc.get('id')] = record
+            for hit in hits.scoreDocs:
+                record = {}
+                doc = searcher.doc(hit.doc)
+                fields = doc.getFields()
+                record['score'] = hit.score
+                for field in fields:
+                    if field.name() != "id":
+                        record[field.name()] = field.stringValue()
+                results['hits'][doc.get('id')] = record
 
-        return results
+            searcher.getIndexReader().close()
+            return results
 
 
 class Driver(object):
@@ -225,4 +228,7 @@ class Driver(object):
             'data': {
                 'indexdir': self.indexdir,
                 'query': query}}
-        return self._sendMessage(data)
+        resp = self._sendMessage(data)
+        if resp == {}:
+            raise Exception("Lucene worker failed!")
+        return resp

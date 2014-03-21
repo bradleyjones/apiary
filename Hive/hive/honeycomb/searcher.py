@@ -41,27 +41,31 @@ class Searcher(Proc):
 
         while self.running:
             results = logs.indexdriver.query(self.query)
-            diff = set(results['hits'].keys()) - self.previousids
 
-            if(len(diff) > 0) or self.override:
-                self.override = False
-                query = {'$or': []}
-                for hit in results['hits']:
-                    query['$or'].append({logs.primary: ObjectId(hit)})
+            if results == {}:
+                print "RECEIVED NO DATA SO DOING NOTHING -> CHECK HONEYCOMB, SIGNED Searcher"
+            else:
+                diff = set(results['hits'].keys()) - self.previousids
 
-                if len(results['hits']) > 0:
-                    dbresult = logs.table.find(query)
-                    for res in dbresult:
-                        res['TIMESTAMP'] = str(res['_id'].generation_time)
-                        res['_id'] = str(res['_id'])
-                        results['hits'][str(res['_id'])]['log'] = ModelObject(
-                            logs.columns, res).to_hash()
+                if(len(diff) > 0) or self.override:
+                    self.override = False
+                    query = {'$or': []}
+                    for hit in results['hits']:
+                        query['$or'].append({logs.primary: ObjectId(hit)})
 
-                    self.channel.basic_publish(
-                        exchange=self.exchange,
-                        routing_key='',
-                        body=json.dumps(results))
-                    self.previousids = set(results['hits'].keys())
+                    if len(results['hits']) > 0:
+                        dbresult = logs.table.find(query)
+                        for res in dbresult:
+                            res['TIMESTAMP'] = str(res['_id'].generation_time)
+                            res['_id'] = str(res['_id'])
+                            results['hits'][str(res['_id'])]['log'] = ModelObject(
+                                logs.columns, res).to_hash()
+
+                        self.channel.basic_publish(
+                            exchange=self.exchange,
+                            routing_key='',
+                            body=json.dumps(results))
+                        self.previousids = set(results['hits'].keys())
 
             time.sleep(1)
 
