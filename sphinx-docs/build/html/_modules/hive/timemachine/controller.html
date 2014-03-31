@@ -62,6 +62,7 @@
 <span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">Writer</span>
 <span class="kn">from</span> <span class="nn">hive.common.longrunningproc</span> <span class="kn">import</span> <span class="n">ProcHandler</span>
 
+
 <div class="viewcode-block" id="Controller"><a class="viewcode-back" href="../../../hive.timemachine.html#hive.timemachine.controller.Controller">[docs]</a><span class="k">class</span> <span class="nc">Controller</span><span class="p">(</span><span class="n">Parent</span><span class="p">):</span>
 
 <div class="viewcode-block" id="Controller.models"><a class="viewcode-back" href="../../../hive.timemachine.html#hive.timemachine.controller.Controller.models">[docs]</a>    <span class="k">def</span> <span class="nf">models</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -72,7 +73,6 @@
 <div class="viewcode-block" id="Controller.new"><a class="viewcode-back" href="../../../hive.timemachine.html#hive.timemachine.controller.Controller.new">[docs]</a>    <span class="k">def</span> <span class="nf">new</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">resp</span><span class="p">):</span>
         <span class="n">worker</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workers</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
 
-        
         <span class="n">machine</span> <span class="o">=</span> <span class="n">ProcHandler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">Writer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">))</span>
         <span class="n">machine</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 

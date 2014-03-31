@@ -58,6 +58,8 @@
 </div>
 <div class="section" id="module-hive.honeycomb.databasecontroller">
 <span id="hive-honeycomb-databasecontroller-module"></span><h2>hive.honeycomb.databasecontroller module<a class="headerlink" href="#module-hive.honeycomb.databasecontroller" title="Permalink to this headline">¶</a></h2>
+<p>Controller for Actions relating to Log data such as inserting or basic
+querying.</p>
 <dl class="class">
 <dt id="hive.honeycomb.databasecontroller.Controller">
 <em class="property">class </em><tt class="descclassname">hive.honeycomb.databasecontroller.</tt><tt class="descname">Controller</tt><big>(</big><em>config</em>, <em>channel</em><big>)</big><a class="reference internal" href="_modules/hive/honeycomb/databasecontroller.html#Controller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.honeycomb.databasecontroller.Controller" title="Permalink to this definition">¶</a></dt>
@@ -102,6 +104,8 @@
 </div>
 <div class="section" id="module-hive.honeycomb.log">
 <span id="hive-honeycomb-log-module"></span><h2>hive.honeycomb.log module<a class="headerlink" href="#module-hive.honeycomb.log" title="Permalink to this headline">¶</a></h2>
+<p>Model representing Log data stored in Honeycomb, defines the indexes and
+fields.</p>
 <dl class="class">
 <dt id="hive.honeycomb.log.Log">
 <em class="property">class </em><tt class="descclassname">hive.honeycomb.log.</tt><tt class="descname">Log</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="_modules/hive/honeycomb/log.html#Log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.honeycomb.log.Log" title="Permalink to this definition">¶</a></dt>
@@ -116,6 +120,7 @@
 </div>
 <div class="section" id="module-hive.honeycomb.querycontroller">
 <span id="hive-honeycomb-querycontroller-module"></span><h2>hive.honeycomb.querycontroller module<a class="headerlink" href="#module-hive.honeycomb.querycontroller" title="Permalink to this headline">¶</a></h2>
+<p>Controller for more advanced and specfic query Actions.</p>
 <dl class="class">
 <dt id="hive.honeycomb.querycontroller.Controller">
 <em class="property">class </em><tt class="descclassname">hive.honeycomb.querycontroller.</tt><tt class="descname">Controller</tt><big>(</big><em>config</em>, <em>channel</em><big>)</big><a class="reference internal" href="_modules/hive/honeycomb/querycontroller.html#Controller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.honeycomb.querycontroller.Controller" title="Permalink to this definition">¶</a></dt>
@@ -123,6 +128,11 @@
 <dl class="method">
 <dt id="hive.honeycomb.querycontroller.Controller.models">
 <tt class="descname">models</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/honeycomb/querycontroller.html#Controller.models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.honeycomb.querycontroller.Controller.models" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hive.honeycomb.querycontroller.Controller.tags">
+<tt class="descname">tags</tt><big>(</big><em>msg</em>, <em>resp</em><big>)</big><a class="reference internal" href="_modules/hive/honeycomb/querycontroller.html#Controller.tags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.honeycomb.querycontroller.Controller.tags" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -135,6 +145,7 @@
 </div>
 <div class="section" id="module-hive.honeycomb.routes">
 <span id="hive-honeycomb-routes-module"></span><h2>hive.honeycomb.routes module<a class="headerlink" href="#module-hive.honeycomb.routes" title="Permalink to this headline">¶</a></h2>
+<p>Routes for Honeycomb Actions.</p>
 <dl class="class">
 <dt id="hive.honeycomb.routes.Routes">
 <em class="property">class </em><tt class="descclassname">hive.honeycomb.routes.</tt><tt class="descname">Routes</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="_modules/hive/honeycomb/routes.html#Routes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.honeycomb.routes.Routes" title="Permalink to this definition">¶</a></dt>
@@ -149,6 +160,7 @@
 </div>
 <div class="section" id="module-hive.honeycomb.searchcontroller">
 <span id="hive-honeycomb-searchcontroller-module"></span><h2>hive.honeycomb.searchcontroller module<a class="headerlink" href="#module-hive.honeycomb.searchcontroller" title="Permalink to this headline">¶</a></h2>
+<p>Controller for setting up and managing recurring searches.</p>
 <dl class="class">
 <dt id="hive.honeycomb.searchcontroller.Controller">
 <em class="property">class </em><tt class="descclassname">hive.honeycomb.searchcontroller.</tt><tt class="descname">Controller</tt><big>(</big><em>config</em>, <em>channel</em><big>)</big><a class="reference internal" href="_modules/hive/honeycomb/searchcontroller.html#Controller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.honeycomb.searchcontroller.Controller" title="Permalink to this definition">¶</a></dt>
@@ -173,6 +185,8 @@
 </div>
 <div class="section" id="module-hive.honeycomb.searcher">
 <span id="hive-honeycomb-searcher-module"></span><h2>hive.honeycomb.searcher module<a class="headerlink" href="#module-hive.honeycomb.searcher" title="Permalink to this headline">¶</a></h2>
+<p>The recurring search worker thread based on the long running proc code in
+Hive common.</p>
 <dl class="class">
 <dt id="hive.honeycomb.searcher.Searcher">
 <em class="property">class </em><tt class="descclassname">hive.honeycomb.searcher.</tt><tt class="descname">Searcher</tt><big>(</big><em>config</em>, <em>query</em><big>)</big><a class="reference internal" href="_modules/hive/honeycomb/searcher.html#Searcher"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.honeycomb.searcher.Searcher" title="Permalink to this definition">¶</a></dt>
@@ -197,6 +211,7 @@
 </div>
 <div class="section" id="module-hive.honeycomb.searchermodel">
 <span id="hive-honeycomb-searchermodel-module"></span><h2>hive.honeycomb.searchermodel module<a class="headerlink" href="#module-hive.honeycomb.searchermodel" title="Permalink to this headline">¶</a></h2>
+<p>Model for storing the information about background recurring searches.</p>
 <dl class="class">
 <dt id="hive.honeycomb.searchermodel.SearcherModel">
 <em class="property">class </em><tt class="descclassname">hive.honeycomb.searchermodel.</tt><tt class="descname">SearcherModel</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="_modules/hive/honeycomb/searchermodel.html#SearcherModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.honeycomb.searchermodel.SearcherModel" title="Permalink to this definition">¶</a></dt>

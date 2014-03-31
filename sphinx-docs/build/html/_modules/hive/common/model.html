@@ -54,14 +54,26 @@
           <div class="body">
             
   <h1>Source code for hive.common.model</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;This module provides an Active Record like wrapper around MongoDB with</span>
+<span class="sd">methods for the most repeatedly used functionality.&quot;&quot;&quot;</span>
+
 <span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
 <span class="kn">from</span> <span class="nn">bson.objectid</span> <span class="kn">import</span> <span class="n">ObjectId</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">pytz</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s">&quot;Sam Betts&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Sam Betts&quot;</span><span class="p">,</span> <span class="s">&quot;John Davidge&quot;</span><span class="p">,</span> <span class="s">&quot;Jack Fletcher&quot;</span><span class="p">,</span> <span class="s">&quot;Brad Jones&quot;</span><span class="p">]</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s">&quot;Apache v2.0&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s">&quot;1.0&quot;</span>
 
 
 <div class="viewcode-block" id="ModelObject"><a class="viewcode-back" href="../../../hive.common.html#hive.common.model.ModelObject">[docs]</a><span class="k">class</span> <span class="nc">ModelObject</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;Object wrapper for data thats saved or will be saved in the DB.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span>
@@ -79,6 +91,10 @@
 
 </div></div>
 <div class="viewcode-block" id="Model"><a class="viewcode-back" href="../../../hive.common.html#hive.common.model.Model">[docs]</a><span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;Database access code and ModelObject to database transfer, this class</span>
+<span class="sd">    will become the parent of other models classes which add fields and</span>
+<span class="sd">    indexes.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
@@ -155,7 +171,7 @@
         <span class="n">obj</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">record</span> <span class="o">=</span> <span class="bp">None</span>
 
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">primary</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span> 
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">primary</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">primary</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">primary</span><span class="p">)}</span>
             <span class="n">record</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">find_one</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
 
@@ -168,13 +184,13 @@
         <span class="c"># Add columns to hash</span>
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
             <span class="n">d</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">d</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span> 
+            <span class="k">if</span> <span class="n">d</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="n">obj</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span>
 
         <span class="n">objid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="n">obj</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">objid</span>
 
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="n">ObjectId</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">],</span> <span class="n">ObjectId</span><span class="p">):</span>
             <span class="n">obj</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">])</span>
             <span class="n">obj</span><span class="p">[</span><span class="s">&#39;TIMESTAMP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">objid</span><span class="o">.</span><span class="n">generation_time</span><span class="p">)</span>
 
@@ -193,20 +209,34 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexdriver</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">indexdriver</span><span class="o">.</span><span class="n">removeindex</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Model.query"><a class="viewcode-back" href="../../../hive.common.html#hive.common.model.Model.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+<div class="viewcode-block" id="Model.query"><a class="viewcode-back" href="../../../hive.common.html#hive.common.model.Model.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">timescale</span><span class="p">):</span>
         <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexdriver</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
-        <span class="n">query</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&#39;$or&#39;</span><span class="p">:</span> <span class="p">[]</span> <span class="p">}</span>
+
+        <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">pytz</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;totalHits&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;hits&#39;</span><span class="p">:</span> <span class="p">{}}</span>
+
+        <span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;$or&#39;</span><span class="p">:</span> <span class="p">[]}</span>
         <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">]:</span>
-          <span class="n">query</span><span class="p">[</span><span class="s">&#39;$or&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="bp">self</span><span class="o">.</span><span class="n">primary</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">hit</span><span class="p">)})</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">primary</span> <span class="o">==</span> <span class="s">&quot;_id&quot;</span><span class="p">:</span>
+                <span class="n">query</span><span class="p">[</span><span class="s">&#39;$or&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="bp">self</span><span class="o">.</span><span class="n">primary</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">hit</span><span class="p">)})</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">query</span><span class="p">[</span><span class="s">&#39;$or&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="bp">self</span><span class="o">.</span><span class="n">primary</span><span class="p">:</span> <span class="n">hit</span><span class="p">})</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">dbresult</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">query</span><span class="p">)</span> 
+            <span class="n">dbresult</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">dbresult</span><span class="p">:</span>
-                <span class="n">res</span><span class="p">[</span><span class="s">&#39;TIMESTAMP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">generation_time</span><span class="p">)</span>
-                <span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">])</span>
-                <span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">])][</span><span class="s">&#39;log&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ModelObject</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span><span class="o">.</span><span class="n">to_hash</span><span class="p">()</span>
+                <span class="n">time</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">generation_time</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">now</span> <span class="o">-</span> <span class="n">time</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">&lt;</span> <span class="nb">float</span><span class="p">(</span><span class="n">timescale</span><span class="p">):</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;TIMESTAMP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">])</span>
+                    <span class="n">response</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">])]</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="n">response</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">])][</span><span class="s">&#39;score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span>
+                        <span class="s">&#39;hits&#39;</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">])][</span><span class="s">&#39;score&#39;</span><span class="p">]</span>
+                    <span class="n">response</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">])][</span><span class="s">&#39;log&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ModelObject</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span><span class="o">.</span><span class="n">to_hash</span><span class="p">()</span>
+                    <span class="n">response</span><span class="p">[</span><span class="s">&#39;totalHits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;totalHits&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
 
-        <span class="k">return</span> <span class="n">results</span>
+        <span class="k">return</span> <span class="n">response</span>
 </div>
 <div class="viewcode-block" id="Model.mongoQuery"><a class="viewcode-back" href="../../../hive.common.html#hive.common.model.Model.mongoQuery">[docs]</a>    <span class="k">def</span> <span class="nf">mongoQuery</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="p">{}):</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -214,10 +244,10 @@
             <span class="n">newColumns</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">primary</span><span class="p">,</span> <span class="s">&#39;TIMESTAMP&#39;</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
                 <span class="n">newColumns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span> 
+        <span class="k">else</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
             <span class="n">newColumns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span>
-           
+
         <span class="n">response</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
             <span class="n">res</span><span class="p">[</span><span class="s">&#39;TIMESTAMP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">generation_time</span><span class="p">)</span>
@@ -229,6 +259,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mongoQuery</span><span class="p">({})</span>
 </div>
 <div class="viewcode-block" id="Model.find"><a class="viewcode-back" href="../../../hive.common.html#hive.common.model.Model.find">[docs]</a>    <span class="k">def</span> <span class="nf">find</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">primary</span> <span class="o">==</span> <span class="s">&quot;_id&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">ObjectId</span><span class="p">):</span>
+            <span class="nb">id</span> <span class="o">=</span> <span class="n">ObjectId</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
         <span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">primary</span><span class="p">:</span> <span class="nb">id</span><span class="p">}</span>
         <span class="n">record</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">find_one</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">record</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>

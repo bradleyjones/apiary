@@ -57,15 +57,17 @@
   <h1>Source code for hive.sting.user</h1><div class="highlight"><pre>
 <span class="kn">from</span> <span class="nn">..common.model</span> <span class="kn">import</span> <span class="n">Model</span>
 
+<span class="n">__author__</span> <span class="o">=</span> <span class="s">&quot;John Davidge&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Sam Betts&quot;</span><span class="p">,</span> <span class="s">&quot;John Davidge&quot;</span><span class="p">,</span> <span class="s">&quot;Jack Fletcher&quot;</span><span class="p">,</span> <span class="s">&quot;Brad Jones&quot;</span><span class="p">]</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s">&quot;Apache v2.0&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s">&quot;1.0&quot;</span>
 
-<div class="viewcode-block" id="User"><a class="viewcode-back" href="../../../hive.sting.html#hive.sting.user.User">[docs]</a><span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
 
-<div class="viewcode-block" id="User.define"><a class="viewcode-back" href="../../../hive.sting.html#hive.sting.user.User.define">[docs]</a>    <span class="k">def</span> <span class="nf">define</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">addcolumn</span><span class="p">(</span><span class="s">&#39;UUID&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">addcolumn</span><span class="p">(</span><span class="s">&#39;USERNAME&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">addcolumn</span><span class="p">(</span><span class="s">&#39;DEVICE&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">addcolumn</span><span class="p">(</span><span class="s">&#39;NOTIFICATIONS&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">setprimary</span><span class="p">(</span><span class="s">&#39;UUID&#39;</span><span class="p">)</span></div></div>
+<div class="viewcode-block" id="user"><a class="viewcode-back" href="../../../hive.sting.html#hive.sting.user.user">[docs]</a><span class="k">class</span> <span class="nc">user</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+
+<div class="viewcode-block" id="user.define"><a class="viewcode-back" href="../../../hive.sting.html#hive.sting.user.user.define">[docs]</a>    <span class="k">def</span> <span class="nf">define</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addcolumn</span><span class="p">(</span><span class="s">&#39;username&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addcolumn</span><span class="p">(</span><span class="s">&#39;devices&#39;</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>

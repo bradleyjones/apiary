@@ -54,16 +54,28 @@
           <div class="body">
             
   <h1>Source code for hive.common.base</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;This module contains Base, a underlying class for most hive components,</span>
+<span class="sd">pulls in config file and setups up rabbit consumer and rabbit subscriber</span>
+<span class="sd">threads.&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">configobj</span> <span class="kn">import</span> <span class="n">ConfigObj</span><span class="p">,</span> <span class="n">ConfigObjError</span>
-<span class="kn">from</span> <span class="nn">rabbitconsumer</span> <span class="kn">import</span> <span class="n">RabbitConsumer</span>
-<span class="kn">from</span> <span class="nn">rabbitsubscriber</span> <span class="kn">import</span> <span class="n">RabbitSubscriber</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">signal</span>
+<span class="kn">from</span> <span class="nn">configobj</span> <span class="kn">import</span> <span class="n">ConfigObj</span><span class="p">,</span> <span class="n">ConfigObjError</span>
+<span class="kn">from</span> <span class="nn">.rabbitconsumer</span> <span class="kn">import</span> <span class="n">RabbitConsumer</span>
+<span class="kn">from</span> <span class="nn">.rabbitsubscriber</span> <span class="kn">import</span> <span class="n">RabbitSubscriber</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s">&quot;Sam Betts&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Sam Betts&quot;</span><span class="p">,</span> <span class="s">&quot;John Davidge&quot;</span><span class="p">,</span> <span class="s">&quot;Jack Fletcher&quot;</span><span class="p">,</span> <span class="s">&quot;Brad Jones&quot;</span><span class="p">]</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s">&quot;Apache v2.0&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s">&quot;1.0&quot;</span>
+
 
 <div class="viewcode-block" id="Base"><a class="viewcode-back" href="../../../hive.common.html#hive.common.base.Base">[docs]</a><span class="k">class</span> <span class="nc">Base</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A common base class for most hive components, pulls in config file and setups up rabbit consumer and rabbit subscriber threads.&quot;&quot;&quot;</span>
+
+    <span class="sd">&quot;&quot;&quot;A common base class for most hive components, pulls in config file and</span>
+<span class="sd">    setups up rabbit consumer and rabbit subscriber threads.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loadConfig</span><span class="p">(</span><span class="s">&quot;/etc/apiary/</span><span class="si">%s</span><span class="s">_config.ini&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
@@ -73,7 +85,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Base.start"><a class="viewcode-back" href="../../../hive.common.html#hive.common.base.Base.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Start the threads for receiving messages. &quot;&quot;&quot;</span> 
+        <span class="sd">&quot;&quot;&quot;Start the threads for receiving messages.&quot;&quot;&quot;</span>
 
         <span class="c">#: Initialise the controllers and router</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">router</span> <span class="o">=</span> <span class="n">r</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
@@ -106,7 +118,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">rpc</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">subscriber</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-        
+
             <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGINT</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">han</span><span class="p">)</span>
 
             <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">rpc</span><span class="o">.</span><span class="n">isAlive</span><span class="p">():</span>
@@ -133,11 +145,12 @@
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Base.extraThreads"><a class="viewcode-back" href="../../../hive.common.html#hive.common.base.Base.extraThreads">[docs]</a>    <span class="k">def</span> <span class="nf">extraThreads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Function that will get called inside the start function for any threads added in child classes. &quot;&quot;&quot;</span> 
+        <span class="sd">&quot;&quot;&quot;Function that will get called inside the start function for any</span>
+<span class="sd">        threads added in child classes.&quot;&quot;&quot;</span>
         <span class="k">pass</span>
 </div>
 <div class="viewcode-block" id="Base.loadConfig"><a class="viewcode-back" href="../../../hive.common.html#hive.common.base.Base.loadConfig">[docs]</a>    <span class="k">def</span> <span class="nf">loadConfig</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Try to load config using ConfigObj and make sure it exists. &quot;&quot;&quot;</span> 
+        <span class="sd">&quot;&quot;&quot;Try to load config using ConfigObj and make sure it exists.&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">ConfigObj</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">file_error</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">(</span><span class="n">ConfigObjError</span><span class="p">,</span> <span class="ne">IOError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -145,7 +158,8 @@
             <span class="k">raise</span> <span class="ne">SystemExit</span>
 </div>
 <div class="viewcode-block" id="Base.configureLogger"><a class="viewcode-back" href="../../../hive.common.html#hive.common.base.Base.configureLogger">[docs]</a>    <span class="k">def</span> <span class="nf">configureLogger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filelocation</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Configure the logger format and logging level according to the config file. &quot;&quot;&quot;</span> 
+        <span class="sd">&quot;&quot;&quot;Configure the logger format and logging level according to the</span>
+<span class="sd">        config file.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="s">&quot;debug&quot;</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">filelocation</span><span class="p">,</span>

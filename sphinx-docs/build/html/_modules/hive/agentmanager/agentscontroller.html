@@ -55,12 +55,19 @@
           <div class="body">
             
   <h1>Source code for hive.agentmanager.agentscontroller</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;Controller for actions relating to agents thats not configuration.&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">uuid</span>
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">..common.controller</span> <span class="kn">import</span> <span class="n">Controller</span> <span class="k">as</span> <span class="n">Parent</span>
 <span class="kn">from</span> <span class="nn">agent</span> <span class="kn">import</span> <span class="n">Agent</span>
 <span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s">&quot;Sam Betts&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Sam Betts&quot;</span><span class="p">,</span> <span class="s">&quot;John Davidge&quot;</span><span class="p">,</span> <span class="s">&quot;Jack Fletcher&quot;</span><span class="p">,</span> <span class="s">&quot;Brad Jones&quot;</span><span class="p">]</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s">&quot;Apache v2.0&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s">&quot;1.0&quot;</span>
 
 
 <div class="viewcode-block" id="Controller"><a class="viewcode-back" href="../../../hive.agentmanager.html#hive.agentmanager.agentscontroller.Controller">[docs]</a><span class="k">class</span> <span class="nc">Controller</span><span class="p">(</span><span class="n">Parent</span><span class="p">):</span>
@@ -69,9 +76,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">agents</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Controller.send_agent_event"><a class="viewcode-back" href="../../../hive.agentmanager.html#hive.agentmanager.agentscontroller.Controller.send_agent_event">[docs]</a>    <span class="k">def</span> <span class="nf">send_agent_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="n">event</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">event</span><span class="p">[</span><span class="n">agent</span><span class="o">.</span><span class="n">UUID</span><span class="p">]</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">to_hash</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">event</span><span class="p">),</span> <span class="s">&#39;agent.</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">key</span><span class="p">)</span>
+        <span class="n">event</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;agents&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+        <span class="n">event</span><span class="p">[</span><span class="s">&#39;agents&#39;</span><span class="p">][</span><span class="n">agent</span><span class="o">.</span><span class="n">UUID</span><span class="p">]</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">to_hash</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s">&#39;agent.</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">key</span><span class="p">)</span>
 
     <span class="c"># BELOW THIS LINE ARE ALL CONTROLLER ACTIONS</span>
 </div>
@@ -83,6 +90,7 @@
         <span class="n">agent</span><span class="o">.</span><span class="n">DEAD</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="n">agent</span><span class="o">.</span><span class="n">AUTHENTICATED</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="n">agent</span><span class="o">.</span><span class="n">QUEUE</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;reply_to&#39;</span><span class="p">]</span>
+        <span class="n">agent</span><span class="o">.</span><span class="n">MACHINEID</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;machineid&#39;</span><span class="p">]</span>
         <span class="n">agent</span><span class="o">.</span><span class="n">BOUND</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="n">agent</span><span class="o">.</span><span class="n">METADATA</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">agent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
