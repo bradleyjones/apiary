@@ -1,3 +1,5 @@
+"""Controller for setting up and managing recurring searches."""
+
 from pymongo import MongoClient
 from ..common.controller import Controller as Parent
 from hive.common.rpcsender import RPCSender

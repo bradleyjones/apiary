@@ -7,8 +7,8 @@ import sys
 import time
 import signal
 from configobj import ConfigObj, ConfigObjError
-from rabbitconsumer import RabbitConsumer
-from rabbitsubscriber import RabbitSubscriber
+from .rabbitconsumer import RabbitConsumer
+from .rabbitsubscriber import RabbitSubscriber
 
 __author__ = "Sam Betts"
 __credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]

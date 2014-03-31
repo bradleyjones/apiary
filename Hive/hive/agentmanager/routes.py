@@ -1,3 +1,5 @@
+"""Routes for AgentManager Actions."""
+
 from ..common.routes import Routes as Parent
 
 __author__ = "Sam Betts"

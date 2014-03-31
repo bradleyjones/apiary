@@ -1,3 +1,6 @@
+"""Extends the common.model this is the Database model used to store
+information about Agents."""
+
 from ..common.model import Model
 
 __author__ = "Sam Betts"

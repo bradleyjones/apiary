@@ -1,3 +1,5 @@
+"""Controller for actions relating to agents thats not configuration."""
+
 import uuid
 import random
 import json

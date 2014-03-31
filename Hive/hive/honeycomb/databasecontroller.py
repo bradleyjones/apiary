@@ -1,3 +1,6 @@
+"""Controller for Actions relating to Log data such as inserting or basic
+querying."""
+
 from pymongo import MongoClient
 from ..common.controller import Controller as Parent
 from hive.common.rpcsender import RPCSender

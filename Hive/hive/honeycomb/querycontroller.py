@@ -1,3 +1,5 @@
+"""Controller for more advanced and specfic query Actions."""
+
 from pymongo import MongoClient
 from ..common.controller import Controller as Parent
 from hive.common.rpcsender import RPCSender

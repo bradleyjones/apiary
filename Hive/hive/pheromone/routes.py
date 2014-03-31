@@ -1,3 +1,5 @@
+"""Routes for the Pheromone RPC and work Actions."""
+
 from ..common.routes import Routes as Parent
 
 __author__ = "Sam Betts"

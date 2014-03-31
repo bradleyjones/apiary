@@ -1,4 +1,4 @@
-
+"""This module contains a wrapper class for RPC Responses in controllers."""
 
 __author__ = "Sam Betts"
 __credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
@@ -7,6 +7,9 @@ __version__ = "1.0"
 
 
 class RPCResponse(object):
+
+    """Wrapper class for RPC responses, it only allows for one call to respond
+    to protect the user from overriding his own data."""
 
     def __init__(self):
         self.action = "DONE"

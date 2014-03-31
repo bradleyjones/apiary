@@ -1,3 +1,6 @@
+"""Model representing Log data stored in Honeycomb, defines the indexes and
+fields."""
+
 from ..common.model import Model
 
 __author__ = "Sam Betts"

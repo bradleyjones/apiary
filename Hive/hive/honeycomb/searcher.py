@@ -1,3 +1,6 @@
+"""The recurring search worker thread based on the long running proc code in
+Hive common."""
+
 import pika
 from hive.common.longrunningproc import Proc
 import time

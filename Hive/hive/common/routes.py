@@ -1,3 +1,6 @@
+"""This module provides the parent for a centralised router that directs
+actions to the right method in the controller."""
+
 import logging
 import sys
 
@@ -8,6 +11,13 @@ __version__ = "1.0"
 
 
 class Routes(object):
+
+    """Parent router.
+
+    This will be extended by other classes to add the routes using the
+    setupRoutes method.
+
+    """
 
     def __init__(self, config):
         self.routes = {}

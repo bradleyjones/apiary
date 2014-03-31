@@ -1,7 +1,7 @@
 import uuid
 import random
 import json
-from simplepublisher import SimplePublisher
+from .simplepublisher import SimplePublisher
 import logging
 
 __author__ = "Sam Betts"

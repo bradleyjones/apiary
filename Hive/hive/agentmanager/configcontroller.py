@@ -1,3 +1,5 @@
+"""Controller for storing Agent configuration actions."""
+
 import json
 from ..common.controller import Controller as Parent
 from ..common.rpcsender import RPCSender

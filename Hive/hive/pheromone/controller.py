@@ -1,3 +1,5 @@
+"""Pheromone Controller for setting up Alerts and managing running Alerts."""
+
 import json
 from ..common.controller import Controller as Parent
 from ..common.simplepublisher import SimplePublisher

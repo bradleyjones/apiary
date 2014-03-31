@@ -1,3 +1,6 @@
+"""This module provides an Active Record like wrapper around MongoDB with
+methods for the most repeatedly used functionality."""
+
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from collections import OrderedDict
@@ -13,6 +16,8 @@ __version__ = "1.0"
 
 
 class ModelObject(object):
+
+    """Object wrapper for data thats saved or will be saved in the DB."""
 
     def __init__(self, columns, data):
         self.columns = columns
@@ -30,6 +35,10 @@ class ModelObject(object):
 
 
 class Model(object):
+
+    """Database access code and ModelObject to database transfer, this class
+    will become the parent of other models classes which add fields and
+    indexes."""
 
     def __init__(self, config):
         self.config = config

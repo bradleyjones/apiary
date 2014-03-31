@@ -1,3 +1,7 @@
+"""Apiary component used for monitoring the heartbeats of Agents looked after
+by the Agent Manager, will mark Agents as dead if they havn't been heard from
+in 5 minutes."""
+
 import time
 import threading
 import logging

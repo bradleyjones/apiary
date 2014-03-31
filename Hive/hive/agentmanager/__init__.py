@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+"""Manager for Agents in the Apiary ecosystem, provides registration and
+configuration management."""
+
 from ..common.base import Base
 from routes import Routes
 

@@ -1,3 +1,5 @@
+"""Model for storing the information about background recurring searches."""
+
 from hive.common.model import Model
 
 __author__ = "Sam Betts"

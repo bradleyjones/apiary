@@ -1,3 +1,5 @@
+"""Model for storing the info on the background Alerters in the database."""
+
 from hive.common.model import Model
 
 __author__ = "Sam Betts"

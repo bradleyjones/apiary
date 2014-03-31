@@ -1,3 +1,6 @@
+"""A reusable rabbitMQ RPC sender, that allows for a syncronous call with
+timeout incase the RPC fails."""
+
 import pika
 import uuid
 import json

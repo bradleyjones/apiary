@@ -1,3 +1,5 @@
+"""Routes for Honeycomb Actions."""
+
 from ..common.routes import Routes as Parent
 
 __author__ = "Sam Betts"

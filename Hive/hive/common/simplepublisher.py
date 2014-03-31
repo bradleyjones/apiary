@@ -1,3 +1,6 @@
+"""A simple class that provides methods for publishing messages onto a topic
+exchange."""
+
 import pika
 import sys
 import logging

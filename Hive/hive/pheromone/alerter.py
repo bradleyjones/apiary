@@ -1,3 +1,11 @@
+"""A Pheromone Alerter worker, based on the longrunningproc code in
+hive.common.
+
+This alerter looks at the rate of logs and if it exceeds a certain
+number in a timeframe then it will fire an alert.
+
+"""
+
 import pika
 from hive.common.rpcsender import RPCSender
 from hive.common.longrunningproc import Proc
