@@ -56,6 +56,20 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
+<div class="section" id="module-hive.sting.device">
+<span id="hive-sting-device-module"></span><h2>hive.sting.device module<a class="headerlink" href="#module-hive.sting.device" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hive.sting.device.device">
+<em class="property">class </em><tt class="descclassname">hive.sting.device.</tt><tt class="descname">device</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="_modules/hive/sting/device.html#device"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.sting.device.device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="hive.common.html#hive.common.model.Model" title="hive.common.model.Model"><tt class="xref py py-class docutils literal"><span class="pre">hive.common.model.Model</span></tt></a></p>
+<dl class="method">
+<dt id="hive.sting.device.device.define">
+<tt class="descname">define</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/sting/device.html#device.define"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.sting.device.device.define" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="module-hive.sting.routes">
 <span id="hive-sting-routes-module"></span><h2>hive.sting.routes module<a class="headerlink" href="#module-hive.sting.routes" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -95,23 +109,13 @@
 <em class="property">class </em><tt class="descclassname">hive.sting.stingcontroller.</tt><tt class="descname">Controller</tt><big>(</big><em>config</em>, <em>channel</em><big>)</big><a class="reference internal" href="_modules/hive/sting/stingcontroller.html#Controller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.sting.stingcontroller.Controller" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="hive.common.html#hive.common.controller.Controller" title="hive.common.controller.Controller"><tt class="xref py py-class docutils literal"><span class="pre">hive.common.controller.Controller</span></tt></a></p>
 <dl class="method">
-<dt id="hive.sting.stingcontroller.Controller.callback">
-<tt class="descname">callback</tt><big>(</big><em>ch</em>, <em>method</em>, <em>properties</em>, <em>body</em><big>)</big><a class="reference internal" href="_modules/hive/sting/stingcontroller.html#Controller.callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.sting.stingcontroller.Controller.callback" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="hive.sting.stingcontroller.Controller.main">
-<tt class="descname">main</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/sting/stingcontroller.html#Controller.main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.sting.stingcontroller.Controller.main" title="Permalink to this definition">¶</a></dt>
+<dt id="hive.sting.stingcontroller.Controller.event">
+<tt class="descname">event</tt><big>(</big><em>message</em>, <em>response</em><big>)</big><a class="reference internal" href="_modules/hive/sting/stingcontroller.html#Controller.event"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.sting.stingcontroller.Controller.event" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="hive.sting.stingcontroller.Controller.models">
 <tt class="descname">models</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/sting/stingcontroller.html#Controller.models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.sting.stingcontroller.Controller.models" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="hive.sting.stingcontroller.Controller.new_channel">
-<tt class="descname">new_channel</tt><big>(</big><em>connection</em>, <em>routing_key_name</em><big>)</big><a class="reference internal" href="_modules/hive/sting/stingcontroller.html#Controller.new_channel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.sting.stingcontroller.Controller.new_channel" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -120,12 +124,12 @@
 <div class="section" id="module-hive.sting.user">
 <span id="hive-sting-user-module"></span><h2>hive.sting.user module<a class="headerlink" href="#module-hive.sting.user" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="hive.sting.user.User">
-<em class="property">class </em><tt class="descclassname">hive.sting.user.</tt><tt class="descname">User</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="_modules/hive/sting/user.html#User"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.sting.user.User" title="Permalink to this definition">¶</a></dt>
+<dt id="hive.sting.user.user">
+<em class="property">class </em><tt class="descclassname">hive.sting.user.</tt><tt class="descname">user</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="_modules/hive/sting/user.html#user"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.sting.user.user" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="hive.common.html#hive.common.model.Model" title="hive.common.model.Model"><tt class="xref py py-class docutils literal"><span class="pre">hive.common.model.Model</span></tt></a></p>
 <dl class="method">
-<dt id="hive.sting.user.User.define">
-<tt class="descname">define</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/sting/user.html#User.define"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.sting.user.User.define" title="Permalink to this definition">¶</a></dt>
+<dt id="hive.sting.user.user.define">
+<tt class="descname">define</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/sting/user.html#user.define"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.sting.user.user.define" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -157,6 +161,7 @@
   <ul>
 <li><a class="reference internal" href="#">hive.sting package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-hive.sting.device">hive.sting.device module</a></li>
 <li><a class="reference internal" href="#module-hive.sting.routes">hive.sting.routes module</a></li>
 <li><a class="reference internal" href="#module-hive.sting.sting_old">hive.sting.sting_old module</a></li>
 <li><a class="reference internal" href="#module-hive.sting.stingcontroller">hive.sting.stingcontroller module</a></li>

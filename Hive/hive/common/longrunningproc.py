@@ -1,3 +1,6 @@
+"""This module contains the classes required to create and manage long running
+processes using RabbitMQ."""
+
 import json
 from multiprocessing import Process
 import threading
@@ -5,8 +8,16 @@ import pika
 from hive.common.rpcsender import RPCSender
 import time
 
+__author__ = "Sam Betts"
+__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
+__license__ = "Apache v2.0"
+__version__ = "1.0"
+
 
 class ProcHandler(Process):
+
+    """A wrapper class that provides a means of communication to and from the
+    background process and also provides a means to shut it down."""
 
     def __init__(self, config, subproc, queue):
         Process.__init__(self)
@@ -65,6 +76,9 @@ class ProcHandler(Process):
 
 
 class Proc(threading.Thread):
+
+    """A class that all subprocesses should extend providing a known interface
+    for the ProcHandler to use."""
 
     def __init__(self, config):
         threading.Thread.__init__(self)

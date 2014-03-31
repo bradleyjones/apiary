@@ -55,6 +55,8 @@
           <div class="body">
             
   <h1>Source code for hive.honeycomb.searchcontroller</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;Controller for setting up and managing recurring searches.&quot;&quot;&quot;</span>
+
 <span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
 <span class="kn">from</span> <span class="nn">..common.controller</span> <span class="kn">import</span> <span class="n">Controller</span> <span class="k">as</span> <span class="n">Parent</span>
 <span class="kn">from</span> <span class="nn">hive.common.rpcsender</span> <span class="kn">import</span> <span class="n">RPCSender</span>
@@ -65,28 +67,78 @@
 <span class="kn">from</span> <span class="nn">hive.honeycomb.searchermodel</span> <span class="kn">import</span> <span class="n">SearcherModel</span>
 <span class="kn">from</span> <span class="nn">hive.honeycomb.searcher</span> <span class="kn">import</span> <span class="n">Searcher</span>
 
+<span class="n">__author__</span> <span class="o">=</span> <span class="s">&quot;Sam Betts&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Sam Betts&quot;</span><span class="p">,</span> <span class="s">&quot;John Davidge&quot;</span><span class="p">,</span> <span class="s">&quot;Jack Fletcher&quot;</span><span class="p">,</span> <span class="s">&quot;Brad Jones&quot;</span><span class="p">]</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s">&quot;Apache v2.0&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s">&quot;1.0&quot;</span>
+
+
 <div class="viewcode-block" id="Controller"><a class="viewcode-back" href="../../../hive.honeycomb.html#hive.honeycomb.searchcontroller.Controller">[docs]</a><span class="k">class</span> <span class="nc">Controller</span><span class="p">(</span><span class="n">Parent</span><span class="p">):</span>
 
 <div class="viewcode-block" id="Controller.models"><a class="viewcode-back" href="../../../hive.honeycomb.html#hive.honeycomb.searchcontroller.Controller.models">[docs]</a>    <span class="k">def</span> <span class="nf">models</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">searchers</span> <span class="o">=</span> <span class="n">SearcherModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Controller.newsearch"><a class="viewcode-back" href="../../../hive.honeycomb.html#hive.honeycomb.searchcontroller.Controller.newsearch">[docs]</a>    <span class="k">def</span> <span class="nf">newsearch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">resp</span><span class="p">):</span>
-        <span class="n">searcher</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">searchers</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
-
         <span class="n">sender</span> <span class="o">=</span> <span class="n">RPCSender</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">sender</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">queue_declare</span><span class="p">()</span> 
-        <span class="n">q</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">method</span><span class="o">.</span><span class="n">queue</span>
 
-        <span class="n">machine</span> <span class="o">=</span> <span class="n">ProcHandler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">Searcher</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">msg</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;QUERY&#39;</span><span class="p">]),</span> <span class="n">q</span><span class="p">)</span>
-        <span class="n">machine</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-        
-        <span class="n">searcher</span><span class="o">.</span><span class="n">OUTPUTQUEUE</span> <span class="o">=</span> <span class="n">sender</span><span class="o">.</span><span class="n">send_request</span><span class="p">(</span><span class="s">&#39;QUEUE&#39;</span><span class="p">,</span> <span class="s">&#39;hive&#39;</span><span class="p">,</span> <span class="p">{},</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">q</span><span class="p">)</span>
-        <span class="n">searcher</span><span class="o">.</span><span class="n">CONTROLQUEUE</span> <span class="o">=</span> <span class="n">q</span>
-        <span class="n">searcher</span><span class="o">.</span><span class="n">QUERY</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;QUERY&#39;</span><span class="p">]</span>
+        <span class="n">queue</span> <span class="o">=</span> <span class="n">sender</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">queue_declare</span><span class="p">()</span>
+        <span class="n">queue_name</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">method</span><span class="o">.</span><span class="n">queue</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">searchers</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">searcher</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">searchers</span><span class="o">.</span><span class="n">mongoQuery</span><span class="p">({</span><span class="s">&#39;QUERY&#39;</span><span class="p">:</span> <span class="n">msg</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;QUERY&#39;</span><span class="p">]})</span>
 
-        <span class="n">resp</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="n">searcher</span><span class="o">.</span><span class="n">OUTPUTQUEUE</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">searcher</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="n">sender</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">queue_bind</span><span class="p">(</span>
+                <span class="n">exchange</span><span class="o">=</span><span class="n">searcher</span><span class="o">.</span><span class="n">OUTPUTEXCHANGE</span><span class="p">,</span>
+                <span class="n">queue</span><span class="o">=</span><span class="n">queue_name</span><span class="p">)</span>
+
+            <span class="n">req</span> <span class="o">=</span> <span class="n">sender</span><span class="o">.</span><span class="n">send_request</span><span class="p">(</span>
+                <span class="s">&#39;SET&#39;</span><span class="p">,</span>
+                <span class="s">&#39;hive&#39;</span><span class="p">,</span>
+                <span class="p">{</span><span class="s">&#39;override&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">},</span>
+                <span class="s">&#39;&#39;</span><span class="p">,</span>
+                <span class="s">&#39;&#39;</span><span class="p">,</span>
+                <span class="n">key</span><span class="o">=</span><span class="n">searcher</span><span class="o">.</span><span class="n">CONTROLQUEUE</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">searcher</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">searchers</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">sender</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">queue_declare</span><span class="p">()</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">method</span><span class="o">.</span><span class="n">queue</span>
+            <span class="n">machine</span> <span class="o">=</span> <span class="n">ProcHandler</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span>
+                <span class="n">Searcher</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span>
+                    <span class="n">msg</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;QUERY&#39;</span><span class="p">]),</span>
+                <span class="n">q</span><span class="p">)</span>
+            <span class="n">machine</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+            <span class="n">req</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">sender</span><span class="o">.</span><span class="n">send_request</span><span class="p">(</span>
+                <span class="s">&#39;GET&#39;</span><span class="p">,</span>
+                <span class="s">&#39;hive&#39;</span><span class="p">,</span>
+                <span class="p">{</span><span class="s">&#39;variables&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;exchange&#39;</span><span class="p">]},</span>
+                <span class="s">&#39;&#39;</span><span class="p">,</span>
+                <span class="s">&#39;&#39;</span><span class="p">,</span>
+                <span class="n">key</span><span class="o">=</span><span class="n">q</span><span class="p">))</span>
+
+            <span class="n">searcher</span><span class="o">.</span><span class="n">OUTPUTEXCHANGE</span> <span class="o">=</span> <span class="n">req</span><span class="p">[</span><span class="s">&#39;exchange&#39;</span><span class="p">]</span>
+            <span class="n">searcher</span><span class="o">.</span><span class="n">CONTROLQUEUE</span> <span class="o">=</span> <span class="n">q</span>
+            <span class="n">searcher</span><span class="o">.</span><span class="n">QUERY</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;QUERY&#39;</span><span class="p">]</span>
+
+            <span class="n">sender</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">queue_bind</span><span class="p">(</span>
+                <span class="n">exchange</span><span class="o">=</span><span class="n">searcher</span><span class="o">.</span><span class="n">OUTPUTEXCHANGE</span><span class="p">,</span>
+                <span class="n">queue</span><span class="o">=</span><span class="n">queue_name</span><span class="p">)</span>
+
+            <span class="n">req</span> <span class="o">=</span> <span class="n">sender</span><span class="o">.</span><span class="n">send_request</span><span class="p">(</span>
+                <span class="s">&#39;SET&#39;</span><span class="p">,</span>
+                <span class="s">&#39;hive&#39;</span><span class="p">,</span>
+                <span class="p">{</span><span class="s">&#39;override&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">},</span>
+                <span class="s">&#39;&#39;</span><span class="p">,</span>
+                <span class="s">&#39;&#39;</span><span class="p">,</span>
+                <span class="n">key</span><span class="o">=</span><span class="n">q</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">searchers</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">searcher</span><span class="p">)</span>
+
+        <span class="n">resp</span><span class="o">.</span><span class="n">respond</span><span class="p">({</span><span class="s">&#39;queue&#39;</span><span class="p">:</span> <span class="n">queue_name</span><span class="p">})</span>
 </div>
 <div class="viewcode-block" id="Controller.stop"><a class="viewcode-back" href="../../../hive.honeycomb.html#hive.honeycomb.searchcontroller.Controller.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">resp</span><span class="p">):</span>
         <span class="n">searcher</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">searchers</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>

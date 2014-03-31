@@ -7,6 +7,11 @@ import sys
 from hive.sting.user import user
 from hive.sting.device import device
 
+__author__ = "John Davidge"
+__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
+__license__ = "Apache v2.0"
+__version__ = "1.0"
+
 
 class Controller(Parent):
 
@@ -22,11 +27,12 @@ class Controller(Parent):
         for device in user.devices:
             device = self.devices.find(device)
             apns = APNs(use_sandbox=True, cert_file=(
-            resource_filename(__name__,'apns/certs/ApiaryCert.pem')),
-            key_file=(resource_filename(__name__,'apns/certs/ApiaryKey.pem')))
+                resource_filename(__name__, 'apns/certs/ApiaryCert.pem')),
+                key_file=(resource_filename(__name__, 'apns/certs/ApiaryKey.pem')))
             token_hex = device.device_id
-            payload = Payload(alert=message['data']['ALERT']['TEXT'], sound="default", badge=0)
+            payload = Payload(
+                alert=message['data']['ALERT']['TEXT'],
+                sound="default",
+                badge=0)
             apns.gateway_server.send_notification(token_hex, payload)
-            print "Notification sent to device " + device.device_id 
-
-
+            print "Notification sent to device " + device.device_id

@@ -4,6 +4,14 @@ hive.sting package
 Submodules
 ----------
 
+hive.sting.device module
+------------------------
+
+.. automodule:: hive.sting.device
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 hive.sting.routes module
 ------------------------
 

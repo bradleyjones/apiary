@@ -1,3 +1,7 @@
+"""Apiary component used for monitoring the heartbeats of Agents looked after
+by the Agent Manager, will mark Agents as dead if they havn't been heard from
+in 5 minutes."""
+
 import time
 import threading
 import logging
@@ -8,6 +12,11 @@ from configobj import ConfigObj, ConfigObjError
 from hive.common.simplepublisher import SimplePublisher
 from hive.common.base import Base
 from hive.agentmanager.agent import Agent
+
+__author__ = "Sam Betts"
+__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
+__license__ = "Apache v2.0"
+__version__ = "1.0"
 
 
 class AgentMonitor(Base):

@@ -1,9 +1,17 @@
+"""A reusable rabbitMQ RPC sender, that allows for a syncronous call with
+timeout incase the RPC fails."""
+
 import pika
 import uuid
 import json
 import time
 import inspect
 import threading
+
+__author__ = "Sam Betts"
+__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
+__license__ = "Apache v2.0"
+__version__ = "1.0"
 
 
 class RPCSender(object):

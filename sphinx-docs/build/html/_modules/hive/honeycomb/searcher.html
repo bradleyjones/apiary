@@ -55,6 +55,9 @@
           <div class="body">
             
   <h1>Source code for hive.honeycomb.searcher</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;The recurring search worker thread based on the long running proc code in</span>
+<span class="sd">Hive common.&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">pika</span>
 <span class="kn">from</span> <span class="nn">hive.common.longrunningproc</span> <span class="kn">import</span> <span class="n">Proc</span>
 <span class="kn">import</span> <span class="nn">time</span>
@@ -62,6 +65,12 @@
 <span class="kn">from</span> <span class="nn">hive.honeycomb.log</span> <span class="kn">import</span> <span class="n">Log</span>
 <span class="kn">from</span> <span class="nn">hive.common.model</span> <span class="kn">import</span> <span class="n">ModelObject</span>
 <span class="kn">from</span> <span class="nn">bson.objectid</span> <span class="kn">import</span> <span class="n">ObjectId</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s">&quot;Sam Betts&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Sam Betts&quot;</span><span class="p">,</span> <span class="s">&quot;John Davidge&quot;</span><span class="p">,</span> <span class="s">&quot;Jack Fletcher&quot;</span><span class="p">,</span> <span class="s">&quot;Brad Jones&quot;</span><span class="p">]</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s">&quot;Apache v2.0&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s">&quot;1.0&quot;</span>
 
 
 <div class="viewcode-block" id="Searcher"><a class="viewcode-back" href="../../../hive.honeycomb.html#hive.honeycomb.searcher.Searcher">[docs]</a><span class="k">class</span> <span class="nc">Searcher</span><span class="p">(</span><span class="n">Proc</span><span class="p">):</span>
@@ -70,13 +79,14 @@
         <span class="n">Proc</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">queue</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exchange</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">query</span> <span class="o">=</span> <span class="n">query</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">previousids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">({}</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">override</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">previousids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">({}</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
 <div class="viewcode-block" id="Searcher.getQueue"><a class="viewcode-back" href="../../../hive.honeycomb.html#hive.honeycomb.searcher.Searcher.getQueue">[docs]</a>    <span class="k">def</span> <span class="nf">getQueue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-      <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span>
 </div>
 <div class="viewcode-block" id="Searcher.run"><a class="viewcode-back" href="../../../hive.honeycomb.html#hive.honeycomb.searcher.Searcher.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">credentials</span> <span class="o">=</span> <span class="n">pika</span><span class="o">.</span><span class="n">PlainCredentials</span><span class="p">(</span>
@@ -87,34 +97,43 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">channel</span><span class="p">()</span>
 
         <span class="c"># Setup queue for outputing data</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">queue_declare</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">queue</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">method</span><span class="o">.</span><span class="n">queue</span>
-        
+        <span class="bp">self</span><span class="o">.</span><span class="n">exchange</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">exchange_declare</span><span class="p">(</span><span class="n">exchange</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">exchange</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&#39;fanout&#39;</span><span class="p">)</span>
+
         <span class="n">logs</span> <span class="o">=</span> <span class="n">Log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ready</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
 
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">:</span>
             <span class="n">results</span> <span class="o">=</span> <span class="n">logs</span><span class="o">.</span><span class="n">indexdriver</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">)</span>
-            <span class="n">diff</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">previousids</span>
 
-            <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
-              <span class="n">query</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&#39;$or&#39;</span><span class="p">:</span> <span class="p">[]</span> <span class="p">}</span>
-              <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">]:</span>
-                <span class="n">query</span><span class="p">[</span><span class="s">&#39;$or&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="n">logs</span><span class="o">.</span><span class="n">primary</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">hit</span><span class="p">)})</span>
+            <span class="k">if</span> <span class="n">results</span> <span class="o">==</span> <span class="p">{}:</span>
+                <span class="k">print</span> <span class="s">&quot;RECEIVED NO DATA SO DOING NOTHING -&gt; CHECK HONEYCOMB, SIGNED Searcher&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">diff</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">previousids</span>
 
-              <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                  <span class="n">dbresult</span> <span class="o">=</span> <span class="n">logs</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">query</span><span class="p">)</span> 
-                  <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">dbresult</span><span class="p">:</span>
-                      <span class="n">res</span><span class="p">[</span><span class="s">&#39;TIMESTAMP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">generation_time</span><span class="p">)</span>
-                      <span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">])</span>
-                      <span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">])][</span><span class="s">&#39;log&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ModelObject</span><span class="p">(</span><span class="n">logs</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span><span class="o">.</span><span class="n">to_hash</span><span class="p">()</span>
+                <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">override</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">override</span> <span class="o">=</span> <span class="bp">False</span>
+                    <span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;$or&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+                    <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">]:</span>
+                        <span class="n">query</span><span class="p">[</span><span class="s">&#39;$or&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="n">logs</span><span class="o">.</span><span class="n">primary</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">hit</span><span class="p">)})</span>
 
-                  <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">basic_publish</span><span class="p">(</span><span class="n">exchange</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">routing_key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
-                  <span class="bp">self</span><span class="o">.</span><span class="n">previousids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">dbresult</span> <span class="o">=</span> <span class="n">logs</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">dbresult</span><span class="p">:</span>
+                            <span class="n">res</span><span class="p">[</span><span class="s">&#39;TIMESTAMP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">generation_time</span><span class="p">)</span>
+                            <span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">])</span>
+                            <span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">])][</span><span class="s">&#39;log&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ModelObject</span><span class="p">(</span>
+                                <span class="n">logs</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span><span class="o">.</span><span class="n">to_hash</span><span class="p">()</span>
+
+                        <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">basic_publish</span><span class="p">(</span>
+                            <span class="n">exchange</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">exchange</span><span class="p">,</span>
+                            <span class="n">routing_key</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+                            <span class="n">body</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">previousids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        
+
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Searcher.stop"><a class="viewcode-back" href="../../../hive.honeycomb.html#hive.honeycomb.searcher.Searcher.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

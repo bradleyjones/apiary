@@ -54,6 +54,9 @@
           <div class="body">
             
   <h1>Source code for hive.common.longrunningproc</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;This module contains the classes required to create and manage long running</span>
+<span class="sd">processes using RabbitMQ.&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Process</span>
 <span class="kn">import</span> <span class="nn">threading</span>
@@ -61,7 +64,16 @@
 <span class="kn">from</span> <span class="nn">hive.common.rpcsender</span> <span class="kn">import</span> <span class="n">RPCSender</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
+<span class="n">__author__</span> <span class="o">=</span> <span class="s">&quot;Sam Betts&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Sam Betts&quot;</span><span class="p">,</span> <span class="s">&quot;John Davidge&quot;</span><span class="p">,</span> <span class="s">&quot;Jack Fletcher&quot;</span><span class="p">,</span> <span class="s">&quot;Brad Jones&quot;</span><span class="p">]</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s">&quot;Apache v2.0&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s">&quot;1.0&quot;</span>
+
+
 <div class="viewcode-block" id="ProcHandler"><a class="viewcode-back" href="../../../hive.common.html#hive.common.longrunningproc.ProcHandler">[docs]</a><span class="k">class</span> <span class="nc">ProcHandler</span><span class="p">(</span><span class="n">Process</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;A wrapper class that provides a means of communication to and from the</span>
+<span class="sd">    background process and also provides a means to shut it down.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">subproc</span><span class="p">,</span> <span class="n">queue</span><span class="p">):</span>
         <span class="n">Process</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -80,33 +92,52 @@
             <span class="n">pika</span><span class="o">.</span><span class="n">ConnectionParameters</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;Rabbit&#39;</span><span class="p">][</span><span class="s">&#39;host&#39;</span><span class="p">],</span> <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">channel</span><span class="p">()</span>
         <span class="c">############################</span>
-     
+
         <span class="bp">self</span><span class="o">.</span><span class="n">subproc</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
         <span class="k">if</span><span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">subproc</span><span class="o">.</span><span class="n">ready</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="mi">10</span><span class="p">)):</span>
-          <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Long running process failed to start&quot;</span><span class="p">)</span>
-      
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Long running process failed to start&quot;</span><span class="p">)</span>
+
         <span class="c"># Start Consuming Stop Queue</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">basic_consume</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">on_message</span><span class="p">,</span> <span class="n">queue</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stopqueue</span><span class="p">,</span> <span class="n">no_ack</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">basic_consume</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">on_message</span><span class="p">,</span>
+            <span class="n">queue</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stopqueue</span><span class="p">,</span>
+            <span class="n">no_ack</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">start_consuming</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="ProcHandler.on_message"><a class="viewcode-back" href="../../../hive.common.html#hive.common.longrunningproc.ProcHandler.on_message">[docs]</a>    <span class="k">def</span> <span class="nf">on_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">method_frame</span><span class="p">,</span> <span class="n">props</span><span class="p">,</span> <span class="n">body</span><span class="p">):</span>
         <span class="n">da</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">body</span> <span class="o">==</span> <span class="s">&quot;STOP&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">da</span><span class="p">[</span><span class="s">&#39;action&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;STOP&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">subproc</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="n">da</span><span class="p">[</span><span class="s">&#39;action&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;QUEUE&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">da</span><span class="p">[</span><span class="s">&#39;action&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;SET&quot;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">da</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">]:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subproc</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">da</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="n">var</span><span class="p">])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">basic_publish</span><span class="p">(</span><span class="n">exchange</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span>
-                                   <span class="n">routing_key</span><span class="o">=</span><span class="n">props</span><span class="o">.</span><span class="n">reply_to</span><span class="p">,</span>
-                                   <span class="n">properties</span><span class="o">=</span><span class="n">pika</span><span class="o">.</span><span class="n">BasicProperties</span><span class="p">(</span>
-                                       <span class="n">correlation_id</span><span class="o">=</span><span class="n">props</span><span class="o">.</span><span class="n">correlation_id</span><span class="p">,</span>
-                                   <span class="p">),</span>
-                                   <span class="n">body</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">subproc</span><span class="o">.</span><span class="n">queue</span><span class="p">)</span>
-            
+                                       <span class="n">routing_key</span><span class="o">=</span><span class="n">props</span><span class="o">.</span><span class="n">reply_to</span><span class="p">,</span>
+                                       <span class="n">properties</span><span class="o">=</span><span class="n">pika</span><span class="o">.</span><span class="n">BasicProperties</span><span class="p">(</span>
+                                           <span class="n">correlation_id</span><span class="o">=</span><span class="n">props</span><span class="o">.</span><span class="n">correlation_id</span><span class="p">,</span>
+                                       <span class="p">),</span>
+                                       <span class="n">body</span><span class="o">=</span><span class="p">{})</span>
+        <span class="k">elif</span> <span class="n">da</span><span class="p">[</span><span class="s">&#39;action&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;GET&quot;</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">da</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;variables&#39;</span><span class="p">]:</span>
+                <span class="n">response</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subproc</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">basic_publish</span><span class="p">(</span><span class="n">exchange</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+                                       <span class="n">routing_key</span><span class="o">=</span><span class="n">props</span><span class="o">.</span><span class="n">reply_to</span><span class="p">,</span>
+                                       <span class="n">properties</span><span class="o">=</span><span class="n">pika</span><span class="o">.</span><span class="n">BasicProperties</span><span class="p">(</span>
+                                           <span class="n">correlation_id</span><span class="o">=</span><span class="n">props</span><span class="o">.</span><span class="n">correlation_id</span><span class="p">,</span>
+                                       <span class="p">),</span>
+                                       <span class="n">body</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+
 </div></div>
 <div class="viewcode-block" id="Proc"><a class="viewcode-back" href="../../../hive.common.html#hive.common.longrunningproc.Proc">[docs]</a><span class="k">class</span> <span class="nc">Proc</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;A class that all subprocesses should extend providing a known interface</span>
+<span class="sd">    for the ProcHandler to use.&quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
-        <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> 
+        <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ready</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>

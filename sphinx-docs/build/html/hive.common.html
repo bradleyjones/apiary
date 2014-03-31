@@ -58,21 +58,27 @@
 </div>
 <div class="section" id="module-hive.common.base">
 <span id="hive-common-base-module"></span><h2>hive.common.base module<a class="headerlink" href="#module-hive.common.base" title="Permalink to this headline">¶</a></h2>
+<p>This module contains Base, a underlying class for most hive components,
+pulls in config file and setups up rabbit consumer and rabbit subscriber
+threads.</p>
 <dl class="class">
 <dt id="hive.common.base.Base">
 <em class="property">class </em><tt class="descclassname">hive.common.base.</tt><tt class="descname">Base</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/hive/common/base.html#Base"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.base.Base" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
-<p>A common base class for most hive components, pulls in config file and setups up rabbit consumer and rabbit subscriber threads.</p>
+<p>A common base class for most hive components, pulls in config file and
+setups up rabbit consumer and rabbit subscriber threads.</p>
 <dl class="method">
 <dt id="hive.common.base.Base.configureLogger">
 <tt class="descname">configureLogger</tt><big>(</big><em>filelocation</em>, <em>level</em><big>)</big><a class="reference internal" href="_modules/hive/common/base.html#Base.configureLogger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.base.Base.configureLogger" title="Permalink to this definition">¶</a></dt>
-<dd><p>Configure the logger format and logging level according to the config file.</p>
+<dd><p>Configure the logger format and logging level according to the
+config file.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="hive.common.base.Base.extraThreads">
 <tt class="descname">extraThreads</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/base.html#Base.extraThreads"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.base.Base.extraThreads" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function that will get called inside the start function for any threads added in child classes.</p>
+<dd><p>Function that will get called inside the start function for any
+threads added in child classes.</p>
 </dd></dl>
 
 <dl class="method">
@@ -101,30 +107,41 @@
 <dt id="hive.common.controller.Controller">
 <em class="property">class </em><tt class="descclassname">hive.common.controller.</tt><tt class="descname">Controller</tt><big>(</big><em>config</em>, <em>channel</em><big>)</big><a class="reference internal" href="_modules/hive/common/controller.html#Controller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.controller.Controller" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Parent class to all controllers in the apiary project, provides basic
+setup such as logging and a simple publisher.</p>
 <dl class="method">
 <dt id="hive.common.controller.Controller.default">
 <tt class="descname">default</tt><big>(</big><em>data</em>, <em>resp</em><big>)</big><a class="reference internal" href="_modules/hive/common/controller.html#Controller.default"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.controller.Controller.default" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>A default and example controller action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hive.common.controller.Controller.event">
 <tt class="descname">event</tt><big>(</big><em>data</em>, <em>key=None</em><big>)</big><a class="reference internal" href="_modules/hive/common/controller.html#Controller.event"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.controller.Controller.event" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>This provides a method for sending events out on to the message
+bus.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hive.common.controller.Controller.models">
 <tt class="descname">models</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/controller.html#Controller.models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.controller.Controller.models" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Called from the constructor so it provides a known interface for
+extended controllers to place their model code.</p>
+</dd></dl>
 
 </dd></dl>
 
 </div>
 <div class="section" id="module-hive.common.longrunningproc">
 <span id="hive-common-longrunningproc-module"></span><h2>hive.common.longrunningproc module<a class="headerlink" href="#module-hive.common.longrunningproc" title="Permalink to this headline">¶</a></h2>
+<p>This module contains the classes required to create and manage long running
+processes using RabbitMQ.</p>
 <dl class="class">
 <dt id="hive.common.longrunningproc.Proc">
 <em class="property">class </em><tt class="descclassname">hive.common.longrunningproc.</tt><tt class="descname">Proc</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="_modules/hive/common/longrunningproc.html#Proc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.longrunningproc.Proc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="http://docs.python.org/library/threading.html#threading.Thread" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">threading.Thread</span></tt></a></p>
+<p>A class that all subprocesses should extend providing a known interface
+for the ProcHandler to use.</p>
 <dl class="method">
 <dt id="hive.common.longrunningproc.Proc.run">
 <tt class="descname">run</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/longrunningproc.html#Proc.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.longrunningproc.Proc.run" title="Permalink to this definition">¶</a></dt>
@@ -141,6 +158,8 @@
 <dt id="hive.common.longrunningproc.ProcHandler">
 <em class="property">class </em><tt class="descclassname">hive.common.longrunningproc.</tt><tt class="descname">ProcHandler</tt><big>(</big><em>config</em>, <em>subproc</em>, <em>queue</em><big>)</big><a class="reference internal" href="_modules/hive/common/longrunningproc.html#ProcHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.longrunningproc.ProcHandler" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">multiprocessing.process.Process</span></tt></p>
+<p>A wrapper class that provides a means of communication to and from the
+background process and also provides a means to shut it down.</p>
 <dl class="method">
 <dt id="hive.common.longrunningproc.ProcHandler.on_message">
 <tt class="descname">on_message</tt><big>(</big><em>channel</em>, <em>method_frame</em>, <em>props</em>, <em>body</em><big>)</big><a class="reference internal" href="_modules/hive/common/longrunningproc.html#ProcHandler.on_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.longrunningproc.ProcHandler.on_message" title="Permalink to this definition">¶</a></dt>
@@ -156,10 +175,16 @@
 </div>
 <div class="section" id="module-hive.common.lucenedriver">
 <span id="hive-common-lucenedriver-module"></span><h2>hive.common.lucenedriver module<a class="headerlink" href="#module-hive.common.lucenedriver" title="Permalink to this headline">¶</a></h2>
+<p>A driver which encapsulates the use of lucene in a concurrent fashion.</p>
+<p>The module provides interfaces for the setup and commnication with
+Lucene worker processes.</p>
 <dl class="class">
 <dt id="hive.common.lucenedriver.Driver">
 <em class="property">class </em><tt class="descclassname">hive.common.lucenedriver.</tt><tt class="descname">Driver</tt><big>(</big><em>config</em>, <em>tablename</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Driver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Driver" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>This is a wrapper object that is designed to provide a syncronous
+interface into the work queue, it will push a task with an ID which it will
+then wait for to get a return value.</p>
 <dl class="method">
 <dt id="hive.common.lucenedriver.Driver.index">
 <tt class="descname">index</tt><big>(</big><em>fields</em>, <em>record</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Driver.index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Driver.index" title="Permalink to this definition">¶</a></dt>
@@ -191,6 +216,8 @@
 <dt id="hive.common.lucenedriver.Worker">
 <em class="property">class </em><tt class="descclassname">hive.common.lucenedriver.</tt><tt class="descname">Worker</tt><big>(</big><em>config</em>, <em>queue</em>, <em>ret</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Worker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Worker" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">multiprocessing.process.Process</span></tt></p>
+<p>This class represents the lucene worker object, which will run
+concurrently with other workers, and contains the actual lucene logic.</p>
 <dl class="method">
 <dt id="hive.common.lucenedriver.Worker.buildDocument">
 <tt class="descname">buildDocument</tt><big>(</big><em>fields</em>, <em>record</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#Worker.buildDocument"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.Worker.buildDocument" title="Permalink to this definition">¶</a></dt>
@@ -236,15 +263,23 @@
 <dl class="function">
 <dt id="hive.common.lucenedriver.setup">
 <tt class="descclassname">hive.common.lucenedriver.</tt><tt class="descname">setup</tt><big>(</big><em>config</em>, <em>workers=4</em><big>)</big><a class="reference internal" href="_modules/hive/common/lucenedriver.html#setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.lucenedriver.setup" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Setup and start the workers.</p>
+<p>This must be called once and only once somewhere in the program
+thats using it.</p>
+</dd></dl>
 
 </div>
 <div class="section" id="module-hive.common.model">
 <span id="hive-common-model-module"></span><h2>hive.common.model module<a class="headerlink" href="#module-hive.common.model" title="Permalink to this headline">¶</a></h2>
+<p>This module provides an Active Record like wrapper around MongoDB with
+methods for the most repeatedly used functionality.</p>
 <dl class="class">
 <dt id="hive.common.model.Model">
 <em class="property">class </em><tt class="descclassname">hive.common.model.</tt><tt class="descname">Model</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#Model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.Model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Database access code and ModelObject to database transfer, this class
+will become the parent of other models classes which add fields and
+indexes.</p>
 <dl class="method">
 <dt id="hive.common.model.Model.addcolumn">
 <tt class="descname">addcolumn</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#Model.addcolumn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.Model.addcolumn" title="Permalink to this definition">¶</a></dt>
@@ -297,7 +332,7 @@
 
 <dl class="method">
 <dt id="hive.common.model.Model.query">
-<tt class="descname">query</tt><big>(</big><em>query</em><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#Model.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.Model.query" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">query</tt><big>(</big><em>query</em>, <em>timescale</em><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#Model.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.Model.query" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -321,6 +356,7 @@
 <dt id="hive.common.model.ModelObject">
 <em class="property">class </em><tt class="descclassname">hive.common.model.</tt><tt class="descname">ModelObject</tt><big>(</big><em>columns</em>, <em>data</em><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#ModelObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.ModelObject" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Object wrapper for data thats saved or will be saved in the DB.</p>
 <dl class="method">
 <dt id="hive.common.model.ModelObject.to_hash">
 <tt class="descname">to_hash</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hive/common/model.html#ModelObject.to_hash"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.model.ModelObject.to_hash" title="Permalink to this definition">¶</a></dt>
@@ -360,8 +396,8 @@
 </div>
 <div class="section" id="module-hive.common.rabbitconsumer">
 <span id="hive-common-rabbitconsumer-module"></span><h2>hive.common.rabbitconsumer module<a class="headerlink" href="#module-hive.common.rabbitconsumer" title="Permalink to this headline">¶</a></h2>
-<p>A helper class for wrapping the creation and consuming of a queue
-using rabbit.</p>
+<p>A helper class for wrapping the creation and consuming of a queue using
+rabbit with a response given.</p>
 <dl class="exception">
 <dt id="hive.common.rabbitconsumer.RPCServerException">
 <em class="property">exception </em><tt class="descclassname">hive.common.rabbitconsumer.</tt><tt class="descname">RPCServerException</tt><a class="reference internal" href="_modules/hive/common/rabbitconsumer.html#RPCServerException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitconsumer.RPCServerException" title="Permalink to this definition">¶</a></dt>
@@ -452,8 +488,8 @@ using rabbit.</p>
 </div>
 <div class="section" id="module-hive.common.rabbitsubscriber">
 <span id="hive-common-rabbitsubscriber-module"></span><h2>hive.common.rabbitsubscriber module<a class="headerlink" href="#module-hive.common.rabbitsubscriber" title="Permalink to this headline">¶</a></h2>
-<p>A helper class for wrapping the creation and consuming of a queue
-using rabbit.</p>
+<p>A helper class for wrapping the creation and consuming of a queue using
+rabbit without a response.</p>
 <dl class="exception">
 <dt id="hive.common.rabbitsubscriber.RPCServerException">
 <em class="property">exception </em><tt class="descclassname">hive.common.rabbitsubscriber.</tt><tt class="descname">RPCServerException</tt><a class="reference internal" href="_modules/hive/common/rabbitsubscriber.html#RPCServerException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rabbitsubscriber.RPCServerException" title="Permalink to this definition">¶</a></dt>
@@ -549,10 +585,15 @@ using rabbit.</p>
 </div>
 <div class="section" id="module-hive.common.routes">
 <span id="hive-common-routes-module"></span><h2>hive.common.routes module<a class="headerlink" href="#module-hive.common.routes" title="Permalink to this headline">¶</a></h2>
+<p>This module provides the parent for a centralised router that directs
+actions to the right method in the controller.</p>
 <dl class="class">
 <dt id="hive.common.routes.Routes">
 <em class="property">class </em><tt class="descclassname">hive.common.routes.</tt><tt class="descname">Routes</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="_modules/hive/common/routes.html#Routes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.routes.Routes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Parent router.</p>
+<p>This will be extended by other classes to add the routes using the
+setupRoutes method.</p>
 <dl class="method">
 <dt id="hive.common.routes.Routes.action">
 <tt class="descname">action</tt><big>(</big><em>name</em>, <em>func</em>, <em>controller</em><big>)</big><a class="reference internal" href="_modules/hive/common/routes.html#Routes.action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.routes.Routes.action" title="Permalink to this definition">¶</a></dt>
@@ -584,10 +625,13 @@ using rabbit.</p>
 </div>
 <div class="section" id="module-hive.common.rpcresponse">
 <span id="hive-common-rpcresponse-module"></span><h2>hive.common.rpcresponse module<a class="headerlink" href="#module-hive.common.rpcresponse" title="Permalink to this headline">¶</a></h2>
+<p>This module contains a wrapper class for RPC Responses in controllers.</p>
 <dl class="class">
 <dt id="hive.common.rpcresponse.RPCResponse">
 <em class="property">class </em><tt class="descclassname">hive.common.rpcresponse.</tt><tt class="descname">RPCResponse</tt><a class="reference internal" href="_modules/hive/common/rpcresponse.html#RPCResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rpcresponse.RPCResponse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Wrapper class for RPC responses, it only allows for one call to respond
+to protect the user from overriding his own data.</p>
 <dl class="method">
 <dt id="hive.common.rpcresponse.RPCResponse.respond">
 <tt class="descname">respond</tt><big>(</big><em>data</em>, <em>action=None</em><big>)</big><a class="reference internal" href="_modules/hive/common/rpcresponse.html#RPCResponse.respond"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rpcresponse.RPCResponse.respond" title="Permalink to this definition">¶</a></dt>
@@ -604,6 +648,8 @@ using rabbit.</p>
 </div>
 <div class="section" id="module-hive.common.rpcsender">
 <span id="hive-common-rpcsender-module"></span><h2>hive.common.rpcsender module<a class="headerlink" href="#module-hive.common.rpcsender" title="Permalink to this headline">¶</a></h2>
+<p>A reusable rabbitMQ RPC sender, that allows for a syncronous call with
+timeout incase the RPC fails.</p>
 <dl class="class">
 <dt id="hive.common.rpcsender.RPCSender">
 <em class="property">class </em><tt class="descclassname">hive.common.rpcsender.</tt><tt class="descname">RPCSender</tt><big>(</big><em>config</em>, <em>channel=None</em><big>)</big><a class="reference internal" href="_modules/hive/common/rpcsender.html#RPCSender"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.rpcsender.RPCSender" title="Permalink to this definition">¶</a></dt>
@@ -628,6 +674,8 @@ using rabbit.</p>
 </div>
 <div class="section" id="module-hive.common.simplepublisher">
 <span id="hive-common-simplepublisher-module"></span><h2>hive.common.simplepublisher module<a class="headerlink" href="#module-hive.common.simplepublisher" title="Permalink to this headline">¶</a></h2>
+<p>A simple class that provides methods for publishing messages onto a topic
+exchange.</p>
 <dl class="class">
 <dt id="hive.common.simplepublisher.SimplePublisher">
 <em class="property">class </em><tt class="descclassname">hive.common.simplepublisher.</tt><tt class="descname">SimplePublisher</tt><big>(</big><em>name</em>, <em>host='localhost'</em>, <em>username='guest'</em>, <em>password='guest'</em>, <em>channel=None</em><big>)</big><a class="reference internal" href="_modules/hive/common/simplepublisher.html#SimplePublisher"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hive.common.simplepublisher.SimplePublisher" title="Permalink to this definition">¶</a></dt>

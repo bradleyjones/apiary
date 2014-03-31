@@ -55,10 +55,17 @@
           <div class="body">
             
   <h1>Source code for hive.agentmanager.configcontroller</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;Controller for storing Agent configuration actions.&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">..common.controller</span> <span class="kn">import</span> <span class="n">Controller</span> <span class="k">as</span> <span class="n">Parent</span>
 <span class="kn">from</span> <span class="nn">..common.rpcsender</span> <span class="kn">import</span> <span class="n">RPCSender</span>
 <span class="kn">from</span> <span class="nn">agent</span> <span class="kn">import</span> <span class="n">Agent</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s">&quot;Sam Betts&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Sam Betts&quot;</span><span class="p">,</span> <span class="s">&quot;John Davidge&quot;</span><span class="p">,</span> <span class="s">&quot;Jack Fletcher&quot;</span><span class="p">,</span> <span class="s">&quot;Brad Jones&quot;</span><span class="p">]</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s">&quot;Apache v2.0&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s">&quot;1.0&quot;</span>
 
 
 <div class="viewcode-block" id="Controller"><a class="viewcode-back" href="../../../hive.agentmanager.html#hive.agentmanager.configcontroller.Controller">[docs]</a><span class="k">class</span> <span class="nc">Controller</span><span class="p">(</span><span class="n">Parent</span><span class="p">):</span>
@@ -72,19 +79,22 @@
 <div class="viewcode-block" id="Controller.setFiles"><a class="viewcode-back" href="../../../hive.agentmanager.html#hive.agentmanager.configcontroller.Controller.setFiles">[docs]</a>    <span class="k">def</span> <span class="nf">setFiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">resp</span><span class="p">):</span>
         <span class="n">response</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">body</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">]</span>
-        <span class="c">#Create body for sending to agent</span>
-        <span class="n">sbody</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&quot;files&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;files&#39;</span><span class="p">]</span> <span class="p">}</span>
+        <span class="c"># Create body for sending to agent</span>
+        <span class="n">sbody</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;files&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;files&#39;</span><span class="p">]}</span>
         <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;agents&#39;</span><span class="p">]:</span>
             <span class="n">ag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Sending </span><span class="si">%s</span><span class="s"> to </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sbody</span><span class="p">,</span><span class="n">agent</span><span class="p">))</span>
-            <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sender</span><span class="o">.</span><span class="n">send_request</span><span class="p">(</span>
-                <span class="s">&#39;SETFILES&#39;</span><span class="p">,</span>
-                <span class="n">agent</span><span class="p">,</span>
-                <span class="n">sbody</span><span class="p">,</span>
-                <span class="s">&#39;000000000000&#39;</span><span class="p">,</span>
-                <span class="s">&#39;agentmanager&#39;</span><span class="p">,</span>
-                <span class="n">key</span><span class="o">=</span><span class="n">ag</span><span class="o">.</span><span class="n">QUEUE</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Sent!&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ag</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Sending </span><span class="si">%s</span><span class="s"> to </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sbody</span><span class="p">,</span> <span class="n">agent</span><span class="p">))</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="p">{</span><span class="n">agent</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sender</span><span class="o">.</span><span class="n">send_request</span><span class="p">(</span>
+                    <span class="s">&#39;SETFILES&#39;</span><span class="p">,</span>
+                    <span class="n">agent</span><span class="p">,</span>
+                    <span class="n">sbody</span><span class="p">,</span>
+                    <span class="s">&#39;000000000000&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;agentmanager&#39;</span><span class="p">,</span>
+                    <span class="n">key</span><span class="o">=</span><span class="n">ag</span><span class="o">.</span><span class="n">QUEUE</span><span class="p">)}</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Sent!&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="p">{</span><span class="n">agent</span><span class="p">:</span> <span class="s">&#39;Agent Doesnt Exist!&#39;</span><span class="p">}</span>
             <span class="n">response</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
         <span class="n">resp</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div></div>
 </pre></div>

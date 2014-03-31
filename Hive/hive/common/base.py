@@ -1,15 +1,25 @@
+"""This module contains Base, a underlying class for most hive components,
+pulls in config file and setups up rabbit consumer and rabbit subscriber
+threads."""
+
 import logging
-from configobj import ConfigObj, ConfigObjError
-from rabbitconsumer import RabbitConsumer
-from rabbitsubscriber import RabbitSubscriber
 import sys
 import time
 import signal
+from configobj import ConfigObj, ConfigObjError
+from .rabbitconsumer import RabbitConsumer
+from .rabbitsubscriber import RabbitSubscriber
+
+__author__ = "Sam Betts"
+__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
+__license__ = "Apache v2.0"
+__version__ = "1.0"
 
 
 class Base(object):
 
-    """A common base class for most hive components, pulls in config file and setups up rabbit consumer and rabbit subscriber threads."""
+    """A common base class for most hive components, pulls in config file and
+    setups up rabbit consumer and rabbit subscriber threads."""
 
     def __init__(self, name):
         self.config = self.loadConfig("/etc/apiary/%s_config.ini" % name)
@@ -19,7 +29,7 @@ class Base(object):
         self.logger = logging.getLogger(__name__)
 
     def start(self, r):
-        """ Start the threads for receiving messages. """
+        """Start the threads for receiving messages."""
 
         #: Initialise the controllers and router
         self.router = r(self.config)
@@ -79,11 +89,12 @@ class Base(object):
         sys.exit(0)
 
     def extraThreads(self):
-        """ Function that will get called inside the start function for any threads added in child classes. """
+        """Function that will get called inside the start function for any
+        threads added in child classes."""
         pass
 
     def loadConfig(self, filepath):
-        """ Try to load config using ConfigObj and make sure it exists. """
+        """Try to load config using ConfigObj and make sure it exists."""
         try:
             return ConfigObj(filepath, file_error=True)
         except (ConfigObjError, IOError) as e:
@@ -91,7 +102,8 @@ class Base(object):
             raise SystemExit
 
     def configureLogger(self, filelocation, level):
-        """ Configure the logger format and logging level according to the config file. """
+        """Configure the logger format and logging level according to the
+        config file."""
 
         if level == "debug":
             logging.basicConfig(filename=filelocation,

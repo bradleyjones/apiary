@@ -1,13 +1,11 @@
-"""
-A helper class for wrapping the creation and consuming of a queue
-using rabbit.
-"""
+"""A helper class for wrapping the creation and consuming of a queue using
+rabbit with a response given."""
 
 import pika
 import logging
 import traceback
 import time
-from rpcresponse import RPCResponse
+from .rpcresponse import RPCResponse
 from uuid import getnode as get_mac
 from pkg_resources import resource_string
 from StringIO import StringIO
@@ -16,6 +14,11 @@ from jsonschema import validate
 import threading
 import sys
 import signal
+
+__author__ = "Sam Betts"
+__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
+__license__ = "Apache v2.0"
+__version__ = "1.0"
 
 
 class RabbitConsumer(threading.Thread):

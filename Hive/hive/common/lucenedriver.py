@@ -1,3 +1,10 @@
+"""A driver which encapsulates the use of lucene in a concurrent fashion.
+
+The module provides interfaces for the setup and commnication with
+Lucene worker processes.
+
+"""
+
 import lucene
 from java.io import File
 from org.apache.lucene.analysis.miscellaneous import LimitTokenCountAnalyzer
@@ -14,12 +21,23 @@ from multiprocessing import Process, Manager
 import json
 import uuid
 
+__author__ = "Sam Betts"
+__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
+__license__ = "Apache v2.0"
+__version__ = "1.0"
+
 luceneManager = None
 luceneQueue = None
 luceneReturn = None
 
 
 def setup(config, workers=4):
+    """Setup and start the workers.
+
+    This must be called once and only once somewhere in the program
+    thats using it.
+
+    """
     global luceneQueue, luceneManager, luceneReturn
     luceneManager = Manager()
     luceneQueue = luceneManager.Queue()
@@ -30,6 +48,9 @@ def setup(config, workers=4):
 
 
 class Worker(Process):
+
+    """This class represents the lucene worker object, which will run
+    concurrently with other workers, and contains the actual lucene logic."""
 
     def __init__(self, config, queue, ret):
         Process.__init__(self)
@@ -68,7 +89,7 @@ class Worker(Process):
                 response = getattr(self, da['action'])(da['data'])
                 self.d.close()
             except Exception as e:
-                print e 
+                print e
             if response is None:
                 response = {}
 
@@ -171,6 +192,10 @@ class Worker(Process):
 
 
 class Driver(object):
+
+    """This is a wrapper object that is designed to provide a syncronous
+    interface into the work queue, it will push a task with an ID which it will
+    then wait for to get a return value."""
 
     def __init__(self, config, tablename):
         global luceneQueue, luceneManager, luceneReturn

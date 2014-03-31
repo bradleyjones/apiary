@@ -6,12 +6,18 @@
 Welcome to Apiary's documentation!
 ==================================
 
-Contents:
+`Source Code <https://github.com/bradleyjones/apiary>`_
+
+Hive Components:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
-
+   hive.common
+   hive.honeycomb
+   hive.pheromone
+   hive.agentmanager
+   hive.agentmonitor
 
 Indices and tables
 ==================

@@ -1,3 +1,6 @@
+"""This module provides an Active Record like wrapper around MongoDB with
+methods for the most repeatedly used functionality."""
+
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from collections import OrderedDict
@@ -6,7 +9,15 @@ import sys
 import datetime
 import pytz
 
+__author__ = "Sam Betts"
+__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
+__license__ = "Apache v2.0"
+__version__ = "1.0"
+
+
 class ModelObject(object):
+
+    """Object wrapper for data thats saved or will be saved in the DB."""
 
     def __init__(self, columns, data):
         self.columns = columns
@@ -24,6 +35,10 @@ class ModelObject(object):
 
 
 class Model(object):
+
+    """Database access code and ModelObject to database transfer, this class
+    will become the parent of other models classes which add fields and
+    indexes."""
 
     def __init__(self, config):
         self.config = config
@@ -155,11 +170,12 @@ class Model(object):
             dbresult = self.table.find(query)
             for res in dbresult:
                 time = res['_id'].generation_time
-                if (now - time).total_seconds() < float(timescale): 
+                if (now - time).total_seconds() < float(timescale):
                     res['TIMESTAMP'] = str(time)
                     res['_id'] = str(res['_id'])
                     response['hits'][str(res['_id'])] = {}
-                    response['hits'][str(res['_id'])]['score'] = results['hits'][str(res['_id'])]['score']
+                    response['hits'][str(res['_id'])]['score'] = results[
+                        'hits'][str(res['_id'])]['score']
                     response['hits'][str(res['_id'])]['log'] = ModelObject(
                         self.columns, res).to_hash()
                     response['totalHits'] = response['totalHits'] + 1

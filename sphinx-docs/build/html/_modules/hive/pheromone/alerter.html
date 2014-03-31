@@ -55,26 +55,43 @@
           <div class="body">
             
   <h1>Source code for hive.pheromone.alerter</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;A Pheromone Alerter worker, based on the longrunningproc code in</span>
+<span class="sd">hive.common.</span>
+
+<span class="sd">This alerter looks at the rate of logs and if it exceeds a certain</span>
+<span class="sd">number in a timeframe then it will fire an alert.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">pika</span>
 <span class="kn">from</span> <span class="nn">hive.common.rpcsender</span> <span class="kn">import</span> <span class="n">RPCSender</span>
 <span class="kn">from</span> <span class="nn">hive.common.longrunningproc</span> <span class="kn">import</span> <span class="n">Proc</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">pika</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">hive.common.longrunningproc</span> <span class="kn">import</span> <span class="n">Proc</span>
 
+<span class="n">__author__</span> <span class="o">=</span> <span class="s">&quot;Sam Betts&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Sam Betts&quot;</span><span class="p">,</span> <span class="s">&quot;John Davidge&quot;</span><span class="p">,</span> <span class="s">&quot;Jack Fletcher&quot;</span><span class="p">,</span> <span class="s">&quot;Brad Jones&quot;</span><span class="p">]</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s">&quot;Apache v2.0&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s">&quot;1.0&quot;</span>
+
+
 <div class="viewcode-block" id="Alerter"><a class="viewcode-back" href="../../../hive.pheromone.html#hive.pheromone.alerter.Alerter">[docs]</a><span class="k">class</span> <span class="nc">Alerter</span><span class="p">(</span><span class="n">Proc</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">quantity</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">maxTime</span><span class="p">,</span> <span class="n">quantity</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
         <span class="n">Proc</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">queue</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uuid</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">query</span> <span class="o">=</span> <span class="n">query</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">maxTime</span> <span class="o">=</span> <span class="n">time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxTime</span> <span class="o">=</span> <span class="n">maxTime</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">maxQuantity</span> <span class="o">=</span> <span class="n">quantity</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">capturedTime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxTime</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">capturedTime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxTime</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">currentCount</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">totalHits</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">query</span> <span class="o">=</span> <span class="n">query</span>
@@ -88,44 +105,54 @@
             <span class="n">pika</span><span class="o">.</span><span class="n">ConnectionParameters</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;Rabbit&#39;</span><span class="p">][</span><span class="s">&#39;host&#39;</span><span class="p">],</span> <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">channel</span><span class="p">()</span>
 
-        <span class="c"># Setup queue for outputing data</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">channel</span><span class="o">.</span><span class="n">queue_declare</span><span class="p">(</span><span class="n">exclusive</span><span class="o">=</span><span class="n">true</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">queue</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">method</span><span class="o">.</span><span class="n">queue</span>
-
-        <span class="c"># Push all historic data from honeycomb</span>
-        <span class="n">rpcSender</span> <span class="o">=</span> <span class="n">RPCSender</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="p">)</span>
-        <span class="n">resp</span> <span class="o">=</span> <span class="n">rpcSender</span><span class="o">.</span><span class="n">send_request</span><span class="p">(</span>
+        <span class="c"># Setup recurring search</span>
+        <span class="n">rpcSender</span> <span class="o">=</span> <span class="n">RPCSender</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">rpcSender</span><span class="o">.</span><span class="n">send_request</span><span class="p">(</span>
             <span class="s">&#39;SEARCH&#39;</span><span class="p">,</span>
             <span class="s">&#39;honeycomb&#39;</span><span class="p">,</span>
-            <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span> <span class="s">&quot;QUERY&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span> <span class="p">}),</span>
+            <span class="p">{</span><span class="s">&quot;QUERY&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">,</span> <span class="s">&quot;TIMESCALE&quot;</span><span class="p">:</span> <span class="mi">604800</span><span class="p">},</span>
             <span class="s">&#39;&#39;</span><span class="p">,</span>
             <span class="s">&#39;pheromonealerter&#39;</span><span class="p">,</span>
-            <span class="n">key</span><span class="o">=</span><span class="s">&#39;honeycomb&#39;</span><span class="p">)</span>
+            <span class="n">key</span><span class="o">=</span><span class="s">&#39;honeycomb&#39;</span><span class="p">))</span>
 
-        <span class="n">channel</span><span class="o">.</span><span class="n">basic_consume</span><span class="p">(</span><span class="n">on_message</span><span class="p">,</span> <span class="n">queue</span><span class="o">=</span><span class="n">resp</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;QUEUE&#39;</span><span class="p">],</span> <span class="n">no_ack</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">basic_consume</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">on_message</span><span class="p">,</span>
+            <span class="n">queue</span><span class="o">=</span><span class="n">resp</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;queue&#39;</span><span class="p">],</span>
+            <span class="n">no_ack</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ready</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
 
-        <span class="n">channel</span><span class="o">.</span><span class="n">start_consuming</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">start_consuming</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Alerter.on_message"><a class="viewcode-back" href="../../../hive.pheromone.html#hive.pheromone.alerter.Alerter.on_message">[docs]</a>    <span class="k">def</span> <span class="nf">on_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">method_frame</span><span class="p">,</span> <span class="n">header_frame</span><span class="p">,</span> <span class="n">body</span><span class="p">):</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
 
         <span class="k">if</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">capturedTime</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxTime</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()):</span>
-          <span class="bp">self</span><span class="o">.</span><span class="n">capturedTime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-          <span class="bp">self</span><span class="o">.</span><span class="n">currentCount</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">capturedTime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">currentCount</span> <span class="o">=</span> <span class="mi">0</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">currentCount</span> <span class="o">+=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;hits&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">totalHits</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">currentCount</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">currentCount</span> <span class="o">+</span> \
+            <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">])</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">totalHits</span><span class="p">)</span>
         <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">currentCount</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxQuantity</span><span class="p">):</span>
-          <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">totalHits</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span> 
-            <span class="n">send_alert</span><span class="p">()</span>
-          <span class="bp">self</span><span class="o">.</span><span class="n">capturedTime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-          <span class="bp">self</span><span class="o">.</span><span class="n">currentCount</span> <span class="o">=</span> <span class="mi">0</span>
-          <span class="bp">self</span><span class="o">.</span><span class="n">totalHits</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;hits&#39;</span><span class="p">])</span>
+            <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">totalHits</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">send_alert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">currentCount</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">capturedTime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">currentCount</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">totalHits</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">])</span>
 </div>
-<div class="viewcode-block" id="Alerter.send_alert"><a class="viewcode-back" href="../../../hive.pheromone.html#hive.pheromone.alerter.Alerter.send_alert">[docs]</a>    <span class="k">def</span> <span class="nf">send_alert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
-        <span class="n">message</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&quot;action&quot;</span><span class="p">:</span><span class="s">&quot;ALERT&quot;</span><span class="p">,</span> <span class="s">&quot;to&quot;</span><span class="p">:</span><span class="s">&quot;listener&quot;</span><span class="p">,</span> <span class="s">&quot;from&quot;</span><span class="p">:</span><span class="s">&quot;pheromonealerter&quot;</span><span class="p">,</span> <span class="s">&quot;data&quot;</span><span class="p">:</span> <span class="p">{},</span> <span class="s">&quot;machineid&quot;</span><span class="p">:</span><span class="s">&quot;something&quot;</span> <span class="p">}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">basic_publish</span><span class="p">(</span><span class="n">exchange</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">routing_key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">message</span><span class="p">))</span>
+<div class="viewcode-block" id="Alerter.send_alert"><a class="viewcode-back" href="../../../hive.pheromone.html#hive.pheromone.alerter.Alerter.send_alert">[docs]</a>    <span class="k">def</span> <span class="nf">send_alert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;FIRING AN EVENT!!!!!!&quot;</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&quot;action&quot;</span><span class="p">:</span> <span class="s">&quot;EVENT&quot;</span><span class="p">,</span>
+            <span class="s">&quot;to&quot;</span><span class="p">:</span> <span class="s">&quot;listener&quot;</span><span class="p">,</span>
+            <span class="s">&quot;from&quot;</span><span class="p">:</span> <span class="s">&quot;pheromonealerter&quot;</span><span class="p">,</span>
+            <span class="s">&quot;data&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s">&quot;ALERT&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s">&quot;UUID&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">uuid</span><span class="p">,</span> <span class="s">&quot;COUNT&quot;</span><span class="p">:</span> <span class="n">count</span><span class="p">,</span> <span class="s">&quot;TEXT&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">,</span> <span class="s">&#39;USER&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">}},</span>
+            <span class="s">&quot;machineid&quot;</span><span class="p">:</span> <span class="s">&quot;something&quot;</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">basic_publish</span><span class="p">(</span>
+            <span class="n">exchange</span><span class="o">=</span><span class="s">&#39;apiary&#39;</span><span class="p">,</span>
+            <span class="n">routing_key</span><span class="o">=</span><span class="s">&quot;events.pheromone.alert&quot;</span><span class="p">,</span>
+            <span class="n">body</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">message</span><span class="p">))</span>
 </div>
 <div class="viewcode-block" id="Alerter.stop"><a class="viewcode-back" href="../../../hive.pheromone.html#hive.pheromone.alerter.Alerter.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>

@@ -54,16 +54,14 @@
           <div class="body">
             
   <h1>Source code for hive.common.rabbitconsumer</h1><div class="highlight"><pre>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">A helper class for wrapping the creation and consuming of a queue</span>
-<span class="sd">using rabbit.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;A helper class for wrapping the creation and consuming of a queue using</span>
+<span class="sd">rabbit with a response given.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">pika</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">traceback</span>
 <span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">rpcresponse</span> <span class="kn">import</span> <span class="n">RPCResponse</span>
+<span class="kn">from</span> <span class="nn">.rpcresponse</span> <span class="kn">import</span> <span class="n">RPCResponse</span>
 <span class="kn">from</span> <span class="nn">uuid</span> <span class="kn">import</span> <span class="n">getnode</span> <span class="k">as</span> <span class="n">get_mac</span>
 <span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="kn">import</span> <span class="n">resource_string</span>
 <span class="kn">from</span> <span class="nn">StringIO</span> <span class="kn">import</span> <span class="n">StringIO</span>
@@ -72,6 +70,11 @@
 <span class="kn">import</span> <span class="nn">threading</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">signal</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s">&quot;Sam Betts&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Sam Betts&quot;</span><span class="p">,</span> <span class="s">&quot;John Davidge&quot;</span><span class="p">,</span> <span class="s">&quot;Jack Fletcher&quot;</span><span class="p">,</span> <span class="s">&quot;Brad Jones&quot;</span><span class="p">]</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s">&quot;Apache v2.0&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s">&quot;1.0&quot;</span>
 
 
 <div class="viewcode-block" id="RabbitConsumer"><a class="viewcode-back" href="../../../hive.common.html#hive.common.rabbitconsumer.RabbitConsumer">[docs]</a><span class="k">class</span> <span class="nc">RabbitConsumer</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">):</span>
@@ -189,6 +192,7 @@
             <span class="n">request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonToHash</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Message Received: </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
             <span class="n">request</span><span class="p">[</span><span class="s">&#39;reply_to&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">reply_to</span>
+            <span class="n">request</span><span class="p">[</span><span class="s">&#39;routing_key&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="n">routing_key</span>
 
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">router</span><span class="p">(</span><span class="n">request</span><span class="p">[</span><span class="s">&quot;action&quot;</span><span class="p">],</span> <span class="n">request</span><span class="p">,</span> <span class="n">rpcresp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="p">)</span>

@@ -1,3 +1,6 @@
+"""The recurring search worker thread based on the long running proc code in
+Hive common."""
+
 import pika
 from hive.common.longrunningproc import Proc
 import time
@@ -6,6 +9,11 @@ from hive.honeycomb.log import Log
 from hive.common.model import ModelObject
 from bson.objectid import ObjectId
 import uuid
+
+__author__ = "Sam Betts"
+__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
+__license__ = "Apache v2.0"
+__version__ = "1.0"
 
 
 class Searcher(Proc):
