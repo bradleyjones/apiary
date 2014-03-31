@@ -14,5 +14,5 @@ class Honeycomb(Base):
 
 def main():
     honeycomb = Honeycomb()
-    hive.common.lucenedriver.setup(honeycomb.config, workers=1)
+    hive.common.lucenedriver.setup(honeycomb.config)
     honeycomb.start(Routes)
