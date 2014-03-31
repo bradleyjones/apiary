@@ -9,6 +9,11 @@ from hive.common.simplepublisher import SimplePublisher
 from hive.common.base import Base
 from hive.agentmanager.agent import Agent
 
+__author__ = "Sam Betts"
+__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
+__license__ = "Apache v2.0"
+__version__ = "1.0"
+
 
 class AgentMonitor(Base):
 

@@ -4,8 +4,16 @@ import json
 from simplepublisher import SimplePublisher
 import logging
 
+__author__ = "Sam Betts"
+__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
+__license__ = "Apache v2.0"
+__version__ = "1.0"
+
 
 class Controller(object):
+
+    """Parent class to all controllers in the apiary project, provides basic
+    setup such as logging and a simple publisher."""
 
     def __init__(self, config, channel):
         self.config = config
@@ -17,9 +25,13 @@ class Controller(object):
             channel=channel)
 
     def models(self):
+        """Called from the constructor so it provides a known interface for
+        extended controllers to place their model code."""
         pass
 
     def event(self, data, key=None):
+        """This provides a method for sending events out on to the message
+        bus."""
         rk = "events.%s" % self.config['Rabbit']['event_prefix']
         if key is not None:
             rk = "%s.%s" % (rk, key)
@@ -32,4 +44,5 @@ class Controller(object):
         self.publisher.publish_msg(json.dumps(doc), rk)
 
     def default(self, data, resp):
+        """A default and example controller action."""
         resp.respond("THIS IS THE DEFAULT ACTION")

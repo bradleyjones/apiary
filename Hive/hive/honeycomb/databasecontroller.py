@@ -5,6 +5,11 @@ import json
 from bson.objectid import ObjectId
 from log import Log
 
+__author__ = "Sam Betts"
+__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
+__license__ = "Apache v2.0"
+__version__ = "1.0"
+
 
 class Controller(Parent):
 
@@ -36,7 +41,9 @@ class Controller(Parent):
         resp.respond(response)
 
     def query(self, msg, resp):
-        results = self.logs.query(msg['data']['QUERY'], msg['data']['TIMESCALE'])
+        results = self.logs.query(
+            msg['data']['QUERY'],
+            msg['data']['TIMESCALE'])
         resp.respond(results)
 
     def count(self, msg, resp):

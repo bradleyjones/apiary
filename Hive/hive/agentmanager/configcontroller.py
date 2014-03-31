@@ -3,6 +3,11 @@ from ..common.controller import Controller as Parent
 from ..common.rpcsender import RPCSender
 from agent import Agent
 
+__author__ = "Sam Betts"
+__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
+__license__ = "Apache v2.0"
+__version__ = "1.0"
+
 
 class Controller(Parent):
 
@@ -21,15 +26,15 @@ class Controller(Parent):
             ag = self.agents.find(agent)
             if ag is not None:
                 self.logger.info("Sending %s to %s" % (sbody, agent))
-                r = { agent : self.sender.send_request(
+                r = {agent: self.sender.send_request(
                     'SETFILES',
                     agent,
                     sbody,
                     '000000000000',
                     'agentmanager',
-                    key=ag.QUEUE) }
+                    key=ag.QUEUE)}
                 self.logger.info("Sent!")
             else:
-                r = { agent : 'Agent Doesnt Exist!' }
+                r = {agent: 'Agent Doesnt Exist!'}
             response.append(r)
         resp.respond(response)

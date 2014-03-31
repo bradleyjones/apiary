@@ -6,6 +6,11 @@ from alerter import Alerter
 from hive.common.longrunningproc import ProcHandler
 from hive.common.rpcsender import RPCSender
 
+__author__ = "Sam Betts"
+__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
+__license__ = "Apache v2.0"
+__version__ = "1.0"
+
 
 class Controller(Parent):
 
@@ -45,7 +50,7 @@ class Controller(Parent):
         req = json.loads(sender.send_request(
             'GET',
             'hive',
-            {'variables':['uuid']},
+            {'variables': ['uuid']},
             '',
             '',
             key=q))

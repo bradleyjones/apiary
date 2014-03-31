@@ -14,6 +14,11 @@ from multiprocessing import Process, Manager
 import json
 import uuid
 
+__author__ = "Sam Betts"
+__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
+__license__ = "Apache v2.0"
+__version__ = "1.0"
+
 luceneManager = None
 luceneQueue = None
 luceneReturn = None
@@ -68,7 +73,7 @@ class Worker(Process):
                 response = getattr(self, da['action'])(da['data'])
                 self.d.close()
             except Exception as e:
-                print e 
+                print e
             if response is None:
                 response = {}
 

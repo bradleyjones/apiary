@@ -5,6 +5,11 @@ from pkg_resources import resource_filename
 
 import sys
 
+__author__ = "John Davidge"
+__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
+__license__ = "Apache v2.0"
+__version__ = "0.5"
+
 
 def callback(ch, method, properties, body):
     apns = APNs(

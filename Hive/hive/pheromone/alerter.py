@@ -8,6 +8,11 @@ import uuid
 from datetime import datetime
 from hive.common.longrunningproc import Proc
 
+__author__ = "Sam Betts"
+__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
+__license__ = "Apache v2.0"
+__version__ = "1.0"
+
 
 class Alerter(Proc):
 
@@ -61,13 +66,14 @@ class Alerter(Proc):
             self.capturedTime = time.time()
             self.currentCount = 0
 
-        self.currentCount = self.currentCount + (len(msg['hits']) - self.totalHits)
+        self.currentCount = self.currentCount + \
+            (len(msg['hits']) - self.totalHits)
         if(self.currentCount >= self.maxQuantity):
             if(self.totalHits != 0):
                 self.send_alert(self.currentCount)
             self.capturedTime = time.time()
             self.currentCount = 0
-        
+
         self.totalHits = len(msg['hits'])
 
     def send_alert(self, count):

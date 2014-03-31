@@ -8,6 +8,11 @@ from hive.common.longrunningproc import ProcHandler
 from hive.honeycomb.searchermodel import SearcherModel
 from hive.honeycomb.searcher import Searcher
 
+__author__ = "Sam Betts"
+__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
+__license__ = "Apache v2.0"
+__version__ = "1.0"
+
 
 class Controller(Parent):
 
@@ -25,7 +30,9 @@ class Controller(Parent):
         if len(results) > 0:
             searcher = results[0]
 
-            sender.channel.queue_bind(exchange=searcher.OUTPUTEXCHANGE, queue=queue_name)
+            sender.channel.queue_bind(
+                exchange=searcher.OUTPUTEXCHANGE,
+                queue=queue_name)
 
             req = sender.send_request(
                 'SET',
@@ -58,7 +65,9 @@ class Controller(Parent):
             searcher.CONTROLQUEUE = q
             searcher.QUERY = msg['data']['QUERY']
 
-            sender.channel.queue_bind(exchange=searcher.OUTPUTEXCHANGE, queue=queue_name)
+            sender.channel.queue_bind(
+                exchange=searcher.OUTPUTEXCHANGE,
+                queue=queue_name)
 
             req = sender.send_request(
                 'SET',

@@ -1,3 +1,11 @@
+
+
+__author__ = "Sam Betts"
+__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
+__license__ = "Apache v2.0"
+__version__ = "1.0"
+
+
 class RPCResponse(object):
 
     def __init__(self):

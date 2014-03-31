@@ -6,6 +6,12 @@ import sys
 import datetime
 import pytz
 
+__author__ = "Sam Betts"
+__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
+__license__ = "Apache v2.0"
+__version__ = "1.0"
+
+
 class ModelObject(object):
 
     def __init__(self, columns, data):
@@ -155,11 +161,12 @@ class Model(object):
             dbresult = self.table.find(query)
             for res in dbresult:
                 time = res['_id'].generation_time
-                if (now - time).total_seconds() < float(timescale): 
+                if (now - time).total_seconds() < float(timescale):
                     res['TIMESTAMP'] = str(time)
                     res['_id'] = str(res['_id'])
                     response['hits'][str(res['_id'])] = {}
-                    response['hits'][str(res['_id'])]['score'] = results['hits'][str(res['_id'])]['score']
+                    response['hits'][str(res['_id'])]['score'] = results[
+                        'hits'][str(res['_id'])]['score']
                     response['hits'][str(res['_id'])]['log'] = ModelObject(
                         self.columns, res).to_hash()
                     response['totalHits'] = response['totalHits'] + 1
