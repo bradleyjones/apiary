@@ -1,7 +1,7 @@
 \section{Queen}
 
 Our front-end component, also built on the NodeJS framework pulls all of the
-components of Hive together to proveide a real-time, visually rich experience.
+components of Hive together to provide a real-time, visually rich experience.
 
 We used the express library in NodeJS to build an MVC framework for the UI to
 keep inline with our design style throughout the rest of the project. This has
@@ -12,7 +12,7 @@ we took advantage of the socket.io library to have web-sockets that allow
 client(front-end) to server(Queen back end server) communication.
 
 Like the rest of our components Queen uses rabbit to provide inter-component
-communication. The flow for communcation with other components is described here
+communication. The flow for communication with other components is described here
 using a user performing a search as an example:
 
 \begin{enumerate}
@@ -36,7 +36,7 @@ were using a RESTful/polling approach to getting new data to the UI.
 Queen enables multiple users to all be using the service at once. The principle
 for multiple users is to store queries/alerts that the user wants to access next
 time they use the system, also to store a list of Devices associated to the user
-to be used by our iOS application. To store this data persistantly Queen also uses
+to be used by our iOS application. To store this data persistently Queen also uses
 MongoDB.
 
 Just as we did with the Bee/Agents we wanted to keep Queen configuration as
