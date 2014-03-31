@@ -1,0 +1,45 @@
+\section{Future Work}
+
+\subsection{Future Agents}
+
+Very early on in our design we decided that our Agents system should be
+flexible enough to accommodate a variety of agent types, as not all schemaless
+text data comes from text log files. We had the following Agents planned, but
+due to time constraints were not able to implement them, and felt that our time
+would be better spent focusing on processing techniques and UI.
+
+First of all, coming from our background with OpenStack, we would have liked to
+have built an Agent that was integrated with OpenStack Celiometer, the
+monitoring and metrics component of OpenStack. This would have worked in much
+the same way, but rather than have the user define a file, they would need to
+define a Celiometer Meter to start watching. After this processing would have
+worked in exactly the same way.
+
+Another consideration was to build an Agent, or extend Bee so that it could tap
+into popular logging frameworks. Many applications have now started to move
+away from traditional log files, and instead pump data into logging frameworks
+which can maintain slightly more structure about a log. Examples include
+LogBack, or Log4j.
+
+Furthermore, other open source projects could be extended to work with our
+system, such as FluentD, which has a plugin system that would allow us to build
+in Apiary support.
+
+\subsection{Hive - Timemachine and Intelligence}
+
+Some future Hive components we considered but were not within the time scale of
+the project are Timemachine and Intelligence. Timemachine would be designed to
+pull logs from the database according to a query, and then push them onto a
+message queue in the same order that they originally sent. The use case for
+this would be an application that requires a replicated stream of historical
+data for playing back events as they happened. This historical playback could
+be used to analyse system faults to determine what went wrong.
+
+Intelligence is much more complex and has potentially many more use cases. The
+idea behind Intelligence is to provide an API for doing Map Reduce tasks with
+the log data stored in Honeycomb. Software like Hadoop would allow for more in
+depth analysis than is currently possible with the Lucene implementation in
+Honeycomb, however both have their place according to the type of query you
+need to run. The scope of Intelligence could potentially be extended to include
+machine learning which we hope would compliment Pheromone with dynamically
+generated alerts.

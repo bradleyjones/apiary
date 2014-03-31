@@ -1,0 +1,38 @@
+\section{Conclusion}
+
+To conclude we set out to design and build an end-to-end solution for real-time
+monitoring and analysis of log data, this we feel we have achieved
+successfully. We had several goals which sculpted our design and thought
+processes for the project, and we believe we have met them with the solution we
+have built.
+
+Scalability - Splitting the Hive into several components communicating via
+RabbitMQ has given us industry-proven levels of scalability at zero cost and
+with very little implementation overhead. The use of MongoDB has also given us
+a database backend which has been tested to destruction in all corners of the
+tech industry.
+
+Real Time - RabbitMQ and web sockets have been used to create truly real time
+communication between the many components of Apiary and the web front end.
+Expensive polling loops are not required to keep the user up to date with the
+state of their system.
+
+Simple Configuration - Designing components such as the Bee to self-configure
+based on data passed from the central Hive has made deploying Apiary across a
+distributed system a much more straightforward task than many open source
+projects. The inclusion of installation scripts has also contributed to this
+goal significantly.
+
+Alert System - Exploiting the real time nature of our message bus
+infrastructure and the recurring query API exposed by Honeycomb has allowed us
+to create the Pheromone and Sting componets. These components work together
+with the iOS application to provide the user with real time feedback regardless
+of their location.
+
+User Friendly UI - Brad/Jack write something about graphing etc?
+
+Powerful Query System - By exploiting the advanced text search language that
+Lucene provides and combining this with fielding in Queen we have built a
+system that allows the user to filter, and infer schema onto otherwise
+unorganised data. Lucene's query language is expansive, and we ourselves are
+yet to fully explore all of the features it provides.
