@@ -4,6 +4,6 @@
 
 mongo agentmanager --eval "db.dropDatabase()"
 mongo honeycomb --eval "db.dropDatabase()"
-mongo queen-users --eval "db.dropDatabase()"
-mongo queensessions --eval "db.dropDatabase()"
+#mongo queen-users --eval "db.dropDatabase()"
+#mongo queensessions --eval "db.dropDatabase()"
 mongo pheromone --eval "db.dropDatabase()"

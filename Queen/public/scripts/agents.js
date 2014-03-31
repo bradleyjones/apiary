@@ -48,6 +48,13 @@ socket.on('agent', function(data) {
     value = data[key];
   }
   addAgent(value);
+
+  // Add to new target agents list
+  $('#select-agents').multiSelect('addOption', {
+    value: value.UUID,
+    text: value.UUID,
+    index: 0
+  });
 });
 
 socket.on('offline', function(data) {
