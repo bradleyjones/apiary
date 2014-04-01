@@ -47,73 +47,6 @@ $(function() {
   //Rerun Search?
   });
 
-  function addTermToTable(name, query) {
-    var table = document.getElementById('fieldTable');
-    var row = table.insertRow(table.rows.length - 1);
-
-    // Insert Count
-    //var count = table.rows.length - 2;
-    //var count_CELL = row.insertCell(0);
-    //count_CELL.innerHTML=count;
-
-    // Insert field name input box
-    var fieldName = document.createElement("input");
-    fieldName.type = "text";
-    fieldName.placeholder = "Bananas";
-    fieldName.className = "form-control fieldName";
-    if (name != null) {
-      fieldName.value = name;
-    }
-    var fieldName_CELL = row.insertCell(0);
-    fieldName_CELL.appendChild(fieldName);
-
-    // Insert sub query input
-    var subquery = document.createElement("input");
-    subquery.type = "text";
-    subquery.placeholder = "CONTENT:banana";
-    subquery.className = "form-control"
-    if (query != null) {
-      subquery.value = query;
-    }
-    var subquery_CELL = row.insertCell(1);
-    subquery_CELL.appendChild(subquery);
-
-    // Add Remove button
-    var remove = document.createElement("button");
-    remove.className = "btn btn-default";
-    remove.type = "button";
-    remove.innerHTML = "X";
-    remove.onclick = function() {
-      var todelete = this.parentNode.parentNode.rowIndex;
-      var table = document.getElementById('fieldTable').deleteRow(todelete);
-    }
-    var remove_CELL = row.insertCell(2);
-    remove_CELL.appendChild(remove);
-  }
-
-  // save search
-  $('#saveSearch').click( function() {
-    console.log("saving search");
-
-    // TEMP HACK FOR DEMO
-    $('#searchTerm').val("CONTENT:SALE");
-    addTermToTable('Bananas', 'CONTENT:banana');
-    addTermToTable('Apples', 'CONTENT:apple');
-    addTermToTable('Pineapples', 'CONTENT:pineapple');
-    addTermToTable('Mangos', 'CONTENT:mango');
-    addTermToTable('Durians', 'CONTENT:durian');
-
-    //var searchObj = {main:{
-      //search: currentSearch,
-    //subsearch: {
-    //}
-    //}}
-
-    //if (currentSearch != "") {
-      //socket.emit('saveSearch', currentSearch);
-    //}
-  });
-
   $('#addSparkLineButton').click(function (e) {
     //Get search query
     //format data
@@ -216,4 +149,83 @@ socket.on('pieHackResults', function(data){
 //    toggle: true
 //  });
 //})
+
+$( function() {
+$('#SavedGrid').data().datagrid.options.dataSource._data = [];
+
+$('#SavedGrid').data().datagrid.options.dataSource._data.push({NAME:"Demo Query", QUERY:'<a onclick="demoSaved()">Show me all sales</a>'});
+
+$('#SavedGrid').datagrid('reload');
+
+});
+
+
+  // save search
+  function demoSaved() {
+    console.log("saving search");
+
+    // TEMP HACK FOR DEMO
+    $('#searchTerm').val("CONTENT:SALE");
+    addTermToTable('Bananas', 'CONTENT:banana');
+    addTermToTable('Apples', 'CONTENT:apple');
+    addTermToTable('Pineapples', 'CONTENT:pineapple');
+    addTermToTable('Mangos', 'CONTENT:mango');
+    addTermToTable('Durians', 'CONTENT:durian');
+
+    //var searchObj = {main:{
+      //search: currentSearch,
+    //subsearch: {
+    //}
+    //}}
+
+    //if (currentSearch != "") {
+      //socket.emit('saveSearch', currentSearch);
+    //}
+  }
+
+
+  function addTermToTable(name, query) {
+    var table = document.getElementById('fieldTable');
+    var row = table.insertRow(table.rows.length - 1);
+
+    // Insert Count
+    //var count = table.rows.length - 2;
+    //var count_CELL = row.insertCell(0);
+    //count_CELL.innerHTML=count;
+
+    // Insert field name input box
+    var fieldName = document.createElement("input");
+    fieldName.type = "text";
+    fieldName.placeholder = "Bananas";
+    fieldName.className = "form-control fieldName";
+    if (name != null) {
+      fieldName.value = name;
+    }
+    var fieldName_CELL = row.insertCell(0);
+    fieldName_CELL.appendChild(fieldName);
+
+    // Insert sub query input
+    var subquery = document.createElement("input");
+    subquery.type = "text";
+    subquery.placeholder = "CONTENT:banana";
+    subquery.className = "form-control"
+    if (query != null) {
+      subquery.value = query;
+    }
+    var subquery_CELL = row.insertCell(1);
+    subquery_CELL.appendChild(subquery);
+
+    // Add Remove button
+    var remove = document.createElement("button");
+    remove.className = "btn btn-default";
+    remove.type = "button";
+    remove.innerHTML = "X";
+    remove.onclick = function() {
+      var todelete = this.parentNode.parentNode.rowIndex;
+      var table = document.getElementById('fieldTable').deleteRow(todelete);
+    }
+    var remove_CELL = row.insertCell(2);
+    remove_CELL.appendChild(remove);
+  }
+
 

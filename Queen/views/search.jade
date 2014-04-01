@@ -68,9 +68,10 @@ html
                 script(src="/scripts/d3/sparkline.js")
               #piechart
                 script(src="/scripts/d3/pie.js")
-            #stored.tab-pane.fade
-              h1 show stored queries here
+              #stored.tab-pane.fade
+                include partials/savedDatagrid.jade
 
           script(src="/scripts/libs/underscore-min.js")
           script(src="/scripts/searchDatagrid.js")
+          script(src="/scripts/savedDatagrid.js")
           script(src="/scripts/libs/luceneQueryValidator.js")

@@ -75,6 +75,10 @@ body {
   height: 519px;
 }
 
+#SavedDataGrid {
+  height: 519px;
+}
+
 #AlertsDataGrid {
   height: 519px;
 }
