@@ -12,6 +12,11 @@ transferred to the front-end would happen in real-time. In order to enable this
 we took advantage of the socket.io\cite{socket} library to have web-sockets that allow
 client(front-end) to server(Queen back end server) communication.
 
+\vspace{10 mm}
+\graphicspath{{./pics/}}
+\includegraphics[width=8cm, keepaspectratio]{data.png}
+\vspace{10 mm}
+
 Like the rest of our components Queen uses RabbitMQ to provide inter-component
 communication. The flow for communication with other components is described
 here
@@ -54,11 +59,6 @@ Devices associated to the user
 to be used by our iOS application. To store this data
 persistently Queen also uses
 MongoDB.
-
-\vspace{10 mm}
-\graphicspath{{./pics/}}
-\includegraphics[width=8cm, keepaspectratio]{data.png}
-\vspace{10 mm}
 
 Just as we did with the Bee agents we wanted to keep
 Queen configuration as
