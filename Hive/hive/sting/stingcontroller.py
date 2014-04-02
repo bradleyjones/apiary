@@ -8,7 +8,7 @@ from hive.sting.user import user
 from hive.sting.device import device
 
 __author__ = "John Davidge"
-__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
+__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Bradley Jones"]
 __license__ = "Apache v2.0"
 __version__ = "1.0"
 

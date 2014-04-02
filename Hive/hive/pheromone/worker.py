@@ -3,7 +3,7 @@
 from hive.common.model import Model
 
 __author__ = "Sam Betts"
-__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Brad Jones"]
+__credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Bradley Jones"]
 __license__ = "Apache v2.0"
 __version__ = "1.0"
 
