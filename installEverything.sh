@@ -2,7 +2,7 @@
 
 echo "Installing Dependencies..."
 sudo apt-get update
-sudo apt-get install -y python-software-properties python g++ make gcc make ant openjdk-7-jdk python-dev curl nodejs screen
+sudo apt-get install -y python-software-properties python g++ make gcc make ant openjdk-7-jdk python-dev curl nodejs screen rabbitmq-server mongodb-server
 sudo curl http://npmjs.org/install.sh -L -o -| sudo sh
 
 echo "Installing Hive..."
