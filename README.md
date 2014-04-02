@@ -9,7 +9,7 @@ To install Apiary on Ubuntu 12.04:
   
 This script will install all of the Apiary components and their dependencies using default configuration options. It will take some time, so grab yourself a nice cup of tea while you wait.
 
-If you see a JVM error make sure your Hive/installrc file is configured to look for the java version of your machine (i386, amd64, etc).
+If you see a JVM error make sure your Hive/installrc.example file is configured to look for the java version of your machine (i386, amd64, etc).
 
 See the documentation for individual components for custom installation and initialisation instructions.
 
