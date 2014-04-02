@@ -7,9 +7,9 @@ To install Apiary on Ubuntu 12.04:
   
   sudo ./installEverything.sh
   
-This script will install all of the Apiary components and their dependencies using default configuration options. It will take some time, so grab yourself a nice cup of tea while you wait.
+This script will install all of the Apiary components and their dependencies using default configuration options. It will take some time, so grab yourself a nice cup of tea while you wait. At one point it may look like it's caught in an infinite loop for 5 to 10 minutes but don't worry, it is still installing.
 
-If you see a JVM error make sure your Hive/installrc.example file is configured to look for the java version of your machine (i386, amd64, etc).
+If the script exits early with a JVM error make sure your Hive/installrc.example file is configured to look for the java version of your machine (i386, amd64, etc).
 
 See the documentation for individual components for custom installation and initialisation instructions.
 
