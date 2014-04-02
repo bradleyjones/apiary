@@ -7,8 +7,10 @@ sudo curl http://npmjs.org/install.sh -L -o -| sudo sh
 
 echo "Installing Hive..."
 pushd Hive
+cp installrc.example installrc
 python ez_setup.py
 ./install.sh
+cp localrc.example localrc
 popd 
 echo "Done..."
 
