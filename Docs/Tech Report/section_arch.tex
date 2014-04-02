@@ -7,17 +7,17 @@ series of independent components; Bee, our data agent; Hive, responsible for
 storage and processing of data; Queen, our web front end; and finally, our iOS
 application.
 
-\vspace{10 mm}
-\graphicspath{{./pics/}}
-\includegraphics[width=8cm, keepaspectratio]{design.jpg}
-\vspace{10 mm}
-
 The key design decision was to build our system in a ‘Process Oriented’ manner.
 This meant all components were broken down into small, scalable components. All
 state was stored in a central, scalable database, and all communication was
 handled by a scalable RabbitMQ\cite{rabbit} messaging exchange. Designing the system in
 this way meant that we could leverage these technologies to provide a reliable,
 transparently scalable, and real time system.
+
+\vspace{10 mm}
+\graphicspath{{./pics/}}
+\includegraphics[width=8cm, keepaspectratio]{design.jpg}
+\vspace{10 mm}
 
 The reasons for choosing RabbitMQ over other communication paradigms and
 technologies, such as REST, were that it would provide automatic distribution of
