@@ -7,13 +7,15 @@ To install Apiary on Ubuntu 12.04:
   
   sudo ./installEverything.sh
   
-This script will install all of the Apiary components and their dependencies. It will take some time, so grab a nice cup of tea while you wait.
+This script will install all of the Apiary components and their dependencies using default configuration options. It will take some time, so grab yourself a nice cup of tea while you wait.
+
+See the documentation for individual components for custom installation and initialisation instructions.
 
 * * *
 
 **Components 
 
-* Worker - Software Agents running on the nodes, harvesting data and returning it to the Hive
+* Bee Agents - Software Agents running on the nodes, harvesting data and returning it to the Hive
 
 * Hive - The middleware for the Apiary stack.
 
@@ -27,7 +29,7 @@ This script will install all of the Apiary components and their dependencies. It
 
 * * *
 
-Copyright 2013 "The Minions" 
+Copyright 2014 "The Minions" 
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
