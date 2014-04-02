@@ -7,7 +7,7 @@ To install Apiary on Ubuntu 12.04:
   
   sudo ./installEverything.sh
   
-This script will install all of the Apiary componenets and their dependencies. It will take some time so grab a nice cup of tea while you wait.
+This script will install all of the Apiary components and their dependencies. It will take some time, so grab a nice cup of tea while you wait.
 
 * * *
 
