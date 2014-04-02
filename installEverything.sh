@@ -16,12 +16,14 @@ echo "Done..."
 
 echo "Installing Queen..."
 pushd Queen
+cp config/config.js.example config/config.js
 npm install
 popd
 echo "Done..."
 
 echo "Installing Bee..."
 pushd Agents/BEE\ Client
+cp etc/config.js.example config.js
 npm install 
 popd
 echo "Done..."
