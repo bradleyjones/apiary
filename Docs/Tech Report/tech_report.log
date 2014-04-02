@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.3.31)  2 APR 2014 15:59
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.3.31)  2 APR 2014 16:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -242,9 +242,9 @@ File: ./pics/design.jpg Graphic file (type jpg)
 
 <use ./pics/design.jpg>
 Package pdftex.def Info: ./pics/design.jpg used on input line 11.
-(pdftex.def)             Requested size: 973.63512pt x 620.316pt.
+(pdftex.def)             Requested size: 489.2682pt x 311.71976pt.
 
-Overfull \hbox (748.03476pt too wide) in paragraph at lines 11--12
+Overfull \hbox (263.66785pt too wide) in paragraph at lines 11--12
 [][] 
  []
 
@@ -257,10 +257,8 @@ Missing character: There is no ò in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [2 <./pics/design.jpg>]) (./section_bee.tex) (./section_hive.tex)
+)
+(./section_bee.tex [2 <./pics/design.jpg>]) (./section_hive.tex)
 (./section_components.tex
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
@@ -274,10 +272,10 @@ Missing character: There is no ú in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
- [3]
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
+ [3]
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
@@ -304,8 +302,29 @@ Underfull \hbox (badness 5359) in paragraph at lines 106--116
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
-) [4] (./section_queen.tex) (./section_ios.tex) (./section_future.tex [5])
-(./section_conclusion.tex [6])
+) (./section_queen.tex [4] <./pics/data.png, id=21, 1686.3pt x 1053.9375pt>
+File: ./pics/data.png Graphic file (type png)
+
+<use ./pics/data.png>
+Package pdftex.def Info: ./pics/data.png used on input line 59.
+(pdftex.def)             Requested size: 489.2682pt x 305.79486pt.
+
+Overfull \hbox (263.66785pt too wide) in paragraph at lines 59--60
+[][] 
+ []
+
+<./pics/search.png, id=22, 1686.3pt x 1053.9375pt>
+File: ./pics/search.png Graphic file (type png)
+ <use ./pics/search.png>
+Package pdftex.def Info: ./pics/search.png used on input line 90.
+(pdftex.def)             Requested size: 489.2682pt x 305.79486pt.
+
+Overfull \hbox (263.66785pt too wide) in paragraph at lines 90--91
+[][] 
+ []
+
+) (./section_ios.tex [5 <./pics/data.png> <./pics/search.png>])
+(./section_future.tex) (./section_conclusion.tex [6])
 Overfull \hbox (1.5419pt too wide) in paragraph at lines 165--166
 []\OT1/ptm/m/n/9 iOS - https://developer.apple.com/devcenter/ios/index.action 
  []
@@ -334,10 +353,10 @@ Before submitting the final camera ready copy, remember to:
 
 [7] (./tech_report.aux) ) 
 Here is how much of TeX's memory you used:
- 2216 strings out of 495028
- 35299 string characters out of 6181497
+ 2227 strings out of 495028
+ 35487 string characters out of 6181497
  96213 words of memory out of 5000000
- 5397 multiletter control sequences out of 15000+600000
+ 5405 multiletter control sequences out of 15000+600000
  33555 words of font info for 63 fonts, out of 8000000 for 9000
  17 hyphenation exceptions out of 8191
  37i,8n,23p,237b,293s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -347,10 +366,10 @@ usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw
 /times/utmri8a.pfb>
-Output written on tech_report.pdf (7 pages, 159346 bytes).
+Output written on tech_report.pdf (7 pages, 374000 bytes).
 PDF statistics:
- 50 PDF objects out of 1000 (max. 8388607)
+ 52 PDF objects out of 1000 (max. 8388607)
  34 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
 
