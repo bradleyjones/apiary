@@ -1,38 +1,72 @@
 \section{Conclusion}
 
-To conclude we set out to design and build an end-to-end solution for real-time
-monitoring and analysis of log data, this we feel we have achieved
-successfully. We had several goals which sculpted our design and thought
-processes for the project, and we believe we have met them with the solution we
-have built.
+To conclude, we set out to design and build an end-to-end solution for real-time
+monitoring and analysis of log data, this we feel we have achieved successfully.
+We had several goals which sculpted our design and thought processes for the
+project, and we believe we have met them with the solution we have built. At the
+beginning of the project we separated our goals into the six major categories
+that we felt were most important for a system of this type. Addressing them
+individually, we can see how our design decisions helped us achieve each one.
 
-Scalability - Splitting the Hive into several components communicating via
-RabbitMQ has given us industry-proven levels of scalability at zero cost and
-with very little implementation overhead. The use of MongoDB has also given us
-a database backend which has been tested to destruction in all corners of the
-tech industry.
+\subsection{Scalability}
+Splitting the Hive into several components communicating via RabbitMQ has given
+us industry-proven levels of scalability at zero cost and with very little
+implementation overhead. The use of MongoDB has also given us a database backend
+which has been tested to destruction in all corners of the tech industry.
+\subsection{Real Time}
+RabbitMQ and web sockets have been used to create truly real time communication
+between the many components of Apiary and the web front end. Expensive polling
+loops are not required to keep the user up to date with the state of their
+system.
+\subsection{Simple Configuration}
+Designing components such as the Bee to self-configure based on data passed from
+the central Hive has made deploying Apiary across a distributed system a much
+more straightforward task than many open source projects. The inclusion of
+installation scripts has also contributed to this goal significantly.
+\subsection{Alert System}
+Exploiting the real time nature of our message bus infrastructure and the
+recurring query API exposed by Honeycomb has allowed us to create the Pheromone
+and Sting components. These components work together with the iOS application to
+provide the user with real time feedback regardless of their location.
+\subsection{Powerful Query System}
+By exploiting the advanced text search language that Lucene provides and
+combining this with fielding in Queen we have built a system that allows the
+user to filter, and infer schema onto otherwise unorganised data. Lucene's query
+language is expansive, and we ourselves are yet to fully explore all of the
+features it provides. Data can be searched and fielded on a wide range of
+parameters, from content, tag, hostname, log time, and many more.
+\subsection{User Friendly UI}
+Leveraging the power of our query system, our user interface allows the use to
+create rich data visualisations from query results, allowing them to make
+valuable and meaningful analysis. Our interface is web based, real-time, and
+easy to use.
 
-Real Time - RabbitMQ and web sockets have been used to create truly real time
-communication between the many components of Apiary and the web front end.
-Expensive polling loops are not required to keep the user up to date with the
-state of their system.
+Following the points above, we feel that we have have built a valuable tool,
+that allows the user to gain real value from data that would otherwise be locked
+away, and difficult to processing. Compared to other projects in the market
+today we still sit at a relatively primitive stage, simply due to resources,
+however we feel that our implementation brings a number of novel design
+decisions that give us an edge in certain applications. No other project, for
+example employs our system of using message based communication across the whole
+stack, which brings a myriad of benefits. It allows us to do real time,  easy
+reliable scaling, and deal with heavy loads without scaling. Our fielding system
+is also unique, as other systems have opted for expensive, log analysis
+algorithms. Our system allows ultimate flexibility, and keeps overheads down.
 
-Simple Configuration - Designing components such as the Bee to self-configure
-based on data passed from the central Hive has made deploying Apiary across a
-distributed system a much more straightforward task than many open source
-projects. The inclusion of installation scripts has also contributed to this
-goal significantly.
+If we were to start this project again, or were to give guidance to others
+untaking similar projects, we would probably try to avoid using NodeJS in
+certain parts of our stack. This is simply to to NodeJSs infancy, we found in
+a number of cases that it was difficult to debug, due to the lack of tools,
+and lack of predictability in the JavaScript specification. Also, we would
+spend a little more time planning the communication protocols, as we had to
+make a number of changes, at one point switching from XML to JSON. This took a
+significant amount time to refactor, and could have been avoided with more
+consideration.
 
-Alert System - Exploiting the real time nature of our message bus
-infrastructure and the recurring query API exposed by Honeycomb has allowed us
-to create the Pheromone and Sting componets. These components work together
-with the iOS application to provide the user with real time feedback regardless
-of their location.
+Finally, given more more resources, we would have like to have done some
+extremely large scale testing. As it stands we were only able to distribute
+instances across the machines that we personally owned, which allowed to to
+confirm that scaling worked, but did not demonstrate how far it could be
+push, in our testing each component was only instanced no more than 3 or 4
+times.
 
-User Friendly UI - Brad/Jack write something about graphing etc?
-
-Powerful Query System - By exploiting the advanced text search language that
-Lucene provides and combining this with fielding in Queen we have built a
-system that allows the user to filter, and infer schema onto otherwise
-unorganised data. Lucene's query language is expansive, and we ourselves are
-yet to fully explore all of the features it provides.

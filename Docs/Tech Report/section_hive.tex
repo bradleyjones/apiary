@@ -1,17 +1,19 @@
 \section{Hive}
 
-Our core, and most complex component - its role is to manage data agents
-(Bees), store incoming log data, and provide complex querying against that
-data. In order to achieve scalability, Hive is made up of 6 subcomponents, with
-a simple framework in place for extending this with extra components should the
-user require additional functionality. All components communicate over the
-RabbitMQ message exchange.
+Our core, and most complex component - its role is to manage data agents (Bees),
+store incoming log data, and provide complex querying against that data. In
+order to achieve scalability, Hive is made up of 6 subcomponents, with a simple
+framework in place for extending this with extra components should the user
+require additional functionality. All components communicate over the RabbitMQ
+message exchange.
 
-Given our background with OpenStack (written in Python) and the abundance of
+Given our background with OpenStack\cite{os} (written in Python) and the abundance of
 bindings and support for many of the other technologies we wanted to employ,
 Python was the obvious language choice for Hive. Python also provided a clean
-multiprocessing library which was crucial for a number of subcomponents. We
-chose to implement a common MVC stack for all our components, along with a JSON
-protocol that would be shared across the whole stack. This allowed us to
-rapidly prototype and add new components to Hive as all the communication
-management and database access code were broken out into a reusable library.
+multiprocessing library which was crucial for a number of the Hive
+subcomponents. We chose to implement a common MVC stack for all our components,
+along with a JSON protocol that would be shared across the whole stack. This
+allowed us to rapidly prototype and add new components to Hive as all the
+communication management and database access code had been broken out into a
+reusable library.
+

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.3.31)  2 APR 2014 15:06
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.3.31)  2 APR 2014 15:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -150,11 +150,10 @@ Missing character: There is no â in font ptmr7t!
 Missing character: There is no € in font ptmr7t!
 Missing character: There is no ™ in font ptmr7t!
 ) (./section_bee.tex) (./section_hive.tex)
-(./section_components.tex
+(./section_components.tex [2]
 Missing character: There is no â in font ptmr7t!
 Missing character: There is no € in font ptmr7t!
 Missing character: There is no ™ in font ptmr7t!
- [2]
 Missing character: There is no â in font ptmr7t!
 Missing character: There is no € in font ptmr7t!
 Missing character: There is no ™ in font ptmr7t!
@@ -187,7 +186,7 @@ Missing character: There is no â in font ptmr7t!
 Missing character: There is no € in font ptmr7t!
 Missing character: There is no  in font ptmr7t!
 
-Underfull \hbox (badness 5359) in paragraph at lines 107--117
+Underfull \hbox (badness 5359) in paragraph at lines 106--116
 []\OT1/ptm/m/n/10 Using the re-cur-ring query API in Hon-ey-comb,
  []
 
@@ -196,21 +195,22 @@ Missing character: There is no € in font ptmr7t!
 Missing character: There is no ™ in font ptmr7t!
 ) (./section_queen.tex [4]) (./section_ios.tex) (./section_future.tex)
 (./section_conclusion.tex [5])
-Overfull \hbox (1.5419pt too wide) in paragraph at lines 160--161
+Overfull \hbox (1.5419pt too wide) in paragraph at lines 165--166
 []\OT1/ptm/m/n/9 iOS - https://developer.apple.com/devcenter/ios/index.action 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 163--164
+Underfull \hbox (badness 10000) in paragraph at lines 168--169
 []\OT1/ptm/m/n/9 Apple Push No-ti-fi-ca-tion Ser-vice -
  []
 
 
-Overfull \hbox (302.16599pt too wide) in paragraph at lines 163--164
+Overfull \hbox (302.16599pt too wide) in paragraph at lines 168--169
 \OT1/ptm/m/n/9 https://developer.apple.com/library/ios/documentation/Networking
 Internet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html 
  []
 
+[6]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -222,14 +222,14 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[6
+[7
 
 ] (./tech_report.aux) ) 
 Here is how much of TeX's memory you used:
- 945 strings out of 495028
- 16437 string characters out of 6181497
+ 955 strings out of 495028
+ 16520 string characters out of 6181497
  71281 words of memory out of 5000000
- 4193 multiletter control sequences out of 15000+600000
+ 4203 multiletter control sequences out of 15000+600000
  33555 words of font info for 63 fonts, out of 8000000 for 9000
  17 hyphenation exceptions out of 8191
  26i,8n,19p,192b,295s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -239,10 +239,10 @@ r/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive
 /texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fo
 nts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/t
 imes/utmri8a.pfb>
-Output written on tech_report.pdf (6 pages, 85947 bytes).
+Output written on tech_report.pdf (7 pages, 90000 bytes).
 PDF statistics:
- 44 PDF objects out of 1000 (max. 8388607)
- 30 compressed objects within 1 object stream
+ 49 PDF objects out of 1000 (max. 8388607)
+ 34 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

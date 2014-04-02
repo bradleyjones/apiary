@@ -4,20 +4,20 @@ The aim of Apiary was to produce an open source platform for the harvesting,
 storage, processing, and visualisation of machine data (logs etc) from large
 scale distributed systems, and expose this using a real time, interactive web
 front end. In order to ensure that our project was successful, we set out a
-series of clear, defined goals before starting the project, as follows.
+series of clear defined goals before starting the project.
 
 \begin{itemize}
 
-\item Scalability - During our research we found that typical log rates for
-data centre applications could run into terabytes per hour. This meant that we
-would need to be able to handle more data than a single appliance could even
+\item Scalability - During our research we found that typical log rates for data
+centre applications could run into terabytes per hour. This meant that we
+would need to be able to handle more data than a single appliance could ever
 store, and still maintain an acceptable level of service. For this reason
 building a system that was easily scaled out was of paramount importance.
 
 \item Real Time - We decided quite early on that we would be able to provide a
 richer, more interactive service by building a system that operated on a
 message based, real time system. This would allow us to push events from the
-data center, all the way to the browser, without implementing costly polling
+data center all the way to the browser without implementing costly polling
 techniques.
 
 \item Simple Configuration - A problem that we identified with a lot of open
@@ -25,13 +25,13 @@ source software stacks is that they are often very difficult to configure, and
 come with hundreds of configuration options. This can make devops (developer
 operations) very difficult, and just finding the optimal set of configurations
 can be a task unto itself. For this reason we wanted to keep configuration
-options to a minimum, and automatically detect configuration for as much of the
-stack as we possibly could.
+options to a minimum, and automatically detect configuration for as much of
+the stack as we possibly could.
 
-\item Alert System - One component that we noticed the most of the existing
-solutions don't have, is any kind of event alert system. The user can not be
-expected to be monitoring the system at all times, so we decided that we should
-be able to push alerts directly to the users mobile device.
+\item Alert System - One component that we noticed most of the existing
+solutions don't have, is any kind of event alert system. The user cannot be
+expected to be monitoring the system at all times, so we decided that we
+should be able to push triggered alerts directly to the users mobile device.
 
 \item User Friendly UI - Another thing we noticed about a lot of the existing
 solutions out there, particularly those that were open source, was that UI was
@@ -43,5 +43,10 @@ visualisations that allowed the user to gain the most from their data.
 in order to support them all we needed to ensure that the query language could
 support a wide range of simple and complex operations, whilst remaining fast
 and real time.
+
+Use cases for a system like this include live alerting of machine failures, or
+heavy network load; analyzing browsing and buying patterns in e-commerce
+websites from web server log data; and identifying network abuse by indexing
+data from firewalls and intrusion detection systems.
 
 \end{itemize}

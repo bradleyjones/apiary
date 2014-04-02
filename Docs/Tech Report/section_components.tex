@@ -3,22 +3,22 @@
 Though not technically a subcomponent in itself - Common is the base layer
 underlying almost all of the hive subcomponents. Any code that was duplicated
 and was reusable was moved into Common to maintain the DRY (Don’t Repeat
-Yourself) programming style. Common therefore became the home for our MVC
-stack, including the Parent classes associated with writing controllers and
-routers. Common also includes drivers for generic database access, meaning that
-the underlying database technology could be changed fairly trivially. The
-current model uses PyMongo to hook into MongoDB.
+Yourself) programming style. Common therefore became the home for our MVC stack,
+including the Parent classes associated with writing controllers and routers.
+Common also includes drivers for generic database access, meaning that the
+underlying database technology could be changed fairly trivially. The current
+model uses PyMongo\cite{pymongo} to hook into MongoDB.
 
 Base pulls all the these parts together into an application that runs but needs
 extending to provide any real functionality. It handles the loading of
 configuration files and makes sure they are accessible throughout the rest of
-the program. It also spawns the worker threads required to listen on the
-message bus. Both a subscriber queue and worker queue are listened to in order
-to distinguish between RPC (remote procedure call) messages which always
-require a response, and purely informative messages - which require action but
-no response. Base also sets up and handles all the logging throughout the
-program, ensuring that it gets written to an intuitively named file and in a
-common format that makes issues easier to find.
+the program. It also spawns the worker threads required to listen on the message
+bus. Both a subscriber queue and worker queue are listened to in order to
+distinguish between RPC (remote procedure call) messages which always require a
+response, and purely informative messages - which require action but no
+response. Base also sets up and handles all the logging throughout the program,
+ensuring that it gets written to an intuitively named file and in a common
+format that makes issues easier to find.
 
 \subsection{Agentmanager and Agentmonitor}
 
@@ -27,68 +27,67 @@ Agentmanager and Agentmonitor are to configure and keep track of our Data
 Agents.
 
 Agents are, as described earlier in the paper, installed with no configuration,
-Agentmanager’s first job is to handshake new Agents entering the environment
-and provide them a unique identifier which is attached to data transmissions to
-the rest of Hive. After the initial bootstrapping of an Agent, Agentmanager
-then receives periodic heartbeats from the Agents. This heartbeat is used by
+Agentmanager’s first job is to handshake new Agents entering the environment and
+provide them a unique identifier which is attached to data transmissions to the
+rest of Hive. After the initial bootstrapping of an Agent, Agentmanager then
+receives periodic heartbeats from the Agents. This heartbeat is used by
 AgentMonitor to detect the status of an Agent in the case of an unclean
 disconnection, error, network congestion, or other problem with the host
 machine.
 
-The final task performed by these two components is to provide the Agents with
-a series of Data targets, for example in the case of the file watching agent,
-this allows a user to remotely set the files that the Agent is monitoring. The
-API allows this to be done in bulk, with many files, across many Agents. This
-required a more complex response in case that one or more of the Agents failed
-to successfully configure, in order to provide the user of the API with enough
-information, we collate the individual responses of each Agent configuration
-call into a labeled list.
+The final task performed by these two components is to provide the Agents with a
+series of Data targets, for example in the case of the file watching agent, this
+allows a user to remotely set the files that the Agent is monitoring. The API
+allows this to be done in bulk, with many targets, across many Agents. Agent
+status responses (success, fail) are then collated and returned in a labeled
+list.
 
 Maintaining the real time aspect of the whole application required the addition
 of “events” to Agentmanager and Agentmonitor, whenever a significant change
-happens on either component e.g. a new agent handshakes into the environment,
-or an agent is flagged as dead, the component where this change happened
-published an event object onto a known message exchange, which services, if
-they are listening can use to perform any tasks they have which are relevant to
-a change in the Agent Manager without the need for polling.
+happens on either component e.g. a new agent handshakes into the environment, or
+an agent is flagged as dead, the component where this change happened published
+an event object onto a known message exchange, which services, if they are
+listening can use to perform any tasks they have which are relevant to a change
+in the Agent Manager without the need for polling.
 
-The reason for splitting this component into both Agentmanager and
-Agentmonitor, is because the tasks performed by each scale independently.
-Agentmanager receives many of messages in the form of heartbeats, and this
-grows relative to the number of Agents running. On the other hand Agent
-Monitors’ task not increase in complexity nearly as fast, and because of this
-it will be far longer before it needs to be scaled out. This configuration of
-split services provides the greatest flexibility for host utilisation at large
-scale, as you only scale the specific services you need too.
+The reason for splitting this component into both Agentmanager and Agentmonitor,
+is because the tasks performed by each scale independently. Agentmanager
+receives many of messages in the form of heartbeats, and is a constant task that
+grows with the number of Agents running. On the other hand Agent Monitors’ task
+not increase in complexity nearly as fast, and because of this does not need to
+be scaled out as aggressively. This configuration of split services provides the
+greatest flexibility for host utilisation at large scale, as you only need to
+scale specific processes.
 
 \subsection{Honeycomb}
 
-Honeycomb is our most complicated component as this is where all the storage
-and processing of collected logs take place. Honeycomb follows the standard
-hive component structure, and uses the MVC stack for inbound requests. It uses
-a subscriber queue to digest the stream of data it receives as fast as possible
+Honeycomb is our most complicated component as this is where all the storage and
+processing of collected logs take place. Honeycomb follows the standard hive
+component structure, and uses the MVC stack for inbound requests. It uses a
+subscriber queue to digest the stream of data it receives as fast as possible
 without having to respond to each log, which would slow the process down.
 
-Honeycomb uses our common model structure to verify the validity of all
-received data before it is saved to the database. There is also an additional
-step in the Honeycomb save function to perform indexing for every log file
-entry. After some research we settled on using PyLucene as a python wrapper for
-Lucene to handle indexing. Lucene is an open source plain text analysis and
-search tool developed by the Apache Software Foundation. Whenever a log is
-saved it is passed to Lucene so that we can utilize their powerful query
+Honeycomb uses our common model structure to verify the validity of all received
+data before it is saved to the database. There is also an additional step in the
+Honeycomb save function to perform indexing for every log file entry. After some
+research we settled on using PyLucene\cite{pylucene} as a python wrapper for
+Lucene\cite{lucene} to
+handle indexing. Lucene is an open source plain text analysis and search tool
+developed by the Apache Software Foundation. Whenever a log is saved it is
+passed to Lucene for indexing so that we can utilize their powerful query
 language, without having to apply schema to the contents of the log.
 
-As well as storing the logs, Honeycomb also provides the API for searching
-them. These searches can be one of two types; a one-off query, or a recurring
-query. One-off queries are simply a remote procedure call (RPC) containing the
-query. The response is written into a JSON object and passed but to the
-requesting process via the message bus. This is great for individual tasks, but
-in order to facilitate real time updates we needed to introduce recurring
-queries. Recurring queries require a little more setup because they have to run
-in a separate thread to the rest of Honeycomb. Since Honeycomb has to remain
-stateless for scalability, it should not maintain any reference to these
-threads - as this would mean that a second instance of Honeycomb wouldn’t be
-able to interact with this query.
+As well as storing the logs, Honeycomb also provides the API for searching them.
+These searches can be one of two types; a one-off query, or a recurring query.
+One-off queries are simply a remote procedure call (RPC) containing the query.
+The response is written into a JSON object and passed but to the requesting
+process via the message bus. This is great for individual tasks, but in order to
+facilitate real time updates we needed to introduce recurring queries. Recurring
+queries require a little more setup because they have to run in a separate
+thread to the rest of Honeycomb. Since Honeycomb has to remain stateless for
+scalability, it should not maintain any reference to these threads - as this
+would mean that a second instance of Honeycomb wouldn’t be able to interact with
+this query.
 
 In order to solve this issue, we use the message bus again - spawning a wrapper
 process which provides an API to the thread in the background, and stores the
@@ -106,40 +105,40 @@ simply thrown away - instead of clogging up a queue on the message bus.
 
 Using the recurring query API in Honeycomb, Pheromone places a layer of
 “intelligence” on top of the query to filter out specific results and trigger
-alerts based on user-defined conditions. Alerts are user-defined through the
-API Pheromone provides. These alerts take whatever parameters they need to test
-for the case on the data, and a custom message that is included when the Alert
-is transmitted. Pheromone currently only has the one type of alert test - it
-will fire an alert if a query gets a certain number of matches during a given
-timescale. However it is not limited to just this one alert type, as the
-design patterns used for the “alerters” allows for easy addition of new types
-in the future.
+alerts based on user-defined conditions. Alerts are user-defined through the API
+Pheromone provides. These alerts take whatever parameters they need to test for
+the case on the data, and a custom message that is included when the Alert is
+transmitted. Pheromone currently only has the one type of alert test - it will
+fire an alert if a query gets a certain number of matches during a given
+timescale. However it is not limited to just this one alert type, as the design
+patterns used for the “alerters” allows for easy addition of new types in the
+future.
 
 Pheromone uses python's multiprocessing library to start background tasks
 similar to how Honeycomb’s recurring query tasks operate. When a request comes
 in Pheromone starts a new worker for that alert in the background, however
-unlike the Honeycomb workers there is no unique output exchange, as these
-alerts are always pushed onto a known message bus routing key. This allows
-other services, for example Sting, to listen for them and perform all necessary
-tasks they have relative to the Alert.
+unlike the Honeycomb workers there is no unique output exchange, as these alerts
+are always pushed onto a known message bus routing key. This allows other
+services, for example Sting, to listen for them and perform all necessary tasks
+they have relative to the Alert.
 
 \subsection{Sting}
 
 Pheromone alerts are a very powerful tool, but the user is not always going to
 be sitting in front of their computer when an alert is triggered. In fact, the
 very nature of user-defined alerts generally makes the times when they will
-occur rare and/or unpredictable, and so we must be able to inform the user of
-an alert as reliably as possible. By building a native iOS app as described
+occur rare and/or unpredictable, and so we must be able to inform the user of an
+alert as reliably as possible. By building a native iOS\cite{ios} app as described
 later in this paper, we are able to take advantage of the Apple Push
-Notification Service (APNS). APNS is a service made available by Apple to all
-iOS application developers for sending small text-based messages to iOS devices
-using your mobile application. In many ways this is similar to the standard
-Short Message Service (SMS), but with the key differences that the message is
-sent specifically to the application on the device, and more importantly - is
-free. Many third-party services exist for sending automatically triggered SMS
-messages (for example, Twilio), but these services charge several pence per
-message, which could become very expensive in a large system with many users
-and alert conditions.
+Notification Service (APNS)\cite{apns}. APNS is a service made available by Apple to
+all iOS application developers for sending small text-based messages to iOS
+devices using your mobile application. In many ways this is similar to the
+standard Short Message Service (SMS), but with the key differences that the
+message is sent specifically to the application on the device, and more
+importantly - is free. Many third-party services exist for sending automatically
+triggered SMS messages (for example, Twilio\cite{twilio}), but these services charge
+several pence per message, which could become very expensive in a large system
+with many users and alert conditions.
 
 When Pheromone pushes an alert onto the message bus, Sting picks it up and
 looks up the user to which the alert is registered. For every iOS device
