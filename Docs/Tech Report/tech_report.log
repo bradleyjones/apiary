@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.10.23)  2 APR 2014 17:03
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.3.31)  3 APR 2014 03:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **tech_report.tex
 (./tech_report.tex
 LaTeX2e <2011/06/27>
-Babel <3.9f> and hyphenation patterns for 78 languages loaded.
+Babel <3.9h> and hyphenation patterns for 2 languages loaded.
 (./IEEEtran.cls
 Document Class: IEEEtran 2007/03/05 V1.7a by Michael Shell
 -- See the "IEEEtran_HOWTO" manual for usage information.
@@ -17,7 +17,7 @@ Document Class: IEEEtran 2007/03/05 V1.7a by Michael Shell
 \@IEEEtrantmptoksA=\toks14
 LaTeX Font Info:    Try loading font information for OT1+ptm on input line 373.
 
-(/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 -- Using 210mm x 297mm (a4) paper.
@@ -90,31 +90,31 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <24> not available
 \@IEEEtmpitemindent=\dimen116
 \c@IEEEbiography=\count90
 \@IEEEtranrubishbin=\box26
-) (/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/graphicx.sty
+) (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
-(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/keyval.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 \KV@toks@=\toks15
 )
-(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
 
-(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/trig.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-(/usr/local/texlive/2013/texmf-dist/tex/latex/latexconfig/graphics.cfg
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/graphics.cfg
 File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
 )
 Package graphics Info: Driver file: pdftex.def on input line 91.
 
-(/usr/local/texlive/2013/texmf-dist/tex/latex/pdftex-def/pdftex.def
+(/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def
 File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
 
-(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty
 Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
 )
-(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
 Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 )
 \Gread@gobject=\count91
@@ -138,7 +138,7 @@ LaTeX Font Info:    ... okay on input line 30.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 30.
 LaTeX Font Info:    ... okay on input line 30.
 
-(/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii
+(/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count92
 \scratchdimen=\dimen119
@@ -151,15 +151,15 @@ LaTeX Font Info:    ... okay on input line 30.
 \MPnumerator=\count96
 \makeMPintoPDFobject=\count97
 \everyMPtoPDFconversion=\toks17
-) (/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
 )
 
-(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifluatex.sty
 Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
 Package ifluatex Info: LuaTeX not detected.
 )
-(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
 Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
 Package ifpdf Info: pdfTeX in PDF mode is detected.
 )
@@ -168,22 +168,22 @@ Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
 )
-(/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
 
-(/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/grfext.sty
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
 Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
 
-(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
 Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
 ))
-(/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
 Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
 
-(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
 Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
 
-(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty
 Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
 Package etexcmds Info: Could not find \expanded.
 (etexcmds)             That can mean that you are not using pdfTeX 1.50 or
@@ -195,21 +195,33 @@ Package grfext Info: Graphics extension search list:
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 452.
 
-(/usr/local/texlive/2013/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-(./titlepage.tex
+(./titlepage.tex <./pics/logo.png, id=1, 1281.78876pt x 1331.97626pt>
+File: ./pics/logo.png Graphic file (type png)
+
+<use ./pics/logo.png>
+Package pdftex.def Info: ./pics/logo.png used on input line 8.
+(pdftex.def)             Requested size: 73.38724pt x 76.25674pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 27.
+(Font)              <7> on input line 29.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 27.
+(Font)              <5> on input line 29.
+ <./pics/kentlogo.jpg, id=3, 398.4486pt x 268.8444pt>
+File: ./pics/kentlogo.jpg Graphic file (type jpg)
+
+<use ./pics/kentlogo.jpg>
+Package pdftex.def Info: ./pics/kentlogo.jpg used on input line 41.
+(pdftex.def)             Requested size: 73.38724pt x 49.51392pt.
  [0
 
 
-{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}])
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./pics/logo.png> <./pics/k
+entlogo.jpg>])
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 58.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 66.
  (./section_intro.tex
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
@@ -217,22 +229,27 @@ Missing character: There is no ú in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
-) (./section_background.tex
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 10.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 10.
+)
+(./section_background.tex
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
 )
-Underfull \hbox (badness 10000) in paragraph at lines 23--82
+Underfull \hbox (badness 10000) in paragraph at lines 23--90
 []\OT1/ptm/m/n/10 The Elas-tic-search ELK[[]] stack (Elas-tic-search,
  []
 
 
-Underfull \hbox (badness 2452) in paragraph at lines 23--82
+Underfull \hbox (badness 2452) in paragraph at lines 23--90
 \OT1/ptm/m/n/10 Logstash, and Kibana) is con-cep-tu-ally very sim-i-lar
  []
 
 
-Underfull \hbox (badness 1448) in paragraph at lines 23--82
+Underfull \hbox (badness 1448) in paragraph at lines 23--90
 \OT1/ptm/m/n/10 to Api-ary. Its open-source and it con-sists of many
  []
 
@@ -247,25 +264,14 @@ Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
 
-<./pics/design.jpg, id=14, 973.6375pt x 620.3175pt>
+<./pics/design.jpg, id=18, 973.6375pt x 620.3175pt>
 File: ./pics/design.jpg Graphic file (type jpg)
  <use ./pics/design.jpg>
 Package pdftex.def Info: ./pics/design.jpg used on input line 19.
 (pdftex.def)             Requested size: 227.62204pt x 145.01741pt.
-
-Overfull \hbox (2.02168pt too wide) in paragraph at lines 19--21
-[][]
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
 )
-(./section_bee.tex) (./section_hive.tex [2 <./pics/design.jpg>])
+(./section_bee.tex [2 <./pics/design.jpg>]) (./section_hive.tex)
 (./section_components.tex
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ô in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
@@ -275,6 +281,9 @@ Missing character: There is no ú in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ô in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
@@ -282,70 +291,69 @@ Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
  [3]
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ô in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ú in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ù in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ú in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ù in font ptmr7t!
-
-Underfull \hbox (badness 5359) in paragraph at lines 106--116
+Underfull \hbox (badness 5359) in paragraph at lines 88--98
 []\OT1/ptm/m/n/10 Using the re-cur-ring query API in Hon-ey-comb,
  []
 
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
-) (./section_queen.tex <./pics/data.png, id=21, 1686.3pt x 1053.9375pt>
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ô in font ptmr7t!
+) (./section_queen.tex <./pics/data.png, id=25, 1686.3pt x 1053.9375pt>
 File: ./pics/data.png Graphic file (type png)
 
 <use ./pics/data.png>
-Package pdftex.def Info: ./pics/data.png used on input line 17.
+Package pdftex.def Info: ./pics/data.png used on input line 16.
 (pdftex.def)             Requested size: 227.62204pt x 142.25934pt.
 
-Overfull \hbox (2.02168pt too wide) in paragraph at lines 17--19
-[][]
- []
 
-[4 <./pics/data.png>] <./pics/search.png, id=25, 1686.3pt x 1053.9375pt>
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[4] <./pics/search.png, id=29, 1686.3pt x 1053.9375pt>
 File: ./pics/search.png Graphic file (type png)
-
-<use ./pics/search.png>
-Package pdftex.def Info: ./pics/search.png used on input line 92.
+ <use ./pics/search.png>
+Package pdftex.def Info: ./pics/search.png used on input line 61.
 (pdftex.def)             Requested size: 227.62204pt x 142.25934pt.
 
-Overfull \hbox (2.02168pt too wide) in paragraph at lines 92--94
-[][]
- []
 
-) (./section_ios.tex) (./section_future.tex [5 <./pics/search.png>])
-(./section_conclusion.tex [6])
-Overfull \hbox (1.5419pt too wide) in paragraph at lines 168--169
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+) (./section_ios.tex) (./section_future.tex [5 <./pics/data.png> <./pics/search
+.png>]) (./section_conclusion.tex [6])
+Overfull \hbox (1.5419pt too wide) in paragraph at lines 176--177
 []\OT1/ptm/m/n/9 iOS - https://developer.apple.com/devcenter/ios/index.action 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 171--175
+Underfull \hbox (badness 10000) in paragraph at lines 179--183
 []\OT1/ptm/m/n/9 Apple Push No-ti-fi-ca-tion Ser-vice -
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 171--175
+Underfull \hbox (badness 10000) in paragraph at lines 179--183
 \OT1/ptm/m/n/9 https://developer.apple.com/library/ios/documentation/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 171--175
+Underfull \hbox (badness 10000) in paragraph at lines 179--183
 \OT1/ptm/m/n/9 Net-working-In-ter-net/Conceptual/RemoteNotificationsPG/
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 215--216
+[]\OT1/ptm/m/n/9 Datastax Cor-po-ra-tion (2013), Bench-mark-ing Top
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 215--216
+\OT1/ptm/m/n/9 NoSQL Databases, http://www.datastax.com/wp-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 215--216
+\OT1/ptm/m/n/9 content/uploads/2013/02/WP-Benchmarking-Top-NoSQL-
  []
 
 
@@ -361,23 +369,23 @@ Before submitting the final camera ready copy, remember to:
 
 [7] (./tech_report.aux) ) 
 Here is how much of TeX's memory you used:
- 2241 strings out of 493315
- 35837 string characters out of 6137903
- 100220 words of memory out of 5000000
- 5651 multiletter control sequences out of 15000+600000
- 44204 words of font info for 74 fonts, out of 8000000 for 9000
- 960 hyphenation exceptions out of 8191
+ 2270 strings out of 495028
+ 35984 string characters out of 6181497
+ 96230 words of memory out of 5000000
+ 5428 multiletter control sequences out of 15000+600000
+ 48690 words of font info for 83 fonts, out of 8000000 for 9000
+ 17 hyphenation exceptions out of 8191
  37i,8n,23p,237b,297s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/ba
-se/8r.enc}</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-sy7.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></
-usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local
-/texlive/2013/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2
-013/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on tech_report.pdf (8 pages, 374758 bytes).
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r
+.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></
+usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw
+/times/utmri8a.pfb>
+Output written on tech_report.pdf (8 pages, 1214124 bytes).
 PDF statistics:
- 55 PDF objects out of 1000 (max. 8388607)
- 36 compressed objects within 1 object stream
+ 59 PDF objects out of 1000 (max. 8388607)
+ 37 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -2,19 +2,19 @@
 
 Bee is our data-harvesting agent, which is installed on all monitored machines
 and forwards log data into Hive. We designed Bee to be as lightweight and easy
-to set up as possible. This is because we wanted Bee to interfere with the
-normal operation of the machine it was monitoring as little as possible, and
-for the devops task of actually getting the agents running to be trivial.
+to set up as possible. This is because we wanted to ensure that Bees did not
+interfere with the normal operation of the machine it was monitoring, and for
+the initial installation task to be as trivial as possible.
 
 For this reason Bee has only 1 configuration option - the IP of your central
 RabbitMQ cluster. After that all other configuration is either automatically
-discovered from the host machine (MAC address, hostname, etc), or pulled in
-from Hive after an initial handshake over the RabbitMQ exchange. After this,
-Hive can request that this particular instance of Bee listens to and
-forwards changes to any file on that particular machine.
+discovered from the host machine (MAC address, hostname, etc), or received from
+Hive after an initial handshake over the RabbitMQ exchange. After this, Hive can
+request that this particular instance of Bee listens to and forwards changes to
+any file on that particular machine.
 
-Bee is based on NodeJS\cite{node}, as we needed it to be multiplatform, and the
-event-driven nature of its framework lends itself well to file monitoring,
-as well as responding to incoming RabbitMQ messages. It is designed using
-a Model-View-Controller (MVC) framework, with a series of actions for
-different commands from Hive.
+Bee is based on NodeJS\cite{node}, as we needed it to be multi-platform, and the
+event-driven nature of its framework lends itself well to file monitoring, as
+well as responding to incoming RabbitMQ messages. It is designed using a
+Model-View-Controller (MVC) framework, with a series of actions for different
+commands from Hive.

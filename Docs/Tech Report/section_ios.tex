@@ -1,21 +1,20 @@
 \section{iOS Application}
 
 In the real world a user will not always be sitting in front of their computer
-when they need to know something about the computer system being monitored by
-Apiary. However, it is likely that they will be carrying a modern smartphone
-with them almost all the time, which will have a reasonably consistent WiFi or
-cellular data connection. Due to our GUI being entirely web-based a user could
-access everything they need to know using their smartphones web browser, but by
-creating a native application we can enhance the user experience and provide
-added functionality. A small but significantly useful function is the ability to
-save the Apiary URL for the environment being monitored between invocations of
-the application - speeding up a users access to the system. We can also save the
-users login credentials for the same reason.
+when an important event occurs in the Apiary framework. However, it is likely
+that they will be carrying a modern smartphone, which will have a reasonably
+consistent WiFi or cellular data connection. Due to our GUI being entirely
+web-based a user could access everything they need to know using their
+smartphones web browser, but by creating a native application we can enhance the
+user experience and provide additional functionality. A small but useful
+function is the ability to save the IP address or URL of the particular Queen
+instance to hook into, as well as the users login credentials for that instance,
+saving a user the time of configuring the application every time they use it.
 
 The greatest argument for a native application is the ability to exploit the
 powerful Apple Push Notification System. As described above in the Sting
 section, APNS can be used to send the user real-time updates on the status of
 their computer system at anytime, as long as they have a cellular/WiFi data
-connection. When a user logs into Apiary using the iOS application, their
-unique Apple Device ID is registered against their user account to be used by
-Sting for alert notifications.
+connection. When a user logs into Apiary using the iOS application, their unique
+Apple Device ID is registered against their user account to be used by Sting for
+alert notifications.

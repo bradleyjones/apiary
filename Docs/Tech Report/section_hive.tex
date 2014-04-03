@@ -1,8 +1,8 @@
 \section{Hive}
 
-Our core, and most complex component - its role is to manage data agents (Bees),
+Our core, and most complex component Hives role is to manage data agents (Bees),
 store incoming log data, and provide complex querying against that data. In
-order to achieve scalability, Hive is made up of 6 subcomponents, with a simple
+order to achieve scalability Hive is made up of 6 subcomponents, with a simple
 framework in place for extending this with extra components should the user
 require additional functionality. All components communicate over the RabbitMQ
 message exchange.
@@ -16,4 +16,3 @@ along with a JSON protocol that would be shared across the whole stack. This
 allowed us to rapidly prototype and add new components to Hive as all the
 communication management and database access code had been broken out into a
 reusable library.
-
