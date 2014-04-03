@@ -1,3 +1,12 @@
+/*
+ * Multi-purpose functions
+ *
+ * __author__ = "Bradley Jones"
+ * __credits__ = ["Bradley Jones", "Jack Fletcher", "John Davidge", "Sam Betts"]
+ * __license__ = "Apache v2.0"
+ * __version__ = "1.0"
+ */
+
 // Add an new alert
 function addAlert(type, msg) {
   var div = document.createElement("div");

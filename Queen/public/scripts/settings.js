@@ -1,3 +1,14 @@
+/*
+ * Settings page, control updating and creating devices
+ *
+ * TODO - change to use websockets
+ *
+ * __author__ = "Bradley Jones"
+ * __credits__ = ["Bradley Jones", "Jack Fletcher", "John Davidge", "Sam Betts"]
+ * __license__ = "Apache v2.0"
+ * __version__ = "1.0"
+ */
+
 $('#btnUpdateSettings').on('click', function() {
   console.log("UPDATING");
   var id = $('#did').val();

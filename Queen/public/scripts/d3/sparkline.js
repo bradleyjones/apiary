@@ -1,3 +1,13 @@
+/*
+ * Create a new d3js sparkline from a set of data
+ *
+ * __author__ = "Bradley Jones, Jack Fletcher"
+ * __credits__ = ["Bradley Jones", "Jack Fletcher", "John Davidge", "Sam Betts"]
+ * __license__ = "Apache v2.0"
+ * __version__ = "1.0"
+ */
+
+
 "use strict"
 
 var margin = {top:20, right: 20, bottom: 30, left: 50}

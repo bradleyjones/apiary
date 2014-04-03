@@ -1,3 +1,12 @@
+/*
+ * Setup new alerts and populate the alerts Datagrid
+ *
+ * __author__ = "Bradley Jones"
+ * __credits__ = ["Bradley Jones", "Jack Fletcher", "John Davidge", "Sam Betts"]
+ * __license__ = "Apache v2.0"
+ * __version__ = "1.0"
+ */
+
 var socket = io.connect(document.URL);
 var currentSearch = "";
 
@@ -55,6 +64,7 @@ $(function() {
   });
 });
 
+// Check if a string contains a number
 function isNumeric(str) {
   return (str==Number(str))?true:false;
 }

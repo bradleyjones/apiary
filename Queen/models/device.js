@@ -1,5 +1,10 @@
 /*
- * Model for a Device
+ * Mongo model for a Device
+ *
+ * __author__ = "Bradley Jones"
+ * __credits__ = ["Bradley Jones", "Jack Fletcher", "John Davidge", "Sam Betts"]
+ * __license__ = "Apache v2.0"
+ * __version__ = "1.0"
  */
 
 var mongoose = require("mongoose")

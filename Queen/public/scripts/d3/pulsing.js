@@ -1,3 +1,12 @@
+/*
+ * Create in d3js the pulsing animation that can be seen on the agents/Data page
+ *
+ * __author__ = "Bradley Jones"
+ * __credits__ = ["Bradley Jones", "Jack Fletcher", "John Davidge", "Sam Betts"]
+ * __license__ = "Apache v2.0"
+ * __version__ = "1.0"
+ */
+
 // Create svg container
 var vis = d3.select(".pulsing").append("svg")
                                .attr("width", 200)

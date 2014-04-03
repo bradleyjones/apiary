@@ -12,7 +12,7 @@ To start mongodb if it is not running:
 
 ````sudo mongod````
 
-Node packages: express, jade, socket.io, amqp, crypto, mongoose, connect-mongo, bcrypt
+Node packages: express, jade, socket.io, amqp, crypto, mongoose, connect-mongo, bcrypt, colors, cookie, connect
 
 To get started run from within the Queen directory:
 

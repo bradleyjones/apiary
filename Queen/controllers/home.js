@@ -1,4 +1,12 @@
-// Home Page Controller
+/*
+ * Home page controller, controls loading the home page and websockets for
+ * getting information about the agents and system.
+ *
+ * __author__ = "Bradley Jones"
+ * __credits__ = ["Bradley Jones", "Jack Fletcher", "John Davidge", "Sam Betts"]
+ * __license__ = "Apache v2.0"
+ * __version__ = "1.0"
+ */
 
 var rabbit = require('../rabbit/rabbit')
 , main = require('../server.js')

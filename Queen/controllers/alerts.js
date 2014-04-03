@@ -1,5 +1,11 @@
 /*
- * Alerts Page Controller
+ * Alerts Page Controller, controls loading the page and websockets to setup new
+ * alerts
+ *
+ * __author__ = "Bradley Jones"
+ * __credits__ = ["Bradley Jones", "Jack Fletcher", "John Davidge", "Sam Betts"]
+ * __license__ = "Apache v2.0"
+ * __version__ = "1.0"
  */
 
 var rabbit = require('../rabbit/rabbit')

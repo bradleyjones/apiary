@@ -1,3 +1,14 @@
+/*
+ * Search page, control constructing a new query and then passing it back to the
+ * server for processing. Populate the results Datagrid when the server finished
+ * processing the query.
+ *
+ * __author__ = "Bradley Jones, Jack Fletcher"
+ * __credits__ = ["Bradley Jones", "Jack Fletcher", "John Davidge", "Sam Betts"]
+ * __license__ = "Apache v2.0"
+ * __version__ = "1.0"
+ */
+
 var socket = io.connect(document.URL);
 var currentSearch = "";
 
@@ -95,12 +106,11 @@ function setTimeFrame(timeFrame){
 
 }
 
-//Add Term ButtonS
-
 
 /*
  * Sockets
  */
+
 //Get Tags
 socket.on('tags', function(data) {
   console.log("TAGGGSSS");

@@ -1,3 +1,12 @@
+/*
+ * Create a new RPC (Remote Procedure Call) Query
+ *
+ * __author__ = "Bradley Jones"
+ * __credits__ = ["Bradley Jones", "Jack Fletcher", "John Davidge", "Sam Betts"]
+ * __license__ = "Apache v2.0"
+ * __version__ = "1.0"
+ */
+
 "use strict";
 
 var config = require('../config/config')

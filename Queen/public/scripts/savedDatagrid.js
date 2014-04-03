@@ -1,3 +1,12 @@
+/*
+ * Datagrid of saved searches/queries
+ *
+ * __author__ = "Bradley Jones"
+ * __credits__ = ["Bradley Jones", "Jack Fletcher", "John Davidge", "Sam Betts"]
+ * __license__ = "Apache v2.0"
+ * __version__ = "1.0"
+ */
+
 var StaticDataSource = function (options) {
   this._columns = options.columns;
   this._delay = options.delay || 0;

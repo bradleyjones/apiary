@@ -1,3 +1,12 @@
+/*
+ * Create a new d3js pie chart with animation
+ *
+ * __author__ = "Bradley Jones, Jack Fletcher"
+ * __credits__ = ["Bradley Jones", "Jack Fletcher", "John Davidge", "Sam Betts"]
+ * __license__ = "Apache v2.0"
+ * __version__ = "1.0"
+ */
+
 var width = 960,
     height = 450,
     radius = Math.min(width, height) / 2;

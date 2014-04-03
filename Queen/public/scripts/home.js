@@ -1,3 +1,12 @@
+/*
+ * Populate information on the home page from the data received via websockets
+ *
+ * __author__ = "Bradley Jones"
+ * __credits__ = ["Bradley Jones", "Jack Fletcher", "John Davidge", "Sam Betts"]
+ * __license__ = "Apache v2.0"
+ * __version__ = "1.0"
+ */
+
 var socket = io.connect(document.URL + "home");
 
 // Number of connected agents

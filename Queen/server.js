@@ -1,3 +1,17 @@
+/*
+ * Initial Setup of the Queen server
+ *
+ * Handles:
+ *  - configuring express and all other required libraries
+ *  - setup authentication and logic for users logging in and out
+ *  - routes to other controllers
+ *
+ * __author__ = "Bradley Jones"
+ * __credits__ = ["Bradley Jones", "Jack Fletcher", "John Davidge", "Sam Betts"]
+ * __license__ = "Apache v2.0"
+ * __version__ = "1.0"
+ */
+
 "use strict";
 
 // Setup all the required libraries
@@ -14,10 +28,6 @@ var http = require('http')
 
 
 var session_store = new connect.middleware.session.MemoryStore;
-//new MongoStore({
-      //host: config.mongoIP,
-      //db: 'queensessions'
-    //});
 exports.session_store = session_store;
 
 // Setup express to use views and public folder
@@ -89,6 +99,7 @@ var mongoose = require('mongoose')
   , User = require('./models/user')
   , Device = require('./models/device');
 
+// Connect to MongoDB
 mongoose.connect('mongodb://' + config.mongoIP + ':27017/queen-users', function(err){
   if (err) {
     console.log("Unable to connect to mongodb".red);
@@ -98,6 +109,7 @@ mongoose.connect('mongodb://' + config.mongoIP + ':27017/queen-users', function(
   console.log('Connected to MongoDB'.green);
 });
 
+// Function to check there is a user logged in
 function checkAuth(req, res, next) {
   if (!req.session.user_id) {
     // Check that there is at least one user in the database
@@ -116,6 +128,7 @@ function checkAuth(req, res, next) {
   }
 }
 
+// logic to control what happens when a user tries to login and authenticate
 app.post('/login', function (req, res) {
   console.log(req);
   var post = req.body;
@@ -163,15 +176,18 @@ app.post('/login', function (req, res) {
   });
 });
 
+// Log the current user out
 app.get('/logout', function (req, res) {
   delete req.session.user_id;
   res.redirect('/');
 });
 
+// Render the page to create a new user
 app.get('/newuser', function(req, res) {
   delete req.session.user_id;
   res.render('newuser.jade');
 });
+// Create a new user
 app.post('/newuser', function (req, res) {
   var post = req.body;
 
@@ -200,16 +216,20 @@ app.post('/newuser', function (req, res) {
 var home = require('./controllers/home');
 app.get('/', checkAuth, home.index);
 
+// Render the search page
 var search = require('./controllers/search');
 app.get('/search', checkAuth, search.index);
 
+// Render the alerts page
 var alerts = require('./controllers/alerts');
 app.get('/alerts', checkAuth, alerts.index);
 
+// Render the agents/data page
 var agents = require('./controllers/agents');
 app.get('/agents', checkAuth, agents.list);
 app.get('/agents/:id', checkAuth, agents.individual);
 
+// Render the settings page
 var settings = require('./controllers/settings');
 app.post('/settings', checkAuth, settings.update);
 app.get('/settings', checkAuth, settings.index);

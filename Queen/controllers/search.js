@@ -1,3 +1,13 @@
+/*
+ * Search Page controller, controls loading the search page and websockets for
+ * tasks such as performing a new search, generating a query to produce a pie
+ * chart, saving and accessing saved queries
+ *
+ * __author__ = "Bradley Jones, Jack Fletcher"
+ * __credits__ = ["Bradley Jones", "Jack Fletcher", "John Davidge", "Sam Betts"]
+ * __license__ = "Apache v2.0"
+ * __version__ = "1.0"
+ */
 // Search Page Controller
 
 var rabbit = require('../rabbit/rabbit')
@@ -54,7 +64,6 @@ io.of('/search').on('connection', function (socket) {
     });
   });
 
-  //HACK CODE, PLZ REMOVE
   socket.on("pieQuerySubmit", function(searches){
     console.log("Query for Pie Chart");
 
@@ -69,7 +78,7 @@ io.of('/search').on('connection', function (socket) {
         //popSubSearch
         subsearch = searches.main.subsearch.pop();
         search = searches.main.search;
-        //Append to searchi
+        //Append to search
         subsearchLabel = subsearch.label;
         subsearch = "("+search+") AND ("+subsearch.subQuery+")";
 

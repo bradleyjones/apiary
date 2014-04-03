@@ -1,3 +1,13 @@
+/*
+ * Code related to the modal dialog / wizard step by step dialog for setting new
+ * targets to agents
+ *
+ * __author__ = "Bradley Jones"
+ * __credits__ = ["Bradley Jones", "Jack Fletcher", "John Davidge", "Sam Betts"]
+ * __license__ = "Apache v2.0"
+ * __version__ = "1.0"
+ */
+
 var selectedAgents = [];
 var selectedTags = [];
 

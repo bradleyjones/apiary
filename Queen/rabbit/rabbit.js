@@ -1,3 +1,14 @@
+/*
+ * Abstracted functions to make it easier to create new RPC (Remote Procedure
+ * Call) and Publish/Subscribe connections to rabbit queues elsewhere in the
+ * code in order to best keep to DRY (Don't Repeat Yourself) principles
+ *
+ * __author__ = "Bradley Jones"
+ * __credits__ = ["Bradley Jones", "Jack Fletcher", "John Davidge", "Sam Betts"]
+ * __license__ = "Apache v2.0"
+ * __version__ = "1.0"
+ */
+
 "use strict";
 
 var rpc = require('./rabbit_rpc')

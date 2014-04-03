@@ -1,3 +1,16 @@
+/*
+ * Settings controller, controls loading the page as well as routes which allow
+ * the user to update/add new devices to the user model
+ *
+ * TODO - Change from using routes to control updates/new devices to using
+ * websockets to be in line with the rest of Queen
+ *
+ * __author__ = "Bradley Jones"
+ * __credits__ = ["Bradley Jones", "Jack Fletcher", "John Davidge", "Sam Betts"]
+ * __license__ = "Apache v2.0"
+ * __version__ = "1.0"
+ */
+
 "use strict";
 
 var main = require('../server.js')
