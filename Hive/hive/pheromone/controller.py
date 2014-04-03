@@ -8,7 +8,7 @@ from alerter import Alerter
 from hive.common.longrunningproc import ProcHandler
 from hive.common.rpcsender import RPCSender
 
-__author__ = "Sam Betts"
+__author__ = "Sam Betts, Bradley Jones"
 __credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Bradley Jones"]
 __license__ = "Apache v2.0"
 __version__ = "1.0"

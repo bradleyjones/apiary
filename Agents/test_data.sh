@@ -1,4 +1,7 @@
 #!/bin/bash
+#
+# Author - Bradley Jones
+#
 # generate a file full of random values
 # to simulate log data
 #

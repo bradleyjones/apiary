@@ -1,6 +1,11 @@
 /*
-  Server.js - Main Server Setup process
-*/
+ * Server.js - Main Server Setup process
+ *
+ * __author__ = "Jack Fletcher"
+ * __credits__ = ["Bradley Jones", "Jack Fletcher", "John Davidge", "Sam Betts"]
+ * __license__ = "Apache v2.0"
+ * __version__ = "1.0"
+ */
 
 //Libraries
 var amqp = require('amqp');

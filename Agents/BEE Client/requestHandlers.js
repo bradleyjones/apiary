@@ -1,7 +1,12 @@
 /*
-  Request Handlers
-  Main application behavior defined here
-*/
+ * Request Handlers
+ * Main application behavior defined here
+ *
+ * __author__ = "Jack Fletcher, Bradley Jones"
+ * __credits__ = ["Bradley Jones", "Jack Fletcher", "John Davidge", "Sam Betts"]
+ * __license__ = "Apache v2.0"
+ * __version__ = "1.0"
+ */
 
 
 //Libraries

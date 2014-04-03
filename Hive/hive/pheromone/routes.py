@@ -2,7 +2,7 @@
 
 from ..common.routes import Routes as Parent
 
-__author__ = "Sam Betts"
+__author__ = "Sam Betts, Bradley Jones"
 __credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Bradley Jones"]
 __license__ = "Apache v2.0"
 __version__ = "1.0"

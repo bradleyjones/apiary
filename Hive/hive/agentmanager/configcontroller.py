@@ -5,7 +5,7 @@ from ..common.controller import Controller as Parent
 from ..common.rpcsender import RPCSender
 from agent import Agent
 
-__author__ = "Sam Betts"
+__author__ = "Sam Betts, Bradley Jones"
 __credits__ = ["Sam Betts", "John Davidge", "Jack Fletcher", "Bradley Jones"]
 __license__ = "Apache v2.0"
 __version__ = "1.0"
