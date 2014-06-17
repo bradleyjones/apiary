@@ -30,6 +30,7 @@ See the documentation for individual components for custom installation and init
 **Links
 
 * Wiki Page - [https://github.com/bradleyjones/apiary/wiki]
+* Demo Video - [https://www.youtube.com/watch?v=9rmPhRqH58Q]
 
 * * *
 
